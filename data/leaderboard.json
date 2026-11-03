@@ -1,10 +1,22 @@
 {
   "server": "Horizon 2x Solo/Duo/Trio",
   "wipe_total_players": 23,
-  "updated_at": "2026-11-03T22:59:04.624Z",
+  "updated_at": "2026-11-03T23:14:05.816Z",
   "pvp": [
     {
       "rank": 1,
+      "steamid": "76561197981013423",
+      "name": "ocuLTo",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/533a3f64d59b5298fce27f093d04006a39541ebb_full.jpg",
+      "kd": "0.75",
+      "headshot_pct": "66.7%",
+      "kills": 3,
+      "deaths": 4,
+      "headshots": 2,
+      "distance": "8m"
+    },
+    {
+      "rank": 2,
       "steamid": "76561199127717531",
       "name": "ADM",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/c5ff599f01c1c6496dbb96cc4321283e0b2cd8fd_full.jpg",
@@ -14,18 +26,6 @@
       "deaths": 0,
       "headshots": 1,
       "distance": "33m"
-    },
-    {
-      "rank": 2,
-      "steamid": "76561197981013423",
-      "name": "ocuLTo",
-      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/533a3f64d59b5298fce27f093d04006a39541ebb_full.jpg",
-      "kd": "0.50",
-      "headshot_pct": "100.0%",
-      "kills": 2,
-      "deaths": 4,
-      "headshots": 2,
-      "distance": "3m"
     },
     {
       "rank": 3,
@@ -227,7 +227,7 @@
       "kd": "0.00",
       "headshot_pct": "0.0%",
       "kills": 0,
-      "deaths": 2,
+      "deaths": 3,
       "headshots": 0,
       "distance": "0m"
     },
@@ -292,12 +292,12 @@
       "steamid": "76561197981013423",
       "name": "ocuLTo",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/533a3f64d59b5298fce27f093d04006a39541ebb_full.jpg",
-      "total": "63,706",
-      "stones": "26,038",
+      "total": "63,708",
+      "stones": "26,039",
       "sulfur": "3,130",
       "metal": "10,496",
       "hqm": "0",
-      "wood": "23,856",
+      "wood": "23,857",
       "leather": "0",
       "fat": "106",
       "bone": "80"
@@ -319,10 +319,25 @@
     },
     {
       "rank": 5,
+      "steamid": "76561198130679327",
+      "name": "KroOs",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/862c21ced0a62021a690881ed214dbe986e298f6_full.jpg",
+      "total": "34,733",
+      "stones": "4,206",
+      "sulfur": "2,709",
+      "metal": "10,946",
+      "hqm": "0",
+      "wood": "16,812",
+      "leather": "0",
+      "fat": "0",
+      "bone": "60"
+    },
+    {
+      "rank": 6,
       "steamid": "76561198150996086",
       "name": "MIL JANTARES",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/bc656245a56e1e560220bf231c9f9e4164d46fd9_full.jpg",
-      "total": "33,429",
+      "total": "33,439",
       "stones": "8,853",
       "sulfur": "3,058",
       "metal": "3,264",
@@ -330,22 +345,7 @@
       "wood": "18,190",
       "leather": "0",
       "fat": "0",
-      "bone": "64"
-    },
-    {
-      "rank": 6,
-      "steamid": "76561198130679327",
-      "name": "KroOs",
-      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/862c21ced0a62021a690881ed214dbe986e298f6_full.jpg",
-      "total": "24,580",
-      "stones": "4,056",
-      "sulfur": "2,709",
-      "metal": "3,734",
-      "hqm": "0",
-      "wood": "14,021",
-      "leather": "0",
-      "fat": "0",
-      "bone": "60"
+      "bone": "74"
     },
     {
       "rank": 7,
@@ -409,12 +409,27 @@
     },
     {
       "rank": 11,
+      "steamid": "76561198103340805",
+      "name": "Gerits",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/2554fe13bbd6b2ebcdde8e075abdc85c7a85afec_full.jpg",
+      "total": "3,377",
+      "stones": "900",
+      "sulfur": "1,200",
+      "metal": "450",
+      "hqm": "0",
+      "wood": "807",
+      "leather": "0",
+      "fat": "20",
+      "bone": "0"
+    },
+    {
+      "rank": 12,
       "steamid": "76561198131184791",
       "name": "Caique",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/626bbb7465867eefb8c7c536c5b332fb9ca47af9_full.jpg",
-      "total": "2,427",
+      "total": "3,177",
       "stones": "8",
-      "sulfur": "2,250",
+      "sulfur": "3,000",
       "metal": "0",
       "hqm": "0",
       "wood": "169",
@@ -423,7 +438,7 @@
       "bone": "0"
     },
     {
-      "rank": 12,
+      "rank": 13,
       "steamid": "76561198858376648",
       "name": "_KING_ON_",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/5f2924aed147abc9918d4305b7002b763c5903c4_full.jpg",
@@ -438,34 +453,19 @@
       "bone": "0"
     },
     {
-      "rank": 13,
-      "steamid": "76561198103340805",
-      "name": "Gerits",
-      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/2554fe13bbd6b2ebcdde8e075abdc85c7a85afec_full.jpg",
-      "total": "756",
-      "stones": "0",
-      "sulfur": "600",
-      "metal": "150",
-      "hqm": "0",
-      "wood": "6",
-      "leather": "0",
-      "fat": "0",
-      "bone": "0"
-    },
-    {
       "rank": 14,
       "steamid": "76561198258143577",
       "name": "Negresco",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/983f461a43abc8d5450a5c1985e3cbce03dc7055_full.jpg",
-      "total": "186",
+      "total": "242",
       "stones": "151",
       "sulfur": "0",
       "metal": "20",
       "hqm": "0",
       "wood": "15",
-      "leather": "0",
-      "fat": "0",
-      "bone": "0"
+      "leather": "32",
+      "fat": "8",
+      "bone": "16"
     },
     {
       "rank": 15,
@@ -501,6 +501,25 @@
   "farming": [
     {
       "rank": 1,
+      "steamid": "76561198804497592",
+      "name": "Revoltz_BR",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/aff41859f28f5b880c3e3b424bc97436596a925d_full.jpg",
+      "total": "577",
+      "cloth": "576",
+      "yellow_berry": "0",
+      "red_berry": "0",
+      "blue_berry": "0",
+      "green_berry": "0",
+      "white_berry": "0",
+      "mushroom": "1",
+      "pumpkin": "0",
+      "corn": "0",
+      "potato": "0",
+      "wheat": "0",
+      "egg": "0"
+    },
+    {
+      "rank": 2,
       "steamid": "76561198358586780",
       "name": "Whillikat🌹",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/22440c345d7bc45b6ef39a5ce3c01178f031fc21_full.jpg",
@@ -519,26 +538,26 @@
       "egg": "0"
     },
     {
-      "rank": 2,
-      "steamid": "76561198804497592",
-      "name": "Revoltz_BR",
-      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/aff41859f28f5b880c3e3b424bc97436596a925d_full.jpg",
-      "total": "555",
-      "cloth": "554",
+      "rank": 3,
+      "steamid": "76561198103340805",
+      "name": "Gerits",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/2554fe13bbd6b2ebcdde8e075abdc85c7a85afec_full.jpg",
+      "total": "387",
+      "cloth": "380",
       "yellow_berry": "0",
       "red_berry": "0",
       "blue_berry": "0",
       "green_berry": "0",
       "white_berry": "0",
-      "mushroom": "1",
-      "pumpkin": "0",
+      "mushroom": "3",
+      "pumpkin": "4",
       "corn": "0",
       "potato": "0",
       "wheat": "0",
       "egg": "0"
     },
     {
-      "rank": 3,
+      "rank": 4,
       "steamid": "76561197981013423",
       "name": "ocuLTo",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/533a3f64d59b5298fce27f093d04006a39541ebb_full.jpg",
@@ -557,18 +576,18 @@
       "egg": "0"
     },
     {
-      "rank": 4,
+      "rank": 5,
       "steamid": "76561198130679327",
       "name": "KroOs",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/862c21ced0a62021a690881ed214dbe986e298f6_full.jpg",
-      "total": "313",
-      "cloth": "300",
+      "total": "377",
+      "cloth": "360",
       "yellow_berry": "0",
       "red_berry": "0",
       "blue_berry": "0",
       "green_berry": "0",
       "white_berry": "0",
-      "mushroom": "13",
+      "mushroom": "17",
       "pumpkin": "0",
       "corn": "0",
       "potato": "0",
@@ -576,7 +595,7 @@
       "egg": "0"
     },
     {
-      "rank": 5,
+      "rank": 6,
       "steamid": "76561199621926627",
       "name": "Kaktуs",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/7596682ef71fa0287a8cbffabf102a9272ca4439_full.jpg",
@@ -595,7 +614,7 @@
       "egg": "0"
     },
     {
-      "rank": 6,
+      "rank": 7,
       "steamid": "76561199208470397",
       "name": "dba3456789",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/25d0a75726818b92ad0725b14f3626c4e9809003_full.jpg",
@@ -614,7 +633,7 @@
       "egg": "0"
     },
     {
-      "rank": 7,
+      "rank": 8,
       "steamid": "76561198131184791",
       "name": "Caique",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/626bbb7465867eefb8c7c536c5b332fb9ca47af9_full.jpg",
@@ -633,7 +652,7 @@
       "egg": "0"
     },
     {
-      "rank": 8,
+      "rank": 9,
       "steamid": "76561198258143577",
       "name": "Negresco",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/983f461a43abc8d5450a5c1985e3cbce03dc7055_full.jpg",
@@ -645,25 +664,6 @@
       "green_berry": "0",
       "white_berry": "0",
       "mushroom": "0",
-      "pumpkin": "0",
-      "corn": "0",
-      "potato": "0",
-      "wheat": "0",
-      "egg": "0"
-    },
-    {
-      "rank": 9,
-      "steamid": "76561198103340805",
-      "name": "Gerits",
-      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/2554fe13bbd6b2ebcdde8e075abdc85c7a85afec_full.jpg",
-      "total": "101",
-      "cloth": "100",
-      "yellow_berry": "0",
-      "red_berry": "0",
-      "blue_berry": "0",
-      "green_berry": "0",
-      "white_berry": "0",
-      "mushroom": "1",
       "pumpkin": "0",
       "corn": "0",
       "potato": "0",

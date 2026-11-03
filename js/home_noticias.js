@@ -1,6 +1,6 @@
 /**
  * home_noticias.js — Carrossel automático das Notícias Oficiais da Facepunch (Rust)
- * Sincronizado via /api/noticias com transição contínua suave e pausa ao passar o mouse.
+ * Sincronizado via /api/noticias com transição contínua suave por todas as notícias e pausa ao passar o mouse.
  */
 (function() {
   'use strict';
@@ -9,7 +9,7 @@
   var currentIndex = 0;
   var autoTimer = null;
   var isHovered = false;
-  var totalCards = 4;
+  
   var cardsData = [
     {
       title: 'Halloween 2026',
@@ -30,7 +30,6 @@
       link: 'https://rust.facepunch.com/news/breach-and-clear/',
       date: '3 de setembro de 2026',
       image: 'https://files.facepunch.com/lewis/2026/August/Skinkbreach-and-clear_media.jpg',
-      link: 'https://rust.facepunch.com/news/breach-and-clear/',
       description: "This month's update brings you Monument Blockers, Breakable Attack Heli Armour, HQM Nodes, Upkeep Group Scaling, and various QoL fixes."
     },
     {
@@ -38,8 +37,49 @@
       link: 'https://rust.facepunch.com/news/power-trip/',
       date: '6 de agosto de 2026',
       image: 'https://files.facepunch.com/lewis/2026/August/pt_hero.jpg',
-      link: 'https://rust.facepunch.com/news/power-trip/',
       description: "This month's update brings you Player Maintained Monuments in the form of a new Satellite Crash, Dome Pumping, restorable power, and more."
+    },
+    {
+      title: 'Common Ground',
+      link: 'https://rust.facepunch.com/news/common-ground/',
+      date: '2 de julho de 2026',
+      image: 'https://files.facepunch.com/lewis/1b2611b1/Rust%20x%20Common%20Grounds%20Hero.jpg',
+      description: "This month's update features a New Monument: The Apartment Complex, Rentable Shops, a New Clan System & Table, plus QoL changes and much more!"
+    },
+    {
+      title: 'Built Different',
+      link: 'https://rust.facepunch.com/news/built-different/',
+      date: '4 de junho de 2026',
+      image: 'https://files.facepunch.com/lewis/1b0211b1/Rust%20x%20Built%20Different%20Hero%20-%20Alternative.jpg',
+      description: "This month's update brings Rust's biggest player overhaul in years, featuring new player models and animations, a new armour set, and the M16A2 rifle."
+    },
+    {
+      title: 'Upgrade hard, raid harder',
+      link: 'https://rust.facepunch.com/news/upgrade-hard-raid-harder/',
+      date: '7 de maio de 2026',
+      image: 'https://files.facepunch.com/lewis/1b0111b1/raid-harder.jpg',
+      description: "This month's update brings you Workbench upgrades, the new Mortar, improved Tin Can Alarm, as well as model refreshes and remakes, plus many QoL fixes."
+    },
+    {
+      title: 'Spring Clean',
+      link: 'https://rust.facepunch.com/news/spring-clean/',
+      date: '2 de abril de 2026',
+      image: 'https://files.facepunch.com/Flavien/spring_clean-blogheader.jpg',
+      description: "This month's update brings you TWO new items - the Armoured Ladder Hatch and Water Wheel, additionally loads of QOL improvements, bug fixes, better performance."
+    },
+    {
+      title: 'Shipshape',
+      link: 'https://rust.facepunch.com/news/shipshape/',
+      date: '5 de março de 2026',
+      image: 'https://files.facepunch.com/lewis/1b0211b1/rust_shipshape_hero.jpg',
+      description: "This month's update brings massive improvements to how you live, build, and fight on water and in The Deep Sea, plus extended daytime."
+    },
+    {
+      title: 'Lunar New Year 2026',
+      link: 'https://rust.facepunch.com/news/lunar-new-year-2026/',
+      date: '17 de fevereiro de 2026',
+      image: 'https://files.facepunch.com/lewis/1b2611b1/lny_blog_hero.jpg',
+      description: "2026's Lunar New Year celebrations have begun! Celebrate the occasion by honouring the Year of the Horse with the Ornate Horse Mask, Horse Armour, and more."
     }
   ];
 
@@ -50,17 +90,23 @@
     return 3;
   }
 
+  function getMaxIndex() {
+    var perView = getCardsPerView();
+    return Math.max(0, cardsData.length - perView);
+  }
+
   function renderCards() {
     var track = document.getElementById('fn-carousel-track');
-    var dotsContainer = document.getElementById('fn-carousel-dots');
     if (!track) return;
 
-    totalCards = cardsData.length;
+    var perView = getCardsPerView();
+    var gap = 20;
+    var flexBasis = `calc((100% - ${(perView - 1) * gap}px) / ${perView})`;
 
     track.innerHTML = cardsData.map(function(item, idx) {
       return `
         <article class="fn-card" data-idx="${idx}" style="
-          flex: 0 0 calc((100% - 40px) / 3);
+          flex: 0 0 ${flexBasis};
           min-width: 280px;
           background: #171312;
           border: 1px solid rgba(108, 151, 142, 0.28);
@@ -79,7 +125,7 @@
               object-fit: cover;
               display: block;
               transition: transform 0.4s ease;
-            " class="fn-card-img">
+            " class="fn-card-img" onerror="this.onerror=null;this.src='https://files.facepunch.com/lewis/1b2611b1/Rust%20x%20Common%20Grounds%20Hero.jpg';">
             <span style="
               position: absolute;
               top: 12px;
@@ -138,32 +184,7 @@
       `;
     }).join('');
 
-    // Ajustar larguras responsivas
-    updateCardWidths();
-
-    // Renderizar dots
-    if (dotsContainer) {
-      dotsContainer.innerHTML = cardsData.map(function(_, idx) {
-        return `<button type="button" class="fn-dot" data-idx="${idx}" aria-label="Ir para notícia ${idx + 1}" style="
-          width: 9px;
-          height: 9px;
-          border-radius: 50%;
-          background: ${idx === 0 ? '#D7573B' : 'rgba(255, 255, 255, 0.2)'};
-          border: none;
-          padding: 0;
-          cursor: pointer;
-          transition: all 0.25s ease;
-          ${idx === 0 ? 'transform: scale(1.3);' : ''}
-        "></button>`;
-      }).join('');
-
-      dotsContainer.querySelectorAll('.fn-dot').forEach(function(dot) {
-        dot.addEventListener('click', function() {
-          var targetIdx = parseInt(this.getAttribute('data-idx'), 10);
-          goToSlide(targetIdx);
-        });
-      });
-    }
+    renderDots();
 
     // Hover effects para imagens e cards
     track.querySelectorAll('.fn-card').forEach(function(card) {
@@ -184,6 +205,39 @@
     });
   }
 
+  function renderDots() {
+    var dotsContainer = document.getElementById('fn-carousel-dots');
+    if (!dotsContainer) return;
+
+    var maxIndex = getMaxIndex();
+    var totalDots = maxIndex + 1;
+
+    var dotsHtml = [];
+    for (var i = 0; i < totalDots; i++) {
+      var isActive = (i === currentIndex);
+      dotsHtml.push(`
+        <button type="button" class="fn-dot" data-idx="${i}" aria-label="Ir para slide ${i + 1}" style="
+          width: ${isActive ? '24px' : '8px'};
+          height: 8px;
+          border-radius: 4px;
+          background: ${isActive ? '#D7573B' : 'rgba(255, 255, 255, 0.22)'};
+          border: none;
+          padding: 0;
+          cursor: pointer;
+          transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+        "></button>
+      `);
+    }
+    dotsContainer.innerHTML = dotsHtml.join('');
+
+    dotsContainer.querySelectorAll('.fn-dot').forEach(function(dot) {
+      dot.addEventListener('click', function() {
+        var targetIdx = parseInt(this.getAttribute('data-idx'), 10);
+        goToSlide(targetIdx);
+      });
+    });
+  }
+
   function updateCardWidths() {
     var track = document.getElementById('fn-carousel-track');
     if (!track) return;
@@ -194,6 +248,7 @@
     track.querySelectorAll('.fn-card').forEach(function(card) {
       card.style.flex = `0 0 ${flexBasis}`;
     });
+    renderDots();
   }
 
   function updateSlide() {
@@ -201,11 +256,10 @@
     var viewport = document.getElementById('fn-carousel-viewport');
     if (!track || !viewport) return;
 
-    var perView = getCardsPerView();
-    var maxIndex = Math.max(0, totalCards - perView);
+    var maxIndex = getMaxIndex();
 
     if (currentIndex > maxIndex) {
-      currentIndex = 0; // Loop infinito suave
+      currentIndex = 0; // Loop infinito contínuo
     }
     if (currentIndex < 0) {
       currentIndex = maxIndex;
@@ -219,15 +273,15 @@
       track.style.transform = `translateX(-${offset}px)`;
     }
 
-    // Atualizar dots
+    // Atualizar visualização dos dots
     var dots = document.querySelectorAll('#fn-carousel-dots .fn-dot');
     dots.forEach(function(d, idx) {
       if (idx === currentIndex) {
+        d.style.width = '24px';
         d.style.background = '#D7573B';
-        d.style.transform = 'scale(1.3)';
       } else {
-        d.style.background = 'rgba(255, 255, 255, 0.2)';
-        d.style.transform = 'scale(1)';
+        d.style.width = '8px';
+        d.style.background = 'rgba(255, 255, 255, 0.22)';
       }
     });
   }
@@ -239,10 +293,9 @@
   }
 
   function nextSlide() {
-    var perView = getCardsPerView();
-    var maxIndex = Math.max(0, totalCards - perView);
+    var maxIndex = getMaxIndex();
     if (currentIndex >= maxIndex) {
-      currentIndex = 0;
+      currentIndex = 0; // Transição suave de volta ao início
     } else {
       currentIndex++;
     }
@@ -250,8 +303,7 @@
   }
 
   function prevSlide() {
-    var perView = getCardsPerView();
-    var maxIndex = Math.max(0, totalCards - perView);
+    var maxIndex = getMaxIndex();
     if (currentIndex <= 0) {
       currentIndex = maxIndex;
     } else {
@@ -283,7 +335,10 @@
 
   function syncNewsFromApi() {
     fetch('/api/noticias')
-      .then(function(r) { return r.json(); })
+      .then(function(r) {
+        if (!r.ok) throw new Error('Status ' + r.status);
+        return r.json();
+      })
       .then(function(data) {
         if (Array.isArray(data) && data.length >= 4) {
           cardsData = data;
@@ -291,8 +346,9 @@
           updateSlide();
         }
       })
-      .catch(function() {
-        // Silencioso: usa os cards padrão já carregados
+      .catch(function(err) {
+        // Fallback para cardsData já embutido
+        console.log('[Notícias] Usando notícias em cache/locais:', err.message);
       });
   }
 
@@ -347,7 +403,6 @@
 
     startAutoPlay();
     syncNewsFromApi();
-    // Atualizar a cada 10 minutos
     setInterval(syncNewsFromApi, 600000);
   }
 
@@ -357,4 +412,3 @@
     init();
   }
 })();
-

@@ -272,6 +272,48 @@ let newsCache = {
       image: 'https://files.facepunch.com/lewis/2026/August/pt_hero.jpg',
       link: 'https://rust.facepunch.com/news/power-trip/',
       description: "This month's update brings you Player Maintained Monuments in the form of a new Satellite Crash, Dome Pumping, restorable power, and more."
+    },
+    {
+      title: 'Common Ground',
+      date: '2 de julho de 2026',
+      image: 'https://files.facepunch.com/lewis/1b2611b1/Rust%20x%20Common%20Grounds%20Hero.jpg',
+      link: 'https://rust.facepunch.com/news/common-ground/',
+      description: "This month's update features a New Monument: The Apartment Complex, Rentable Shops, a New Clan System & Table, plus QoL changes and much more!"
+    },
+    {
+      title: 'Built Different',
+      date: '4 de junho de 2026',
+      image: 'https://files.facepunch.com/lewis/1b0211b1/Rust%20x%20Built%20Different%20Hero%20-%20Alternative.jpg',
+      link: 'https://rust.facepunch.com/news/built-different/',
+      description: "This month's update brings Rust's biggest player overhaul in years, featuring new player models and animations, a new armour set, and the M16A2 rifle."
+    },
+    {
+      title: 'Upgrade hard, raid harder',
+      date: '7 de maio de 2026',
+      image: 'https://files.facepunch.com/lewis/1b0111b1/raid-harder.jpg',
+      link: 'https://rust.facepunch.com/news/upgrade-hard-raid-harder/',
+      description: "This month's update brings you Workbench upgrades, the new Mortar, improved Tin Can Alarm, as well as model refreshes and remakes, plus many QoL fixes."
+    },
+    {
+      title: 'Spring Clean',
+      date: '2 de abril de 2026',
+      image: 'https://files.facepunch.com/Flavien/spring_clean-blogheader.jpg',
+      link: 'https://rust.facepunch.com/news/spring-clean/',
+      description: "This month's update brings you TWO new items - the Armoured Ladder Hatch and Water Wheel, additionally loads of QOL improvements, bug fixes, better performance."
+    },
+    {
+      title: 'Shipshape',
+      date: '5 de março de 2026',
+      image: 'https://files.facepunch.com/lewis/1b0211b1/rust_shipshape_hero.jpg',
+      link: 'https://rust.facepunch.com/news/shipshape/',
+      description: "This month's update brings massive improvements to how you live, build, and fight on water and in The Deep Sea, plus extended daytime."
+    },
+    {
+      title: 'Lunar New Year 2026',
+      date: '17 de fevereiro de 2026',
+      image: 'https://files.facepunch.com/lewis/1b2611b1/lny_blog_hero.jpg',
+      link: 'https://rust.facepunch.com/news/lunar-new-year-2026/',
+      description: "2026's Lunar New Year celebrations have begun! Celebrate the occasion by honouring the Year of the Horse with the Ornate Horse Mask, Horse Armour, and more."
     }
   ],
   lastFetch: 0
@@ -305,7 +347,7 @@ function fetchFacepunchNews() {
           if (items.length === 0) return resolve(newsCache.data);
 
           const parsed = [];
-          for (let i = 0; i < Math.min(items.length, 6); i++) {
+          for (let i = 0; i < Math.min(items.length, 12); i++) {
             const it = items[i];
             const title = (it.match(/<title>([\s\S]*?)<\/title>/) || [])[1] || '';
             const link = (it.match(/<link>([\s\S]*?)<\/link>/) || [])[1] || '';
@@ -329,7 +371,6 @@ function fetchFacepunchNews() {
               image: img,
               description: desc
             });
-            if (parsed.length >= 4) break;
           }
 
           if (parsed.length >= 4) {
