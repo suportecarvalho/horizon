@@ -34,30 +34,46 @@ body {
   color: #EDE8E5 !important;
 }
 
-/* Header & Barra Superior */
+
+/* ==============================================================
+   AJUSTES DO CABEÇALHO E LOGO RUST HORIZON
+   ============================================================== */
 .site-header {
-  background: rgba(19, 16, 15, 0.92) !important;
+  background: rgba(19, 16, 15, 0.94) !important;
   backdrop-filter: blur(14px) !important;
-  border-bottom: 1px solid rgba(108, 151, 142, 0.2) !important;
+  border-bottom: 1px solid rgba(108, 151, 142, 0.22) !important;
+  min-height: 85px !important;
 }
 
-.site-header-marca span {
-  color: #EDE8E5;
+.site-header-conteudo {
+  min-height: 85px !important;
+  padding: 14px 24px !important;
 }
 
+.site-header-marca,
 .horizon-brand-logo {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
+  font-stretch: normal !important; /* Desativa a distorção horizontal de 125% */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif !important;
+  font-size: 1.65rem !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.08em !important;
+  line-height: 1.2 !important;
+  text-transform: uppercase !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  text-decoration: none !important;
+  gap: 0 !important;
 }
 
-.horizon-brand-logo img {
-  height: 40px;
-  width: auto;
-  border-radius: 8px;
-  border: 1px solid rgba(215, 87, 59, 0.4);
-  box-shadow: 0 0 12px rgba(215, 87, 59, 0.2);
+.horizon-brand-logo .brand-text {
+  color: #EDE8E5 !important;
+  font-stretch: normal !important;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(215, 87, 59, 0.3);
+  transition: transform 0.2s ease, text-shadow 0.2s ease;
+}
+
+.horizon-brand-logo:hover .brand-text {
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9), 0 0 30px rgba(215, 87, 59, 0.5);
 }
 
 /* Hero Section */
