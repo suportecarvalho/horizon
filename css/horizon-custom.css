@@ -90,12 +90,15 @@ body {
   }
 }
 
-/* Hero Section - Mesmo tamanho e proporção do Terra Hostil */
+/* Hero Section - Ocupa a 1ª dobra inteira (100vh incluindo o cabeçalho) */
 .hero {
   position: relative !important;
   display: flex !important;
   align-items: center !important;
-  min-height: min(88svh, 920px) !important;
+  min-height: calc(100vh - 85px) !important;
+  min-height: calc(100svh - 85px) !important;
+  height: calc(100vh - 85px) !important;
+  height: calc(100svh - 85px) !important;
   overflow: hidden !important;
   border-bottom: 1px solid rgba(108, 151, 142, 0.22) !important;
   background: #13100F !important;
@@ -109,6 +112,7 @@ body {
   overflow: hidden !important;
 }
 
+/* Vídeo com alta visibilidade e nitidez */
 .hero-fundo video.hero-midia {
   position: absolute !important;
   inset: 0 !important;
@@ -116,35 +120,51 @@ body {
   height: 100% !important;
   object-fit: cover !important;
   object-position: center !important;
-  opacity: 0.72 !important;
-  filter: contrast(1.05) saturate(1.1) brightness(0.9) !important;
+  opacity: 0.95 !important;
+  filter: contrast(1.06) saturate(1.15) brightness(1.02) !important;
   display: block !important;
 }
 
+/* Vinheta suave para garantir contraste do texto sem apagar o vídeo */
 .hero-fundo::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at center, rgba(19, 16, 15, 0.1) 0%, rgba(19, 16, 15, 0.45) 70%, #13100F 100%),
-              linear-gradient(to bottom, rgba(19, 16, 15, 0.1) 0%, rgba(19, 16, 15, 0.7) 100%);
-  pointer-events: none;
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background: linear-gradient(180deg, rgba(19, 16, 15, 0.32) 0%, rgba(19, 16, 15, 0.05) 30%, rgba(19, 16, 15, 0.15) 65%, rgba(19, 16, 15, 0.85) 100%),
+              radial-gradient(circle at center, transparent 35%, rgba(19, 16, 15, 0.45) 100%) !important;
+  pointer-events: none !important;
+}
+
+.hero-ruido,
+.hero-linhas {
+  display: none !important;
 }
 
 .hero-conteudo {
   width: 100% !important;
   position: relative !important;
   z-index: 5 !important;
-  padding-top: clamp(64px, 8vw, 96px) !important;
-  padding-bottom: clamp(60px, 7.5vw, 92px) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  padding-top: clamp(20px, 3.5vw, 48px) !important;
+  padding-bottom: clamp(20px, 3.5vw, 48px) !important;
 }
 
 .hero-titulo {
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 0 30px rgba(215, 87, 59, 0.25);
+  font-size: clamp(2.2rem, 4.8vw, 4.2rem) !important;
+  line-height: 1.15 !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.015em !important;
+  text-shadow: 0 4px 25px rgba(0, 0, 0, 0.9), 0 0 35px rgba(215, 87, 59, 0.35) !important;
+  max-width: 1100px !important;
+  margin-top: 4px !important;
+  margin-bottom: 24px !important;
 }
 
 .hero-destaque {
   color: #D7573B !important;
-  text-shadow: 0 0 25px rgba(215, 87, 59, 0.6);
+  text-shadow: 0 0 30px rgba(215, 87, 59, 0.75) !important;
 }
 
 /* Card Principal do Servidor */
@@ -247,34 +267,55 @@ body {
 }
 
 /* Botões do Tema */
+.hero-acoes {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 16px !important;
+  margin-top: 28px !important;
+}
+
 .btn-horizon-primary {
   background: linear-gradient(135deg, #D7573B 0%, #B84329 100%) !important;
   color: #FFFFFF !important;
-  border: 1px solid rgba(255, 123, 94, 0.6) !important;
-  box-shadow: 0 6px 20px rgba(215, 87, 59, 0.35) !important;
-  transition: all 0.2s ease !important;
+  border: 1px solid rgba(255, 123, 94, 0.75) !important;
+  box-shadow: 0 8px 24px rgba(215, 87, 59, 0.45) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35) !important;
+  transition: all 0.25s ease !important;
+  height: 52px !important;
+  min-height: 52px !important;
+  padding: 0 32px !important;
+  font-size: 0.92rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.06em !important;
 }
 
 .btn-horizon-primary:hover {
   filter: brightness(1.15) !important;
-  transform: translateY(-1px) !important;
-  box-shadow: 0 8px 25px rgba(215, 87, 59, 0.5) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 12px 32px rgba(215, 87, 59, 0.65) !important;
 }
 
 .btn-horizon-discord {
-  background: rgba(108, 151, 142, 0.14) !important;
-  color: #82ADA4 !important;
-  border: 1px solid rgba(108, 151, 142, 0.45) !important;
-  box-shadow: 0 4px 15px rgba(108, 151, 142, 0.15) !important;
-  transition: all 0.2s ease !important;
+  background: rgba(19, 16, 15, 0.78) !important;
+  backdrop-filter: blur(10px) !important;
+  color: #EDE8E5 !important;
+  border: 1px solid rgba(108, 151, 142, 0.5) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+  transition: all 0.25s ease !important;
+  height: 52px !important;
+  min-height: 52px !important;
+  padding: 0 32px !important;
+  font-size: 0.92rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.06em !important;
 }
 
 .btn-horizon-discord:hover {
-  background: rgba(108, 151, 142, 0.28) !important;
+  background: rgba(88, 101, 242, 0.32) !important;
+  border-color: #5865F2 !important;
   color: #FFFFFF !important;
-  border-color: #82ADA4 !important;
-  box-shadow: 0 6px 22px rgba(108, 151, 142, 0.3) !important;
-  transform: translateY(-1px) !important;
+  box-shadow: 0 12px 32px rgba(88, 101, 242, 0.45) !important;
+  transform: translateY(-2px) !important;
 }
 
 /* Cards de Loja e VIP */
