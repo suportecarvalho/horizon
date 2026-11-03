@@ -1,5 +1,9 @@
 /**
- * Horizon Rust Leaderboard - Integração em tempo real com o servidor
+ * Horizon Rust Leaderboard - Integração em tempo real com o servidor Rust
+ * Suporte completo para:
+ * - PvP (KDR, % HS, Kills, Mortes, Headshots)
+ * - Recursos (8 Ícones Oficiais: Pedra, Enxofre, Metal, HQM, Madeira, Couro, Gordura, Osso)
+ * - Farming (12 Ícones Oficiais: Tecido, 5x Berries, Cogumelo, Abóbora, Milho, Batata, Trigo, Ovo)
  */
 (function() {
   let currentTab = 'pvp';
@@ -57,6 +61,13 @@
     return `<span class="hlb-avatar-fallback">${initial}</span>`;
   }
 
+  function formatVal(val) {
+    if (!val || val === "0" || val === 0) {
+      return `<span style="color: #52525b; font-weight: 500;">0</span>`;
+    }
+    return `<span style="color: #EDE8E5; font-weight: 700;">${val}</span>`;
+  }
+
   function renderHomeLeaderboard() {
     if (!cachedLbData) return;
 
@@ -73,7 +84,7 @@
 
     const totalEl = document.getElementById('hlb-wipe-count');
     if (totalEl) {
-      const totalWipe = cachedLbData.wipe_total_players || list.length || 138;
+      const totalWipe = cachedLbData.wipe_total_players || list.length || 10;
       totalEl.textContent = searchTerm 
         ? filtered.length + ' jogadores encontrados' 
         : totalWipe + ' jogadores neste wipe';
@@ -84,37 +95,47 @@
       if (currentTab === 'pvp') {
         thead.innerHTML = `
           <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.08); background: rgba(0, 0, 0, 0.28);">
-            <th style="padding: 16px 12px; text-align: center; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; width: 60px;">#</th>
-            <th style="padding: 16px 14px; text-align: left; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;">JOGADOR</th>
-            <th style="padding: 16px 14px; text-align: center; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;">KDR</th>
-            <th style="padding: 16px 14px; text-align: center; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;">% HS</th>
-            <th style="padding: 16px 14px; text-align: center; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;">KILLS</th>
-            <th style="padding: 16px 14px; text-align: center; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;">MORTES EM PVP</th>
-            <th style="padding: 16px 14px; text-align: center; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;">HEADSHOTS</th>
+            <th style="padding: 16px 12px; text-align: center; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; width: 60px; white-space: nowrap;">#</th>
+            <th style="padding: 16px 14px; text-align: left; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;">JOGADOR</th>
+            <th style="padding: 16px 14px; text-align: center; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;">KDR</th>
+            <th style="padding: 16px 14px; text-align: center; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;">% HS</th>
+            <th style="padding: 16px 14px; text-align: center; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;">KILLS</th>
+            <th style="padding: 16px 14px; text-align: center; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;">MORTES EM PVP</th>
+            <th style="padding: 16px 14px; text-align: center; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;">HEADSHOTS</th>
           </tr>
         `;
       } else if (currentTab === 'recursos') {
         thead.innerHTML = `
           <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.08); background: rgba(0, 0, 0, 0.28);">
-            <th style="padding: 16px 12px; text-align: center; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; width: 60px;">#</th>
-            <th style="padding: 16px 14px; text-align: left; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;">JOGADOR</th>
-            <th style="padding: 16px 14px; text-align: center; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;">TOTAL</th>
-            <th style="padding: 16px 14px; text-align: center; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;">ENXOFRE</th>
-            <th style="padding: 16px 14px; text-align: center; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;">METAL</th>
-            <th style="padding: 16px 14px; text-align: center; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;">PEDRA</th>
-            <th style="padding: 16px 14px; text-align: center; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;">SCRAP</th>
+            <th style="padding: 16px 12px; text-align: center; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; width: 60px; white-space: nowrap;">#</th>
+            <th style="padding: 16px 14px; text-align: left; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;">JOGADOR</th>
+            <th style="padding: 12px 10px; text-align: center; width: 52px;" title="Pedra"><img src="/images/items/stones.png" alt="Pedra" class="hlb-item-icon"></th>
+            <th style="padding: 12px 10px; text-align: center; width: 52px;" title="Minério de Enxofre"><img src="/images/items/sulfur.ore.png" alt="Enxofre" class="hlb-item-icon"></th>
+            <th style="padding: 12px 10px; text-align: center; width: 52px;" title="Minério de Metal"><img src="/images/items/metal.ore.png" alt="Metal" class="hlb-item-icon"></th>
+            <th style="padding: 12px 10px; text-align: center; width: 52px;" title="HQM (Metal de Alta Qualidade)"><img src="/images/items/hq.metal.ore.png" alt="HQM" class="hlb-item-icon"></th>
+            <th style="padding: 12px 10px; text-align: center; width: 52px;" title="Madeira"><img src="/images/items/wood.png" alt="Madeira" class="hlb-item-icon"></th>
+            <th style="padding: 12px 10px; text-align: center; width: 52px;" title="Couro"><img src="/images/items/leather.png" alt="Couro" class="hlb-item-icon"></th>
+            <th style="padding: 12px 10px; text-align: center; width: 52px;" title="Gordura Animal"><img src="/images/items/fat.animal.png" alt="Gordura Animal" class="hlb-item-icon"></th>
+            <th style="padding: 12px 10px; text-align: center; width: 52px;" title="Fragmentos de Osso"><img src="/images/items/bone.fragments.png" alt="Ossos" class="hlb-item-icon"></th>
           </tr>
         `;
       } else if (currentTab === 'farming') {
         thead.innerHTML = `
           <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.08); background: rgba(0, 0, 0, 0.28);">
-            <th style="padding: 16px 12px; text-align: center; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; width: 60px;">#</th>
-            <th style="padding: 16px 14px; text-align: left; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;">JOGADOR</th>
-            <th style="padding: 16px 14px; text-align: center; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;">CLONES</th>
-            <th style="padding: 16px 14px; text-align: center; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;">BERRIES</th>
-            <th style="padding: 16px 14px; text-align: center; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;">TECIDO</th>
-            <th style="padding: 16px 14px; text-align: center; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;">PEIXES</th>
-            <th style="padding: 16px 14px; text-align: center; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;">BATATAS</th>
+            <th style="padding: 16px 12px; text-align: center; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; width: 60px; white-space: nowrap;">#</th>
+            <th style="padding: 16px 14px; text-align: left; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;">JOGADOR</th>
+            <th style="padding: 12px 8px; text-align: center; width: 44px;" title="Tecido (Cloth)"><img src="/images/items/cloth.png" alt="Tecido" class="hlb-item-icon"></th>
+            <th style="padding: 12px 8px; text-align: center; width: 44px;" title="Amora Amarela"><img src="/images/items/yellow.berry.png" alt="Amora Amarela" class="hlb-item-icon"></th>
+            <th style="padding: 12px 8px; text-align: center; width: 44px;" title="Amora Vermelha"><img src="/images/items/red.berry.png" alt="Amora Vermelha" class="hlb-item-icon"></th>
+            <th style="padding: 12px 8px; text-align: center; width: 44px;" title="Amora Azul"><img src="/images/items/blue.berry.png" alt="Amora Azul" class="hlb-item-icon"></th>
+            <th style="padding: 12px 8px; text-align: center; width: 44px;" title="Amora Verde"><img src="/images/items/green.berry.png" alt="Amora Verde" class="hlb-item-icon"></th>
+            <th style="padding: 12px 8px; text-align: center; width: 44px;" title="Amora Branca"><img src="/images/items/white.berry.png" alt="Amora Branca" class="hlb-item-icon"></th>
+            <th style="padding: 12px 8px; text-align: center; width: 44px;" title="Cogumelo"><img src="/images/items/mushroom.png" alt="Cogumelo" class="hlb-item-icon"></th>
+            <th style="padding: 12px 8px; text-align: center; width: 44px;" title="Abóbora"><img src="/images/items/pumpkin.png" alt="Abóbora" class="hlb-item-icon"></th>
+            <th style="padding: 12px 8px; text-align: center; width: 44px;" title="Milho"><img src="/images/items/corn.png" alt="Milho" class="hlb-item-icon"></th>
+            <th style="padding: 12px 8px; text-align: center; width: 44px;" title="Batata"><img src="/images/items/potato.png" alt="Batata" class="hlb-item-icon"></th>
+            <th style="padding: 12px 8px; text-align: center; width: 44px;" title="Trigo"><img src="/images/items/wheat.png" alt="Trigo" class="hlb-item-icon"></th>
+            <th style="padding: 12px 8px; text-align: center; width: 44px;" title="Ovo"><img src="/images/items/egg.png" alt="Ovo" class="hlb-item-icon"></th>
           </tr>
         `;
       }
@@ -124,43 +145,54 @@
     if (!tbody) return;
 
     if (filtered.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 40px; color: #a1a1aa; font-weight: 600;">Nenhum jogador encontrado para a busca.</td></tr>';
+      const colSpan = currentTab === 'farming' ? 14 : (currentTab === 'recursos' ? 10 : 7);
+      tbody.innerHTML = `<tr><td colspan="${colSpan}" style="text-align: center; padding: 40px; color: #a1a1aa; font-weight: 600;">Nenhum jogador encontrado para a busca.</td></tr>`;
       return;
     }
 
     tbody.innerHTML = filtered.slice(0, 15).map(function(item) {
       let extraCols = '';
       if (currentTab === 'pvp') {
-        const hsVal = item.headshots !== undefined ? item.headshots : (item.distance || '-');
+        const hsVal = item.headshots !== undefined ? item.headshots : (item.distance || '0');
         extraCols = `
-          <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #D7573B; font-weight: 900; font-size: 1.05rem;">${item.kd}</td>
-          <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700;">${item.headshot_pct}</td>
-          <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 800;">${item.kills}</td>
-          <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700;">${item.deaths}</td>
-          <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700;">${hsVal}</td>
+          <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #D7573B; font-weight: 900; font-size: 1.05rem; white-space: nowrap;">${item.kd}</td>
+          <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">${item.headshot_pct}</td>
+          <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 800; white-space: nowrap;">${item.kills}</td>
+          <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">${item.deaths}</td>
+          <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">${hsVal}</td>
         `;
       } else if (currentTab === 'recursos') {
         extraCols = `
-          <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #D7573B; font-weight: 900; font-size: 1.05rem;">${item.total}</td>
-          <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #f59e0b; font-weight: 700;">${item.sulfur}</td>
-          <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #60a5fa; font-weight: 700;">${item.metal}</td>
-          <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700;">${item.stone}</td>
-          <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #34d399; font-weight: 700;">${item.scrap}</td>
+          <td style="padding: 14px 10px; text-align: center; vertical-align: middle; white-space: nowrap;">${formatVal(item.stones)}</td>
+          <td style="padding: 14px 10px; text-align: center; vertical-align: middle; white-space: nowrap;">${formatVal(item.sulfur)}</td>
+          <td style="padding: 14px 10px; text-align: center; vertical-align: middle; white-space: nowrap;">${formatVal(item.metal)}</td>
+          <td style="padding: 14px 10px; text-align: center; vertical-align: middle; white-space: nowrap;">${formatVal(item.hqm)}</td>
+          <td style="padding: 14px 10px; text-align: center; vertical-align: middle; white-space: nowrap;">${formatVal(item.wood)}</td>
+          <td style="padding: 14px 10px; text-align: center; vertical-align: middle; white-space: nowrap;">${formatVal(item.leather)}</td>
+          <td style="padding: 14px 10px; text-align: center; vertical-align: middle; white-space: nowrap;">${formatVal(item.fat)}</td>
+          <td style="padding: 14px 10px; text-align: center; vertical-align: middle; white-space: nowrap;">${formatVal(item.bone)}</td>
         `;
       } else if (currentTab === 'farming') {
         extraCols = `
-          <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #D7573B; font-weight: 900; font-size: 1.05rem;">${item.clones}</td>
-          <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700;">${item.berries}</td>
-          <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700;">${item.cloth}</td>
-          <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #38bdf8; font-weight: 700;">${item.fish}</td>
-          <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700;">${item.potatoes}</td>
+          <td style="padding: 14px 8px; text-align: center; vertical-align: middle; white-space: nowrap;">${formatVal(item.cloth)}</td>
+          <td style="padding: 14px 8px; text-align: center; vertical-align: middle; white-space: nowrap;">${formatVal(item.yellow_berry)}</td>
+          <td style="padding: 14px 8px; text-align: center; vertical-align: middle; white-space: nowrap;">${formatVal(item.red_berry)}</td>
+          <td style="padding: 14px 8px; text-align: center; vertical-align: middle; white-space: nowrap;">${formatVal(item.blue_berry)}</td>
+          <td style="padding: 14px 8px; text-align: center; vertical-align: middle; white-space: nowrap;">${formatVal(item.green_berry)}</td>
+          <td style="padding: 14px 8px; text-align: center; vertical-align: middle; white-space: nowrap;">${formatVal(item.white_berry)}</td>
+          <td style="padding: 14px 8px; text-align: center; vertical-align: middle; white-space: nowrap;">${formatVal(item.mushroom)}</td>
+          <td style="padding: 14px 8px; text-align: center; vertical-align: middle; white-space: nowrap;">${formatVal(item.pumpkin)}</td>
+          <td style="padding: 14px 8px; text-align: center; vertical-align: middle; white-space: nowrap;">${formatVal(item.corn)}</td>
+          <td style="padding: 14px 8px; text-align: center; vertical-align: middle; white-space: nowrap;">${formatVal(item.potato)}</td>
+          <td style="padding: 14px 8px; text-align: center; vertical-align: middle; white-space: nowrap;">${formatVal(item.wheat)}</td>
+          <td style="padding: 14px 8px; text-align: center; vertical-align: middle; white-space: nowrap;">${formatVal(item.egg)}</td>
         `;
       }
 
       return `
         <tr class="hlb-row" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: background 0.15s ease;">
-          <td style="padding: 16px 12px; text-align: center; vertical-align: middle;">${getMedal(item.rank)}</td>
-          <td style="padding: 16px 14px; vertical-align: middle;">
+          <td style="padding: 16px 12px; text-align: center; vertical-align: middle; white-space: nowrap;">${getMedal(item.rank)}</td>
+          <td style="padding: 16px 14px; vertical-align: middle; white-space: nowrap;">
             <div style="display: flex; align-items: center; gap: 14px;">
               ${getAvatar(item)}
               <div style="display: flex; flex-direction: column; min-width: 0;">
@@ -175,7 +207,7 @@
     }).join('');
   }
 
-  // Delegar fallback de imagem quebrada sem poluir o HTML
+  // Fallback de imagem de avatar
   document.addEventListener('error', function(e) {
     if (e.target && e.target.classList && e.target.classList.contains('hlb-avatar-img')) {
       const parent = e.target.parentElement;
@@ -188,7 +220,6 @@
     }
   }, true);
 
-  // Inicializar eventos após DOM pronto
   function init() {
     // Abas
     document.querySelectorAll('#hlb-tabs .hlb-tab-btn').forEach(function(btn) {
@@ -219,7 +250,7 @@
       searchBtn.addEventListener('click', renderHomeLeaderboard);
     }
 
-    // Polling imediato e contínuo
+    // Polling contínuo
     fetchLeaderboardData();
     setInterval(fetchLeaderboardData, 45000);
   }
@@ -230,4 +261,3 @@
     init();
   }
 })();
-

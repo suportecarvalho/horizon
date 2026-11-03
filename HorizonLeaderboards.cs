@@ -9,8 +9,8 @@ using UnityEngine;
 
 namespace Oxide.Plugins
 {
-    [Info("HorizonLeaderboards", "RustHorizon", "1.1.0")]
-    [Description("Exporta estatísticas de jogadores (PvP, Recursos e Farming) para o site do Horizon")]
+    [Info("HorizonLeaderboards", "RustHorizon", "1.2.0")]
+    [Description("Exporta estatísticas de jogadores (PvP, 8 Recursos e 12 Farming) para o site do Horizon")]
     public class HorizonLeaderboards : RustPlugin
     {
         [PluginReference]
@@ -46,19 +46,29 @@ namespace Oxide.Plugins
             public int Headshots { get; set; } = 0;
             public float MaxKillDistance { get; set; } = 0f;
 
-            // Recursos
-            public int Sulfur { get; set; } = 0;
-            public int Metal { get; set; } = 0;
-            public int Stone { get; set; } = 0;
-            public int Wood { get; set; } = 0;
-            public int Scrap { get; set; } = 0;
+            // Recursos (8 itens conforme Imagem 1)
+            public int Stone { get; set; } = 0;          // stones
+            public int Sulfur { get; set; } = 0;         // sulfur.ore
+            public int Metal { get; set; } = 0;          // metal.ore
+            public int HQM { get; set; } = 0;            // hq.metal.ore
+            public int Wood { get; set; } = 0;           // wood
+            public int Leather { get; set; } = 0;        // leather
+            public int Fat { get; set; } = 0;            // fat.animal
+            public int Bone { get; set; } = 0;           // bone.fragments
 
-            // Farming
-            public int Clones { get; set; } = 0;
-            public int Berries { get; set; } = 0;
-            public int Cloth { get; set; } = 0;
-            public int Fish { get; set; } = 0;
-            public int Potatoes { get; set; } = 0;
+            // Farming (12 itens conforme Imagem 2)
+            public int Cloth { get; set; } = 0;          // cloth
+            public int YellowBerry { get; set; } = 0;    // yellow.berry
+            public int RedBerry { get; set; } = 0;       // red.berry
+            public int BlueBerry { get; set; } = 0;      // blue.berry
+            public int GreenBerry { get; set; } = 0;     // green.berry
+            public int WhiteBerry { get; set; } = 0;     // white.berry
+            public int Mushroom { get; set; } = 0;       // mushroom
+            public int Pumpkin { get; set; } = 0;        // pumpkin
+            public int Corn { get; set; } = 0;           // corn
+            public int Potato { get; set; } = 0;         // potato
+            public int Wheat { get; set; } = 0;          // wheat
+            public int Egg { get; set; } = 0;            // egg
         }
 
         public class StoredData
@@ -95,7 +105,7 @@ namespace Oxide.Plugins
             }
 
             timer.Every(config.SyncIntervalMinutes * 60f, SendLeaderboardToWeb);
-            Puts($"Inicializado com sucesso! Sincronizando com '{config.ApiUrl}' a cada {config.SyncIntervalMinutes} minutos. ({data.Players.Count} jogadores registrados neste wipe)");
+            Puts($"[HorizonLeaderboards v1.2.0] Inicializado! Sincronizando com '{config.ApiUrl}' a cada {config.SyncIntervalMinutes} minutos. ({data.Players.Count} jogadores registrados neste wipe)");
         }
 
         private void Unload()
@@ -108,10 +118,9 @@ namespace Oxide.Plugins
             Interface.Oxide.DataFileSystem.WriteObject("HorizonLeaderboards", data);
         }
 
-        // Detecta wipe do servidor e limpa ranking para o novo wipe
         private void OnNewSave(string filename)
         {
-            Puts("[Wipe Detectado] Arquivando dados do wipe anterior e reiniciando ranking...");
+            Puts("[Wipe Detectado] Arquivando ranking do wipe anterior e reiniciando...");
             try
             {
                 string archiveName = $"HorizonLeaderboards_Wipe_{DateTime.UtcNow:yyyyMMdd_HHmmss}";
@@ -146,7 +155,6 @@ namespace Oxide.Plugins
                 stats.Name = player.displayName;
             }
 
-            // Tenta obter avatar via ImageLibrary se disponível
             if (string.IsNullOrEmpty(stats.Avatar) && ImageLibrary != null && ImageLibrary.IsLoaded)
             {
                 try
@@ -170,14 +178,12 @@ namespace Oxide.Plugins
         {
             if (victim == null || victim.IsNpc) return;
 
-            // Registra morte do jogador
             var victimStats = GetOrCreate(victim);
             if (victimStats != null)
             {
                 victimStats.Deaths++;
             }
 
-            // Registra kill do atacante
             if (info?.InitiatorPlayer != null && !info.InitiatorPlayer.IsNpc && info.InitiatorPlayer != victim)
             {
                 var killer = info.InitiatorPlayer;
@@ -201,103 +207,104 @@ namespace Oxide.Plugins
         }
 
         // -------------------------------------------------------------
-        // HOOKS: RECURSOS
+        // HOOKS: RECURSOS & FARMING
         // -------------------------------------------------------------
-        // Mineração e Coleta por ferramentas
         private void OnDispenserGather(ResourceDispenser dispenser, BaseEntity entity, Item item)
         {
             if (item == null || entity == null) return;
             var player = entity.ToPlayer();
             if (player == null || player.IsNpc) return;
 
-            ProcessResourceItem(player, item);
+            ProcessItem(player, item);
         }
 
-        // Bônus final da árvore ou pedra
         private void OnDispenserBonus(ResourceDispenser dispenser, BasePlayer player, Item item)
         {
             if (player == null || player.IsNpc || item == null) return;
-            ProcessResourceItem(player, item);
+            ProcessItem(player, item);
         }
 
-        // Coleta de minérios ou plantas soltos no chão
         private void OnCollectiblePickup(CollectibleEntity collectible, BasePlayer player)
         {
             if (player == null || player.IsNpc || collectible?.itemList == null) return;
-
-            var stats = GetOrCreate(player);
-            if (stats == null) return;
 
             foreach (var itemAmount in collectible.itemList)
             {
                 if (itemAmount?.itemDef == null) continue;
                 string sname = itemAmount.itemDef.shortname;
                 int amount = (int)itemAmount.amount;
+                var stats = GetOrCreate(player);
+                if (stats == null) continue;
 
-                if (sname.Contains("sulfur.ore")) stats.Sulfur += amount;
+                // Recursos (8)
+                if (sname == "stones" || sname.Contains("stone")) stats.Stone += amount;
+                else if (sname.Contains("sulfur.ore")) stats.Sulfur += amount;
                 else if (sname.Contains("metal.ore")) stats.Metal += amount;
-                else if (sname.Contains("stones")) stats.Stone += amount;
-                else if (sname.Contains("wood")) stats.Wood += amount;
-                else if (sname == "scrap") stats.Scrap += amount;
-                else if (sname.Contains("cloth")) stats.Cloth += amount;
-                else if (sname.Contains("berry")) stats.Berries += amount;
-                else if (sname.Contains("potato")) stats.Potatoes += amount;
+                else if (sname.Contains("hq.metal.ore")) stats.HQM += amount;
+                else if (sname == "wood" || sname.Contains("wood")) stats.Wood += amount;
+                else if (sname == "leather" || sname.Contains("leather")) stats.Leather += amount;
+                else if (sname == "fat.animal" || sname.Contains("fat")) stats.Fat += amount;
+                else if (sname == "bone.fragments" || sname.Contains("bone")) stats.Bone += amount;
+
+                // Farming (12)
+                else if (sname == "cloth" || sname.Contains("cloth")) stats.Cloth += amount;
+                else if (sname.Contains("yellow.berry") || sname.Contains("berry.yellow")) stats.YellowBerry += amount;
+                else if (sname.Contains("red.berry") || sname.Contains("berry.red")) stats.RedBerry += amount;
+                else if (sname.Contains("blue.berry") || sname.Contains("berry.blue")) stats.BlueBerry += amount;
+                else if (sname.Contains("green.berry") || sname.Contains("berry.green")) stats.GreenBerry += amount;
+                else if (sname.Contains("white.berry") || sname.Contains("berry.white")) stats.WhiteBerry += amount;
+                else if (sname.Contains("mushroom")) stats.Mushroom += amount;
+                else if (sname.Contains("pumpkin")) stats.Pumpkin += amount;
+                else if (sname.Contains("corn")) stats.Corn += amount;
+                else if (sname.Contains("potato")) stats.Potato += amount;
+                else if (sname.Contains("wheat")) stats.Wheat += amount;
+                else if (sname.Contains("egg")) stats.Egg += amount;
             }
         }
 
-        // Pegar item solto do chão
-        private void OnItemPickup(Item item, BasePlayer player)
-        {
-            if (player == null || player.IsNpc || item == null) return;
-            ProcessResourceItem(player, item);
-        }
-
-        private void ProcessResourceItem(BasePlayer player, Item item)
-        {
-            var stats = GetOrCreate(player);
-            if (stats == null) return;
-
-            string sname = item.info.shortname;
-            int amount = item.amount;
-
-            if (sname.Contains("sulfur.ore")) stats.Sulfur += amount;
-            else if (sname.Contains("metal.ore")) stats.Metal += amount;
-            else if (sname.Contains("stones")) stats.Stone += amount;
-            else if (sname.Contains("wood")) stats.Wood += amount;
-            else if (sname == "scrap") stats.Scrap += amount;
-            else if (sname.Contains("cloth")) stats.Cloth += amount;
-            else if (sname.Contains("berry")) stats.Berries += amount;
-            else if (sname.Contains("potato")) stats.Potatoes += amount;
-            else if (sname.Contains("clone.")) stats.Clones += amount;
-        }
-
-        // -------------------------------------------------------------
-        // HOOKS: FARMING & PESCA
-        // -------------------------------------------------------------
-        // Colheita de plantações (Hemp/Cloth, Berries, Potatoes, etc.)
         private void OnGrowableGathered(GrowableEntity growable, Item item, BasePlayer player)
         {
             if (player == null || player.IsNpc || item == null) return;
+            ProcessItem(player, item);
+        }
+
+        private void OnItemPickup(Item item, BasePlayer player)
+        {
+            if (player == null || player.IsNpc || item == null) return;
+            ProcessItem(player, item);
+        }
+
+        private void ProcessItem(BasePlayer player, Item item)
+        {
             var stats = GetOrCreate(player);
             if (stats == null) return;
 
             string sname = item.info.shortname;
             int amount = item.amount;
 
-            if (sname.Contains("cloth")) stats.Cloth += amount;
-            else if (sname.Contains("berry")) stats.Berries += amount;
-            else if (sname.Contains("potato")) stats.Potatoes += amount;
-            else if (sname.Contains("clone.")) stats.Clones += amount;
-        }
+            // Recursos (8)
+            if (sname == "stones" || sname.Contains("stone")) stats.Stone += amount;
+            else if (sname.Contains("sulfur.ore")) stats.Sulfur += amount;
+            else if (sname.Contains("metal.ore")) stats.Metal += amount;
+            else if (sname.Contains("hq.metal.ore")) stats.HQM += amount;
+            else if (sname == "wood" || sname.Contains("wood")) stats.Wood += amount;
+            else if (sname == "leather" || sname.Contains("leather")) stats.Leather += amount;
+            else if (sname == "fat.animal" || sname.Contains("fat")) stats.Fat += amount;
+            else if (sname == "bone.fragments" || sname.Contains("bone")) stats.Bone += amount;
 
-        // Pesca bem sucedida
-        private void OnFishCatch(Item item, BasePlayer player)
-        {
-            if (player == null || player.IsNpc || item == null) return;
-            var stats = GetOrCreate(player);
-            if (stats == null) return;
-
-            stats.Fish += item.amount > 0 ? item.amount : 1;
+            // Farming (12)
+            else if (sname == "cloth" || sname.Contains("cloth")) stats.Cloth += amount;
+            else if (sname.Contains("yellow.berry") || sname.Contains("berry.yellow")) stats.YellowBerry += amount;
+            else if (sname.Contains("red.berry") || sname.Contains("berry.red")) stats.RedBerry += amount;
+            else if (sname.Contains("blue.berry") || sname.Contains("berry.blue")) stats.BlueBerry += amount;
+            else if (sname.Contains("green.berry") || sname.Contains("berry.green")) stats.GreenBerry += amount;
+            else if (sname.Contains("white.berry") || sname.Contains("berry.white")) stats.WhiteBerry += amount;
+            else if (sname.Contains("mushroom")) stats.Mushroom += amount;
+            else if (sname.Contains("pumpkin")) stats.Pumpkin += amount;
+            else if (sname.Contains("corn")) stats.Corn += amount;
+            else if (sname.Contains("potato")) stats.Potato += amount;
+            else if (sname.Contains("wheat")) stats.Wheat += amount;
+            else if (sname.Contains("egg")) stats.Egg += amount;
         }
 
         // -------------------------------------------------------------
@@ -312,7 +319,7 @@ namespace Oxide.Plugins
                 return;
             }
             SendLeaderboardToWeb();
-            arg.ReplyWith("[HorizonLeaderboards] Sincronização manual com o site solicitada!");
+            arg.ReplyWith("[HorizonLeaderboards] Sincronização com o site solicitada!");
         }
 
         [ConsoleCommand("horizon.reset")]
@@ -326,13 +333,13 @@ namespace Oxide.Plugins
             data = new StoredData();
             SaveData();
             SendLeaderboardToWeb();
-            arg.ReplyWith("[HorizonLeaderboards] Todos os dados do ranking foram reiniciados com sucesso!");
+            arg.ReplyWith("[HorizonLeaderboards] Todos os dados do ranking foram reiniciados!");
         }
 
         [ConsoleCommand("horizon.stats")]
         private void CmdStats(ConsoleSystem.Arg arg)
         {
-            arg.ReplyWith($"[HorizonLeaderboards] Total de jogadores no wipe: {data.Players.Count}. URL da API: {config.ApiUrl}");
+            arg.ReplyWith($"[HorizonLeaderboards] Jogadores: {data.Players.Count} | API: {config.ApiUrl}");
         }
 
         // -------------------------------------------------------------
@@ -344,7 +351,7 @@ namespace Oxide.Plugins
 
             int limit = config.TopPlayersLimit > 0 ? config.TopPlayersLimit : 100;
 
-            // 1. PVP (Ordenado por Kills, desempate por KD)
+            // 1. PVP
             var pvpList = data.Players.Values
                 .Where(p => p.Kills > 0 || p.Deaths > 0)
                 .OrderByDescending(p => p.Kills)
@@ -371,11 +378,11 @@ namespace Oxide.Plugins
                     };
                 }).ToList();
 
-            // 2. RECURSOS (Ordenado por Total Coletado)
+            // 2. RECURSOS (8 itens conforme Imagem 1)
             var recursosList = data.Players.Values
                 .Select(p => new {
                     Player = p,
-                    Total = p.Sulfur + p.Metal + p.Stone + p.Wood + p.Scrap
+                    Total = p.Stone + p.Sulfur + p.Metal + p.HQM + p.Wood + p.Leather + p.Fat + p.Bone
                 })
                 .Where(x => x.Total > 0)
                 .OrderByDescending(x => x.Total)
@@ -392,19 +399,23 @@ namespace Oxide.Plugins
                         name = p.Name,
                         avatar = avatarUrl,
                         total = x.Total.ToString("N0"),
+                        stones = p.Stone.ToString("N0"),
                         sulfur = p.Sulfur.ToString("N0"),
                         metal = p.Metal.ToString("N0"),
-                        stone = p.Stone.ToString("N0"),
+                        hqm = p.HQM.ToString("N0"),
                         wood = p.Wood.ToString("N0"),
-                        scrap = p.Scrap.ToString("N0")
+                        leather = p.Leather.ToString("N0"),
+                        fat = p.Fat.ToString("N0"),
+                        bone = p.Bone.ToString("N0")
                     };
                 }).ToList();
 
-            // 3. FARMING (Ordenado por Total Farming)
+            // 3. FARMING (12 itens conforme Imagem 2)
             var farmingList = data.Players.Values
                 .Select(p => new {
                     Player = p,
-                    Total = p.Clones + p.Berries + p.Cloth + p.Fish + p.Potatoes
+                    Total = p.Cloth + p.YellowBerry + p.RedBerry + p.BlueBerry + p.GreenBerry + p.WhiteBerry +
+                            p.Mushroom + p.Pumpkin + p.Corn + p.Potato + p.Wheat + p.Egg
                 })
                 .Where(x => x.Total > 0)
                 .OrderByDescending(x => x.Total)
@@ -420,11 +431,19 @@ namespace Oxide.Plugins
                         steamid = p.SteamId,
                         name = p.Name,
                         avatar = avatarUrl,
-                        clones = p.Clones.ToString("N0"),
-                        berries = p.Berries.ToString("N0"),
+                        total = x.Total.ToString("N0"),
                         cloth = p.Cloth.ToString("N0"),
-                        fish = p.Fish.ToString("N0"),
-                        potatoes = p.Potatoes.ToString("N0")
+                        yellow_berry = p.YellowBerry.ToString("N0"),
+                        red_berry = p.RedBerry.ToString("N0"),
+                        blue_berry = p.BlueBerry.ToString("N0"),
+                        green_berry = p.GreenBerry.ToString("N0"),
+                        white_berry = p.WhiteBerry.ToString("N0"),
+                        mushroom = p.Mushroom.ToString("N0"),
+                        pumpkin = p.Pumpkin.ToString("N0"),
+                        corn = p.Corn.ToString("N0"),
+                        potato = p.Potato.ToString("N0"),
+                        wheat = p.Wheat.ToString("N0"),
+                        egg = p.Egg.ToString("N0")
                     };
                 }).ToList();
 

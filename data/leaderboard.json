@@ -1,7 +1,7 @@
 {
   "server": "Horizon 2x Solo/Duo/Trio",
   "wipe_total_players": 10,
-  "updated_at": "2026-11-03T19:51:14.252Z",
+  "updated_at": "2026-11-03T20:11:14.335Z",
   "pvp": [
     {
       "rank": 1,
@@ -142,11 +142,11 @@
       "steamid": "76561197981013423",
       "name": "ocuLTo",
       "avatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
-      "total": "31,089",
+      "total": "31,128",
       "sulfur": "1,015",
       "metal": "4,398",
       "stone": "18,298",
-      "wood": "7,378",
+      "wood": "7,417",
       "scrap": "0"
     },
     {
@@ -166,12 +166,12 @@
       "steamid": "76561198804497592",
       "name": "Revoltz_BR",
       "avatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
-      "total": "1,552",
+      "total": "2,398",
       "sulfur": "600",
-      "metal": "150",
-      "stone": "300",
-      "wood": "402",
-      "scrap": "100"
+      "metal": "300",
+      "stone": "750",
+      "wood": "403",
+      "scrap": "345"
     },
     {
       "rank": 6,
