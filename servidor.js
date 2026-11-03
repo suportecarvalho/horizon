@@ -1,8 +1,70 @@
+// -------------------------------------------------------------
+// UTILITÁRIO: Busca avatar real do Steam via miniprofile (sem API Key)
+// -------------------------------------------------------------
 const http = require('http');
+const https = require('https');
 const fs = require('fs');
 const path = require('path');
 const dgram = require('dgram');
 const { exec } = require('child_process');
+
+// Cache de avatares em memória: steamId → avatarUrl
+const avatarCache = {};
+const DEFAULT_AVATAR = 'https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg';
+
+function fetchSteamAvatar(steamId64) {
+  if (avatarCache[steamId64]) return Promise.resolve(avatarCache[steamId64]);
+
+  const accountId = (BigInt(steamId64) - 76561197960265728n).toString();
+  const url = `https://steamcommunity.com/miniprofile/${accountId}/json/`;
+
+  return new Promise((resolve) => {
+    const req = https.get(url, { headers: { 'User-Agent': 'Mozilla/5.0' } }, (res) => {
+      let body = '';
+      res.on('data', chunk => { body += chunk; });
+      res.on('end', () => {
+        try {
+          const m = body.match(/"avatar_url"\s*:\s*"([^"]+)"/);
+          if (m && m[1] && m[1].startsWith('http') && !m[1].includes('fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb')) {
+            avatarCache[steamId64] = m[1];
+            resolve(m[1]);
+          } else {
+            resolve(null);
+          }
+        } catch { resolve(null); }
+      });
+    });
+    req.on('error', () => resolve(null));
+    req.setTimeout(5000, () => { req.destroy(); resolve(null); });
+  });
+}
+
+// Enriquece um array de jogadores com avatares reais do Steam
+async function enrichAvatars(players) {
+  if (!players || players.length === 0) return players;
+
+  // Filtra apenas os que precisam de avatar
+  const sem = players.filter(p => {
+    const av = p.avatar || '';
+    return !av || av.includes('fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb') || av === DEFAULT_AVATAR;
+  });
+
+  if (sem.length === 0) return players;
+
+  // Busca em paralelo (máx. 5 simultâneos para não sobrecarregar)
+  const BATCH = 5;
+  for (let i = 0; i < sem.length; i += BATCH) {
+    const batch = sem.slice(i, i + BATCH);
+    await Promise.all(batch.map(async (player) => {
+      const url = await fetchSteamAvatar(player.steamid);
+      if (url) player.avatar = url;
+    }));
+  }
+
+  return players;
+}
+
+
 
 const PORT = process.env.PORT || 3000;
 const SITE_DIR = path.join(__dirname, 'site_completo');
@@ -305,20 +367,38 @@ const server = http.createServer((req, res) => {
         try {
           const parsed = JSON.parse(body);
           parsed.updated_at = new Date().toISOString();
-          const targetPaths = [
-            DATA_FILE,
-            path.join(__dirname, 'data', 'leaderboard.json'),
-            path.join(SITE_DIR, 'data', 'leaderboard.json')
+
+          // Enriquecer avatares em background (não bloqueia a resposta)
+          const allPlayers = [
+            ...(parsed.pvp || []),
+            ...(parsed.recursos || []),
+            ...(parsed.farming || [])
           ];
-          for (const tp of new Set(targetPaths)) {
-            try {
-              fs.mkdirSync(path.dirname(tp), { recursive: true });
-              fs.writeFileSync(tp, JSON.stringify(parsed, null, 2), 'utf-8');
-            } catch (errSync) {}
-          }
-          console.log(`[API] Leaderboard atualizado pelo servidor Rust! Data: ${parsed.updated_at}`);
+
+          // Responde imediatamente ao plugin
           res.writeHead(200, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ success: true, message: 'Dados do ranking atualizados com sucesso!' }));
+
+          // Busca avatares e salva versão enriquecida
+          enrichAvatars(allPlayers).then(() => {
+            // Atualiza os players dentro do parsed com os avatares obtidos
+            // (os arrays compartilham referências aos objetos)
+            parsed.updated_at = new Date().toISOString();
+            const targetPaths = [
+              DATA_FILE,
+              path.join(__dirname, 'data', 'leaderboard.json'),
+              path.join(SITE_DIR, 'data', 'leaderboard.json')
+            ];
+            for (const tp of new Set(targetPaths)) {
+              try {
+                fs.mkdirSync(path.dirname(tp), { recursive: true });
+                fs.writeFileSync(tp, JSON.stringify(parsed, null, 2), 'utf-8');
+              } catch (errSync) {}
+            }
+            const comAvatar = allPlayers.filter(p => p.avatar && !p.avatar.includes('fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb')).length;
+            console.log(`[API] Leaderboard atualizado! ${allPlayers.length} jogadores, ${comAvatar} com avatar real do Steam.`);
+          }).catch(() => {});
+
         } catch (err) {
           res.writeHead(400, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ error: 'JSON inválido', details: err.message }));
@@ -415,4 +495,24 @@ server.listen(PORT, () => {
       console.log(`[Status] Atualizado: ${info.players} jogador(es) online.`);
     }).catch(() => {});
   }, 30000);
+
+  // Ao iniciar, enriquecer avatares dos dados já salvos com fotos reais do Steam
+  if (fs.existsSync(DATA_FILE)) {
+    try {
+      const saved = JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8'));
+      const all = [...(saved.pvp || []), ...(saved.recursos || []), ...(saved.farming || [])];
+      if (all.length > 0) {
+        console.log(`[Avatares] Buscando fotos do Steam para ${all.length} entradas de jogadores...`);
+        enrichAvatars(all).then(() => {
+          saved.updated_at = new Date().toISOString();
+          const tps = [DATA_FILE, path.join(__dirname, 'data', 'leaderboard.json'), path.join(SITE_DIR, 'data', 'leaderboard.json')];
+          for (const tp of new Set(tps)) {
+            try { fs.mkdirSync(path.dirname(tp), { recursive: true }); fs.writeFileSync(tp, JSON.stringify(saved, null, 2), 'utf-8'); } catch(e) {}
+          }
+          const com = all.filter(p => p.avatar && !p.avatar.includes('fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb')).length;
+          console.log(`[Avatares] Concluído: ${com}/${all.length} avatares reais do Steam obtidos.`);
+        }).catch(() => {});
+      }
+    } catch(e) { console.warn('[Avatares] Erro ao processar dados existentes:', e.message); }
+  }
 });
