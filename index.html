@@ -6,8 +6,8 @@
     </div><div class="shell hero-conteudo"><div class="hero-olho">
       <span class="contagem contagem-frase">
         <span class="contagem-ponto" style="background: #22c55e;" aria-hidden="true"></span>
-        <span class="contagem-valor">ONLINE</span>
-        <span class="contagem-palavra">Servidor 2x pronto para jogar</span>
+        <span class="contagem-valor" id="hero-player-count">3</span>
+        <span class="contagem-palavra" id="hero-player-label">players conectados</span>
       </span>
     </div><h1 class="titulo hero-titulo">
       <span>RUST </span><span class="hero-destaque">HORIZON</span>
@@ -120,15 +120,48 @@
       initHeroVideo();
     }
 
-    // Monitora mutações para impedir que o React sobrescreva o src após a hidratação
+    // Atualização em tempo real da contagem de players conectados
+    window.__lastPlayerCount = '3';
+    function updateLivePlayers() {
+      fetch('/api/status')
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+          if (data && typeof data.players !== 'undefined') {
+            window.__lastPlayerCount = String(data.players);
+            var countEl = document.getElementById('hero-player-count');
+            var labelEl = document.getElementById('hero-player-label');
+            if (countEl) countEl.textContent = data.players;
+            if (labelEl) {
+              labelEl.textContent = data.players === 1 ? 'player conectado' : 'players conectados';
+            }
+          }
+        })
+        .catch(function() {});
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', updateLivePlayers);
+    } else {
+      updateLivePlayers();
+    }
+    setInterval(updateLivePlayers, 15000);
+
+    // Monitora mutações para impedir que o React sobrescreva o vídeo ou o campo de players após a hidratação
     const observer = new MutationObserver(() => {
       const v = document.querySelector('.hero-midia') || document.querySelector('video');
       if (v && v.getAttribute('src') !== '/videos/rust_bg.mp4') {
         v.setAttribute('src', '/videos/rust_bg.mp4');
         v.src = '/videos/rust_bg.mp4';
-      v.removeAttribute('poster');
+        v.removeAttribute('poster');
         v.muted = true;
         v.play().catch(() => {});
+      }
+      var countEl = document.getElementById('hero-player-count');
+      if (!countEl) {
+        var olho = document.querySelector('.hero-olho .contagem');
+        if (olho && (olho.innerHTML.includes('ONLINE') || olho.innerHTML.includes('pronto para jogar'))) {
+          olho.innerHTML = '<span class="contagem-ponto" style="background: #22c55e;" aria-hidden="true"></span><span class="contagem-valor" id="hero-player-count">' + (window.__lastPlayerCount || '3') + '</span><span class="contagem-palavra" id="hero-player-label">' + ((window.__lastPlayerCount == '1') ? 'player conectado' : 'players conectados') + '</span>';
+        }
       }
     });
 
