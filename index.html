@@ -6,7 +6,7 @@
     </div><div class="shell hero-conteudo"><div class="hero-olho">
       <span class="contagem contagem-frase">
         <span class="contagem-ponto" style="background: #22c55e;" aria-hidden="true"></span>
-        <span class="contagem-valor" id="hero-player-count">3</span>
+        <span class="contagem-valor" id="hero-player-count">2</span>
         <span class="contagem-palavra" id="hero-player-label">players conectados</span>
       </span>
     </div><h1 class="titulo hero-titulo">
@@ -121,7 +121,7 @@
     }
 
     // Atualização em tempo real da contagem de players conectados
-    window.__lastPlayerCount = '3';
+    window.__lastPlayerCount = '2';
     function updateLivePlayers() {
       fetch('/api/status')
         .then(function(res) { return res.json(); })
@@ -160,7 +160,7 @@
       if (!countEl) {
         var olho = document.querySelector('.hero-olho .contagem');
         if (olho && (olho.innerHTML.includes('ONLINE') || olho.innerHTML.includes('pronto para jogar'))) {
-          olho.innerHTML = '<span class="contagem-ponto" style="background: #22c55e;" aria-hidden="true"></span><span class="contagem-valor" id="hero-player-count">' + (window.__lastPlayerCount || '3') + '</span><span class="contagem-palavra" id="hero-player-label">' + ((window.__lastPlayerCount == '1') ? 'player conectado' : 'players conectados') + '</span>';
+          olho.innerHTML = '<span class="contagem-ponto" style="background: #22c55e;" aria-hidden="true"></span><span class="contagem-valor" id="hero-player-count">' + (window.__lastPlayerCount || '2') + '</span><span class="contagem-palavra" id="hero-player-label">' + ((window.__lastPlayerCount == '1') ? 'player conectado' : 'players conectados') + '</span>';
         }
       }
     });

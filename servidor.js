@@ -48,11 +48,73 @@ let serverStatusCache = {
     online: true,
     serverName: '[BR/LATAM] Horizon 2x | Solo/Duo/Trio',
     map: 'Procedural Map',
-    players: 3,
+    players: 2,
     maxPlayers: 100
   },
   lastFetch: 0
 };
+
+function parseA2SInfo(msg) {
+  let offset = 6;
+  const nameEnd = msg.indexOf(0, offset);
+  const serverName = msg.subarray(offset, nameEnd).toString('utf-8');
+  offset = nameEnd + 1;
+  const mapEnd = msg.indexOf(0, offset);
+  const map = msg.subarray(offset, mapEnd).toString('utf-8');
+  offset = mapEnd + 1;
+  const folderEnd = msg.indexOf(0, offset);
+  offset = folderEnd + 1;
+  const gameEnd = msg.indexOf(0, offset);
+  offset = gameEnd + 1;
+  offset += 2; // ID
+  const rawPlayers = msg.readUInt8(offset);
+  const maxPlayers = msg.readUInt8(offset + 1);
+  offset += 3; // players, maxPlayers, bots
+  offset += 4; // serverType, environment, visibility, vac
+  const versionEnd = msg.indexOf(0, offset);
+  offset = versionEnd + 1;
+
+  let realPlayers = rawPlayers;
+  let realMaxPlayers = maxPlayers;
+  let queuePlayers = 0;
+  let keywords = '';
+
+  if (offset < msg.length) {
+    const edf = msg.readUInt8(offset);
+    offset += 1;
+    if (edf & 0x80) offset += 2; // port
+    if (edf & 0x10) offset += 8; // steamId
+    if (edf & 0x40) {
+      offset += 2; // spectator port
+      offset = msg.indexOf(0, offset) + 1; // spectator server name
+    }
+    if (edf & 0x20) { // keywords / tags
+      const tagsEnd = msg.indexOf(0, offset);
+      keywords = msg.subarray(offset, tagsEnd).toString('utf-8');
+      offset = tagsEnd + 1;
+    }
+  }
+
+  // Rust tags: cp<N> = real active players online
+  if (keywords) {
+    const cpMatch = keywords.match(/\bcp(\d+)\b/);
+    if (cpMatch) realPlayers = parseInt(cpMatch[1], 10);
+    const mpMatch = keywords.match(/\bmp(\d+)\b/);
+    if (mpMatch) realMaxPlayers = parseInt(mpMatch[1], 10);
+    const qpMatch = keywords.match(/\bqp(\d+)\b/);
+    if (qpMatch) queuePlayers = parseInt(qpMatch[1], 10);
+  }
+
+  return {
+    online: true,
+    serverName,
+    map,
+    players: realPlayers,
+    maxPlayers: realMaxPlayers,
+    queuePlayers,
+    updatedAt: new Date().toISOString()
+  };
+}
 
 function fetchLiveStatus(host = '179.198.115.201', port = 28016, timeoutMs = 2500) {
   const now = Date.now();
@@ -99,30 +161,8 @@ function fetchLiveStatus(host = '179.198.115.201', port = 28016, timeoutMs = 250
         finished = true;
         clearTimeout(timer);
         try {
-          let offset = 6;
-          const nameEnd = msg.indexOf(0, offset);
-          const serverName = msg.subarray(offset, nameEnd).toString('utf-8');
-          offset = nameEnd + 1;
-          const mapEnd = msg.indexOf(0, offset);
-          const map = msg.subarray(offset, mapEnd).toString('utf-8');
-          offset = mapEnd + 1;
-          const folderEnd = msg.indexOf(0, offset);
-          offset = folderEnd + 1;
-          const gameEnd = msg.indexOf(0, offset);
-          offset = gameEnd + 1;
-          offset += 2;
-          const players = msg.readUInt8(offset);
-          const maxPlayers = msg.readUInt8(offset + 1);
+          const result = parseA2SInfo(msg);
           client.close();
-
-          const result = {
-            online: true,
-            serverName,
-            map,
-            players,
-            maxPlayers,
-            updatedAt: new Date().toISOString()
-          };
           serverStatusCache = { data: result, lastFetch: Date.now() };
           resolve(result);
         } catch (err) {
@@ -345,11 +385,11 @@ process.on('uncaughtException', (err) => {
 
 server.listen(PORT, () => {
   const url = `http://localhost:${PORT}`;
-  console.log(`\n==================================================`);
+  console.log(`\r\n==================================================`);
   console.log(`  🚀 SERVIDOR HORIZON ONLINE COM LEADERBOARD API!`);
   console.log(`==================================================`);
   console.log(`  Endereço principal: ${url}/`);
   console.log(`  Leaderboards:       ${url}/leaderboards`);
   console.log(`  API Endpoint:       ${url}/api/leaderboard`);
-  console.log(`==================================================\n`);
+  console.log(`==================================================\r\n`);
 });
