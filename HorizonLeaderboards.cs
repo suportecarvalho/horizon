@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Oxide.Plugins
 {
-    [Info("HorizonLeaderboards", "RustHorizon", "1.2.0")]
+    [Info("HorizonLeaderboards", "RustHorizon", "1.3.0")]
     [Description("Exporta estatísticas de jogadores (PvP, 8 Recursos e 12 Farming) para o site do Horizon")]
     public class HorizonLeaderboards : RustPlugin
     {
@@ -18,6 +18,9 @@ namespace Oxide.Plugins
 
         private Configuration config;
         private StoredData data;
+
+        // Cache de avatares já buscados nesta sessão (steamid → url)
+        private readonly Dictionary<string, string> avatarCache = new Dictionary<string, string>();
 
         public class Configuration
         {
@@ -105,12 +108,78 @@ namespace Oxide.Plugins
             }
 
             timer.Every(config.SyncIntervalMinutes * 60f, SendLeaderboardToWeb);
-            Puts($"[HorizonLeaderboards v1.2.0] Inicializado! Sincronizando com '{config.ApiUrl}' a cada {config.SyncIntervalMinutes} minutos. ({data.Players.Count} jogadores registrados neste wipe)");
+            Puts($"[HorizonLeaderboards v1.3.0] Inicializado! Sincronizando com '{config.ApiUrl}' a cada {config.SyncIntervalMinutes} minutos. ({data.Players.Count} jogadores registrados neste wipe)");
+
+            // Buscar avatares de todos os jogadores já registrados que ainda não têm avatar
+            foreach (var kv in data.Players)
+            {
+                if (string.IsNullOrEmpty(kv.Value.Avatar))
+                    FetchSteamAvatar(kv.Key, kv.Value);
+            }
         }
 
         private void Unload()
         {
             SaveData();
+        }
+
+        // ---------------------------------------------------------------
+        // HOOK: Jogador conecta — busca avatar real do Steam
+        // ---------------------------------------------------------------
+        private void OnPlayerConnected(BasePlayer player)
+        {
+            if (player == null || player.IsNpc) return;
+            string id = player.UserIDString;
+
+            // Garante que o jogador está registrado
+            if (!data.Players.TryGetValue(id, out var stats))
+            {
+                stats = new PlayerStats { SteamId = id, Name = player.displayName };
+                data.Players[id] = stats;
+            }
+            else
+            {
+                stats.Name = player.displayName;
+            }
+
+            // Sempre atualiza o avatar ao conectar (pode ter mudado a foto)
+            FetchSteamAvatar(id, stats);
+        }
+
+        // Busca o avatar real do Steam via miniprofile (sem precisar de API Key)
+        private void FetchSteamAvatar(string steamId, PlayerStats stats)
+        {
+            if (string.IsNullOrEmpty(steamId)) return;
+
+            // Converte SteamID64 → AccountID (32-bit) para a URL miniprofile
+            if (!ulong.TryParse(steamId, out ulong steamId64)) return;
+            ulong accountId = steamId64 - 76561197960265728UL;
+
+            string url = $"https://steamcommunity.com/miniprofile/{accountId}/json/";
+
+            webrequest.Enqueue(url, null, (code, response) =>
+            {
+                if (code != 200 || string.IsNullOrEmpty(response)) return;
+
+                try
+                {
+                    // Extrair avatar_url do JSON simples
+                    // Formato: {"persona_name":"...","avatar_url":"https://...jpg",...}
+                    var match = System.Text.RegularExpressions.Regex.Match(
+                        response, "\"avatar_url\"\\s*:\\s*\"([^\"]+)\"");
+
+                    if (match.Success)
+                    {
+                        string avatarUrl = match.Groups[1].Value;
+                        if (!string.IsNullOrEmpty(avatarUrl) && avatarUrl.StartsWith("http"))
+                        {
+                            stats.Avatar = avatarUrl;
+                            avatarCache[steamId] = avatarUrl;
+                        }
+                    }
+                }
+                catch { }
+            }, this, RequestMethod.GET);
         }
 
         private void SaveData()
@@ -149,23 +218,12 @@ namespace Oxide.Plugins
                     Name = player.displayName
                 };
                 data.Players[id] = stats;
+                // Busca avatar ao criar novo registro
+                FetchSteamAvatar(id, stats);
             }
             else
             {
                 stats.Name = player.displayName;
-            }
-
-            if (string.IsNullOrEmpty(stats.Avatar) && ImageLibrary != null && ImageLibrary.IsLoaded)
-            {
-                try
-                {
-                    string avatarUrl = ImageLibrary.Call<string>("GetImageURL", id);
-                    if (!string.IsNullOrEmpty(avatarUrl))
-                    {
-                        stats.Avatar = avatarUrl;
-                    }
-                }
-                catch {}
             }
 
             return stats;

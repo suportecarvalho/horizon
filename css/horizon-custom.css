@@ -381,3 +381,54 @@ footer {
 a.link-nav:hover {
   color: #D7573B !important;
 }
+
+
+/* =========================================================
+   FOOTER LARGURA TOTAL (100% DA PÁGINA) & CRÉDITOS
+   ========================================================= */
+.site-footer,
+footer.site-footer {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+  padding: 56px clamp(20px, 4vw, 56px) 40px !important;
+}
+
+.rodape-grade {
+  width: 100% !important;
+  max-width: 100% !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 40px 48px !important;
+}
+
+.rodape-grade > :first-child {
+  flex: 2 320px !important;
+}
+
+.rodape-grade > nav {
+  flex: 1 140px !important;
+}
+
+.rodape-base {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Ícones de itens no Leaderboard */
+.hlb-item-icon {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  vertical-align: middle;
+  display: inline-block;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+  transition: transform 0.15s ease;
+}
+
+.hlb-item-icon:hover {
+  transform: scale(1.15);
+}
+
+.site-footer-fullwidth-enforced { display: contents; }
