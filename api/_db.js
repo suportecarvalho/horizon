@@ -380,3 +380,4 @@ module.exports = {
   addComment,
   uploadImage
 };
+

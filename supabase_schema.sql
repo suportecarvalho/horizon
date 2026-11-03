@@ -77,3 +77,4 @@ FOR SELECT USING (bucket_id = 'feed-photos');
 DROP POLICY IF EXISTS "Upload de fotos no feed" ON storage.objects;
 CREATE POLICY "Upload de fotos no feed" ON storage.objects
 FOR INSERT WITH CHECK (bucket_id = 'feed-photos');
+
