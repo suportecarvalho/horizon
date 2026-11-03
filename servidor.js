@@ -8,7 +8,9 @@ const SITE_DIR = path.join(__dirname, 'site_completo');
 const SINGLE_DIR = path.join(__dirname, 'site_completo_single');
 const ASSETS_DIR = path.join(__dirname, 'loja_terrahostil_assets');
 const DATA_FILE = path.join(SITE_DIR, 'data', 'leaderboard.json');
-const VIDEO_PATH = path.join(SITE_DIR, 'videos', 'rust_bg.mp4');
+const VIDEO_PATH = fs.existsSync(path.join(__dirname, 'videos', 'rust_bg.mp4')) 
+  ? path.join(__dirname, 'videos', 'rust_bg.mp4') 
+  : path.join(SITE_DIR, 'videos', 'rust_bg.mp4');
 
 // Carregar o vídeo na memória (RAM) para evitar vazamento de file descriptors (EMFILE)
 let videoBuffer = null;
@@ -95,9 +97,9 @@ function resolveFile(cleanUrl) {
     }
   }
 
-  const rootIndex = path.join(SITE_DIR, 'index.html');
-  if (fs.existsSync(rootIndex)) {
-    return rootIndex;
+  const defaultIndex = path.join(SITE_DIR, 'index.html');
+  if (fs.existsSync(defaultIndex)) {
+    return defaultIndex;
   }
 
   return null;
