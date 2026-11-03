@@ -52,28 +52,42 @@ body {
 
 .site-header-marca,
 .horizon-brand-logo {
-  font-stretch: normal !important; /* Desativa a distorção horizontal de 125% */
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif !important;
-  font-size: 1.65rem !important;
-  font-weight: 900 !important;
-  letter-spacing: 0.08em !important;
-  line-height: 1.2 !important;
-  text-transform: uppercase !important;
   display: inline-flex !important;
   align-items: center !important;
   text-decoration: none !important;
   gap: 0 !important;
+  padding: 0 !important;
+  transition: transform 0.2s ease;
 }
 
-.horizon-brand-logo .brand-text {
-  color: #EDE8E5 !important;
-  font-stretch: normal !important;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(215, 87, 59, 0.3);
-  transition: transform 0.2s ease, text-shadow 0.2s ease;
+.site-header-marca:hover,
+.horizon-brand-logo:hover {
+  transform: scale(1.02);
 }
 
-.horizon-brand-logo:hover .brand-text {
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9), 0 0 30px rgba(215, 87, 59, 0.5);
+.horizon-brand-logo .horizon-brand-img,
+.horizon-brand-img {
+  height: 42px !important;
+  max-height: 46px !important;
+  width: auto !important;
+  display: block !important;
+  filter: drop-shadow(0 0 8px rgba(215, 87, 59, 0.4)) !important;
+  transition: filter 0.25s ease, transform 0.25s ease !important;
+}
+
+.horizon-brand-logo:hover .horizon-brand-img,
+.site-header-marca:hover .horizon-brand-img {
+  filter: drop-shadow(0 0 16px rgba(215, 87, 59, 0.75)) !important;
+  transform: scale(1.02) !important;
+}
+
+@media (max-width: 640px) {
+  .horizon-brand-logo .horizon-brand-img,
+  .horizon-brand-img {
+    height: 32px !important;
+    max-height: 36px !important;
+    filter: drop-shadow(0 0 6px rgba(215, 87, 59, 0.35)) !important;
+  }
 }
 
 /* Hero Section */

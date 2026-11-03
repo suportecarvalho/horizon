@@ -52,6 +52,17 @@ function resolveFile(cleanUrl) {
 
   const relPath = cleanUrl === '/' ? '' : cleanUrl.replace(/^\//, '');
 
+  // Priorizar arquivos da raiz (mesmo comportamento da Vercel)
+  const rootIndex = path.join(__dirname, relPath, 'index.html');
+  if (fs.existsSync(rootIndex) && fs.statSync(rootIndex).isFile()) {
+    return rootIndex;
+  }
+
+  const rootDirect = path.join(__dirname, relPath);
+  if (fs.existsSync(rootDirect) && fs.statSync(rootDirect).isFile()) {
+    return rootDirect;
+  }
+
   const dirIndex = path.join(SITE_DIR, relPath, 'index.html');
   if (fs.existsSync(dirIndex) && fs.statSync(dirIndex).isFile()) {
     return dirIndex;
