@@ -90,13 +90,17 @@ body {
   }
 }
 
-/* Hero Section - Altura exata de 801px */
+/* Hero Section - Primeira Dobra Inteira (100% da tela / 100vh) */
 .hero {
   position: relative !important;
   display: flex !important;
   align-items: center !important;
-  height: 801px !important;
-  min-height: 801px !important;
+  justify-content: flex-start !important;
+  box-sizing: border-box !important;
+  height: calc(100vh - 85px) !important;
+  min-height: calc(100vh - 85px) !important;
+  height: calc(100dvh - 85px) !important;
+  min-height: calc(100dvh - 85px) !important;
   overflow: hidden !important;
   border-bottom: 1px solid rgba(108, 151, 142, 0.22) !important;
   background: #13100F !important;
