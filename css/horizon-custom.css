@@ -267,11 +267,20 @@ body {
 }
 
 /* Botões do Tema */
+/* Hero Spacing e Ações */
+.hero-olho {
+  align-items: center !important;
+  gap: 14px !important;
+  margin-bottom: 16px !important;
+  flex-wrap: wrap !important;
+  display: flex !important;
+}
+
 .hero-acoes {
   display: flex !important;
   flex-wrap: wrap !important;
   gap: 16px !important;
-  margin-top: 28px !important;
+  margin-top: 6px !important;
 }
 
 .btn-horizon-primary {
