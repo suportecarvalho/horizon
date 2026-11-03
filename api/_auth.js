@@ -96,3 +96,4 @@ module.exports = {
   fetchSteamProfile,
   DEFAULT_AVATAR
 };
+

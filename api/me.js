@@ -23,3 +23,4 @@ module.exports = async (req, res) => {
     authenticated: false
   });
 };
+
