@@ -1,0 +1,30 @@
+# Dependências
+node_modules/
+
+# Logs e arquivos de sistema
+.system_generated/
+screenshots/
+*.log
+tunnel_url.txt
+.env
+.DS_Store
+Thumbs.db
+
+# Pastas de cópia originais brutas (para não duplicar vídeos pesados no Git)
+loja_terrahostil*
+site_completo/
+site_completo_single/
+
+# Scripts utilitários de migração local
+*.py
+debug_*.js
+find_*.js
+inspect_*.js
+limpar_*.js
+personalizar_*.js
+copiar_*.js
+atualizar_*.js
+aplicar_*.js
+fix_*.js
+check_*.js
+test_*.js

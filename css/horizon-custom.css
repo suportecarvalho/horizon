@@ -1,0 +1,271 @@
+
+/* ==============================================================
+   TEMA RUST HORIZON - PALETA EXTRAÍDA DO BANNER
+   - Rust Orange / Terracota: #D7573B / #E8684A
+   - Retro Sky Teal / Pátina: #6C978E / #82ADA4 / #37534E
+   - Mountain Sand / Ocre:   #C48D66 / #DEAC86
+   - Dark Umber / Carvão:     #13100F / #1A1513 / #221B19
+   ============================================================== */
+
+:root {
+  --marca: #D7573B !important;
+  --marca-hover: #E8684A !important;
+  --marca-glow: rgba(215, 87, 59, 0.35) !important;
+  
+  --teal-horizon: #6C978E !important;
+  --teal-horizon-hover: #82ADA4 !important;
+  --teal-horizon-bg: rgba(108, 151, 142, 0.12) !important;
+  --teal-horizon-border: rgba(108, 151, 142, 0.3) !important;
+
+  --sand-horizon: #C48D66 !important;
+  --sand-horizon-bg: rgba(196, 141, 102, 0.15) !important;
+
+  --primary: #D7573B !important;
+  --primary-foreground: #FFFFFF !important;
+  --background: #13100F !important;
+  --foreground: #EDE8E5 !important;
+  --card: #1C1615 !important;
+  --card-foreground: #EDE8E5 !important;
+  --border: rgba(108, 151, 142, 0.22) !important;
+}
+
+body {
+  background-color: #13100F !important;
+  color: #EDE8E5 !important;
+}
+
+/* Header & Barra Superior */
+.site-header {
+  background: rgba(19, 16, 15, 0.92) !important;
+  backdrop-filter: blur(14px) !important;
+  border-bottom: 1px solid rgba(108, 151, 142, 0.2) !important;
+}
+
+.site-header-marca span {
+  color: #EDE8E5;
+}
+
+.horizon-brand-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.horizon-brand-logo img {
+  height: 40px;
+  width: auto;
+  border-radius: 8px;
+  border: 1px solid rgba(215, 87, 59, 0.4);
+  box-shadow: 0 0 12px rgba(215, 87, 59, 0.2);
+}
+
+/* Hero Section */
+.hero {
+  position: relative;
+  background: #13100F !important;
+  min-height: 580px;
+}
+
+.hero-fundo {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.hero-fundo video.hero-midia,
+.hero-fundo img.hero-banner-custom {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: brightness(0.68) contrast(1.15) saturate(1.1);
+  display: block;
+}
+
+.hero-fundo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center 40%, rgba(19, 16, 15, 0.2) 0%, rgba(19, 16, 15, 0.85) 75%, #13100F 100%),
+              linear-gradient(to bottom, rgba(19, 16, 15, 0.3) 0%, rgba(19, 16, 15, 0.95) 90%, #13100F 100%);
+  pointer-events: none;
+}
+
+.hero-titulo {
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 0 30px rgba(215, 87, 59, 0.25);
+}
+
+.hero-destaque {
+  color: #D7573B !important;
+  text-shadow: 0 0 25px rgba(215, 87, 59, 0.6);
+}
+
+/* Card Principal do Servidor */
+.card-servidor-horizon {
+  background: linear-gradient(145deg, #1E1715 0%, #171312 100%) !important;
+  border: 1px solid rgba(108, 151, 142, 0.35) !important;
+  border-radius: 18px !important;
+  padding: 32px !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.card-servidor-horizon::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #6C978E, #D7573B, transparent);
+}
+
+.card-servidor-horizon:hover {
+  border-color: rgba(215, 87, 59, 0.6) !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 25px rgba(215, 87, 59, 0.15);
+  transform: translateY(-2px);
+}
+
+.badge-tag-taxa {
+  background: rgba(215, 87, 59, 0.16) !important;
+  border: 1px solid rgba(215, 87, 59, 0.45) !important;
+  color: #FF7B5E !important;
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+
+.badge-tag-teal {
+  background: rgba(108, 151, 142, 0.15) !important;
+  border: 1px solid rgba(108, 151, 142, 0.4) !important;
+  color: #82ADA4 !important;
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+
+.badge-tag-sand {
+  background: rgba(196, 141, 102, 0.15) !important;
+  border: 1px solid rgba(196, 141, 102, 0.4) !important;
+  color: #DEAC86 !important;
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+
+/* Caixa de IP */
+.ip-box-container {
+  display: flex;
+  align-items: center;
+  background: #0E0C0B !important;
+  border: 1px solid rgba(108, 151, 142, 0.28) !important;
+  border-radius: 12px;
+  padding: 10px 16px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.95rem;
+  color: #EDE8E5;
+  justify-content: space-between;
+  gap: 16px;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+.btn-copiar-ip {
+  background: linear-gradient(135deg, #D7573B 0%, #B84329 100%) !important;
+  border: 1px solid #FF7B5E !important;
+  color: #FFFFFF !important;
+  cursor: pointer;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(215, 87, 59, 0.3);
+}
+
+.btn-copiar-ip:hover {
+  filter: brightness(1.15);
+  box-shadow: 0 6px 18px rgba(215, 87, 59, 0.5);
+}
+
+/* Botões do Tema */
+.btn-horizon-primary {
+  background: linear-gradient(135deg, #D7573B 0%, #B84329 100%) !important;
+  color: #FFFFFF !important;
+  border: 1px solid rgba(255, 123, 94, 0.6) !important;
+  box-shadow: 0 6px 20px rgba(215, 87, 59, 0.35) !important;
+  transition: all 0.2s ease !important;
+}
+
+.btn-horizon-primary:hover {
+  filter: brightness(1.15) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 8px 25px rgba(215, 87, 59, 0.5) !important;
+}
+
+.btn-horizon-discord {
+  background: rgba(108, 151, 142, 0.14) !important;
+  color: #82ADA4 !important;
+  border: 1px solid rgba(108, 151, 142, 0.45) !important;
+  box-shadow: 0 4px 15px rgba(108, 151, 142, 0.15) !important;
+  transition: all 0.2s ease !important;
+}
+
+.btn-horizon-discord:hover {
+  background: rgba(108, 151, 142, 0.28) !important;
+  color: #FFFFFF !important;
+  border-color: #82ADA4 !important;
+  box-shadow: 0 6px 22px rgba(108, 151, 142, 0.3) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Cards de Loja e VIP */
+[data-slot="card"] {
+  background: #1C1615 !important;
+  border: 1px solid rgba(108, 151, 142, 0.22) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+  transition: all 0.2s ease;
+}
+
+[data-slot="card"]:hover {
+  border-color: rgba(215, 87, 59, 0.5) !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6), 0 0 20px rgba(215, 87, 59, 0.15) !important;
+}
+
+.vip-nome {
+  color: #EDE8E5 !important;
+  font-weight: 800 !important;
+}
+
+.preco-valor {
+  color: #D7573B !important;
+  font-weight: 800 !important;
+  text-shadow: 0 0 15px rgba(215, 87, 59, 0.3);
+}
+
+.perk::before {
+  color: #6C978E !important;
+}
+
+/* Rodapé */
+footer {
+  background: #0E0C0B !important;
+  border-top: 1px solid rgba(108, 151, 142, 0.2) !important;
+}
+
+/* Ajustes de Links e Navegação */
+a.link-nav:hover {
+  color: #D7573B !important;
+}

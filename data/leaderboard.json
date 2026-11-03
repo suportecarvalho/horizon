@@ -1,0 +1,120 @@
+{
+  "server": "Horizon 2x Solo/Duo/Trio",
+  "updated_at": "2026-11-03T11:00:00Z",
+  "pvp": [
+    {
+      "rank": 1,
+      "steamid": "76561198000000001",
+      "name": "HorizonSlayer",
+      "avatar": "https://avatars.steamstatic.com/983f461a43abc8d5450a5c1985e3cbce03dc7055_full.jpg",
+      "kd": "4.25",
+      "headshot_pct": "54.2%",
+      "kills": 142,
+      "deaths": 33,
+      "distance": "284m"
+    },
+    {
+      "rank": 2,
+      "steamid": "76561198000000002",
+      "name": "AK47_Beast",
+      "avatar": "https://avatars.steamstatic.com/63d70bb68414af829eb9f59419a44bab31ff70a3_full.jpg",
+      "kd": "3.80",
+      "headshot_pct": "48.1%",
+      "kills": 118,
+      "deaths": 31,
+      "distance": "210m"
+    },
+    {
+      "rank": 3,
+      "steamid": "76561198000000003",
+      "name": "RustGod_BR",
+      "avatar": "https://avatars.steamstatic.com/b909ae09b20c36a22b44df27edb2d1407bb2687d_full.jpg",
+      "kd": "3.15",
+      "headshot_pct": "42.0%",
+      "kills": 95,
+      "deaths": 30,
+      "distance": "175m"
+    },
+    {
+      "rank": 4,
+      "steamid": "76561198000000004",
+      "name": "SoloHunter",
+      "avatar": "https://avatars.steamstatic.com/f3a6f0ad96b5701ab8d412c4a72603422320899d_full.jpg",
+      "kd": "2.90",
+      "headshot_pct": "39.5%",
+      "kills": 84,
+      "deaths": 29,
+      "distance": "142m"
+    },
+    {
+      "rank": 5,
+      "steamid": "76561198000000005",
+      "name": "TrioLeader",
+      "avatar": "https://avatars.steamstatic.com/e2b19879b485aa05f7bda9dabfc311311f8ee920_full.jpg",
+      "kd": "2.65",
+      "headshot_pct": "37.8%",
+      "kills": 72,
+      "deaths": 27,
+      "distance": "160m"
+    }
+  ],
+  "recursos": [
+    {
+      "rank": 1,
+      "steamid": "76561198000000006",
+      "name": "MineradorMax",
+      "avatar": "https://avatars.steamstatic.com/983f461a43abc8d5450a5c1985e3cbce03dc7055_full.jpg",
+      "total": "450.000",
+      "sulfur": "85.000",
+      "metal": "140.000",
+      "stone": "225.000",
+      "scrap": "18.500"
+    },
+    {
+      "rank": 2,
+      "steamid": "76561198000000007",
+      "name": "FarmMaster2x",
+      "avatar": "https://avatars.steamstatic.com/63d70bb68414af829eb9f59419a44bab31ff70a3_full.jpg",
+      "total": "380.000",
+      "sulfur": "62.000",
+      "metal": "118.000",
+      "stone": "200.000",
+      "scrap": "14.200"
+    },
+    {
+      "rank": 3,
+      "steamid": "76561198000000008",
+      "name": "BuilderPro",
+      "avatar": "https://avatars.steamstatic.com/b909ae09b20c36a22b44df27edb2d1407bb2687d_full.jpg",
+      "total": "310.000",
+      "sulfur": "45.000",
+      "metal": "95.000",
+      "stone": "170.000",
+      "scrap": "11.000"
+    }
+  ],
+  "farming": [
+    {
+      "rank": 1,
+      "steamid": "76561198000000009",
+      "name": "FazendeiroHorizon",
+      "avatar": "https://avatars.steamstatic.com/f3a6f0ad96b5701ab8d412c4a72603422320899d_full.jpg",
+      "clones": "1.250",
+      "berries": "3.400",
+      "cloth": "8.900",
+      "fish": "145",
+      "potatoes": "2.100"
+    },
+    {
+      "rank": 2,
+      "steamid": "76561198000000010",
+      "name": "PescadorRust",
+      "avatar": "https://avatars.steamstatic.com/e2b19879b485aa05f7bda9dabfc311311f8ee920_full.jpg",
+      "clones": "980",
+      "berries": "2.800",
+      "cloth": "6.400",
+      "fish": "320",
+      "potatoes": "1.800"
+    }
+  ]
+}

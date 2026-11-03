@@ -1,0 +1,23 @@
+{
+  "name": "site-horizon",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node servidor.js",
+    "clonar": "node clonar.js",
+    "single": "node clonar.js --single",
+    "spa": "node clonar.js --spa"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "fs-extra": "^11.4.1",
+    "localtunnel": "^2.0.2",
+    "playwright": "^1.64.1",
+    "single-file-cli": "^2.22.0",
+    "website-scraper": "^6.0.0"
+  }
+}
