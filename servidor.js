@@ -1,3 +1,4 @@
+const crypto = require('crypto');
 // -------------------------------------------------------------
 // UTILITÁRIO: Busca avatar real do Steam via miniprofile (sem API Key)
 // -------------------------------------------------------------
@@ -407,8 +408,243 @@ function resolveFile(cleanUrl) {
   return null;
 }
 
+
+// -------------------------------------------------------------
+// SISTEMA DE AUTENTICAÇÃO STEAM OPENID 2.0
+// -------------------------------------------------------------
+const SESSION_SECRET = 'horizon-rust-session-secret-key-2026';
+
+function signData(data) {
+  return crypto.createHmac('sha256', SESSION_SECRET).update(data).digest('hex');
+}
+
+function parseCookies(req) {
+  const list = {};
+  const rc = req.headers.cookie;
+  if (rc) {
+    rc.split(';').forEach(cookie => {
+      const parts = cookie.split('=');
+      const name = parts.shift().trim();
+      if (name) {
+        try {
+          list[name] = decodeURIComponent(parts.join('='));
+        } catch (e) {
+          list[name] = parts.join('=');
+        }
+      }
+    });
+  }
+  return list;
+}
+
+function getSessionUser(req) {
+  const cookies = parseCookies(req);
+  const userJson = cookies['horizon_user'];
+  const sig = cookies['horizon_sig'];
+  if (!userJson || !sig) return null;
+  if (signData(userJson) !== sig) return null;
+  try {
+    return JSON.parse(userJson);
+  } catch (e) {
+    return null;
+  }
+}
+
+function getBaseUrl(req) {
+  const forwardedProto = req.headers['x-forwarded-proto'];
+  const forwardedHost = req.headers['x-forwarded-host'];
+  const host = forwardedHost || req.headers.host || 'localhost:3000';
+  const proto = forwardedProto || (host.includes('localhost') ? 'http' : 'https');
+  return `${proto}://${host}`;
+}
+
+function fetchSteamProfile(steamId64) {
+  const accountId = (BigInt(steamId64) - 76561197960265728n).toString();
+  const url = `https://steamcommunity.com/miniprofile/${accountId}/json/`;
+
+  return new Promise((resolve) => {
+    const req = https.get(url, { headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' }, timeout: 6000 }, (res) => {
+      let body = '';
+      res.on('data', chunk => { body += chunk; });
+      res.on('end', () => {
+        try {
+          const data = JSON.parse(body);
+          const name = data.persona_name || `Player_${steamId64.slice(-4)}`;
+          let avatar = data.avatar_url || DEFAULT_AVATAR;
+          avatar = avatar.replace(/\\\//g, '/');
+          resolve({ steamId: steamId64, steamid: steamId64, name, avatar, level: data.level || 0 });
+        } catch (e) {
+          resolve({ steamId: steamId64, steamid: steamId64, name: `Player_${steamId64.slice(-4)}`, avatar: DEFAULT_AVATAR });
+        }
+      });
+    });
+    req.on('error', () => {
+      resolve({ steamId: steamId64, steamid: steamId64, name: `Player_${steamId64.slice(-4)}`, avatar: DEFAULT_AVATAR });
+    });
+    req.on('timeout', () => {
+      req.destroy();
+      resolve({ steamId: steamId64, steamid: steamId64, name: `Player_${steamId64.slice(-4)}`, avatar: DEFAULT_AVATAR });
+    });
+  });
+}
+
 const server = http.createServer((req, res) => {
   const cleanUrl = req.url.split('?')[0];
+
+  // -------------------------------------------------------------
+  // ROTAS: AUTENTICAÇÃO STEAM OPENID
+  // -------------------------------------------------------------
+  if (cleanUrl === '/auth/steam') {
+    const baseUrl = getBaseUrl(req);
+    const returnTo = `${baseUrl}/auth/steam/return`;
+    const params = new URLSearchParams({
+      'openid.ns': 'http://specs.openid.net/auth/2.0',
+      'openid.mode': 'checkid_setup',
+      'openid.return_to': returnTo,
+      'openid.realm': `${baseUrl}/`,
+      'openid.identity': 'http://specs.openid.net/auth/2.0/identifier_select',
+      'openid.claimed_id': 'http://specs.openid.net/auth/2.0/identifier_select'
+    });
+    const steamLoginUrl = `https://steamcommunity.com/openid/login?${params.toString()}`;
+    console.log(`[Steam Auth] Redirecionando para login Steam oficial: ${returnTo}`);
+    res.writeHead(302, { 'Location': steamLoginUrl });
+    res.end();
+    return;
+  }
+
+  if (cleanUrl === '/auth/steam/return') {
+    const baseUrl = getBaseUrl(req);
+    const urlObj = new URL(req.url, baseUrl);
+    const searchParams = urlObj.searchParams;
+
+    if (searchParams.get('openid.mode') !== 'id_res') {
+      console.warn('[Steam Auth] Login cancelado pelo usuário na Steam.');
+      res.writeHead(302, { 'Location': '/?auth=cancelled' });
+      res.end();
+      return;
+    }
+
+    // Validação com o servidor OpenID da Steam
+    const verifyParams = new URLSearchParams();
+    for (const [key, value] of searchParams.entries()) {
+      verifyParams.append(key, value);
+    }
+    verifyParams.set('openid.mode', 'check_authentication');
+
+    const postData = verifyParams.toString();
+    const verifyReq = https.request('https://steamcommunity.com/openid/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Length': Buffer.byteLength(postData),
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
+      },
+      timeout: 10000
+    }, (verifyRes) => {
+      let body = '';
+      verifyRes.on('data', chunk => { body += chunk; });
+      verifyRes.on('end', async () => {
+        if (body.includes('is_valid:true')) {
+          const claimedId = searchParams.get('openid.claimed_id') || '';
+          const match = claimedId.match(/\/id\/(\d+)/);
+          const steamId = match ? match[1] : null;
+
+          if (!steamId) {
+            res.writeHead(302, { 'Location': '/?error=invalid_steam_id' });
+            res.end();
+            return;
+          }
+
+          console.log(`[Steam Auth] Jogador validado com sucesso! SteamID: ${steamId}`);
+          const profile = await fetchSteamProfile(steamId);
+          const userJson = JSON.stringify(profile);
+          const sig = signData(userJson);
+
+          const isHttps = baseUrl.startsWith('https');
+          const secureFlag = isHttps ? '; Secure' : '';
+
+          res.writeHead(302, {
+            'Location': '/?login=success',
+            'Set-Cookie': [
+              `horizon_user=${encodeURIComponent(userJson)}; Path=/; Max-Age=2592000; SameSite=Lax${secureFlag}`,
+              `horizon_sig=${sig}; Path=/; Max-Age=2592000; SameSite=Lax${secureFlag}; HttpOnly`
+            ]
+          });
+          res.end();
+        } else {
+          console.error('[Steam Auth] Falha na validação de assinatura Steam:', body);
+          res.writeHead(302, { 'Location': '/?error=steam_verification_failed' });
+          res.end();
+        }
+      });
+    });
+
+    verifyReq.on('error', (err) => {
+      console.error('[Steam Auth] Erro de rede ao contatar Steam:', err);
+      res.writeHead(302, { 'Location': '/?error=steam_network_error' });
+      res.end();
+    });
+
+    verifyReq.write(postData);
+    verifyReq.end();
+    return;
+  }
+
+  if (cleanUrl === '/auth/logout') {
+    res.writeHead(302, {
+      'Location': '/',
+      'Set-Cookie': [
+        'horizon_user=; Path=/; Max-Age=0; SameSite=Lax',
+        'horizon_sig=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax'
+      ]
+    });
+    res.end();
+    return;
+  }
+
+  // Rota de login simulado (útil para testes rápidos)
+  if (cleanUrl === '/auth/demo-login') {
+    const profile = {
+      steamId: '76561198358586780',
+      steamid: '76561198358586780',
+      name: 'Whillikat🌹',
+      avatar: 'https://avatars.fastly.steamstatic.com/22440c345d7bc45b6ef39a5ce3c01178f031fc21_full.jpg',
+      level: 21
+    };
+    const userJson = JSON.stringify(profile);
+    const sig = signData(userJson);
+    res.writeHead(302, {
+      'Location': '/?login=success',
+      'Set-Cookie': [
+        `horizon_user=${encodeURIComponent(userJson)}; Path=/; Max-Age=2592000; SameSite=Lax`,
+        `horizon_sig=${sig}; Path=/; Max-Age=2592000; SameSite=Lax; HttpOnly`
+      ]
+    });
+    res.end();
+    return;
+  }
+
+  if (cleanUrl === '/api/me') {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+    if (req.method === 'OPTIONS') {
+      res.writeHead(204);
+      res.end();
+      return;
+    }
+
+    const user = getSessionUser(req);
+    res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+    if (user) {
+      res.end(JSON.stringify({ authenticated: true, user }));
+    } else {
+      res.end(JSON.stringify({ authenticated: false }));
+    }
+    return;
+  }
+
 
   // -------------------------------------------------------------
   // API: SERVER STATUS (PLAYERS COUNT)
