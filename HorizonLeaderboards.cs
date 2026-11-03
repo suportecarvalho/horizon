@@ -22,7 +22,7 @@ namespace Oxide.Plugins
         public class Configuration
         {
             [JsonProperty("UrlDaApiDoSite")]
-            public string ApiUrl { get; set; } = "https://horizon-rust-br.loca.lt/api/leaderboard";
+            public string ApiUrl { get; set; } = "https://demanding-constraints-que-expense.trycloudflare.com/api/leaderboard";
 
             [JsonProperty("IntervaloDeSincronizacaoMinutos")]
             public int SyncIntervalMinutes { get; set; } = 5;
