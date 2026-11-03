@@ -817,6 +817,50 @@ const server = http.createServer((req, res) => {
   }
 
   // -------------------------------------------------------------
+  // API: FEED HORIZON (REDE SOCIAL EXCLUSIVA STEAM)
+  // -------------------------------------------------------------
+  if (cleanUrl === '/api/feed') {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+    if (req.method === 'OPTIONS') {
+      res.writeHead(204);
+      res.end();
+      return;
+    }
+
+    const feedHandler = require('./api/feed');
+
+    if (req.method === 'POST') {
+      let body = '';
+      req.on('data', chunk => { body += chunk; });
+      req.on('end', async () => {
+        try {
+          req.body = body ? JSON.parse(body) : {};
+        } catch (e) {
+          req.body = {};
+        }
+        try {
+          await feedHandler(req, res);
+        } catch (e) {
+          console.error('[API Feed] Erro no handler:', e);
+          res.writeHead(500, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Erro interno ao processar feed' }));
+        }
+      });
+      return;
+    }
+
+    Promise.resolve(feedHandler(req, res)).catch((e) => {
+      console.error('[API Feed] Erro no handler GET:', e);
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Erro interno ao processar feed' }));
+    });
+    return;
+  }
+
+  // -------------------------------------------------------------
   // ARQUIVOS ESTÁTICOS
   // -------------------------------------------------------------
   const target = resolveFile(cleanUrl);

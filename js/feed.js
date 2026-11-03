@@ -1,0 +1,569 @@
+/**
+ * Feed Horizon - Script Frontend da Rede Social Steam
+ */
+(function() {
+  'use strict';
+
+  let currentUser = null;
+  let allPosts = [];
+  let currentFilter = 'all';
+  let selectedTag = '📸 Screenshot';
+
+  // Elementos do DOM
+  const guestBox = document.getElementById('feed-guest-box');
+  const createBox = document.getElementById('feed-create-box');
+  const myAvatar = document.getElementById('my-avatar');
+  const myName = document.getElementById('my-name');
+  const postCaption = document.getElementById('post-caption');
+  const postImageUrl = document.getElementById('post-image-url');
+  const previewContainer = document.getElementById('image-preview-container');
+  const previewImg = document.getElementById('image-preview-img');
+  const previewRemoveBtn = document.getElementById('preview-remove-btn');
+  const tagSelector = document.getElementById('tag-selector');
+  const btnSubmitPost = document.getElementById('btn-submit-post');
+  const createPostMsg = document.getElementById('create-post-msg');
+  const feedFilterGroup = document.getElementById('feed-filter-group');
+  const feedTotalCount = document.getElementById('feed-total-count');
+  const postsStream = document.getElementById('feed-posts-stream');
+  const lightboxModal = document.getElementById('feed-lightbox-modal');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const lightboxCaption = document.getElementById('lightbox-caption');
+  const lightboxClose = document.getElementById('lightbox-close');
+  const toastEl = document.getElementById('feed-toast');
+
+  // Inicialização
+  async function init() {
+    setupEventListeners();
+    await checkAuth();
+    await fetchPosts();
+  }
+
+  // Verifica sessão Steam atual
+  async function checkAuth() {
+    try {
+      const res = await fetch('/api/me');
+      if (res.ok) {
+        const data = await res.json();
+        if (data.authenticated && data.user) {
+          currentUser = data.user;
+          renderAuthenticatedUser();
+          return;
+        }
+      }
+    } catch (e) {
+      console.warn('[Feed] Erro ao verificar sessão:', e);
+    }
+    renderGuest();
+  }
+
+  function renderAuthenticatedUser() {
+    if (guestBox) guestBox.style.display = 'none';
+    if (createBox) createBox.style.display = 'block';
+
+    const avatar = (currentUser.avatar || 'https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg').replace(/\\\//g, '/');
+    if (myAvatar) {
+      myAvatar.src = avatar;
+      myAvatar.alt = currentUser.name;
+    }
+    if (myName) {
+      myName.textContent = currentUser.name;
+    }
+  }
+
+  function renderGuest() {
+    if (guestBox) guestBox.style.display = 'flex';
+    if (createBox) createBox.style.display = 'none';
+  }
+
+  // Busca lista de posts
+  async function fetchPosts() {
+    try {
+      postsStream.innerHTML = `
+        <div style="text-align: center; padding: 48px 0; color: #71717a;">
+          <svg style="animation: spin 1s linear infinite; display: inline-block; width: 32px; height: 32px; margin-bottom: 12px; color: #D7573B;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle style="opacity: 0.25;" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path style="opacity: 0.75;" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+          <div style="font-weight: 700; font-size: 0.95rem;">Carregando publicações do Feed...</div>
+        </div>
+      `;
+
+      const res = await fetch('/api/feed');
+      if (!res.ok) throw new Error('Falha ao carregar feed');
+      allPosts = await res.json();
+      renderFeed();
+    } catch (e) {
+      console.error('[Feed] Erro ao carregar posts:', e);
+      postsStream.innerHTML = `
+        <div style="text-align: center; padding: 48px 16px; background: #171312; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px;">
+          <p style="color: #ef4444; font-weight: 700; margin-bottom: 12px;">Não foi possível carregar as publicações no momento.</p>
+          <button onclick="window.location.reload()" style="background: #27272a; color: #EDE8E5; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 700; cursor: pointer;">Tentar novamente</button>
+        </div>
+      `;
+    }
+  }
+
+  // Renderiza publicações filtradas
+  function renderFeed() {
+    let filtered = allPosts;
+    if (currentFilter !== 'all') {
+      filtered = allPosts.filter(p => (p.tag || '').toLowerCase().includes(currentFilter.toLowerCase()));
+    }
+
+    if (feedTotalCount) {
+      feedTotalCount.textContent = `${filtered.length} ${filtered.length === 1 ? 'publicação' : 'publicações'}`;
+    }
+
+    if (!filtered || filtered.length === 0) {
+      postsStream.innerHTML = `
+        <div style="text-align: center; padding: 60px 20px; background: #171312; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px;">
+          <div style="font-size: 2.2rem; margin-bottom: 12px;">📸</div>
+          <h3 style="margin: 0 0 6px; font-weight: 800; font-size: 1.1rem; color: #EDE8E5;">Nenhuma publicação encontrada</h3>
+          <p style="margin: 0; color: #71717a; font-size: 0.9rem;">Seja o primeiro sobrevivente a postar nesta categoria!</p>
+        </div>
+      `;
+      return;
+    }
+
+    const mySteamId = currentUser ? (currentUser.steamId || currentUser.steamid) : null;
+
+    postsStream.innerHTML = filtered.map(post => {
+      const likes = Array.isArray(post.likes) ? post.likes : [];
+      const comments = Array.isArray(post.comments) ? post.comments : [];
+      const hasLiked = mySteamId && likes.includes(mySteamId);
+      const authorAvatar = (post.author?.avatar || 'https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg').replace(/\\\//g, '/');
+      const authorName = escapeHtml(post.author?.name || 'Jogador');
+      const authorSteamId = post.author?.steamId || '';
+      const dateText = formatDate(post.createdAt);
+
+      return `
+        <article class="feed-card" id="${post.id}">
+          <!-- CABEÇALHO DO CARD -->
+          <div class="feed-card-header">
+            <a href="/leaderboards/${authorSteamId}" class="feed-author-box">
+              <img src="${authorAvatar}" alt="${authorName}" class="feed-author-avatar" onerror="this.onerror=null;this.src='https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg';">
+              <div>
+                <span class="feed-author-name">
+                  ${authorName}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6C978E" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                </span>
+                <span class="feed-post-meta">${dateText}</span>
+              </div>
+            </a>
+            <span class="feed-card-tag">${escapeHtml(post.tag || '📸 Screenshot')}</span>
+          </div>
+
+          <!-- MÍDIA / IMAGEM -->
+          <div class="feed-card-media" onclick="window.feedApp.openLightbox('${escapeHtml(post.imageUrl)}', '${escapeHtml(post.caption || '')}')">
+            <img src="${escapeHtml(post.imageUrl)}" alt="${escapeHtml(post.caption || 'Print Rust')}" loading="lazy" onerror="this.src='https://files.facepunch.com/lewis/2026/August/pt_hero.jpg'">
+          </div>
+
+          <!-- CORPO & LEGENDA -->
+          <div class="feed-card-body">
+            <div class="feed-card-caption">${escapeHtml(post.caption || '')}</div>
+
+            <!-- AÇÕES (CURTIR, COMENTAR, COMPARTILHAR) -->
+            <div class="feed-card-actions">
+              <button type="button" class="feed-action-btn ${hasLiked ? 'liked' : ''}" onclick="window.feedApp.toggleLike('${post.id}')" id="like-btn-${post.id}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                <span class="likes-count">${likes.length} curtida${likes.length === 1 ? '' : 's'}</span>
+              </button>
+
+              <button type="button" class="feed-action-btn" onclick="window.feedApp.toggleComments('${post.id}')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+                <span>${comments.length} comentário${comments.length === 1 ? '' : 's'}</span>
+              </button>
+
+              <button type="button" class="feed-action-btn" style="margin-left: auto;" onclick="window.feedApp.sharePost('${post.id}')" title="Compartilhar">
+                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- SEÇÃO DE COMENTÁRIOS -->
+          <div class="feed-comments-section" id="comments-sec-${post.id}">
+            <div id="comments-list-${post.id}">
+              ${comments.map(c => `
+                <div class="feed-comment-item">
+                  <img src="${(c.author?.avatar || 'https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg').replace(/\\\//g, '/')}" alt="${escapeHtml(c.author?.name || 'Jogador')}" class="feed-comment-avatar">
+                  <div class="feed-comment-content">
+                    <div class="feed-comment-user">
+                      <span>${escapeHtml(c.author?.name || 'Jogador')}</span>
+                      <span class="feed-comment-time">${formatDate(c.createdAt)}</span>
+                    </div>
+                    <div class="feed-comment-text">${escapeHtml(c.text || '')}</div>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+
+            <!-- CAMPO PARA COMENTAR -->
+            ${currentUser ? `
+              <div class="feed-comment-input-box">
+                <input type="text" id="comment-input-${post.id}" class="feed-comment-input" placeholder="Escreva um comentário..." onkeydown="if(event.key==='Enter') window.feedApp.submitComment('${post.id}')">
+                <button type="button" class="feed-comment-submit" onclick="window.feedApp.submitComment('${post.id}')">Enviar</button>
+              </div>
+            ` : `
+              <div style="font-size: 0.8rem; color: #71717a; text-align: center; padding: 8px 0;">
+                <a href="/auth/steam" style="color: #D7573B; font-weight: 700; text-decoration: underline;">Conecte sua Steam</a> para curtir e comentar nesta foto.
+              </div>
+            `}
+          </div>
+        </article>
+      `;
+    }).join('');
+  }
+
+  // Ação: Curtir / Descurtir
+  async function toggleLike(postId) {
+    if (!currentUser) {
+      showToast('⚠️ Entre com a Steam para curtir publicações!');
+      return;
+    }
+
+    const post = allPosts.find(p => p.id === postId);
+    if (!post) return;
+
+    const mySteamId = currentUser.steamId || currentUser.steamid;
+    if (!Array.isArray(post.likes)) post.likes = [];
+
+    // Otimista
+    const idx = post.likes.indexOf(mySteamId);
+    if (idx >= 0) {
+      post.likes.splice(idx, 1);
+    } else {
+      post.likes.push(mySteamId);
+    }
+    updateLikeButton(post);
+
+    try {
+      const res = await fetch('/api/feed', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'like', postId })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success) {
+          // Confirmado pelo backend
+        }
+      }
+    } catch (e) {
+      console.warn('[Feed] Erro ao enviar like:', e);
+    }
+  }
+
+  function updateLikeButton(post) {
+    const btn = document.getElementById(`like-btn-${post.id}`);
+    if (!btn) return;
+
+    const mySteamId = currentUser ? (currentUser.steamId || currentUser.steamid) : null;
+    const hasLiked = mySteamId && post.likes.includes(mySteamId);
+
+    if (hasLiked) {
+      btn.classList.add('liked');
+    } else {
+      btn.classList.remove('liked');
+    }
+
+    const counter = btn.querySelector('.likes-count');
+    if (counter) {
+      counter.textContent = `${post.likes.length} curtida${post.likes.length === 1 ? '' : 's'}`;
+    }
+  }
+
+  // Ação: Comentar
+  async function submitComment(postId) {
+    if (!currentUser) {
+      showToast('⚠️ Entre com a Steam para comentar!');
+      return;
+    }
+
+    const input = document.getElementById(`comment-input-${postId}`);
+    if (!input) return;
+
+    const text = input.value.trim();
+    if (!text) return;
+
+    input.value = '';
+    input.disabled = true;
+
+    try {
+      const res = await fetch('/api/feed', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'comment', postId, text })
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success && data.comment) {
+          const post = allPosts.find(p => p.id === postId);
+          if (post) {
+            if (!Array.isArray(post.comments)) post.comments = [];
+            post.comments.push(data.comment);
+          }
+
+          // Adiciona no DOM
+          const list = document.getElementById(`comments-list-${postId}`);
+          if (list) {
+            const commentItem = document.createElement('div');
+            commentItem.className = 'feed-comment-item';
+            commentItem.innerHTML = `
+              <img src="${(data.comment.author?.avatar || 'https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg').replace(/\\\//g, '/')}" alt="${escapeHtml(data.comment.author?.name || 'Jogador')}" class="feed-comment-avatar">
+              <div class="feed-comment-content">
+                <div class="feed-comment-user">
+                  <span>${escapeHtml(data.comment.author?.name || 'Jogador')}</span>
+                  <span class="feed-comment-time">agora mesmo</span>
+                </div>
+                <div class="feed-comment-text">${escapeHtml(data.comment.text || '')}</div>
+              </div>
+            `;
+            list.appendChild(commentItem);
+          }
+        }
+      } else {
+        const err = await res.json();
+        showToast(err.error || 'Erro ao enviar comentário');
+      }
+    } catch (e) {
+      console.error('[Feed] Erro ao comentar:', e);
+      showToast('Erro de conexão ao comentar.');
+    } finally {
+      input.disabled = false;
+      input.focus();
+    }
+  }
+
+  // Ação: Criar Postagem
+  async function handleCreatePost() {
+    if (!currentUser) {
+      showToast('⚠️ Entre com a Steam para publicar!');
+      return;
+    }
+
+    const caption = (postCaption.value || '').trim();
+    const imageUrl = (postImageUrl.value || '').trim();
+
+    if (!imageUrl) {
+      showMessage('Insira a URL de uma foto ou print para publicar.', true);
+      postImageUrl.focus();
+      return;
+    }
+
+    if (!caption) {
+      showMessage('Escreva uma legenda ou história sobre sua foto.', true);
+      postCaption.focus();
+      return;
+    }
+
+    btnSubmitPost.disabled = true;
+    btnSubmitPost.innerHTML = `
+      <svg style="animation: spin 1s linear infinite; width: 16px; height: 16px;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle style="opacity: 0.25;" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path style="opacity: 0.75;" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+      Publicando...
+    `;
+
+    try {
+      const res = await fetch('/api/feed', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'create',
+          caption,
+          imageUrl,
+          tag: selectedTag
+        })
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success && data.post) {
+          allPosts.unshift(data.post);
+          renderFeed();
+
+          // Limpa formulário
+          postCaption.value = '';
+          postImageUrl.value = '';
+          previewContainer.style.display = 'none';
+          previewImg.src = '';
+          showMessage('Publicação enviada com sucesso ao Feed Horizon! 🔥', false);
+          showToast('🎉 Sua foto foi publicada no Feed!');
+        }
+      } else {
+        const err = await res.json();
+        showMessage(err.error || 'Erro ao publicar.', true);
+      }
+    } catch (e) {
+      console.error('[Feed] Erro ao criar post:', e);
+      showMessage('Erro de conexão ao publicar.', true);
+    } finally {
+      btnSubmitPost.disabled = false;
+      btnSubmitPost.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"></path><path d="M22 2 11 13"></path></svg>
+        Publicar no Feed
+      `;
+    }
+  }
+
+  function showMessage(text, isError) {
+    if (!createPostMsg) return;
+    createPostMsg.textContent = text;
+    createPostMsg.style.color = isError ? '#ef4444' : '#22c55e';
+    createPostMsg.style.display = 'block';
+    setTimeout(() => {
+      createPostMsg.style.display = 'none';
+    }, 5000);
+  }
+
+  // Lightbox Modal
+  function openLightbox(imgSrc, caption) {
+    if (!lightboxModal) return;
+    lightboxImg.src = imgSrc;
+    lightboxCaption.textContent = caption || '';
+    lightboxModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    if (!lightboxModal) return;
+    lightboxModal.classList.remove('active');
+    lightboxImg.src = '';
+    document.body.style.overflow = '';
+  }
+
+  // Compartilhar post
+  function sharePost(postId) {
+    const url = `${window.location.origin}/feed#${postId}`;
+    navigator.clipboard.writeText(url).then(() => {
+      showToast('🔗 Link da publicação copiado!');
+    }).catch(() => {
+      showToast('Link: ' + url);
+    });
+  }
+
+  function showToast(msg) {
+    if (!toastEl) return;
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    setTimeout(() => {
+      toastEl.classList.remove('show');
+    }, 3200);
+  }
+
+  // Utilitários de Data & Escape
+  function formatDate(isoStr) {
+    if (!isoStr) return 'recentemente';
+    try {
+      const d = new Date(isoStr);
+      const diffMs = Date.now() - d.getTime();
+      const diffMin = Math.floor(diffMs / 60000);
+      const diffHrs = Math.floor(diffMin / 60);
+      const diffDays = Math.floor(diffHrs / 24);
+
+      if (diffMin < 2) return 'agora mesmo';
+      if (diffMin < 60) return `há ${diffMin} min`;
+      if (diffHrs < 24) return `há ${diffHrs}h`;
+      if (diffDays === 1) return 'ontem';
+      if (diffDays < 7) return `há ${diffDays} dias`;
+
+      return d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }) + ' às ' + d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    } catch (e) {
+      return 'recentemente';
+    }
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  // Event Listeners
+  function setupEventListeners() {
+    // URL input preview
+    if (postImageUrl) {
+      postImageUrl.addEventListener('input', () => {
+        const val = postImageUrl.value.trim();
+        if (val && (val.startsWith('http://') || val.startsWith('https://'))) {
+          previewImg.src = val;
+          previewContainer.style.display = 'block';
+        } else {
+          previewContainer.style.display = 'none';
+        }
+      });
+    }
+
+    if (previewRemoveBtn) {
+      previewRemoveBtn.addEventListener('click', () => {
+        postImageUrl.value = '';
+        previewContainer.style.display = 'none';
+        previewImg.src = '';
+      });
+    }
+
+    // Seletor de Tags
+    if (tagSelector) {
+      tagSelector.addEventListener('click', (e) => {
+        const pill = e.target.closest('.feed-tag-pill');
+        if (pill) {
+          tagSelector.querySelectorAll('.feed-tag-pill').forEach(p => p.classList.remove('active'));
+          pill.classList.add('active');
+          selectedTag = pill.getAttribute('data-tag') || '📸 Screenshot';
+        }
+      });
+    }
+
+    // Filtros
+    if (feedFilterGroup) {
+      feedFilterGroup.addEventListener('click', (e) => {
+        const btn = e.target.closest('.feed-filter-btn');
+        if (btn) {
+          feedFilterGroup.querySelectorAll('.feed-filter-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentFilter = btn.getAttribute('data-filter') || 'all';
+          renderFeed();
+        }
+      });
+    }
+
+    // Botão Submit Post
+    if (btnSubmitPost) {
+      btnSubmitPost.addEventListener('click', handleCreatePost);
+    }
+
+    // Lightbox
+    if (lightboxClose) {
+      lightboxClose.addEventListener('click', closeLightbox);
+    }
+    if (lightboxModal) {
+      lightboxModal.addEventListener('click', (e) => {
+        if (e.target === lightboxModal) closeLightbox();
+      });
+    }
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+  }
+
+  // Exporta métodos globais para inline onclicks
+  window.feedApp = {
+    toggleLike,
+    submitComment,
+    openLightbox,
+    sharePost,
+    toggleComments: (id) => {
+      const sec = document.getElementById(`comments-sec-${id}`);
+      if (sec) {
+        sec.style.display = (sec.style.display === 'none') ? 'block' : 'none';
+      }
+    }
+  };
+
+  // Inicia quando DOM estiver pronto
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();

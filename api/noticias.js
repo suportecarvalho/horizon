@@ -167,3 +167,4 @@ module.exports = async (req, res) => {
   const news = await fetchFacepunchNews();
   return res.status(200).json(news);
 };
+
