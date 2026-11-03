@@ -45,10 +45,10 @@ const MIME_TYPES = {
 // Cache de status do servidor Rust (A2S_INFO)
 let serverStatusCache = {
   data: {
-    online: true,
+    online: false,
     serverName: '[BR/LATAM] Horizon 2x | Solo/Duo/Trio',
     map: 'Procedural Map',
-    players: 2,
+    players: 0,
     maxPlayers: 100
   },
   lastFetch: 0
@@ -402,4 +402,17 @@ server.listen(PORT, () => {
   console.log(`  Leaderboards:       ${url}/leaderboards`);
   console.log(`  API Endpoint:       ${url}/api/leaderboard`);
   console.log(`==================================================\r\n`);
+
+  // Busca o status real do servidor Rust ao iniciar (warm-up do cache)
+  fetchLiveStatus().then(info => {
+    console.log(`[Status] Cache inicial: ${info.players} jogador(es) online no servidor Rust.`);
+  }).catch(() => {});
+
+  // Atualiza o status a cada 30 segundos em background (garante dado sempre fresco)
+  setInterval(() => {
+    serverStatusCache.lastFetch = 0; // força re-fetch
+    fetchLiveStatus().then(info => {
+      console.log(`[Status] Atualizado: ${info.players} jogador(es) online.`);
+    }).catch(() => {});
+  }, 30000);
 });
