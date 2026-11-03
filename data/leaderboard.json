@@ -1,61 +1,281 @@
 {
   "server": "Horizon 2x Solo/Duo/Trio",
-  "updated_at": "2026-11-03T11:00:00Z",
+  "updated_at": "2026-11-03T18:56:40.476Z",
   "pvp": [
     {
       "rank": 1,
-      "steamid": "76561198000000001",
-      "name": "HorizonSlayer",
-      "avatar": "https://avatars.steamstatic.com/983f461a43abc8d5450a5c1985e3cbce03dc7055_full.jpg",
-      "kd": "4.25",
-      "headshot_pct": "54.2%",
-      "kills": 142,
-      "deaths": 33,
-      "distance": "284m"
+      "steamid": "76561198772705540",
+      "name": "rodrygo9",
+      "avatar": "/images/rust_avatar_orange.svg",
+      "kd": "3,48",
+      "headshot_pct": "49,07%",
+      "kills": 108,
+      "deaths": 31,
+      "headshots": 53
     },
     {
       "rank": 2,
-      "steamid": "76561198000000002",
-      "name": "AK47_Beast",
+      "steamid": "76561198985731754",
+      "name": "Hot Witch",
       "avatar": "https://avatars.steamstatic.com/63d70bb68414af829eb9f59419a44bab31ff70a3_full.jpg",
-      "kd": "3.80",
-      "headshot_pct": "48.1%",
-      "kills": 118,
-      "deaths": 31,
-      "distance": "210m"
+      "kd": "9,00",
+      "headshot_pct": "52,78%",
+      "kills": 36,
+      "deaths": 4,
+      "headshots": 19
     },
     {
       "rank": 3,
-      "steamid": "76561198000000003",
-      "name": "RustGod_BR",
-      "avatar": "https://avatars.steamstatic.com/b909ae09b20c36a22b44df27edb2d1407bb2687d_full.jpg",
-      "kd": "3.15",
-      "headshot_pct": "42.0%",
-      "kills": 95,
-      "deaths": 30,
-      "distance": "175m"
+      "steamid": "76561199852001786",
+      "name": "jair messias bolsonaro",
+      "avatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
+      "kd": "2,06",
+      "headshot_pct": "65,71%",
+      "kills": 35,
+      "deaths": 17,
+      "headshots": 23
     },
     {
       "rank": 4,
-      "steamid": "76561198000000004",
-      "name": "SoloHunter",
-      "avatar": "https://avatars.steamstatic.com/f3a6f0ad96b5701ab8d412c4a72603422320899d_full.jpg",
-      "kd": "2.90",
-      "headshot_pct": "39.5%",
-      "kills": 84,
-      "deaths": 29,
-      "distance": "142m"
+      "steamid": "76561199031773152",
+      "name": "Facu",
+      "avatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
+      "kd": "4,14",
+      "headshot_pct": "51,72%",
+      "kills": 29,
+      "deaths": 7,
+      "headshots": 15
     },
     {
       "rank": 5,
-      "steamid": "76561198000000005",
-      "name": "TrioLeader",
+      "steamid": "76561198418226618",
+      "name": "badz",
+      "avatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
+      "kd": "1,47",
+      "headshot_pct": "60,71%",
+      "kills": 28,
+      "deaths": 19,
+      "headshots": 17
+    },
+    {
+      "rank": 6,
+      "steamid": "76561198172590581",
+      "name": "Teodoro",
+      "avatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
+      "kd": "1,24",
+      "headshot_pct": "61,90%",
+      "kills": 21,
+      "deaths": 17,
+      "headshots": 13
+    },
+    {
+      "rank": 7,
+      "steamid": "76561199234620639",
+      "name": "Primoメ",
+      "avatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
+      "kd": "1,00",
+      "headshot_pct": "45,00%",
+      "kills": 20,
+      "deaths": 20,
+      "headshots": 9
+    },
+    {
+      "rank": 8,
+      "steamid": "76561198417931064",
+      "name": "$nw",
+      "avatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
+      "kd": "6,33",
+      "headshot_pct": "36,84%",
+      "kills": 19,
+      "deaths": 3,
+      "headshots": 7
+    },
+    {
+      "rank": 9,
+      "steamid": "76561199406327575",
+      "name": "NOIR",
+      "avatar": "https://avatars.steamstatic.com/b909ae09b20c36a22b44df27edb2d1407bb2687d_full.jpg",
+      "kd": "19,00",
+      "headshot_pct": "21,05%",
+      "kills": 19,
+      "deaths": 1,
+      "headshots": 4
+    },
+    {
+      "rank": 10,
+      "steamid": "76561198233355408",
+      "name": "BolinhadeGorfe",
+      "avatar": "https://avatars.steamstatic.com/f3a6f0ad96b5701ab8d412c4a72603422320899d_full.jpg",
+      "kd": "0,86",
+      "headshot_pct": "38,89%",
+      "kills": 18,
+      "deaths": 21,
+      "headshots": 7
+    },
+    {
+      "rank": 11,
+      "steamid": "76561198975540069",
+      "name": "Pojak",
+      "avatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
+      "kd": "1,29",
+      "headshot_pct": "61,11%",
+      "kills": 18,
+      "deaths": 14,
+      "headshots": 11
+    },
+    {
+      "rank": 12,
+      "steamid": "76561198122692502",
+      "name": "BHC SKINS",
+      "avatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
+      "kd": "1,89",
+      "headshot_pct": "64,71%",
+      "kills": 17,
+      "deaths": 9,
+      "headshots": 11
+    },
+    {
+      "rank": 13,
+      "steamid": "76561198191808689",
+      "name": "BRUKING",
+      "avatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
+      "kd": "2,43",
+      "headshot_pct": "58,82%",
+      "kills": 17,
+      "deaths": 7,
+      "headshots": 10
+    },
+    {
+      "rank": 14,
+      "steamid": "76561199680845789",
+      "name": "lynconpatrick99",
+      "avatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
+      "kd": "8,50",
+      "headshot_pct": "29,41%",
+      "kills": 17,
+      "deaths": 2,
+      "headshots": 5
+    },
+    {
+      "rank": 15,
+      "steamid": "76561198028028923",
+      "name": "Lula#13",
       "avatar": "https://avatars.steamstatic.com/e2b19879b485aa05f7bda9dabfc311311f8ee920_full.jpg",
-      "kd": "2.65",
-      "headshot_pct": "37.8%",
-      "kills": 72,
-      "deaths": 27,
-      "distance": "160m"
+      "kd": "16,00",
+      "headshot_pct": "37,50%",
+      "kills": 16,
+      "deaths": 1,
+      "headshots": 6
+    },
+    {
+      "rank": 16,
+      "steamid": "76561198083042850",
+      "name": "®Alm- twitch.tv/alm47",
+      "avatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
+      "kd": "2,29",
+      "headshot_pct": "50,00%",
+      "kills": 16,
+      "deaths": 7,
+      "headshots": 8
+    },
+    {
+      "rank": 17,
+      "steamid": "76561198110039045",
+      "name": "NGM",
+      "avatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
+      "kd": "1,00",
+      "headshot_pct": "56,25%",
+      "kills": 16,
+      "deaths": 16,
+      "headshots": 9
+    },
+    {
+      "rank": 18,
+      "steamid": "76561198384402618",
+      "name": "lypao2214",
+      "avatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
+      "kd": "1,88",
+      "headshot_pct": "46,67%",
+      "kills": 15,
+      "deaths": 8,
+      "headshots": 7
+    },
+    {
+      "rank": 19,
+      "steamid": "76561198644684838",
+      "name": "Morxee",
+      "avatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
+      "kd": "1,36",
+      "headshot_pct": "60,00%",
+      "kills": 15,
+      "deaths": 11,
+      "headshots": 9
+    },
+    {
+      "rank": 20,
+      "steamid": "76561198691282711",
+      "name": "DOG DOG",
+      "avatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
+      "kd": "5,00",
+      "headshot_pct": "46,67%",
+      "kills": 15,
+      "deaths": 3,
+      "headshots": 7
+    },
+    {
+      "rank": 21,
+      "steamid": "76561198805020985",
+      "name": "mrntakbron",
+      "avatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
+      "kd": "3,00",
+      "headshot_pct": "26,67%",
+      "kills": 15,
+      "deaths": 5,
+      "headshots": 4
+    },
+    {
+      "rank": 22,
+      "steamid": "76561198860577287",
+      "name": "ᴬˡᵗˣ god4gamer",
+      "avatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
+      "kd": "3,75",
+      "headshot_pct": "26,67%",
+      "kills": 15,
+      "deaths": 4,
+      "headshots": 4
+    },
+    {
+      "rank": 23,
+      "steamid": "76561198822314925",
+      "name": "PackizinhoDoMal",
+      "avatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
+      "kd": "3,50",
+      "headshot_pct": "64,29%",
+      "kills": 14,
+      "deaths": 4,
+      "headshots": 9
+    },
+    {
+      "rank": 24,
+      "steamid": "76561198258317143",
+      "name": "unknown",
+      "avatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
+      "kd": "1,44",
+      "headshot_pct": "46,15%",
+      "kills": 13,
+      "deaths": 9,
+      "headshots": 6
+    },
+    {
+      "rank": 25,
+      "steamid": "76561198442094981",
+      "name": "GERMAN ! Sra.Grega",
+      "avatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
+      "kd": "0,43",
+      "headshot_pct": "69,23%",
+      "kills": 13,
+      "deaths": 30,
+      "headshots": 9
     }
   ],
   "recursos": [
@@ -116,5 +336,6 @@
       "fish": "320",
       "potatoes": "1.800"
     }
-  ]
+  ],
+  "wipe_total_players": 138
 }

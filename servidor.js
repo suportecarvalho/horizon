@@ -305,7 +305,17 @@ const server = http.createServer((req, res) => {
         try {
           const parsed = JSON.parse(body);
           parsed.updated_at = new Date().toISOString();
-          fs.writeFileSync(DATA_FILE, JSON.stringify(parsed, null, 2), 'utf-8');
+          const targetPaths = [
+            DATA_FILE,
+            path.join(__dirname, 'data', 'leaderboard.json'),
+            path.join(SITE_DIR, 'data', 'leaderboard.json')
+          ];
+          for (const tp of new Set(targetPaths)) {
+            try {
+              fs.mkdirSync(path.dirname(tp), { recursive: true });
+              fs.writeFileSync(tp, JSON.stringify(parsed, null, 2), 'utf-8');
+            } catch (errSync) {}
+          }
           console.log(`[API] Leaderboard atualizado pelo servidor Rust! Data: ${parsed.updated_at}`);
           res.writeHead(200, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ success: true, message: 'Dados do ranking atualizados com sucesso!' }));

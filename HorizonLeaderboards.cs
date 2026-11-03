@@ -203,6 +203,7 @@ namespace Oxide.Plugins
                         headshot_pct = $"{hsPct:0.0}%",
                         kills = p.Kills,
                         deaths = p.Deaths,
+                        headshots = p.Headshots,
                         distance = $"{(int)p.MaxKillDistance}m"
                     };
                 }).ToList();

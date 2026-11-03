@@ -196,7 +196,463 @@
       </div>
     </section>
   
-  <section class="servidores-faixa" id="servidor">
+  
+  
+  
+  <!-- SEÇÃO DE LEADERBOARDS (HORIZON RUST RANKING) -->
+  <style>
+    .hlb-avatar-img {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid rgba(215, 87, 59, 0.85);
+      display: block;
+      flex-shrink: 0;
+    }
+    .hlb-avatar-fallback {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #221d1b;
+      border: 1.5px solid #D7573B;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.95rem;
+      color: #EDE8E5;
+      flex-shrink: 0;
+    }
+    .hlb-row:hover {
+      background: rgba(255, 255, 255, 0.025);
+    }
+    .hlb-tab-btn:hover {
+      color: #FFFFFF !important;
+    }
+    #hlb-search-input:focus {
+      border-color: #D7573B;
+    }
+    @media (max-width: 640px) {
+      .hlb-header-toolbar {
+        flex-direction: column;
+        align-items: stretch !important;
+      }
+      .hlb-tabs-container {
+        width: 100%;
+        justify-content: space-between;
+      }
+      .hlb-tab-btn {
+        flex: 1;
+        justify-content: center;
+        padding: 9px 12px !important;
+        font-size: 0.78rem !important;
+      }
+      .hlb-search-wrap {
+        width: 100%;
+      }
+      #hlb-search-input {
+        width: 100% !important;
+      }
+    }
+  </style>
+  <section class="home-leaderboard-section" id="ranking" style="position: relative; background: #12100f; padding: 50px 0 65px 0; border-bottom: 1px solid rgba(108, 151, 142, 0.22); width: 100%;">
+    <div class="shell" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+      
+      <!-- Linha Superior: Abas e Busca -->
+      <div class="hlb-header-toolbar" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 16px;">
+        
+        <!-- Abas com Ícones -->
+        <div class="hlb-tabs-container" id="hlb-tabs" style="display: inline-flex; align-items: center; background: #181514; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; overflow: hidden; padding: 2px;">
+          <button type="button" class="hlb-tab-btn hlb-tab-active" data-tab="pvp" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; font-weight: 800; font-size: 0.86rem; text-transform: uppercase; letter-spacing: 0.06em; cursor: pointer; border: none; background: transparent; color: #FFFFFF; border-bottom: 2.5px solid #D7573B; transition: all 0.2s ease;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#D7573B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="12" r="1"></circle><circle cx="15" cy="12" r="1"></circle><path d="M8 20v2h8v-2"></path><path d="m12.5 17-.5-1-.5 1h1z"></path><path d="M16 20a2 2 0 0 0 1.56-3.25 8 8 0 1 0-11.12 0A2 2 0 0 0 8 20"></path></svg>
+            PVP
+          </button>
+          <button type="button" class="hlb-tab-btn" data-tab="recursos" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; font-weight: 800; font-size: 0.86rem; text-transform: uppercase; letter-spacing: 0.06em; cursor: pointer; border: none; background: transparent; color: #a1a1aa; border-bottom: 2.5px solid transparent; transition: all 0.2s ease;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 13-8.381 8.38a1 1 0 0 1-3.001-3L11 9.999"></path><path d="M15.973 4.027A13 13 0 0 0 5.902 2.373c-1.398.342-1.092 2.158.277 2.601a19.9 19.9 0 0 1 5.822 3.024"></path><path d="M16.001 11.999a19.9 19.9 0 0 1 3.024 5.824c.444 1.369 2.26 1.676 2.603.278A13 13 0 0 0 20 8.069"></path><path d="M18.352 3.352a1.205 1.205 0 0 0-1.704 0l-5.296 5.296a1.205 1.205 0 0 0 0 1.704l2.296 2.296a1.205 1.205 0 0 0 1.704 0l5.296-5.296a1.205 1.205 0 0 0 0-1.704z"></path></svg>
+            Recursos
+          </button>
+          <button type="button" class="hlb-tab-btn" data-tab="farming" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; font-weight: 800; font-size: 0.86rem; text-transform: uppercase; letter-spacing: 0.06em; cursor: pointer; border: none; background: transparent; color: #a1a1aa; border-bottom: 2.5px solid transparent; transition: all 0.2s ease;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10 11 11 .9a1 1 0 0 1 .8 1.1l-.665 4.158a1 1 0 0 1-.988.842H20"></path><path d="M16 18h-5"></path><path d="M18 5a1 1 0 0 0-1 1v5.573"></path><path d="M3 4h8.129a1 1 0 0 1 .99.863L13 11.246"></path><path d="M4 11V4"></path><path d="M7 15h.01"></path><path d="M8 10.1V4"></path><circle cx="18" cy="18" r="2"></circle><circle cx="7" cy="15" r="5"></circle></svg>
+            Farming
+          </button>
+        </div>
+
+        <!-- Campo de Busca e Botão -->
+        <div class="hlb-search-wrap" style="display: flex; align-items: center; background: #181514; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; overflow: hidden; height: 42px;">
+          <span style="display: flex; align-items: center; padding-left: 14px; color: #71717a;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+          </span>
+          <input type="text" id="hlb-search-input" placeholder="Buscar por nome ou SteamID..." style="background: transparent; border: none; outline: none; color: #EDE8E5; padding: 0 12px; font-size: 0.85rem; width: 230px;" autocomplete="off">
+          <button type="button" id="hlb-search-btn" style="background: #D7573B; color: #FFFFFF; font-weight: 800; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; border: none; padding: 0 18px; height: 100%; cursor: pointer; transition: background 0.2s ease;">BUSCAR</button>
+        </div>
+      </div>
+
+      <!-- Total de Jogadores no Wipe -->
+      <p id="hlb-wipe-count" style="font-family: monospace; font-size: 0.88rem; color: #a1a1aa; margin: 0 0 14px 4px;">
+        138 jogadores neste wipe
+      </p>
+
+      <!-- Cartão / Tabela -->
+      <div class="hlb-table-card" style="background: #161312; border: 1px solid rgba(108, 151, 142, 0.25); border-radius: 12px; overflow: hidden; box-shadow: 0 12px 35px rgba(0, 0, 0, 0.65);">
+        <div style="overflow-x: auto; width: 100%; -webkit-overflow-scrolling: touch;">
+          <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem;" id="hlb-main-table">
+            <thead id="hlb-table-head">
+              <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.08); background: rgba(0, 0, 0, 0.28);">
+                <th style="padding: 16px 12px; text-align: center; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; width: 60px; white-space: nowrap;">#</th>
+                <th style="padding: 16px 14px; text-align: left; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;">JOGADOR</th>
+                <th style="padding: 16px 14px; text-align: center; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;">KDR</th>
+                <th style="padding: 16px 14px; text-align: center; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;">% HS</th>
+                <th style="padding: 16px 14px; text-align: center; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;">KILLS</th>
+                <th style="padding: 16px 14px; text-align: center; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;">MORTES EM PVP</th>
+                <th style="padding: 16px 14px; text-align: center; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;">HEADSHOTS</th>
+              </tr>
+            </thead>
+            <tbody id="hlb-table-body">
+              
+    <tr class="hlb-row" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: background 0.15s ease;">
+      <td style="padding: 16px 12px; text-align: center; vertical-align: middle; white-space: nowrap;">
+        
+      <span style="display: inline-flex; align-items: center; justify-content: center; gap: 5px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path></svg>
+        <strong style="color: #eab308; font-size: 0.95rem; font-weight: 800;">1</strong>
+      </span>
+    
+      </td>
+      <td style="padding: 16px 14px; vertical-align: middle; white-space: nowrap;">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <img src="/images/rust_avatar_orange.svg" alt="rodrygo9" class="hlb-avatar-img">
+          <div style="display: flex; flex-direction: column; min-width: 0;">
+            <strong style="color: #FFFFFF; font-size: 0.94rem; font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase;">rodrygo9</strong>
+            <span style="color: #71717a; font-size: 0.74rem; font-family: monospace;">76561198772705540</span>
+          </div>
+        </div>
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #D7573B; font-weight: 900; font-size: 1.05rem; white-space: nowrap;">
+        3,48
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
+        49,07%
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 800; white-space: nowrap;">
+        108
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
+        31
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
+        53
+      </td>
+    </tr>
+  
+
+    <tr class="hlb-row" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: background 0.15s ease;">
+      <td style="padding: 16px 12px; text-align: center; vertical-align: middle; white-space: nowrap;">
+        
+      <span style="display: inline-flex; align-items: center; justify-content: center; gap: 5px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path></svg>
+        <strong style="color: #94a3b8; font-size: 0.95rem; font-weight: 800;">2</strong>
+      </span>
+    
+      </td>
+      <td style="padding: 16px 14px; vertical-align: middle; white-space: nowrap;">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <img src="https://avatars.steamstatic.com/63d70bb68414af829eb9f59419a44bab31ff70a3_full.jpg" alt="Hot Witch" class="hlb-avatar-img">
+          <div style="display: flex; flex-direction: column; min-width: 0;">
+            <strong style="color: #FFFFFF; font-size: 0.94rem; font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase;">Hot Witch</strong>
+            <span style="color: #71717a; font-size: 0.74rem; font-family: monospace;">76561198985731754</span>
+          </div>
+        </div>
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #D7573B; font-weight: 900; font-size: 1.05rem; white-space: nowrap;">
+        9,00
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
+        52,78%
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 800; white-space: nowrap;">
+        36
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
+        4
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
+        19
+      </td>
+    </tr>
+  
+
+    <tr class="hlb-row" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: background 0.15s ease;">
+      <td style="padding: 16px 12px; text-align: center; vertical-align: middle; white-space: nowrap;">
+        
+      <span style="display: inline-flex; align-items: center; justify-content: center; gap: 5px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path></svg>
+        <strong style="color: #d97706; font-size: 0.95rem; font-weight: 800;">3</strong>
+      </span>
+    
+      </td>
+      <td style="padding: 16px 14px; vertical-align: middle; white-space: nowrap;">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <span class="hlb-avatar-fallback">J</span>
+          <div style="display: flex; flex-direction: column; min-width: 0;">
+            <strong style="color: #FFFFFF; font-size: 0.94rem; font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase;">jair messias bolsonaro</strong>
+            <span style="color: #71717a; font-size: 0.74rem; font-family: monospace;">76561199852001786</span>
+          </div>
+        </div>
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #D7573B; font-weight: 900; font-size: 1.05rem; white-space: nowrap;">
+        2,06
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
+        65,71%
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 800; white-space: nowrap;">
+        35
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
+        17
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
+        23
+      </td>
+    </tr>
+  
+
+    <tr class="hlb-row" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: background 0.15s ease;">
+      <td style="padding: 16px 12px; text-align: center; vertical-align: middle; white-space: nowrap;">
+        <span style="color: #71717a; font-weight: 800; font-size: 0.95rem;">4</span>
+      </td>
+      <td style="padding: 16px 14px; vertical-align: middle; white-space: nowrap;">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <span class="hlb-avatar-fallback">F</span>
+          <div style="display: flex; flex-direction: column; min-width: 0;">
+            <strong style="color: #FFFFFF; font-size: 0.94rem; font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase;">Facu</strong>
+            <span style="color: #71717a; font-size: 0.74rem; font-family: monospace;">76561199031773152</span>
+          </div>
+        </div>
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #D7573B; font-weight: 900; font-size: 1.05rem; white-space: nowrap;">
+        4,14
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
+        51,72%
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 800; white-space: nowrap;">
+        29
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
+        7
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
+        15
+      </td>
+    </tr>
+  
+
+    <tr class="hlb-row" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: background 0.15s ease;">
+      <td style="padding: 16px 12px; text-align: center; vertical-align: middle; white-space: nowrap;">
+        <span style="color: #71717a; font-weight: 800; font-size: 0.95rem;">5</span>
+      </td>
+      <td style="padding: 16px 14px; vertical-align: middle; white-space: nowrap;">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <span class="hlb-avatar-fallback">B</span>
+          <div style="display: flex; flex-direction: column; min-width: 0;">
+            <strong style="color: #FFFFFF; font-size: 0.94rem; font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase;">badz</strong>
+            <span style="color: #71717a; font-size: 0.74rem; font-family: monospace;">76561198418226618</span>
+          </div>
+        </div>
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #D7573B; font-weight: 900; font-size: 1.05rem; white-space: nowrap;">
+        1,47
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
+        60,71%
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 800; white-space: nowrap;">
+        28
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
+        19
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
+        17
+      </td>
+    </tr>
+  
+
+    <tr class="hlb-row" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: background 0.15s ease;">
+      <td style="padding: 16px 12px; text-align: center; vertical-align: middle; white-space: nowrap;">
+        <span style="color: #71717a; font-weight: 800; font-size: 0.95rem;">6</span>
+      </td>
+      <td style="padding: 16px 14px; vertical-align: middle; white-space: nowrap;">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <span class="hlb-avatar-fallback">T</span>
+          <div style="display: flex; flex-direction: column; min-width: 0;">
+            <strong style="color: #FFFFFF; font-size: 0.94rem; font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase;">Teodoro</strong>
+            <span style="color: #71717a; font-size: 0.74rem; font-family: monospace;">76561198172590581</span>
+          </div>
+        </div>
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #D7573B; font-weight: 900; font-size: 1.05rem; white-space: nowrap;">
+        1,24
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
+        61,90%
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 800; white-space: nowrap;">
+        21
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
+        17
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
+        13
+      </td>
+    </tr>
+  
+
+    <tr class="hlb-row" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: background 0.15s ease;">
+      <td style="padding: 16px 12px; text-align: center; vertical-align: middle; white-space: nowrap;">
+        <span style="color: #71717a; font-weight: 800; font-size: 0.95rem;">7</span>
+      </td>
+      <td style="padding: 16px 14px; vertical-align: middle; white-space: nowrap;">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <span class="hlb-avatar-fallback">P</span>
+          <div style="display: flex; flex-direction: column; min-width: 0;">
+            <strong style="color: #FFFFFF; font-size: 0.94rem; font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase;">Primoメ</strong>
+            <span style="color: #71717a; font-size: 0.74rem; font-family: monospace;">76561199234620639</span>
+          </div>
+        </div>
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #D7573B; font-weight: 900; font-size: 1.05rem; white-space: nowrap;">
+        1,00
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
+        45,00%
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 800; white-space: nowrap;">
+        20
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
+        20
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
+        9
+      </td>
+    </tr>
+  
+
+    <tr class="hlb-row" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: background 0.15s ease;">
+      <td style="padding: 16px 12px; text-align: center; vertical-align: middle; white-space: nowrap;">
+        <span style="color: #71717a; font-weight: 800; font-size: 0.95rem;">8</span>
+      </td>
+      <td style="padding: 16px 14px; vertical-align: middle; white-space: nowrap;">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <span class="hlb-avatar-fallback">$</span>
+          <div style="display: flex; flex-direction: column; min-width: 0;">
+            <strong style="color: #FFFFFF; font-size: 0.94rem; font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase;">$nw</strong>
+            <span style="color: #71717a; font-size: 0.74rem; font-family: monospace;">76561198417931064</span>
+          </div>
+        </div>
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #D7573B; font-weight: 900; font-size: 1.05rem; white-space: nowrap;">
+        6,33
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
+        36,84%
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 800; white-space: nowrap;">
+        19
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
+        3
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
+        7
+      </td>
+    </tr>
+  
+
+    <tr class="hlb-row" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: background 0.15s ease;">
+      <td style="padding: 16px 12px; text-align: center; vertical-align: middle; white-space: nowrap;">
+        <span style="color: #71717a; font-weight: 800; font-size: 0.95rem;">9</span>
+      </td>
+      <td style="padding: 16px 14px; vertical-align: middle; white-space: nowrap;">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <img src="https://avatars.steamstatic.com/b909ae09b20c36a22b44df27edb2d1407bb2687d_full.jpg" alt="NOIR" class="hlb-avatar-img">
+          <div style="display: flex; flex-direction: column; min-width: 0;">
+            <strong style="color: #FFFFFF; font-size: 0.94rem; font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase;">NOIR</strong>
+            <span style="color: #71717a; font-size: 0.74rem; font-family: monospace;">76561199406327575</span>
+          </div>
+        </div>
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #D7573B; font-weight: 900; font-size: 1.05rem; white-space: nowrap;">
+        19,00
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
+        21,05%
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 800; white-space: nowrap;">
+        19
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
+        1
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
+        4
+      </td>
+    </tr>
+  
+
+    <tr class="hlb-row" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: background 0.15s ease;">
+      <td style="padding: 16px 12px; text-align: center; vertical-align: middle; white-space: nowrap;">
+        <span style="color: #71717a; font-weight: 800; font-size: 0.95rem;">10</span>
+      </td>
+      <td style="padding: 16px 14px; vertical-align: middle; white-space: nowrap;">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <img src="https://avatars.steamstatic.com/f3a6f0ad96b5701ab8d412c4a72603422320899d_full.jpg" alt="BolinhadeGorfe" class="hlb-avatar-img">
+          <div style="display: flex; flex-direction: column; min-width: 0;">
+            <strong style="color: #FFFFFF; font-size: 0.94rem; font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase;">BolinhadeGorfe</strong>
+            <span style="color: #71717a; font-size: 0.74rem; font-family: monospace;">76561198233355408</span>
+          </div>
+        </div>
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #D7573B; font-weight: 900; font-size: 1.05rem; white-space: nowrap;">
+        0,86
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
+        38,89%
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 800; white-space: nowrap;">
+        18
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
+        21
+      </td>
+      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
+        7
+      </td>
+    </tr>
+  
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Rodapé do Cartão com Link -->
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px 22px; border-top: 1px solid rgba(255, 255, 255, 0.06); background: rgba(0, 0, 0, 0.2); flex-wrap: wrap; gap: 12px;">
+          <span style="color: #82ADA4; font-size: 0.82rem; font-weight: 600;">
+            Exibindo os top jogadores sincronizados direto do servidor oficial Horizon
+          </span>
+          <a href="/leaderboards" class="group/button inline-flex items-center gap-2 rounded-lg border border-[rgba(108,151,142,0.4)] px-5 py-2 text-xs font-bold uppercase tracking-wider text-[#EDE8E5] hover:bg-[rgba(108,151,142,0.18)] transition-all" style="text-decoration: none;">
+            Ver Ranking Completo
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<section class="servidores-faixa" id="servidor">
     <div class="servidores-brilho" aria-hidden="true"></div>
     <section class="shell servidores">
       <div class="servidores-cabecalho">
@@ -253,113 +709,8 @@
       </div>
     </section>
   </section><section class="razoes-faixa"><div class="shell razoes"><div class="razoes-cabecalho"><p class="olho olho-marca">Por que jogar aqui?</p><h2 class="titulo titulo-secao">A experiência Rust Horizon</h2></div><div class="razoes-grade"><div class="razao"><span class="razao-icone" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-crosshair size-5" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="22" x2="18" y1="12" y2="12"></line><line x1="6" x2="2" y1="12" y2="12"></line><line x1="12" x2="12" y1="6" y2="2"></line><line x1="12" x2="12" y1="22" y2="18"></line></svg></span><h3 class="razao-titulo">PvP Intenso</h3><p class="razao-texto">Combates justos sem vantagens pagas. Apenas habilidade decide.</p></div><div class="razao"><span class="razao-icone" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-check size-5" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg></span><h3 class="razao-titulo">Anti-Cheat</h3><p class="razao-texto">Administração ativa 24/7 e EAC para garantir partidas limpas.</p></div><div class="razao"><span class="razao-icone" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-zap size-5" aria-hidden="true"><path d="M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z"></path></svg></span><h3 class="razao-titulo">Alta Performance</h3><p class="razao-texto">Servidor dedicado com baixa latência para jogadores brasileiros.</p></div><div class="razao"><span class="razao-icone" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users size-5" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg></span><h3 class="razao-titulo">Comunidade</h3><p class="razao-texto">Discord ativo com suporte, eventos e novidades do servidor.</p></div></div></div></section><section class="convite" id="comunidade"><div class="convite-brilho" aria-hidden="true"></div><div class="convite-conteudo"><p class="olho olho-marca">Comunidade</p><h2 class="titulo convite-titulo">Junte-se a nós</h2><p class="convite-texto">Entre no nosso Discord para acompanhar anúncios de wipe, suporte, eventos e se conectar com outros jogadores do Rust Horizon.</p><a href="https://discord.gg/VTu3m2MYeX" target="_blank" rel="noreferrer noopener" data-slot="button" data-variant="default" data-size="hero" class="group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&amp;_svg]:pointer-events-none [&amp;_svg]:shrink-0 [&amp;_svg:not([class*='size-'])]:size-4 bg-primary text-primary-foreground hover:brightness-110 btn-corte [--corte:12px] h-12 gap-2.5 px-7 font-heading text-[0.88rem] font-bold tracking-[0.07em] uppercase mt-3"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle" aria-hidden="true" data-icon="inline-start"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719"></path></svg>Entrar no Discord</a></div></section></main><footer class="site-footer"><div class="rodape-grade"><div class="flex flex-col gap-4"><a href="/" class="rodape-marca"><span>Rust<!-- --> <span style="color:var(--marca)">Horizon</span></span></a><p class="rodape-sobre">Servidores brasileiros de Rust. Vanilla Trio e 2X Trio. Wipe programado e regras claras.</p><div class="-ml-2 flex items-center gap-1"><a href="https://discord.gg/VTu3m2MYeX" target="_blank" rel="noreferrer noopener" aria-label="Discord" data-slot="button" data-variant="ghost" data-size="icon" class="group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&amp;_svg]:pointer-events-none [&amp;_svg]:shrink-0 [&amp;_svg:not([class*='size-'])]:size-4 hover:bg-muted aria-expanded:bg-muted aria-expanded:text-foreground dark:hover:bg-muted/50 size-8 text-[var(--text-muted)] hover:text-foreground"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M20.317 4.3698a19.7913 19.7913 0 0 0-4.8851-1.5152.0741.0741 0 0 0-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 0 0-.0785-.037 19.7363 19.7363 0 0 0-4.8852 1.515.0699.0699 0 0 0-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 0 0 .0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 0 0 .0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 0 0-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 0 1-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 0 1 .0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 0 1 .0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 0 1-.0066.1276 12.2986 12.2986 0 0 1-1.873.8914.0766.0766 0 0 0-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 0 0 .0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 0 0 .0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 0 0-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"></path></svg></a><a href="https://www.instagram.com/rusthorizonservers/" target="_blank" rel="noreferrer noopener" aria-label="Instagram" data-slot="button" data-variant="ghost" data-size="icon" class="group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&amp;_svg]:pointer-events-none [&amp;_svg]:shrink-0 [&amp;_svg:not([class*='size-'])]:size-4 hover:bg-muted aria-expanded:bg-muted aria-expanded:text-foreground dark:hover:bg-muted/50 size-8 text-[var(--text-muted)] hover:text-foreground"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm7.846-10.405a1.441 1.441 0 0 1-2.88 0 1.44 1.44 0 0 1 2.88 0z"></path></svg></a></div></div><nav aria-label="Servidores" class="flex flex-col gap-3"><h2 class="rodape-titulo">Servidores</h2><ul class="flex list-none flex-col gap-2 p-0"><li><a href="/loja/vanilla" class="rodape-link">Horizon 2x Solo/Duo/Trio</a></li><li><a href="/loja/2x" class="rodape-link">Horizon 2x Solo/Duo/Trio</a></li><li><a href="/loja/2x-solo" class="rodape-link">Horizon 2x Solo/Duo/Trio</a></li></ul></nav><nav aria-label="Navegação" class="flex flex-col gap-3"><h2 class="rodape-titulo">Navegação</h2><ul class="flex list-none flex-col gap-2 p-0"><li><a href="/loja" class="rodape-link">Loja</a></li><li><a href="/noticias" class="rodape-link">Notícias</a></li><li><a href="/perfil" class="rodape-link">Sua conta</a></li><li><a href="/leaderboards" class="rodape-link">Leaderboards</a></li></ul></nav><nav aria-label="Jurídico" class="flex flex-col gap-3"><h2 class="rodape-titulo">Jurídico</h2><ul class="flex list-none flex-col gap-2 p-0"><li><a href="/termos" class="rodape-link">Termos de uso</a></li><li><a href="/privacidade" class="rodape-link">Privacidade</a></li></ul></nav></div><div data-orientation="horizontal" role="none" data-slot="separator" class="shrink-0 data-horizontal:h-px data-horizontal:w-full data-vertical:w-px data-vertical:self-stretch my-8 bg-[var(--border)]"></div><div class="rodape-base"><p>© <!-- -->2026<!-- --> <!-- -->Rust Horizon<!-- -->. Todos os direitos reservados.</p><p>Rust Horizon não é afiliado à Facepunch Studios.</p></div><p class="mt-1 mb-0 text-[0.7rem] text-[var(--text-dim)] sm:text-right">Desenvolvido por<!-- --> <a href="https://discord.com/users/974662207851859979" target="_blank" rel="noreferrer noopener" class="rodape-link" style="font-size:inherit">Luiz Henrique</a></p></footer><!--$--><!--/$-->
-<script>
-  (function() {
-    function initHeroVideo() {
-      const v = document.querySelector('.hero-midia') || document.querySelector('video');
-      if (!v) return;
 
-      v.src = '/videos/rust_bg.mp4';
-      v.removeAttribute('poster');
-      v.muted = true;
-      v.defaultMuted = true;
-      v.playsInline = true;
-      v.loop = true;
-      v.setAttribute('muted', '');
-      v.setAttribute('autoplay', '');
-      v.setAttribute('playsinline', '');
-      v.setAttribute('loop', '');
 
-      const playPromise = v.play();
-      if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          // Se o autoplay foi bloqueado pelo navegador, tenta novamente com interação de toque/clique
-          const onInteract = () => {
-            v.play();
-            window.removeEventListener('click', onInteract);
-            window.removeEventListener('keydown', onInteract);
-          };
-          window.addEventListener('click', onInteract, { once: true });
-          window.addEventListener('keydown', onInteract, { once: true });
-        });
-      }
-    }
 
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initHeroVideo);
-    } else {
-      initHeroVideo();
-    }
-
-    // Atualização em tempo real da contagem de players conectados
-    window.__lastPlayerCount = '2';
-    function updateLivePlayers() {
-      fetch('/api/status')
-        .then(function(res) { return res.json(); })
-        .then(function(data) {
-          if (data && typeof data.players !== 'undefined') {
-            window.__lastPlayerCount = String(data.players);
-            var countEl = document.getElementById('hero-player-count');
-            var labelEl = document.getElementById('hero-player-label');
-            if (countEl) countEl.textContent = data.players;
-            if (labelEl) {
-              labelEl.textContent = data.players === 1 ? 'player conectado' : 'players conectados';
-            }
-          }
-        })
-        .catch(function() {});
-    }
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', updateLivePlayers);
-    } else {
-      updateLivePlayers();
-    }
-    setInterval(updateLivePlayers, 15000);
-
-    // Ajuste dinâmico responsivo da primeira dobra inteira (100vh)
-    function sincronizarDobraHero() {
-      try {
-        var hero = document.querySelector('.hero');
-        if (!hero) return;
-        var header = document.querySelector('.site-header');
-        var headerH = header ? header.getBoundingClientRect().height : 85;
-        var alturaDisponivel = Math.max(window.innerHeight - headerH, 400);
-        var alturaStr = alturaDisponivel + 'px';
-        if (hero.style.height !== alturaStr) {
-          hero.style.setProperty('height', alturaStr, 'important');
-          hero.style.setProperty('min-height', alturaStr, 'important');
-        }
-      } catch(e) {}
-    }
-    sincronizarDobraHero();
-    window.addEventListener('resize', sincronizarDobraHero);
-    window.addEventListener('orientationchange', sincronizarDobraHero);
-    window.addEventListener('DOMContentLoaded', sincronizarDobraHero);
-    window.addEventListener('load', sincronizarDobraHero);
-
-    // Monitora mutações para impedir que o React sobrescreva o vídeo ou o campo de players após a hidratação
-    const observer = new MutationObserver(() => {
-      sincronizarDobraHero();
-      const v = document.querySelector('.hero-midia') || document.querySelector('video');
-      if (v && v.getAttribute('src') !== '/videos/rust_bg.mp4') {
-        v.setAttribute('src', '/videos/rust_bg.mp4');
-        v.src = '/videos/rust_bg.mp4';
-        v.removeAttribute('poster');
-        v.muted = true;
-        v.play().catch(() => {});
-      }
-      var countEl = document.getElementById('hero-player-count');
-      if (!countEl) {
-        var olho = document.querySelector('.hero-olho .contagem');
-        if (olho && (olho.innerHTML.includes('ONLINE') || olho.innerHTML.includes('pronto para jogar'))) {
-          olho.innerHTML = '<span class="contagem-ponto" style="background: #22c55e;" aria-hidden="true"></span><span class="contagem-valor" id="hero-player-count">' + (window.__lastPlayerCount || '2') + '</span><span class="contagem-palavra" id="hero-player-label">' + ((window.__lastPlayerCount == '1') ? 'player conectado' : 'players conectados') + '</span>';
-        }
-      }
-    });
-
-    observer.observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['src'] });
-  })();
-</script>
-
+<script src="/js/home_leaderboard.js" defer></script>
 </body></html>
