@@ -238,7 +238,112 @@ function fetchLiveStatus(host = '179.198.115.201', port = 28016, timeoutMs = 250
   });
 }
 
+
+// -------------------------------------------------------------
+// CACHE E BUSCA DE NOTÍCIAS OFICIAIS DA FACEPUNCH (RUST)
+// -------------------------------------------------------------
+let newsCache = {
+  data: [
+    {
+      title: 'Halloween 2026',
+      date: '22 de outubro de 2026',
+      image: 'https://files.facepunch.com/ashley.cook/2026/October/Halloween_mansion_2_1080.jpg',
+      link: 'https://rust.facepunch.com/news/halloween-2026/',
+      description: 'Darkness falls upon the island as monsters re-awaken from their slumber. The rifts open in random locations, leading to who-knows-where. Enter if you dare!'
+    },
+    {
+      title: 'Livestock Update',
+      date: '1 de outubro de 2026',
+      image: 'https://files.facepunch.com/lewis/2026/September/livestock_blog.jpg',
+      link: 'https://rust.facepunch.com/news/livestock/',
+      description: "This month's update brings a major refresh to farming with the introduction of new Livestock animals, critters, and swimming improvements."
+    },
+    {
+      title: 'Breach and Clear',
+      date: '3 de setembro de 2026',
+      image: 'https://files.facepunch.com/lewis/2026/August/Skinkbreach-and-clear_media.jpg',
+      link: 'https://rust.facepunch.com/news/breach-and-clear/',
+      description: "This month's update brings you Monument Blockers, Breakable Attack Heli Armour, HQM Nodes, Upkeep Group Scaling, and various QoL fixes."
+    },
+    {
+      title: 'Power Trip',
+      date: '6 de agosto de 2026',
+      image: 'https://files.facepunch.com/lewis/2026/August/pt_hero.jpg',
+      link: 'https://rust.facepunch.com/news/power-trip/',
+      description: "This month's update brings you Player Maintained Monuments in the form of a new Satellite Crash, Dome Pumping, restorable power, and more."
+    }
+  ],
+  lastFetch: 0
+};
+
+function formatPtBrDate(dateStr) {
+  try {
+    const d = new Date(dateStr);
+    if (isNaN(d.getTime())) return dateStr;
+    const meses = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+    return `${d.getDate()} de ${meses[d.getMonth()]} de ${d.getFullYear()}`;
+  } catch(e) {
+    return dateStr;
+  }
+}
+
+function fetchFacepunchNews() {
+  const now = Date.now();
+  if (now - newsCache.lastFetch < 1800000 && newsCache.data && newsCache.data.length > 0) {
+    return Promise.resolve(newsCache.data);
+  }
+
+  return new Promise((resolve) => {
+    https.get('https://rust.facepunch.com/rss/news', { headers: { 'User-Agent': 'Mozilla/5.0' }, timeout: 6000 }, (res) => {
+      if (res.statusCode !== 200) return resolve(newsCache.data);
+      let b = '';
+      res.on('data', chunk => { b += chunk; });
+      res.on('end', () => {
+        try {
+          const items = b.match(/<item>[\s\S]*?<\/item>/g) || [];
+          if (items.length === 0) return resolve(newsCache.data);
+
+          const parsed = [];
+          for (let i = 0; i < Math.min(items.length, 6); i++) {
+            const it = items[i];
+            const title = (it.match(/<title>([\s\S]*?)<\/title>/) || [])[1] || '';
+            const link = (it.match(/<link>([\s\S]*?)<\/link>/) || [])[1] || '';
+            const pubDate = (it.match(/<pubDate>([\s\S]*?)<\/pubDate>/) || [])[1] || '';
+            const unescaped = it.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&amp;/g, '&');
+            let img = (unescaped.match(/src="([^"]+\.(?:jpg|png|jpeg|webp))"/i) || [])[1] || '';
+            if (!img && title.toLowerCase().includes('halloween')) {
+              img = 'https://files.facepunch.com/ashley.cook/2026/October/Halloween_mansion_2_1080.jpg';
+            }
+            if (!img) {
+              img = 'https://files.facepunch.com/lewis/1b2611b1/Rust%20x%20Common%20Grounds%20Hero.jpg';
+            }
+            const descMatch = unescaped.match(/<description>([\s\S]*?)<\/description>/);
+            let desc = descMatch ? descMatch[1].replace(/<[^>]+>/g, '').trim() : '';
+            if (desc.length > 150) desc = desc.slice(0, 147) + '...';
+
+            parsed.push({
+              title,
+              link,
+              date: formatPtBrDate(pubDate),
+              image: img,
+              description: desc
+            });
+            if (parsed.length >= 4) break;
+          }
+
+          if (parsed.length >= 4) {
+            newsCache = { data: parsed, lastFetch: Date.now() };
+            return resolve(parsed);
+          }
+        } catch(e) {}
+        resolve(newsCache.data);
+      });
+    }).on('error', () => resolve(newsCache.data));
+  });
+}
+
 function resolveFile(cleanUrl) {
+
   if (cleanUrl === '/single' || cleanUrl === '/menu') {
     return '__MENU__';
   }
@@ -308,7 +413,33 @@ const server = http.createServer((req, res) => {
   // -------------------------------------------------------------
   // API: SERVER STATUS (PLAYERS COUNT)
   // -------------------------------------------------------------
+  
+  // -------------------------------------------------------------
+  // API: NOTÍCIAS FACEPUNCH (RUST OFICIAL)
+  // -------------------------------------------------------------
+  if (cleanUrl === '/api/noticias') {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+    if (req.method === 'OPTIONS') {
+      res.writeHead(204);
+      res.end();
+      return;
+    }
+
+    fetchFacepunchNews().then((noticias) => {
+      res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+      res.end(JSON.stringify(noticias));
+    }).catch(() => {
+      res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+      res.end(JSON.stringify(newsCache.data));
+    });
+    return;
+  }
+
   if (cleanUrl === '/api/status') {
+
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
