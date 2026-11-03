@@ -4,6 +4,26 @@
   "trailingSlash": false,
   "rewrites": [
     {
+      "source": "/auth/steam",
+      "destination": "/api/auth/steam"
+    },
+    {
+      "source": "/auth/steam/return",
+      "destination": "/api/auth/return"
+    },
+    {
+      "source": "/api/auth/steam/return",
+      "destination": "/api/auth/return"
+    },
+    {
+      "source": "/auth/logout",
+      "destination": "/api/auth/logout"
+    },
+    {
+      "source": "/auth/demo-login",
+      "destination": "/api/auth/demo-login"
+    },
+    {
       "source": "/_next/static/css/:file*",
       "destination": "/css/:file*"
     },

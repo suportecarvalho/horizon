@@ -494,7 +494,7 @@ const server = http.createServer((req, res) => {
   // -------------------------------------------------------------
   // ROTAS: AUTENTICAÇÃO STEAM OPENID
   // -------------------------------------------------------------
-  if (cleanUrl === '/auth/steam') {
+  if (cleanUrl === '/auth/steam' || cleanUrl === '/api/auth/steam') {
     const baseUrl = getBaseUrl(req);
     const returnTo = `${baseUrl}/auth/steam/return`;
     const params = new URLSearchParams({
@@ -512,7 +512,7 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  if (cleanUrl === '/auth/steam/return') {
+  if (cleanUrl === '/auth/steam/return' || cleanUrl === '/api/auth/return' || cleanUrl === '/api/auth/steam/return') {
     const baseUrl = getBaseUrl(req);
     const urlObj = new URL(req.url, baseUrl);
     const searchParams = urlObj.searchParams;
@@ -590,7 +590,7 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  if (cleanUrl === '/auth/logout') {
+  if (cleanUrl === '/auth/logout' || cleanUrl === '/api/auth/logout') {
     res.writeHead(302, {
       'Location': '/',
       'Set-Cookie': [
@@ -603,7 +603,7 @@ const server = http.createServer((req, res) => {
   }
 
   // Rota de login simulado (útil para testes rápidos)
-  if (cleanUrl === '/auth/demo-login') {
+  if (cleanUrl === '/auth/demo-login' || cleanUrl === '/api/auth/demo-login') {
     const profile = {
       steamId: '76561198358586780',
       steamid: '76561198358586780',
