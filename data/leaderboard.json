@@ -1,7 +1,7 @@
 {
   "server": "Horizon 2x Solo/Duo/Trio",
   "wipe_total_players": 10,
-  "updated_at": "2026-11-03T20:11:14.335Z",
+  "updated_at": "2026-11-03T20:14:06.743Z",
   "pvp": [
     {
       "rank": 1,
@@ -119,11 +119,14 @@
       "name": "Dona Crotildis",
       "avatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
       "total": "48,389",
+      "stones": "27,000",
       "sulfur": "6,534",
       "metal": "14,400",
-      "stone": "27,000",
+      "hqm": "0",
       "wood": "455",
-      "scrap": "0"
+      "leather": "0",
+      "fat": "0",
+      "bone": "0"
     },
     {
       "rank": 2,
@@ -131,11 +134,14 @@
       "name": "TIÃO",
       "avatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
       "total": "32,874",
+      "stones": "11,100",
       "sulfur": "8,128",
       "metal": "4,800",
-      "stone": "11,100",
+      "hqm": "0",
       "wood": "8,846",
-      "scrap": "0"
+      "leather": "0",
+      "fat": "0",
+      "bone": "0"
     },
     {
       "rank": 3,
@@ -143,11 +149,14 @@
       "name": "ocuLTo",
       "avatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
       "total": "31,128",
+      "stones": "18,298",
       "sulfur": "1,015",
       "metal": "4,398",
-      "stone": "18,298",
+      "hqm": "0",
       "wood": "7,417",
-      "scrap": "0"
+      "leather": "0",
+      "fat": "0",
+      "bone": "0"
     },
     {
       "rank": 4,
@@ -155,23 +164,29 @@
       "name": "Cairo",
       "avatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
       "total": "3,523",
+      "stones": "0",
       "sulfur": "0",
       "metal": "0",
-      "stone": "0",
+      "hqm": "0",
       "wood": "3,523",
-      "scrap": "0"
+      "leather": "0",
+      "fat": "0",
+      "bone": "0"
     },
     {
       "rank": 5,
       "steamid": "76561198804497592",
       "name": "Revoltz_BR",
       "avatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
-      "total": "2,398",
+      "total": "2,053",
+      "stones": "750",
       "sulfur": "600",
       "metal": "300",
-      "stone": "750",
+      "hqm": "0",
       "wood": "403",
-      "scrap": "345"
+      "leather": "0",
+      "fat": "0",
+      "bone": "0"
     },
     {
       "rank": 6,
@@ -179,23 +194,29 @@
       "name": "Shadow 残忍的",
       "avatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
       "total": "180",
+      "stones": "0",
       "sulfur": "0",
       "metal": "0",
-      "stone": "0",
+      "hqm": "0",
       "wood": "180",
-      "scrap": "0"
+      "leather": "0",
+      "fat": "0",
+      "bone": "0"
     },
     {
       "rank": 7,
       "steamid": "76561198258143577",
       "name": "Negresco",
       "avatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
-      "total": "34",
+      "total": "26",
+      "stones": "0",
       "sulfur": "0",
       "metal": "20",
-      "stone": "0",
+      "hqm": "0",
       "wood": "6",
-      "scrap": "8"
+      "leather": "0",
+      "fat": "0",
+      "bone": "0"
     }
   ],
   "farming": [
@@ -204,22 +225,38 @@
       "steamid": "76561198258143577",
       "name": "Negresco",
       "avatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
-      "clones": "0",
-      "berries": "2",
+      "total": "180",
       "cloth": "180",
-      "fish": "0",
-      "potatoes": "0"
+      "yellow_berry": "0",
+      "red_berry": "0",
+      "blue_berry": "0",
+      "green_berry": "0",
+      "white_berry": "0",
+      "mushroom": "0",
+      "pumpkin": "0",
+      "corn": "0",
+      "potato": "0",
+      "wheat": "0",
+      "egg": "0"
     },
     {
       "rank": 2,
       "steamid": "76561199161530872",
       "name": "Dona Crotildis",
       "avatar": "https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg",
-      "clones": "0",
-      "berries": "0",
+      "total": "20",
       "cloth": "20",
-      "fish": "0",
-      "potatoes": "0"
+      "yellow_berry": "0",
+      "red_berry": "0",
+      "blue_berry": "0",
+      "green_berry": "0",
+      "white_berry": "0",
+      "mushroom": "0",
+      "pumpkin": "0",
+      "corn": "0",
+      "potato": "0",
+      "wheat": "0",
+      "egg": "0"
     }
   ]
 }
