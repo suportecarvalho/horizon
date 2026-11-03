@@ -463,3 +463,40 @@ footer.site-footer {
 }
 
 .site-footer-fullwidth-enforced { display: contents; }
+
+
+/* =========================================================
+   CABEÇALHO: ALINHADO AO COMEÇO DO CONTEÚDO (SHELL / GUTTER)
+   ========================================================= */
+.site-header {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  position: relative !important;
+  z-index: 50 !important;
+}
+
+.site-header-conteudo {
+  width: 100% !important;
+  max-width: var(--shell) !important;
+  margin: 0 auto !important;
+  padding-left: var(--gutter) !important;
+  padding-right: var(--gutter) !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  min-height: 75px !important;
+}
+
+.site-header-marca,
+.horizon-brand-logo {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+}
+
+.site-header-direita {
+  margin-left: auto !important;
+  margin-right: 0 !important;
+  padding-right: 0 !important;
+}
