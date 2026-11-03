@@ -159,19 +159,21 @@ video.hero-midia {
 }
 
 .hero-titulo {
-  font-size: clamp(2.2rem, 4.8vw, 4.2rem) !important;
-  line-height: 1.15 !important;
-  font-weight: 800 !important;
-  letter-spacing: -0.015em !important;
-  text-shadow: 0 4px 25px rgba(0, 0, 0, 0.9), 0 0 35px rgba(215, 87, 59, 0.35) !important;
+  font-size: clamp(2.2rem, 5vw, 4.2rem) !important;
+  line-height: 1.08 !important;
+  font-weight: 900 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.02em !important;
+  color: #EDE8E5 !important;
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.95), 0 2px 10px rgba(0, 0, 0, 0.8) !important;
   max-width: 1100px !important;
-  margin-top: 4px !important;
-  margin-bottom: 24px !important;
+  margin-top: 6px !important;
+  margin-bottom: 26px !important;
 }
 
 .hero-destaque {
   color: #D7573B !important;
-  text-shadow: 0 0 30px rgba(215, 87, 59, 0.75) !important;
+  text-shadow: 0 0 35px rgba(215, 87, 59, 0.7), 0 4px 25px rgba(0, 0, 0, 0.9) !important;
 }
 
 /* Card Principal do Servidor */
