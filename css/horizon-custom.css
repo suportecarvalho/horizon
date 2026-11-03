@@ -384,7 +384,7 @@ a.link-nav:hover {
 
 
 /* =========================================================
-   FOOTER LARGURA TOTAL (100% DA PÁGINA) & CRÉDITOS
+   RODAPÉ: FAIXA 100% COM CONTEÚDO ALINHADO AO SITE (MAX-WIDTH 1200px)
    ========================================================= */
 .site-footer,
 footer.site-footer {
@@ -392,15 +392,41 @@ footer.site-footer {
   max-width: 100% !important;
   margin: 0 !important;
   box-sizing: border-box !important;
-  padding: 56px clamp(20px, 4vw, 56px) 40px !important;
+  padding: 56px 0 40px 0 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background: var(--bg-alt, #11100f);
+}
+
+.site-footer > .shell,
+.site-footer > .site-footer-conteudo {
+  width: 100% !important;
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+  box-sizing: border-box !important;
+}
+
+/* Fallback para caso não haja o wrapper .shell */
+.site-footer > .rodape-grade,
+.site-footer > [data-orientation="horizontal"],
+.site-footer > [data-slot="separator"],
+.site-footer > .rodape-base,
+.site-footer > p {
+  width: 100% !important;
+  max-width: 1200px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+  box-sizing: border-box !important;
 }
 
 .rodape-grade {
-  width: 100% !important;
-  max-width: 100% !important;
   display: flex !important;
   flex-wrap: wrap !important;
   gap: 40px 48px !important;
+  width: 100% !important;
 }
 
 .rodape-grade > :first-child {
@@ -412,8 +438,13 @@ footer.site-footer {
 }
 
 .rodape-base {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: space-between !important;
+  gap: 8px 32px !important;
+  font-size: 0.85rem !important;
+  color: var(--text-dim) !important;
   width: 100% !important;
-  max-width: 100% !important;
 }
 
 /* Ícones de itens no Leaderboard */

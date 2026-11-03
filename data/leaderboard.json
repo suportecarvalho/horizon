@@ -1,7 +1,7 @@
 {
   "server": "Horizon 2x Solo/Duo/Trio",
-  "wipe_total_players": 15,
-  "updated_at": "2026-11-03T21:29:04.734Z",
+  "wipe_total_players": 17,
+  "updated_at": "2026-11-03T21:39:05.032Z",
   "pvp": [
     {
       "rank": 1,
@@ -17,6 +17,18 @@
     },
     {
       "rank": 2,
+      "steamid": "76561197981013423",
+      "name": "ocuLTo",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/533a3f64d59b5298fce27f093d04006a39541ebb_full.jpg",
+      "kd": "0.67",
+      "headshot_pct": "100.0%",
+      "kills": 2,
+      "deaths": 3,
+      "headshots": 2,
+      "distance": "3m"
+    },
+    {
+      "rank": 3,
       "steamid": "76561199161530872",
       "name": "Dona Crotildis",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/c51c1c8ca806f88f529a61bcc0b935fd8736233a_full.jpg",
@@ -28,7 +40,7 @@
       "distance": "1m"
     },
     {
-      "rank": 3,
+      "rank": 4,
       "steamid": "76561198358586780",
       "name": "Whillikat🌹",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/22440c345d7bc45b6ef39a5ce3c01178f031fc21_full.jpg",
@@ -38,18 +50,6 @@
       "deaths": 2,
       "headshots": 1,
       "distance": "1m"
-    },
-    {
-      "rank": 4,
-      "steamid": "76561197981013423",
-      "name": "ocuLTo",
-      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/533a3f64d59b5298fce27f093d04006a39541ebb_full.jpg",
-      "kd": "0.33",
-      "headshot_pct": "100.0%",
-      "kills": 1,
-      "deaths": 3,
-      "headshots": 1,
-      "distance": "0m"
     },
     {
       "rank": 5,
@@ -167,7 +167,31 @@
       "kd": "0.00",
       "headshot_pct": "0.0%",
       "kills": 0,
+      "deaths": 2,
+      "headshots": 0,
+      "distance": "0m"
+    },
+    {
+      "rank": 15,
+      "steamid": "76561198150996086",
+      "name": "MIL JANTARES",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/bc656245a56e1e560220bf231c9f9e4164d46fd9_full.jpg",
+      "kd": "0.00",
+      "headshot_pct": "0.0%",
+      "kills": 0,
       "deaths": 1,
+      "headshots": 0,
+      "distance": "0m"
+    },
+    {
+      "rank": 16,
+      "steamid": "76561199621926627",
+      "name": "Kaktуs",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/7596682ef71fa0287a8cbffabf102a9272ca4439_full.jpg",
+      "kd": "0.00",
+      "headshot_pct": "0.0%",
+      "kills": 0,
+      "deaths": 2,
       "headshots": 0,
       "distance": "0m"
     }
@@ -193,33 +217,48 @@
       "steamid": "76561197981013423",
       "name": "ocuLTo",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/533a3f64d59b5298fce27f093d04006a39541ebb_full.jpg",
-      "total": "44,207",
+      "total": "54,197",
       "stones": "20,037",
       "sulfur": "1,774",
       "metal": "8,346",
       "hqm": "0",
-      "wood": "13,890",
+      "wood": "23,854",
       "leather": "0",
-      "fat": "100",
-      "bone": "60"
+      "fat": "106",
+      "bone": "80"
     },
     {
       "rank": 3,
       "steamid": "76561198396729417",
       "name": "TIÃO",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/6db2ac365ae4ee52c350ac4e9a34fdbf013c64ce_full.jpg",
-      "total": "37,624",
-      "stones": "15,100",
+      "total": "39,844",
+      "stones": "17,100",
       "sulfur": "8,878",
       "metal": "4,800",
       "hqm": "0",
       "wood": "8,846",
+      "leather": "40",
+      "fat": "80",
+      "bone": "100"
+    },
+    {
+      "rank": 4,
+      "steamid": "76561198130679327",
+      "name": "KroOs",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/862c21ced0a62021a690881ed214dbe986e298f6_full.jpg",
+      "total": "8,519",
+      "stones": "730",
+      "sulfur": "150",
+      "metal": "1,110",
+      "hqm": "0",
+      "wood": "6,529",
       "leather": "0",
       "fat": "0",
       "bone": "0"
     },
     {
-      "rank": 4,
+      "rank": 5,
       "steamid": "76561198804497592",
       "name": "Revoltz_BR",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/aff41859f28f5b880c3e3b424bc97436596a925d_full.jpg",
@@ -234,7 +273,7 @@
       "bone": "473"
     },
     {
-      "rank": 5,
+      "rank": 6,
       "steamid": "76561198358586780",
       "name": "Whillikat🌹",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/22440c345d7bc45b6ef39a5ce3c01178f031fc21_full.jpg",
@@ -249,7 +288,22 @@
       "bone": "60"
     },
     {
-      "rank": 6,
+      "rank": 7,
+      "steamid": "76561198150996086",
+      "name": "MIL JANTARES",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/bc656245a56e1e560220bf231c9f9e4164d46fd9_full.jpg",
+      "total": "4,463",
+      "stones": "3,184",
+      "sulfur": "1,240",
+      "metal": "0",
+      "hqm": "0",
+      "wood": "37",
+      "leather": "0",
+      "fat": "0",
+      "bone": "2"
+    },
+    {
+      "rank": 8,
       "steamid": "76561198365369539",
       "name": "Cairo",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/c3c1f6bf05a3adbc21204fa31e34c2f5d8cf3bae_full.jpg",
@@ -264,22 +318,7 @@
       "bone": "0"
     },
     {
-      "rank": 7,
-      "steamid": "76561198130679327",
-      "name": "KroOs",
-      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/862c21ced0a62021a690881ed214dbe986e298f6_full.jpg",
-      "total": "2,923",
-      "stones": "730",
-      "sulfur": "150",
-      "metal": "1,110",
-      "hqm": "0",
-      "wood": "933",
-      "leather": "0",
-      "fat": "0",
-      "bone": "0"
-    },
-    {
-      "rank": 8,
+      "rank": 9,
       "steamid": "76561198258143577",
       "name": "Negresco",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/983f461a43abc8d5450a5c1985e3cbce03dc7055_full.jpg",
@@ -294,7 +333,7 @@
       "bone": "0"
     },
     {
-      "rank": 9,
+      "rank": 10,
       "steamid": "76561198750662826",
       "name": "Shadow 残忍的",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/d6b56e750bb82c85881229b63f3a1436a42857a3_full.jpg",
@@ -309,7 +348,7 @@
       "bone": "0"
     },
     {
-      "rank": 10,
+      "rank": 11,
       "steamid": "76561199127717531",
       "name": "七転び八起き",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/c5ff599f01c1c6496dbb96cc4321283e0b2cd8fd_full.jpg",
@@ -444,6 +483,25 @@
       "steamid": "76561199161530872",
       "name": "Dona Crotildis",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/c51c1c8ca806f88f529a61bcc0b935fd8736233a_full.jpg",
+      "total": "20",
+      "cloth": "20",
+      "yellow_berry": "0",
+      "red_berry": "0",
+      "blue_berry": "0",
+      "green_berry": "0",
+      "white_berry": "0",
+      "mushroom": "0",
+      "pumpkin": "0",
+      "corn": "0",
+      "potato": "0",
+      "wheat": "0",
+      "egg": "0"
+    },
+    {
+      "rank": 8,
+      "steamid": "76561198396729417",
+      "name": "TIÃO",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/6db2ac365ae4ee52c350ac4e9a34fdbf013c64ce_full.jpg",
       "total": "20",
       "cloth": "20",
       "yellow_berry": "0",
