@@ -607,7 +607,14 @@
 
       <textarea id="post-caption" class="feed-textarea" placeholder="O que aconteceu no servidor? Descreva a foto, coordenada ou jogada..." rows="3"></textarea>
 
-      <input type="url" id="post-image-url" class="feed-input-url" placeholder="🔗 Link da foto/print (ex: Imgur, Discord, Facepunch ou qualquer URL direta .jpg/.png)">
+      <div style="display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap;">
+        <input type="url" id="post-image-url" class="feed-input-url" style="margin-bottom: 0; flex: 1; min-width: 240px;" placeholder="🔗 Link da foto (ex: Imgur, Discord, Facepunch) ou clique ao lado ➔">
+        <label for="post-file-input" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: rgba(108, 151, 142, 0.18); border: 1px solid rgba(108, 151, 142, 0.45); color: #82ADA4; font-weight: 700; font-size: 0.82rem; padding: 0 16px; border-radius: 8px; cursor: pointer; height: 42px; white-space: nowrap; transition: all 0.2s ease;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+          📁 Escolher do PC
+          <input type="file" id="post-file-input" accept="image/png, image/jpeg, image/webp" style="display: none;">
+        </label>
+      </div>
 
       <!-- PREVIEW DA IMAGEM -->
       <div id="image-preview-container" class="feed-image-preview">

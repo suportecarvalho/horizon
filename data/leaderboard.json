@@ -1,7 +1,7 @@
 {
   "server": "Horizon 2x Solo/Duo/Trio",
   "wipe_total_players": 25,
-  "updated_at": "2026-11-03T23:29:06.686Z",
+  "updated_at": "2026-11-03T23:49:11.568Z",
   "pvp": [
     {
       "rank": 1,
@@ -191,7 +191,7 @@
       "kd": "0.00",
       "headshot_pct": "0.0%",
       "kills": 0,
-      "deaths": 8,
+      "deaths": 11,
       "headshots": 0,
       "distance": "0m"
     },
@@ -227,7 +227,7 @@
       "kd": "0.00",
       "headshot_pct": "0.0%",
       "kills": 0,
-      "deaths": 3,
+      "deaths": 4,
       "headshots": 0,
       "distance": "0m"
     },
@@ -239,12 +239,24 @@
       "kd": "0.00",
       "headshot_pct": "0.0%",
       "kills": 0,
-      "deaths": 1,
+      "deaths": 3,
       "headshots": 0,
       "distance": "0m"
     },
     {
       "rank": 21,
+      "steamid": "76561198153384874",
+      "name": "Memes",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/f1c5bb494247c1e0410d569aac1f3e84394114cd_full.jpg",
+      "kd": "0.00",
+      "headshot_pct": "0.0%",
+      "kills": 0,
+      "deaths": 1,
+      "headshots": 0,
+      "distance": "0m"
+    },
+    {
+      "rank": 22,
       "steamid": "76561198858376648",
       "name": "_KING_ON_",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/5f2924aed147abc9918d4305b7002b763c5903c4_full.jpg",
@@ -256,7 +268,7 @@
       "distance": "0m"
     },
     {
-      "rank": 22,
+      "rank": 23,
       "steamid": "76561198689463964",
       "name": "Мария о май гад",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/27b0e58f0de1ba8ea1a3bf1b07ec77e26011e0e4_full.jpg",
@@ -268,7 +280,7 @@
       "distance": "0m"
     },
     {
-      "rank": 23,
+      "rank": 24,
       "steamid": "76561198290054756",
       "name": "cris",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/b3ed9143eff3e4be5289a2f90f99a0796b9fd248_full.jpg",
@@ -276,6 +288,18 @@
       "headshot_pct": "0.0%",
       "kills": 0,
       "deaths": 1,
+      "headshots": 0,
+      "distance": "0m"
+    },
+    {
+      "rank": 25,
+      "steamid": "76561198280930794",
+      "name": "JAIROL",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/34adcd2a2c63e40ce323f872f4781ef5ee322413_full.jpg",
+      "kd": "0.00",
+      "headshot_pct": "0.0%",
+      "kills": 0,
+      "deaths": 4,
       "headshots": 0,
       "distance": "0m"
     }
@@ -376,15 +400,15 @@
       "steamid": "76561198280930794",
       "name": "JAIROL",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/34adcd2a2c63e40ce323f872f4781ef5ee322413_full.jpg",
-      "total": "18,522",
-      "stones": "10,430",
+      "total": "21,654",
+      "stones": "10,730",
       "sulfur": "0",
       "metal": "0",
       "hqm": "0",
-      "wood": "8,032",
-      "leather": "0",
-      "fat": "0",
-      "bone": "60"
+      "wood": "10,200",
+      "leather": "160",
+      "fat": "160",
+      "bone": "404"
     },
     {
       "rank": 8,
@@ -436,7 +460,7 @@
       "steamid": "76561198103340805",
       "name": "Gerits",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/2554fe13bbd6b2ebcdde8e075abdc85c7a85afec_full.jpg",
-      "total": "4,039",
+      "total": "4,099",
       "stones": "900",
       "sulfur": "1,500",
       "metal": "600",
@@ -444,7 +468,7 @@
       "wood": "959",
       "leather": "0",
       "fat": "20",
-      "bone": "60"
+      "bone": "120"
     },
     {
       "rank": 12,
@@ -581,8 +605,8 @@
       "steamid": "76561198103340805",
       "name": "Gerits",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/2554fe13bbd6b2ebcdde8e075abdc85c7a85afec_full.jpg",
-      "total": "387",
-      "cloth": "380",
+      "total": "427",
+      "cloth": "420",
       "yellow_berry": "0",
       "red_berry": "0",
       "blue_berry": "0",
@@ -654,6 +678,25 @@
     },
     {
       "rank": 7,
+      "steamid": "76561198280930794",
+      "name": "JAIROL",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/34adcd2a2c63e40ce323f872f4781ef5ee322413_full.jpg",
+      "total": "241",
+      "cloth": "238",
+      "yellow_berry": "0",
+      "red_berry": "0",
+      "blue_berry": "0",
+      "green_berry": "0",
+      "white_berry": "0",
+      "mushroom": "3",
+      "pumpkin": "0",
+      "corn": "0",
+      "potato": "0",
+      "wheat": "0",
+      "egg": "0"
+    },
+    {
+      "rank": 8,
       "steamid": "76561199208470397",
       "name": "dba3456789",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/25d0a75726818b92ad0725b14f3626c4e9809003_full.jpg",
@@ -672,7 +715,7 @@
       "egg": "0"
     },
     {
-      "rank": 8,
+      "rank": 9,
       "steamid": "76561198131184791",
       "name": "Caique",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/626bbb7465867eefb8c7c536c5b332fb9ca47af9_full.jpg",
@@ -691,7 +734,7 @@
       "egg": "0"
     },
     {
-      "rank": 9,
+      "rank": 10,
       "steamid": "76561198258143577",
       "name": "Negresco",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/983f461a43abc8d5450a5c1985e3cbce03dc7055_full.jpg",
@@ -703,25 +746,6 @@
       "green_berry": "0",
       "white_berry": "0",
       "mushroom": "0",
-      "pumpkin": "0",
-      "corn": "0",
-      "potato": "0",
-      "wheat": "0",
-      "egg": "0"
-    },
-    {
-      "rank": 10,
-      "steamid": "76561198280930794",
-      "name": "JAIROL",
-      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/34adcd2a2c63e40ce323f872f4781ef5ee322413_full.jpg",
-      "total": "137",
-      "cloth": "134",
-      "yellow_berry": "0",
-      "red_berry": "0",
-      "blue_berry": "0",
-      "green_berry": "0",
-      "white_berry": "0",
-      "mushroom": "3",
       "pumpkin": "0",
       "corn": "0",
       "potato": "0",

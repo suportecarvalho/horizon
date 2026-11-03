@@ -8,6 +8,8 @@
   let allPosts = [];
   let currentFilter = 'all';
   let selectedTag = '📸 Screenshot';
+  let selectedFileBase64 = null;
+  let selectedFileObj = null;
 
   // Elementos do DOM
   const guestBox = document.getElementById('feed-guest-box');
@@ -16,6 +18,7 @@
   const myName = document.getElementById('my-name');
   const postCaption = document.getElementById('post-caption');
   const postImageUrl = document.getElementById('post-image-url');
+  const postFileInput = document.getElementById('post-file-input');
   const previewContainer = document.getElementById('image-preview-container');
   const previewImg = document.getElementById('image-preview-img');
   const previewRemoveBtn = document.getElementById('preview-remove-btn');
@@ -340,10 +343,10 @@
     }
 
     const caption = (postCaption.value || '').trim();
-    const imageUrl = (postImageUrl.value || '').trim();
+    let imageUrl = (postImageUrl.value || '').trim();
 
-    if (!imageUrl) {
-      showMessage('Insira a URL de uma foto ou print para publicar.', true);
+    if (!imageUrl && !selectedFileBase64) {
+      showMessage('Insira a URL de uma foto ou escolha uma do seu PC para publicar.', true);
       postImageUrl.focus();
       return;
     }
@@ -361,6 +364,35 @@
     `;
 
     try {
+      // Se tiver arquivo selecionado do PC, tenta upload no Supabase Storage
+      if (selectedFileBase64) {
+        try {
+          const uploadRes = await fetch('/api/feed', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              action: 'upload',
+              image: selectedFileBase64,
+              filename: selectedFileObj ? selectedFileObj.name : `print_${Date.now()}.jpg`,
+              mimeType: selectedFileObj ? selectedFileObj.type : 'image/jpeg'
+            })
+          });
+
+          if (uploadRes.ok) {
+            const uploadData = await uploadRes.json();
+            if (uploadData.success && uploadData.url) {
+              imageUrl = uploadData.url;
+            } else {
+              imageUrl = selectedFileBase64;
+            }
+          } else {
+            imageUrl = selectedFileBase64;
+          }
+        } catch (upErr) {
+          imageUrl = selectedFileBase64;
+        }
+      }
+
       const res = await fetch('/api/feed', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -381,6 +413,9 @@
           // Limpa formulário
           postCaption.value = '';
           postImageUrl.value = '';
+          selectedFileBase64 = null;
+          selectedFileObj = null;
+          if (postFileInput) postFileInput.value = '';
           previewContainer.style.display = 'none';
           previewImg.src = '';
           showMessage('Publicação enviada com sucesso ao Feed Horizon! 🔥', false);
@@ -486,17 +521,45 @@
       postImageUrl.addEventListener('input', () => {
         const val = postImageUrl.value.trim();
         if (val && (val.startsWith('http://') || val.startsWith('https://'))) {
+          selectedFileBase64 = null;
+          selectedFileObj = null;
           previewImg.src = val;
           previewContainer.style.display = 'block';
-        } else {
+        } else if (!selectedFileBase64) {
           previewContainer.style.display = 'none';
         }
+      });
+    }
+
+    // Input de arquivo do PC
+    if (postFileInput) {
+      postFileInput.addEventListener('change', (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+
+        if (file.size > 8 * 1024 * 1024) {
+          showToast('⚠️ A imagem deve ter no máximo 8MB.');
+          return;
+        }
+
+        selectedFileObj = file;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          selectedFileBase64 = ev.target.result;
+          previewImg.src = selectedFileBase64;
+          previewContainer.style.display = 'block';
+          postImageUrl.value = file.name;
+        };
+        reader.readAsDataURL(file);
       });
     }
 
     if (previewRemoveBtn) {
       previewRemoveBtn.addEventListener('click', () => {
         postImageUrl.value = '';
+        selectedFileBase64 = null;
+        selectedFileObj = null;
+        if (postFileInput) postFileInput.value = '';
         previewContainer.style.display = 'none';
         previewImg.src = '';
       });

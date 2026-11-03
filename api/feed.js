@@ -1,45 +1,5 @@
-const fs = require('fs');
-const path = require('path');
 const { getSessionUser } = require('./_auth');
-
-const DATA_FILE = path.join(process.cwd(), 'data', 'feed.json');
-const TMP_FILE = '/tmp/feed.json';
-
-// Cache em memória durante execução do ambiente serverless
-let memoryPosts = null;
-
-function loadPosts() {
-  if (memoryPosts) return memoryPosts;
-
-  try {
-    if (fs.existsSync(TMP_FILE)) {
-      const content = fs.readFileSync(TMP_FILE, 'utf-8');
-      memoryPosts = JSON.parse(content);
-      return memoryPosts;
-    }
-  } catch (e) {}
-
-  try {
-    if (fs.existsSync(DATA_FILE)) {
-      const content = fs.readFileSync(DATA_FILE, 'utf-8');
-      memoryPosts = JSON.parse(content);
-      return memoryPosts;
-    }
-  } catch (e) {}
-
-  memoryPosts = [];
-  return memoryPosts;
-}
-
-function savePosts(posts) {
-  memoryPosts = posts;
-  try {
-    fs.writeFileSync(DATA_FILE, JSON.stringify(posts, null, 2), 'utf-8');
-  } catch (e) {}
-  try {
-    fs.writeFileSync(TMP_FILE, JSON.stringify(posts, null, 2), 'utf-8');
-  } catch (e) {}
-}
+const db = require('./_db');
 
 module.exports = async (req, res) => {
   if (!res.status) {
@@ -64,19 +24,23 @@ module.exports = async (req, res) => {
     return res.status(200).end();
   }
 
-  const posts = loadPosts();
-
-  // GET: Retorna lista de posts do feed
+  // GET: Retorna posts do feed (via Supabase ou Fallback)
   if (req.method === 'GET') {
-    return res.status(200).json(posts);
+    try {
+      const posts = await db.getPosts();
+      return res.status(200).json(posts);
+    } catch (e) {
+      console.error('[API Feed] Erro ao listar posts:', e);
+      return res.status(500).json({ error: 'Erro ao carregar publicações' });
+    }
   }
 
-  // POST: Ações interativas (criar post, curtir, comentar)
+  // POST: Ações autenticadas com Steam
   if (req.method === 'POST') {
     const user = getSessionUser(req);
     if (!user) {
       return res.status(401).json({
-        error: 'Você precisa estar logado com a Steam para interagir no Feed!'
+        error: 'Você precisa estar conectado com a Steam para realizar esta ação!'
       });
     }
 
@@ -90,115 +54,117 @@ module.exports = async (req, res) => {
     }
     body = body || {};
 
-    const action = body.action || req.query.action || 'create';
+    const action = body.action || req.query?.action || 'create';
 
-    // 1. CURTIR / DESCURTIR
-    if (action === 'like') {
-      const postId = body.postId || req.query.postId;
-      const post = posts.find(p => p.id === postId);
-      if (!post) {
-        return res.status(404).json({ error: 'Publicação não encontrada' });
+    // 1. UPLOAD DE FOTO (Base64)
+    if (action === 'upload') {
+      const base64Data = body.image || body.base64;
+      const filename = body.filename || `print_${Date.now()}.jpg`;
+      const mimeType = body.mimeType || 'image/jpeg';
+
+      if (!base64Data) {
+        return res.status(400).json({ error: 'Nenhuma imagem enviada' });
       }
 
-      if (!Array.isArray(post.likes)) post.likes = [];
-      const userSteamId = user.steamId || user.steamid;
-      const idx = post.likes.indexOf(userSteamId);
+      try {
+        const cleanBase64 = base64Data.replace(/^data:image\/\w+;base64,/, '');
+        const buffer = Buffer.from(cleanBase64, 'base64');
 
-      let hasLiked = false;
-      if (idx >= 0) {
-        post.likes.splice(idx, 1);
-        hasLiked = false;
-      } else {
-        post.likes.push(userSteamId);
-        hasLiked = true;
+        const uploadResult = await db.uploadImage({ buffer, mimeType, filename });
+        if (uploadResult.success && uploadResult.url) {
+          return res.status(200).json({ success: true, url: uploadResult.url });
+        } else {
+          return res.status(400).json({
+            error: uploadResult.error || 'Armazenamento de fotos ainda não configurado no Supabase. Use o link direto da imagem.'
+          });
+        }
+      } catch (e) {
+        console.error('[API Feed] Erro ao processar upload:', e);
+        return res.status(500).json({ error: 'Falha no processamento da imagem' });
       }
-
-      savePosts(posts);
-      return res.status(200).json({
-        success: true,
-        likesCount: post.likes.length,
-        hasLiked
-      });
     }
 
-    // 2. COMENTAR
+    // 2. CURTIR / DESCURTIR
+    if (action === 'like') {
+      const postId = body.postId || req.query?.postId;
+      if (!postId) {
+        return res.status(400).json({ error: 'postId obrigatório' });
+      }
+
+      try {
+        const result = await db.toggleLike({
+          postId,
+          steamId: user.steamId || user.steamid
+        });
+        return res.status(200).json(result);
+      } catch (e) {
+        return res.status(404).json({ error: e.message || 'Publicação não encontrada' });
+      }
+    }
+
+    // 3. COMENTAR
     if (action === 'comment') {
-      const postId = body.postId || req.query.postId;
+      const postId = body.postId || req.query?.postId;
       const text = (body.text || '').trim();
 
       if (!text) {
         return res.status(400).json({ error: 'O comentário não pode estar vazio' });
       }
 
-      const post = posts.find(p => p.id === postId);
-      if (!post) {
-        return res.status(404).json({ error: 'Publicação não encontrada' });
+      try {
+        const result = await db.addComment({
+          postId,
+          author: {
+            steamId: user.steamId || user.steamid,
+            name: user.name,
+            avatar: (user.avatar || '').replace(/\\\//g, '/')
+          },
+          text
+        });
+        return res.status(200).json(result);
+      } catch (e) {
+        return res.status(404).json({ error: e.message || 'Publicação não encontrada' });
       }
-
-      if (!Array.isArray(post.comments)) post.comments = [];
-
-      const newComment = {
-        id: 'c-' + Date.now(),
-        author: {
-          steamId: user.steamId || user.steamid,
-          name: user.name,
-          avatar: (user.avatar || '').replace(/\\\//g, '/')
-        },
-        text: text.slice(0, 300),
-        createdAt: new Date().toISOString()
-      };
-
-      post.comments.push(newComment);
-      savePosts(posts);
-
-      return res.status(200).json({
-        success: true,
-        comment: newComment,
-        commentsCount: post.comments.length
-      });
     }
 
-    // 3. CRIAR NOVA PUBLICAÇÃO
+    // 4. CRIAR PUBLICAÇÃO
     if (action === 'create') {
       const imageUrl = (body.imageUrl || '').trim();
       const caption = (body.caption || '').trim();
       const tag = (body.tag || '📸 Screenshot').trim();
 
       if (!imageUrl) {
-        return res.status(400).json({ error: 'Insira o link de uma imagem ou print para publicar!' });
+        return res.status(400).json({ error: 'Insira a foto ou o link da imagem para publicar!' });
       }
 
       if (!caption) {
-        return res.status(400).json({ error: 'Escreva uma legenda para sua foto!' });
+        return res.status(400).json({ error: 'Escreva uma legenda para a sua foto!' });
       }
 
-      const newPost = {
-        id: 'post-' + Date.now(),
-        author: {
-          steamId: user.steamId || user.steamid,
-          name: user.name,
-          avatar: (user.avatar || '').replace(/\\\//g, '/')
-        },
-        imageUrl,
-        caption: caption.slice(0, 500),
-        tag: tag.slice(0, 30),
-        createdAt: new Date().toISOString(),
-        likes: [],
-        comments: []
-      };
+      try {
+        const newPost = await db.createPost({
+          author: {
+            steamId: user.steamId || user.steamid,
+            name: user.name,
+            avatar: (user.avatar || '').replace(/\\\//g, '/')
+          },
+          imageUrl,
+          caption,
+          tag
+        });
 
-      // Adiciona no topo do feed
-      posts.unshift(newPost);
-      savePosts(posts);
-
-      return res.status(200).json({
-        success: true,
-        post: newPost
-      });
+        return res.status(200).json({
+          success: true,
+          post: newPost
+        });
+      } catch (e) {
+        console.error('[API Feed] Erro ao criar postagem:', e);
+        return res.status(500).json({ error: 'Erro ao salvar publicação' });
+      }
     }
 
     return res.status(400).json({ error: 'Ação desconhecida' });
   }
 
-  return res.status(455).json({ error: 'Método não permitido' });
+  return res.status(405).json({ error: 'Método não permitido' });
 };
