@@ -114,26 +114,31 @@ body {
   overflow: hidden !important;
 }
 
-/* Vídeo com alta visibilidade e nitidez */
-.hero-fundo video.hero-midia {
+/* Vídeo com alta nitidez e vivacidade */
+.hero-fundo video.hero-midia,
+video.hero-midia {
   position: absolute !important;
   inset: 0 !important;
   width: 100% !important;
   height: 100% !important;
   object-fit: cover !important;
   object-position: center !important;
-  opacity: 0.95 !important;
-  filter: contrast(1.06) saturate(1.15) brightness(1.02) !important;
+  opacity: 0.98 !important;
+  filter: contrast(1.1) saturate(1.16) brightness(1.04) !important;
   display: block !important;
 }
 
-/* Vinheta suave para garantir contraste do texto sem apagar o vídeo */
+/* Efeito de micro-trama tática + vinheta balanceada:
+   Elimina artefatos de compressão e pixelização sem esconder o vídeo */
 .hero-fundo::after {
   content: "" !important;
   position: absolute !important;
   inset: 0 !important;
-  background: linear-gradient(180deg, rgba(19, 16, 15, 0.32) 0%, rgba(19, 16, 15, 0.05) 30%, rgba(19, 16, 15, 0.15) 65%, rgba(19, 16, 15, 0.85) 100%),
-              radial-gradient(circle at center, transparent 35%, rgba(19, 16, 15, 0.45) 100%) !important;
+  background-image: 
+    repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.22) 0px, rgba(0, 0, 0, 0.22) 1px, transparent 1px, transparent 3px),
+    radial-gradient(circle at center, transparent 45%, rgba(19, 16, 15, 0.38) 100%),
+    linear-gradient(180deg, rgba(19, 16, 15, 0.22) 0%, transparent 25%, transparent 72%, rgba(19, 16, 15, 0.75) 100%) !important;
+  background-size: 3px 3px, 100% 100%, 100% 100% !important;
   pointer-events: none !important;
 }
 
