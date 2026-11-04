@@ -8,8 +8,16 @@
       "destination": "/feed/index.html"
     },
     {
+      "source": "/api/checkout/:action",
+      "destination": "/api/checkout?action=:action"
+    },
+    {
+      "source": "/api/vip/:action",
+      "destination": "/api/vip?action=:action"
+    },
+    {
       "source": "/api/feed",
-      "destination": "/api/feed.js"
+      "destination": "/api/feed"
     },
     {
       "source": "/auth/steam",
