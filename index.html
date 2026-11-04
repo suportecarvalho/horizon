@@ -201,445 +201,80 @@
   
   
   
-  <!-- SEÇÃO DE LEADERBOARDS (HORIZON RUST RANKING) -->
-  <style>
-    .hlb-item-icon {
-      width: 28px;
-      height: 28px;
-      object-fit: contain;
-      vertical-align: middle;
-      display: inline-block;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
-      transition: transform 0.15s ease;
-    }
-    .hlb-item-icon:hover {
-      transform: scale(1.15);
-    }
-    .hlb-avatar-img {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 1.5px solid rgba(215, 87, 59, 0.85);
-      display: block;
-      flex-shrink: 0;
-    }
-    .hlb-avatar-fallback {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      background: #221d1b;
-      border: 1.5px solid #D7573B;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 0.95rem;
-      color: #EDE8E5;
-      flex-shrink: 0;
-    }
-    .hlb-row:hover {
-      background: rgba(255, 255, 255, 0.025);
-    }
-    .hlb-tab-btn:hover {
-      color: #FFFFFF !important;
-    }
-    #hlb-search-input:focus {
-      border-color: #D7573B;
-    }
-    @media (max-width: 640px) {
-      .hlb-header-toolbar {
-        flex-direction: column;
-        align-items: stretch !important;
-      }
-      .hlb-tabs-container {
-        width: 100%;
-        justify-content: space-between;
-      }
-      .hlb-tab-btn {
-        flex: 1;
-        justify-content: center;
-        padding: 9px 12px !important;
-        font-size: 0.78rem !important;
-      }
-      .hlb-search-wrap {
-        width: 100%;
-      }
-      #hlb-search-input {
-        width: 100% !important;
-      }
-    }
-  </style>
-  <section class="home-leaderboard-section" id="ranking" style="position: relative; background: #12100f; padding: 50px 0 65px 0; border-bottom: 1px solid rgba(108, 151, 142, 0.22); width: 100%;">
-    <div class="shell" style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
-      
-      <!-- Título da Seção: Rankings -->
-      <div class="hlb-section-header" style="margin-bottom: 26px;">
-        <div>
-          <h2 class="titulo titulo-secao" style="margin: 0; color: #FFFFFF; font-size: 1.9rem; font-weight: 900; letter-spacing: 0.04em; text-transform: none !important; line-height: 1.1;">
-            Rankings
-          </h2>
-          <p style="margin: 4px 0 0 0; color: #82ADA4; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;">
-            Ranking oficial dos melhores jogadores do servidor
-          </p>
-        </div>
+    <!-- ==============================================================
+       SEÇÃO DE RANKINGS (HORIZON RUST RANKING)
+       ============================================================== -->
+  <section class="shell ranking" id="ranking" style="padding-top: 50px; padding-bottom: 65px; border-bottom: 1px solid rgba(108, 151, 142, 0.22); width: 100%;">
+    
+    <!-- Título da Seção: Rankings -->
+    <div class="hlb-section-header" style="margin-bottom: 26px;">
+      <div>
+        <h2 class="titulo titulo-secao" style="margin: 0; color: #FFFFFF; font-size: 1.9rem; font-weight: 900; letter-spacing: 0.04em; text-transform: none !important; line-height: 1.1;">
+          Rankings
+        </h2>
+        <p style="margin: 4px 0 0 0; color: #82ADA4; font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em;">
+          Ranking oficial dos melhores jogadores do servidor
+        </p>
+      </div>
+    </div>
+
+    <!-- Linha Superior: Abas e Busca -->
+    <div class="ranking-controles">
+      <nav aria-label="Área do ranking" class="ranking-abas" id="home-leaderboard-tabs">
+        <button type="button" class="ranking-aba ranking-aba-atual" data-tab="pvp">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-skull ranking-aba-icone"><path d="m12.5 17-.5-1-.5 1h1z"></path><path d="M15 22a1 1 0 0 0 1-1v-1a2 2 0 0 0 1.56-3.25 8 8 0 1 0-11.12 0A2 2 0 0 0 8 20v1a1 1 0 0 0 1 1z"></path><circle cx="15" cy="12" r="1"></circle><circle cx="9" cy="12" r="1"></circle></svg>
+          PVP
+        </button>
+        <button type="button" class="ranking-aba" data-tab="recursos">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pickaxe ranking-aba-icone"><path d="m14 13-8.381 8.38a1 1 0 0 1-3.001-3L11 9.999"></path><path d="M15.973 4.027A13 13 0 0 0 5.902 2.373c-1.398.342-1.092 2.158.277 2.601a19.9 19.9 0 0 1 5.822 3.024"></path><path d="M16.001 11.999a19.9 19.9 0 0 1 3.024 5.824c.444 1.369 2.26 1.676 2.603.278A13 13 0 0 0 20 8.069"></path><path d="M18.352 3.352a1.205 1.205 0 0 0-1.704 0l-5.296 5.296a1.205 1.205 0 0 0 0 1.704l2.296 2.296a1.205 1.205 0 0 0 1.704 0l5.296-5.296a1.205 1.205 0 0 0 0-1.704z"></path></svg>
+          Recursos
+        </button>
+        <button type="button" class="ranking-aba" data-tab="farming">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-tractor ranking-aba-icone"><path d="m10 11 11 .9a1 1 0 0 1 .8 1.1l-.665 4.158a1 1 0 0 1-.988.842H20"></path><path d="M16 18h-5"></path><path d="M18 5a1 1 0 0 0-1 1v5.573"></path><path d="M3 4h8.129a1 1 0 0 1 .99.863L13 11.246"></path><path d="M4 11V4"></path><path d="M7 15h.01"></path><path d="M8 10.1V4"></path><circle cx="18" cy="18" r="2"></circle><circle cx="7" cy="15" r="5"></circle></svg>
+          Farming
+        </button>
+      </nav>
+
+      <div class="ranking-busca">
+        <span class="ranking-busca-campo">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search ranking-busca-lupa"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg>
+          <input type="text" id="home-leaderboard-search" class="ranking-busca-input" placeholder="Buscar por jogador ou SteamID..." autocomplete="off">
+        </span>
+      </div>
+    </div>
+
+    <!-- Total de Jogadores no Wipe -->
+    <p class="ranking-total" id="home-ranking-total">
+      <strong>27</strong> jogadores sincronizados neste wipe
+    </p>
+
+    <!-- Cartão / Tabela -->
+    <div class="ranking-caixa">
+      <div data-slot="table-container" class="relative w-full overflow-x-auto">
+        <table data-slot="table" class="w-full caption-bottom text-sm ranking-tabela ranking-tabela-pvp" id="home-main-table">
+          <thead data-slot="table-header" class="[&amp;_tr]:border-b" id="home-table-head">
+            <tr class="ranking-cabecalho">
+              <th class="ranking-cab ranking-cab-rank" style="width: 85px; text-align: center;">#</th>
+              <th class="ranking-cab ranking-cab-jogador" style="text-align: left; padding-left: 24px;">JOGADOR</th>
+              <th class="ranking-cab" style="text-align: center;">KDR</th>
+              <th class="ranking-cab" style="text-align: center;">% HS</th>
+              <th class="ranking-cab" style="text-align: center;">KILLS</th>
+              <th class="ranking-cab" style="text-align: center;">MORTES</th>
+              <th class="ranking-cab" style="text-align: center;">DISTÂNCIA MÁX</th>
+            </tr>
+          </thead>
+          <tbody data-slot="table-body" id="home-table-body">
+            <!-- Linhas dinâmicas -->
+          </tbody>
+        </table>
       </div>
 
-      <!-- Linha Superior: Abas e Busca -->
-      <div class="hlb-header-toolbar" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 16px;">
-        
-        <!-- Abas com Ícones -->
-        <div class="hlb-tabs-container" id="hlb-tabs" style="display: inline-flex; align-items: center; background: #181514; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; overflow: hidden; padding: 2px;">
-          <button type="button" class="hlb-tab-btn hlb-tab-active" data-tab="pvp" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; font-weight: 800; font-size: 0.86rem; text-transform: uppercase; letter-spacing: 0.06em; cursor: pointer; border: none; background: transparent; color: #FFFFFF; border-bottom: 2.5px solid #D7573B; transition: all 0.2s ease;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#D7573B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="12" r="1"></circle><circle cx="15" cy="12" r="1"></circle><path d="M8 20v2h8v-2"></path><path d="m12.5 17-.5-1-.5 1h1z"></path><path d="M16 20a2 2 0 0 0 1.56-3.25 8 8 0 1 0-11.12 0A2 2 0 0 0 8 20"></path></svg>
-            PVP
-          </button>
-          <button type="button" class="hlb-tab-btn" data-tab="recursos" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; font-weight: 800; font-size: 0.86rem; text-transform: uppercase; letter-spacing: 0.06em; cursor: pointer; border: none; background: transparent; color: #a1a1aa; border-bottom: 2.5px solid transparent; transition: all 0.2s ease;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 13-8.381 8.38a1 1 0 0 1-3.001-3L11 9.999"></path><path d="M15.973 4.027A13 13 0 0 0 5.902 2.373c-1.398.342-1.092 2.158.277 2.601a19.9 19.9 0 0 1 5.822 3.024"></path><path d="M16.001 11.999a19.9 19.9 0 0 1 3.024 5.824c.444 1.369 2.26 1.676 2.603.278A13 13 0 0 0 20 8.069"></path><path d="M18.352 3.352a1.205 1.205 0 0 0-1.704 0l-5.296 5.296a1.205 1.205 0 0 0 0 1.704l2.296 2.296a1.205 1.205 0 0 0 1.704 0l5.296-5.296a1.205 1.205 0 0 0 0-1.704z"></path></svg>
-            Recursos
-          </button>
-          <button type="button" class="hlb-tab-btn" data-tab="farming" style="display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; font-weight: 800; font-size: 0.86rem; text-transform: uppercase; letter-spacing: 0.06em; cursor: pointer; border: none; background: transparent; color: #a1a1aa; border-bottom: 2.5px solid transparent; transition: all 0.2s ease;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10 11 11 .9a1 1 0 0 1 .8 1.1l-.665 4.158a1 1 0 0 1-.988.842H20"></path><path d="M16 18h-5"></path><path d="M18 5a1 1 0 0 0-1 1v5.573"></path><path d="M3 4h8.129a1 1 0 0 1 .99.863L13 11.246"></path><path d="M4 11V4"></path><path d="M7 15h.01"></path><path d="M8 10.1V4"></path><circle cx="18" cy="18" r="2"></circle><circle cx="7" cy="15" r="5"></circle></svg>
-            Farming
-          </button>
-        </div>
-
-        <!-- Campo de Busca e Botão -->
-        <div class="hlb-search-wrap" style="display: flex; align-items: center; background: #181514; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; overflow: hidden; height: 42px;">
-          <span style="display: flex; align-items: center; padding-left: 14px; color: #71717a;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
-          </span>
-          <input type="text" id="hlb-search-input" placeholder="Buscar por nome ou SteamID..." style="background: transparent; border: none; outline: none; color: #EDE8E5; padding: 0 12px; font-size: 0.85rem; width: 230px;" autocomplete="off">
-          <button type="button" id="hlb-search-btn" style="background: #D7573B; color: #FFFFFF; font-weight: 800; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; border: none; padding: 0 18px; height: 100%; cursor: pointer; transition: background 0.2s ease;">BUSCAR</button>
-        </div>
-      </div>
-
-      <!-- Total de Jogadores no Wipe -->
-      <p id="hlb-wipe-count" style="font-family: monospace; font-size: 0.88rem; color: #a1a1aa; margin: 0 0 14px 4px;">
-        10 jogadores neste wipe
-      </p>
-
-      <!-- Cartão / Tabela -->
-      <div class="hlb-table-card" style="background: #161312; border: 1px solid rgba(108, 151, 142, 0.25); border-radius: 12px; overflow: hidden; box-shadow: 0 12px 35px rgba(0, 0, 0, 0.65);">
-        <div style="overflow-x: auto; width: 100%; -webkit-overflow-scrolling: touch;">
-          <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem;" id="hlb-main-table">
-            <thead id="hlb-table-head">
-              <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.08); background: rgba(0, 0, 0, 0.28);">
-                <th style="padding: 16px 12px; text-align: center; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; width: 60px; white-space: nowrap;">#</th>
-                <th style="padding: 16px 14px; text-align: left; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;">JOGADOR</th>
-                <th style="padding: 16px 14px; text-align: center; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;">KDR</th>
-                <th style="padding: 16px 14px; text-align: center; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;">% HS</th>
-                <th style="padding: 16px 14px; text-align: center; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;">KILLS</th>
-                <th style="padding: 16px 14px; text-align: center; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;">MORTES EM PVP</th>
-                <th style="padding: 16px 14px; text-align: center; color: #82ADA4; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap;">HEADSHOTS</th>
-              </tr>
-            </thead>
-            <tbody id="hlb-table-body">
-
-    <tr class="hlb-row" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: background 0.15s ease;">
-      <td style="padding: 16px 12px; text-align: center; vertical-align: middle; white-space: nowrap;">
-        
-      <span style="display: inline-flex; align-items: center; justify-content: center; gap: 5px;">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#eab308" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path></svg>
-        <strong style="color: #eab308; font-size: 0.95rem; font-weight: 800;">1</strong>
-      </span>
-    
-      </td>
-      <td style="padding: 16px 14px; vertical-align: middle; white-space: nowrap;">
-        <div style="display: flex; align-items: center; gap: 14px;">
-          <span class="hlb-avatar-fallback">D</span>
-          <div style="display: flex; flex-direction: column; min-width: 0;">
-            <strong style="color: #FFFFFF; font-size: 0.94rem; font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase;">Dona Crotildis</strong>
-            <span style="color: #71717a; font-size: 0.74rem; font-family: monospace;">76561199161530872</span>
-          </div>
-        </div>
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #D7573B; font-weight: 900; font-size: 1.05rem; white-space: nowrap;">
-        0.40
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
-        100.0%
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 800; white-space: nowrap;">
-        2
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
-        5
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
-        2
-      </td>
-    </tr>
-  
-
-    <tr class="hlb-row" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: background 0.15s ease;">
-      <td style="padding: 16px 12px; text-align: center; vertical-align: middle; white-space: nowrap;">
-        
-      <span style="display: inline-flex; align-items: center; justify-content: center; gap: 5px;">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path></svg>
-        <strong style="color: #94a3b8; font-size: 0.95rem; font-weight: 800;">2</strong>
-      </span>
-    
-      </td>
-      <td style="padding: 16px 14px; vertical-align: middle; white-space: nowrap;">
-        <div style="display: flex; align-items: center; gap: 14px;">
-          <span class="hlb-avatar-fallback">D</span>
-          <div style="display: flex; flex-direction: column; min-width: 0;">
-            <strong style="color: #FFFFFF; font-size: 0.94rem; font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase;">Delux</strong>
-            <span style="color: #71717a; font-size: 0.74rem; font-family: monospace;">76561198737554294</span>
-          </div>
-        </div>
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #D7573B; font-weight: 900; font-size: 1.05rem; white-space: nowrap;">
-        0.00
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
-        0.0%
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 800; white-space: nowrap;">
-        0
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
-        1
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
-        0
-      </td>
-    </tr>
-  
-
-    <tr class="hlb-row" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: background 0.15s ease;">
-      <td style="padding: 16px 12px; text-align: center; vertical-align: middle; white-space: nowrap;">
-        
-      <span style="display: inline-flex; align-items: center; justify-content: center; gap: 5px;">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path></svg>
-        <strong style="color: #d97706; font-size: 0.95rem; font-weight: 800;">3</strong>
-      </span>
-    
-      </td>
-      <td style="padding: 16px 14px; vertical-align: middle; white-space: nowrap;">
-        <div style="display: flex; align-items: center; gap: 14px;">
-          <span class="hlb-avatar-fallback">T</span>
-          <div style="display: flex; flex-direction: column; min-width: 0;">
-            <strong style="color: #FFFFFF; font-size: 0.94rem; font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase;">TIÃO</strong>
-            <span style="color: #71717a; font-size: 0.74rem; font-family: monospace;">76561198396729417</span>
-          </div>
-        </div>
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #D7573B; font-weight: 900; font-size: 1.05rem; white-space: nowrap;">
-        0.00
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
-        0.0%
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 800; white-space: nowrap;">
-        0
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
-        4
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
-        0
-      </td>
-    </tr>
-  
-
-    <tr class="hlb-row" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: background 0.15s ease;">
-      <td style="padding: 16px 12px; text-align: center; vertical-align: middle; white-space: nowrap;">
-        <span style="color: #71717a; font-weight: 800; font-size: 0.95rem;">4</span>
-      </td>
-      <td style="padding: 16px 14px; vertical-align: middle; white-space: nowrap;">
-        <div style="display: flex; align-items: center; gap: 14px;">
-          <span class="hlb-avatar-fallback">J</span>
-          <div style="display: flex; flex-direction: column; min-width: 0;">
-            <strong style="color: #FFFFFF; font-size: 0.94rem; font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase;">Jaiminho Carteiro</strong>
-            <span style="color: #71717a; font-size: 0.74rem; font-family: monospace;">76561198781709247</span>
-          </div>
-        </div>
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #D7573B; font-weight: 900; font-size: 1.05rem; white-space: nowrap;">
-        0.00
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
-        0.0%
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 800; white-space: nowrap;">
-        0
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
-        1
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
-        0
-      </td>
-    </tr>
-  
-
-    <tr class="hlb-row" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: background 0.15s ease;">
-      <td style="padding: 16px 12px; text-align: center; vertical-align: middle; white-space: nowrap;">
-        <span style="color: #71717a; font-weight: 800; font-size: 0.95rem;">5</span>
-      </td>
-      <td style="padding: 16px 14px; vertical-align: middle; white-space: nowrap;">
-        <div style="display: flex; align-items: center; gap: 14px;">
-          <span class="hlb-avatar-fallback">T</span>
-          <div style="display: flex; flex-direction: column; min-width: 0;">
-            <strong style="color: #FFFFFF; font-size: 0.94rem; font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase;">Tesouro</strong>
-            <span style="color: #71717a; font-size: 0.74rem; font-family: monospace;">76561198918765015</span>
-          </div>
-        </div>
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #D7573B; font-weight: 900; font-size: 1.05rem; white-space: nowrap;">
-        0.00
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
-        0.0%
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 800; white-space: nowrap;">
-        0
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
-        1
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
-        0
-      </td>
-    </tr>
-  
-
-    <tr class="hlb-row" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: background 0.15s ease;">
-      <td style="padding: 16px 12px; text-align: center; vertical-align: middle; white-space: nowrap;">
-        <span style="color: #71717a; font-weight: 800; font-size: 0.95rem;">6</span>
-      </td>
-      <td style="padding: 16px 14px; vertical-align: middle; white-space: nowrap;">
-        <div style="display: flex; align-items: center; gap: 14px;">
-          <span class="hlb-avatar-fallback">C</span>
-          <div style="display: flex; flex-direction: column; min-width: 0;">
-            <strong style="color: #FFFFFF; font-size: 0.94rem; font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase;">Cairo</strong>
-            <span style="color: #71717a; font-size: 0.74rem; font-family: monospace;">76561198365369539</span>
-          </div>
-        </div>
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #D7573B; font-weight: 900; font-size: 1.05rem; white-space: nowrap;">
-        0.00
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
-        0.0%
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 800; white-space: nowrap;">
-        0
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
-        1
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
-        0
-      </td>
-    </tr>
-  
-
-    <tr class="hlb-row" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: background 0.15s ease;">
-      <td style="padding: 16px 12px; text-align: center; vertical-align: middle; white-space: nowrap;">
-        <span style="color: #71717a; font-weight: 800; font-size: 0.95rem;">7</span>
-      </td>
-      <td style="padding: 16px 14px; vertical-align: middle; white-space: nowrap;">
-        <div style="display: flex; align-items: center; gap: 14px;">
-          <span class="hlb-avatar-fallback">S</span>
-          <div style="display: flex; flex-direction: column; min-width: 0;">
-            <strong style="color: #FFFFFF; font-size: 0.94rem; font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase;">Shadow 残忍的</strong>
-            <span style="color: #71717a; font-size: 0.74rem; font-family: monospace;">76561198750662826</span>
-          </div>
-        </div>
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #D7573B; font-weight: 900; font-size: 1.05rem; white-space: nowrap;">
-        0.00
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
-        0.0%
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 800; white-space: nowrap;">
-        0
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
-        5
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
-        0
-      </td>
-    </tr>
-  
-
-    <tr class="hlb-row" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: background 0.15s ease;">
-      <td style="padding: 16px 12px; text-align: center; vertical-align: middle; white-space: nowrap;">
-        <span style="color: #71717a; font-weight: 800; font-size: 0.95rem;">8</span>
-      </td>
-      <td style="padding: 16px 14px; vertical-align: middle; white-space: nowrap;">
-        <div style="display: flex; align-items: center; gap: 14px;">
-          <span class="hlb-avatar-fallback">N</span>
-          <div style="display: flex; flex-direction: column; min-width: 0;">
-            <strong style="color: #FFFFFF; font-size: 0.94rem; font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase;">Negresco</strong>
-            <span style="color: #71717a; font-size: 0.74rem; font-family: monospace;">76561198258143577</span>
-          </div>
-        </div>
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #D7573B; font-weight: 900; font-size: 1.05rem; white-space: nowrap;">
-        0.00
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
-        0.0%
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 800; white-space: nowrap;">
-        0
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
-        3
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
-        0
-      </td>
-    </tr>
-  
-
-    <tr class="hlb-row" style="border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: background 0.15s ease;">
-      <td style="padding: 16px 12px; text-align: center; vertical-align: middle; white-space: nowrap;">
-        <span style="color: #71717a; font-weight: 800; font-size: 0.95rem;">9</span>
-      </td>
-      <td style="padding: 16px 14px; vertical-align: middle; white-space: nowrap;">
-        <div style="display: flex; align-items: center; gap: 14px;">
-          <span class="hlb-avatar-fallback">R</span>
-          <div style="display: flex; flex-direction: column; min-width: 0;">
-            <strong style="color: #FFFFFF; font-size: 0.94rem; font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase;">Revoltz_BR</strong>
-            <span style="color: #71717a; font-size: 0.74rem; font-family: monospace;">76561198804497592</span>
-          </div>
-        </div>
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #D7573B; font-weight: 900; font-size: 1.05rem; white-space: nowrap;">
-        0.00
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
-        0.0%
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 800; white-space: nowrap;">
-        0
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
-        1
-      </td>
-      <td style="padding: 16px 14px; text-align: center; vertical-align: middle; color: #EDE8E5; font-weight: 700; white-space: nowrap;">
-        0
-      </td>
-    </tr>
-  
-            </tbody>
-          </table>
-        </div>
-
-        <!-- Rodapé do Cartão com Link -->
-        <div style="display: flex; justify-content: flex-end; align-items: center; padding: 16px 22px; border-top: 1px solid rgba(255, 255, 255, 0.06); background: rgba(0, 0, 0, 0.2); flex-wrap: wrap; gap: 12px;">
-          <a href="/leaderboards" class="group/button inline-flex items-center gap-2 rounded-lg border border-[rgba(108,151,142,0.4)] px-5 py-2 text-xs font-bold uppercase tracking-wider text-[#EDE8E5] hover:bg-[rgba(108,151,142,0.18)] transition-all" style="text-decoration: none;">
-            Ver Ranking Completo
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
-          </a>
-        </div>
+      <!-- Rodapé do Cartão com Link -->
+      <div style="display: flex; justify-content: flex-end; align-items: center; padding: 16px 22px; border-top: 1px solid rgba(255, 255, 255, 0.06); background: rgba(0, 0, 0, 0.2); flex-wrap: wrap; gap: 12px;">
+        <a href="/leaderboards" class="group/button inline-flex items-center gap-2 rounded-lg border border-[rgba(108,151,142,0.4)] px-5 py-2 text-xs font-bold uppercase tracking-wider text-[#EDE8E5] hover:bg-[rgba(108,151,142,0.18)] transition-all" style="text-decoration: none;">
+          Ver Ranking Completo
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+        </a>
       </div>
     </div>
   </section>
