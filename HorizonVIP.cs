@@ -463,13 +463,13 @@ namespace Oxide.Plugins
                 return;
             }
 
-            string steamId = arg.Args[0];
-            string tier = arg.Args[1].ToLower();
-            int dias = arg.Args.Length > 2 && int.TryParse(arg.Args[2], out var d) ? d : 30;
+            string steamId = arg.GetString(0);
+            string tier = (arg.GetString(1) ?? "bronze").ToLower();
+            int dias = arg.GetInt(2, 30);
 
             GrantVip(new PendingDelivery
             {
-                orderId = $"MANUAL-{Date.Now:yyyyMMddHHmmss}",
+                orderId = $"MANUAL-{DateTime.UtcNow:yyyyMMddHHmmss}",
                 steamId = steamId,
                 playerName = "Jogador",
                 vipTier = tier,
@@ -489,7 +489,7 @@ namespace Oxide.Plugins
                 return;
             }
 
-            string steamId = arg.Args[0];
+            string steamId = arg.GetString(0);
             RevokeVip(steamId, "Revogado por Admin no console");
             arg.ReplyWith($"[HorizonVIP] VIP de {steamId} revogado com sucesso.");
         }
