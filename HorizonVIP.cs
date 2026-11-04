@@ -263,19 +263,19 @@ namespace Oxide.Plugins
                 {
                     if (!string.IsNullOrEmpty(cmd))
                     {
-                        server.Command(cmd.Replace("{steamid}", steamId).Replace("{player}", delivery.playerName ?? ""));
+                        ConsoleSystem.Run(ConsoleSystem.Option.Server, cmd.Replace("{steamid}", steamId).Replace("{player}", delivery.playerName ?? ""));
                     }
                 }
             }
 
             // Avisa o servidor e o jogador
             string tierFormatado = char.ToUpper(tier[0]) + tier.Substring(1);
-            Server.Broadcast($"{config.ChatPrefix} O jogador <color=#10B981>{record.PlayerName}</color> adquiriu o pacote <color=#F59E0B>VIP {tierFormatado}</color>! Agradecemos pelo apoio!");
+            PrintToChat($"{config.ChatPrefix} O jogador <color=#10B981>{record.PlayerName}</color> adquiriu o pacote <color=#F59E0B>VIP {tierFormatado}</color>! Agradecemos pelo apoio!");
 
             BasePlayer player = BasePlayer.Find(steamId);
             if (player != null && player.IsConnected)
             {
-                player.ChatMessage($"{config.ChatPrefix} <color=#10B981>Parabéns!</color> Seu <color=#F59E0B>VIP {tierFormatado}</color> foi ativado com sucesso!\n" +
+                PrintToChat(player, $"{config.ChatPrefix} <color=#10B981>Parabéns!</color> Seu <color=#F59E0B>VIP {tierFormatado}</color> foi ativado com sucesso!\n" +
                                    $"- Validade: <color=#38BDF8>30 dias</color> (Expira em: {expiresAt.ToLocalTime():dd/MM/yyyy HH:mm})\n" +
                                    $"- Use <color=#F59E0B>/kit</color> para resgatar seus itens e aproveite a fila prioritária!");
             }
@@ -375,8 +375,8 @@ namespace Oxide.Plugins
             BasePlayer player = BasePlayer.Find(steamId);
             if (player != null && player.IsConnected)
             {
-                player.ChatMessage($"{config.ChatPrefix} Seu período de <color=#F59E0B>VIP {tierFormatado} (30 dias)</color> encerrou.\n" +
-                                   $"Agradecemos imensamente por ter apoiado o Horizon! Para renovar, acesse nossa loja oficial: <color=#38BDF8>lojahorizon.vercel.app</color>");
+                PrintToChat(player, $"{config.ChatPrefix} Seu período de <color=#F59E0B>VIP {tierFormatado} (30 dias)</color> encerrou.\n" +
+                                   $"Agradecemos imensamente por ter apoiado o Horizon! Para renovar, acesse nossa loja oficial: <color=#38BDF8>{config.ApiBaseUrl}/loja</color>");
             }
         }
 
@@ -408,7 +408,7 @@ namespace Oxide.Plugins
                     if (player != null && player.IsConnected)
                     {
                         string tierFormatado = char.ToUpper(vip.Tier[0]) + vip.Tier.Substring(1);
-                        player.ChatMessage($"{config.ChatPrefix} Bem-vindo de volta! Seu <color=#F59E0B>VIP {tierFormatado}</color> está ativo.\n" +
+                        PrintToChat(player, $"{config.ChatPrefix} Bem-vindo de volta! Seu <color=#F59E0B>VIP {tierFormatado}</color> está ativo.\n" +
                                            $"Tempo restante: <color=#10B981>{dias} dias e {horas} horas</color>. Bom jogo!");
                     }
                 });
@@ -426,7 +426,7 @@ namespace Oxide.Plugins
 
             if (args.Length > 0 && args[0].ToLower() == "resgatar")
             {
-                player.ChatMessage($"{config.ChatPrefix} Verificando pagamentos e resgates no Mercado Pago...");
+                PrintToChat(player, $"{config.ChatPrefix} Verificando pagamentos e resgates no Mercado Pago...");
                 CheckPendingDeliveries();
                 return;
             }
@@ -436,7 +436,7 @@ namespace Oxide.Plugins
                 var remaining = vip.ExpiresAt - DateTime.UtcNow;
                 string tierFormatado = char.ToUpper(vip.Tier[0]) + vip.Tier.Substring(1);
 
-                player.ChatMessage($"{config.ChatPrefix} <color=#10B981>=== SEU STATUS VIP ===</color>\n" +
+                PrintToChat(player, $"{config.ChatPrefix} <color=#10B981>=== SEU STATUS VIP ===</color>\n" +
                                    $"- Pacote: <color=#F59E0B>VIP {tierFormatado}</color>\n" +
                                    $"- Tempo Restante: <color=#38BDF8>{remaining.Days} dias, {remaining.Hours} horas e {remaining.Minutes} minutos</color>\n" +
                                    $"- Expira em: <color=#E2E8F0>{vip.ExpiresAt.ToLocalTime():dd/MM/yyyy HH:mm}</color>\n" +
@@ -444,7 +444,7 @@ namespace Oxide.Plugins
             }
             else
             {
-                player.ChatMessage($"{config.ChatPrefix} Você não possui nenhum pacote VIP ativo no momento.\n" +
+                PrintToChat(player, $"{config.ChatPrefix} Você não possui nenhum pacote VIP ativo no momento.\n" +
                                    $"Adquira seu VIP com ativação imediata via PIX em: <color=#38BDF8>{config.ApiBaseUrl}/loja</color>\n" +
                                    $"Se você acabou de pagar, digite <color=#F59E0B>/vip resgatar</color> para forçar a verificação.");
             }
