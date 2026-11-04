@@ -226,7 +226,7 @@
 
             <!-- CAMPO PARA COMENTAR -->
             <div class="feed-comment-input-box">
-              <input type="text" id="comment-input-${post.id}" class="feed-comment-input" placeholder="Escreva um comentário..." onkeydown="if(event.key==='Enter') window.feedApp.submitComment('${post.id}')">
+              <input type="text" id="comment-input-${post.id}" class="feed-comment-input" placeholder="Escreva um comentário com emojis..." onkeydown="if(event.key==='Enter') window.feedApp.submitComment('${post.id}')">
               <button type="button" class="feed-comment-submit" onclick="window.feedApp.submitComment('${post.id}')">Enviar</button>
             </div>
 
