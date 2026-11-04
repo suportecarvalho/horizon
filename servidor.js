@@ -898,6 +898,52 @@ const server = http.createServer((req, res) => {
   }
 
   // -------------------------------------------------------------
+  // API: MERCADO PAGO CHECKOUT & VIP
+  // -------------------------------------------------------------
+  if (cleanUrl.startsWith('/api/checkout/') || cleanUrl.startsWith('/api/vip/')) {
+    const routeMap = {
+      '/api/checkout/create': './api/checkout/create',
+      '/api/checkout/status': './api/checkout/status',
+      '/api/checkout/webhook': './api/checkout/webhook',
+      '/api/vip/pending': './api/vip/pending',
+      '/api/vip/confirm': './api/vip/confirm',
+      '/api/vip/player': './api/vip/player'
+    };
+
+    const handlerPath = routeMap[cleanUrl];
+    if (handlerPath) {
+      const handler = require(handlerPath);
+
+      if (req.method === 'POST') {
+        let body = '';
+        req.on('data', chunk => { body += chunk; });
+        req.on('end', async () => {
+          try {
+            req.body = body ? JSON.parse(body) : {};
+          } catch (e) {
+            req.body = {};
+          }
+          try {
+            await handler(req, res);
+          } catch (e) {
+            console.error(`[API ${cleanUrl}] Erro:`, e);
+            res.writeHead(500, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: e.message }));
+          }
+        });
+        return;
+      }
+
+      Promise.resolve(handler(req, res)).catch(e => {
+        console.error(`[API ${cleanUrl}] Erro GET:`, e);
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: e.message }));
+      });
+      return;
+    }
+  }
+
+  // -------------------------------------------------------------
   // ARQUIVOS ESTÁTICOS
   // -------------------------------------------------------------
   const target = resolveFile(cleanUrl);
