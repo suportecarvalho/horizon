@@ -1,7 +1,7 @@
 {
   "server": "Horizon 2x Solo/Duo/Trio",
   "wipe_total_players": 34,
-  "updated_at": "2026-11-04T20:49:36.248Z",
+  "updated_at": "2026-11-04T21:05:39.347Z",
   "pvp": [
     {
       "rank": 1,
@@ -418,12 +418,12 @@
       "steamid": "76561199621926627",
       "name": "Kaktуs",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/7596682ef71fa0287a8cbffabf102a9272ca4439_full.jpg",
-      "total": "155,792",
+      "total": "155,795",
       "stones": "49,137",
       "sulfur": "12,575",
       "metal": "35,844",
       "hqm": "0",
-      "wood": "57,332",
+      "wood": "57,335",
       "leather": "120",
       "fat": "240",
       "bone": "544"
@@ -742,11 +742,45 @@
       "leather": "0",
       "fat": "0",
       "bone": "0"
+    },
+    {
+      "rank": 23,
+      "steamid": "76561199208470397",
+      "name": "dba3456789",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/25d0a75726818b92ad0725b14f3626c4e9809003_full.jpg",
+      "total": "3",
+      "stones": "0",
+      "sulfur": "0",
+      "metal": "0",
+      "hqm": "0",
+      "wood": "3",
+      "leather": "0",
+      "fat": "0",
+      "bone": "0"
     }
   ],
   "farming": [
     {
       "rank": 1,
+      "steamid": "76561199621926627",
+      "name": "Kaktуs",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/7596682ef71fa0287a8cbffabf102a9272ca4439_full.jpg",
+      "total": "4,034",
+      "cloth": "3,953",
+      "yellow_berry": "0",
+      "red_berry": "6",
+      "blue_berry": "6",
+      "green_berry": "0",
+      "white_berry": "4",
+      "mushroom": "21",
+      "pumpkin": "25",
+      "corn": "2",
+      "potato": "0",
+      "wheat": "2",
+      "egg": "15"
+    },
+    {
+      "rank": 2,
       "steamid": "76561198280930794",
       "name": "JAIROL",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/34adcd2a2c63e40ce323f872f4781ef5ee322413_full.jpg",
@@ -763,25 +797,6 @@
       "potato": "0",
       "wheat": "0",
       "egg": "0"
-    },
-    {
-      "rank": 2,
-      "steamid": "76561199621926627",
-      "name": "Kaktуs",
-      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/7596682ef71fa0287a8cbffabf102a9272ca4439_full.jpg",
-      "total": "3,221",
-      "cloth": "3,140",
-      "yellow_berry": "0",
-      "red_berry": "6",
-      "blue_berry": "6",
-      "green_berry": "0",
-      "white_berry": "4",
-      "mushroom": "21",
-      "pumpkin": "25",
-      "corn": "2",
-      "potato": "0",
-      "wheat": "2",
-      "egg": "15"
     },
     {
       "rank": 3,
@@ -842,6 +857,25 @@
     },
     {
       "rank": 6,
+      "steamid": "76561199208470397",
+      "name": "dba3456789",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/25d0a75726818b92ad0725b14f3626c4e9809003_full.jpg",
+      "total": "1,053",
+      "cloth": "1,033",
+      "yellow_berry": "0",
+      "red_berry": "0",
+      "blue_berry": "0",
+      "green_berry": "0",
+      "white_berry": "0",
+      "mushroom": "2",
+      "pumpkin": "8",
+      "corn": "6",
+      "potato": "0",
+      "wheat": "4",
+      "egg": "0"
+    },
+    {
+      "rank": 7,
       "steamid": "76561198365369539",
       "name": "Cairo",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/c3c1f6bf05a3adbc21204fa31e34c2f5d8cf3bae_full.jpg",
@@ -860,7 +894,7 @@
       "egg": "0"
     },
     {
-      "rank": 7,
+      "rank": 8,
       "steamid": "76561198131184791",
       "name": "Caique",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/626bbb7465867eefb8c7c536c5b332fb9ca47af9_full.jpg",
@@ -879,7 +913,7 @@
       "egg": "0"
     },
     {
-      "rank": 8,
+      "rank": 9,
       "steamid": "76561198804497592",
       "name": "Revoltz_BR",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/aff41859f28f5b880c3e3b424bc97436596a925d_full.jpg",
@@ -898,7 +932,7 @@
       "egg": "0"
     },
     {
-      "rank": 9,
+      "rank": 10,
       "steamid": "76561198358586780",
       "name": "Whillikat🌹",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/22440c345d7bc45b6ef39a5ce3c01178f031fc21_full.jpg",
@@ -917,7 +951,7 @@
       "egg": "0"
     },
     {
-      "rank": 10,
+      "rank": 11,
       "steamid": "76561199421198993",
       "name": "Ak-47",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/cf815aaa32d5eafa8960eaeba2ed5c8e9008da94_full.jpg",
@@ -936,7 +970,7 @@
       "egg": "0"
     },
     {
-      "rank": 11,
+      "rank": 12,
       "steamid": "76561197981013423",
       "name": "ocuLTo",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/533a3f64d59b5298fce27f093d04006a39541ebb_full.jpg",
@@ -955,7 +989,7 @@
       "egg": "0"
     },
     {
-      "rank": 12,
+      "rank": 13,
       "steamid": "76561198328567301",
       "name": "Hero",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/460d7fa283232088ed24fe422955bc7766fed698_full.jpg",
@@ -971,25 +1005,6 @@
       "corn": "0",
       "potato": "1",
       "wheat": "0",
-      "egg": "0"
-    },
-    {
-      "rank": 13,
-      "steamid": "76561199208470397",
-      "name": "dba3456789",
-      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/25d0a75726818b92ad0725b14f3626c4e9809003_full.jpg",
-      "total": "318",
-      "cloth": "300",
-      "yellow_berry": "0",
-      "red_berry": "0",
-      "blue_berry": "0",
-      "green_berry": "0",
-      "white_berry": "0",
-      "mushroom": "0",
-      "pumpkin": "8",
-      "corn": "6",
-      "potato": "0",
-      "wheat": "4",
       "egg": "0"
     },
     {
