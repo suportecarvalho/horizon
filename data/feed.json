@@ -193,6 +193,16 @@
       "76561198358586780",
       "76561197981013423"
     ],
-    "comments": []
+    "comments": [
+      {
+        "id": "c-1793751766497",
+        "author": {
+          "steamId": "76561198737554294",
+          "avatar": ""
+        },
+        "text": "Teste de persistencia no Supabase PostgreSQL funcionando perfeitamente!",
+        "createdAt": "2026-11-04T00:22:46.497Z"
+      }
+    ]
   }
 ]

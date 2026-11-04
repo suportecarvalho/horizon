@@ -116,8 +116,8 @@ module.exports = async (req, res) => {
           postId,
           author: {
             steamId: user.steamId || user.steamid,
-            name: user.name,
-            avatar: (user.avatar || '').replace(/\\\//g, '/')
+            name: user.name || user.personaname || user.persona_name || 'Jogador',
+            avatar: (user.avatar || user.avatarfull || user.avatarmedium || '').replace(/\\\//g, '/')
           },
           text
         });
@@ -145,8 +145,8 @@ module.exports = async (req, res) => {
         const newPost = await db.createPost({
           author: {
             steamId: user.steamId || user.steamid,
-            name: user.name,
-            avatar: (user.avatar || '').replace(/\\\//g, '/')
+            name: user.name || user.personaname || user.persona_name || 'Jogador',
+            avatar: (user.avatar || user.avatarfull || user.avatarmedium || '').replace(/\\\//g, '/')
           },
           imageUrl,
           caption,

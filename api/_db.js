@@ -6,13 +6,15 @@ const fs = require('fs');
 const path = require('path');
 const { createClient } = require('@supabase/supabase-js');
 
-// Carregar variáveis de ambiente de .env ou .env.local caso existam
+// Carregar variáveis de ambiente de .env, .env.local ou .env.example caso existam
 function loadEnv() {
   const envFiles = [
     path.join(process.cwd(), '.env'),
     path.join(process.cwd(), '.env.local'),
+    path.join(process.cwd(), '.env.example'),
     path.join(__dirname, '..', '.env'),
-    path.join(__dirname, '..', '.env.local')
+    path.join(__dirname, '..', '.env.local'),
+    path.join(__dirname, '..', '.env.example')
   ];
 
   for (const envFile of envFiles) {
@@ -28,7 +30,7 @@ function loadEnv() {
             if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
               val = val.slice(1, -1);
             }
-            if (!process.env[key]) {
+            if (!process.env[key] && !val.includes('seu-projeto') && !val.includes('sua-chave')) {
               process.env[key] = val;
             }
           }
@@ -40,8 +42,8 @@ function loadEnv() {
 
 loadEnv();
 
-const SUPABASE_URL = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
-const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const SUPABASE_URL = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://rwgswqwqwrnpmcirajre.supabase.co';
+const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ3Z3N3cXdxd3JucG1jaXJhanJlIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc5Mzc0NzgxMiwiZXhwIjoyMTA5MzIzODEyfQ.GPb3PY0kWwQZwfSVo4wp6QC_3ee-cW0_OYiTkZVIW4U';
 
 let supabase = null;
 if (SUPABASE_URL && SUPABASE_KEY) {
@@ -190,9 +192,9 @@ async function createPost({ id, author, imageUrl, caption, tag, createdAt }) {
     try {
       const { error } = await supabase.from('feed_posts').insert([{
         id: newPostId,
-        author_steamid: author.steamId || author.steamid,
-        author_name: author.name,
-        author_avatar: (author.avatar || '').replace(/\\\//g, '/'),
+        author_steamid: author.steamId || author.steamid || '0',
+        author_name: (author.name || author.personaname || author.persona_name || 'Jogador').slice(0, 80),
+        author_avatar: (author.avatar || author.avatarfull || author.avatarmedium || '').replace(/\\\//g, '/'),
         image_url: imageUrl,
         caption: caption.slice(0, 500),
         tag: (tag || '📸 Screenshot').slice(0, 30),
@@ -297,9 +299,9 @@ async function addComment({ postId, author, text, createdAt }) {
       const { error } = await supabase.from('feed_comments').insert([{
         id: commentId,
         post_id: postId,
-        author_steamid: author.steamId || author.steamid,
-        author_name: author.name,
-        author_avatar: (author.avatar || '').replace(/\\\//g, '/'),
+        author_steamid: author.steamId || author.steamid || '0',
+        author_name: (author.name || author.personaname || author.persona_name || 'Jogador').slice(0, 80),
+        author_avatar: (author.avatar || author.avatarfull || author.avatarmedium || '').replace(/\\\//g, '/'),
         text: text.slice(0, 300),
         created_at: dateIso
       }]);

@@ -21,3 +21,4 @@ module.exports = (req, res) => {
   res.writeHead(302, { Location: '/feed?login=success_admin' });
   res.end();
 };
+
