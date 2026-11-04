@@ -478,6 +478,17 @@ function parseCookies(req) {
   return list;
 }
 
+const ADMIN_STEAM_IDS = [
+  '76561198737554294', // ADM configurado pelo usuário
+  '76561199127717531'  // ADM oficial Horizon
+];
+
+function isAdmin(steamId) {
+  if (!steamId) return false;
+  const envAdmins = (process.env.ADMIN_STEAM_IDS || '').split(',').map(s => s.trim()).filter(Boolean);
+  return ADMIN_STEAM_IDS.includes(steamId) || envAdmins.includes(steamId);
+}
+
 function getSessionUser(req) {
   const cookies = parseCookies(req);
   const userJson = cookies['horizon_user'];
@@ -485,7 +496,10 @@ function getSessionUser(req) {
   if (!userJson || !sig) return null;
   if (signData(userJson) !== sig) return null;
   try {
-    return JSON.parse(userJson);
+    const user = JSON.parse(userJson);
+    const sid = user.steamId || user.steamid;
+    user.isAdmin = isAdmin(sid);
+    return user;
   } catch (e) {
     return null;
   }
@@ -637,6 +651,29 @@ const server = http.createServer((req, res) => {
       'Set-Cookie': [
         'horizon_user=; Path=/; Max-Age=0; SameSite=Lax',
         'horizon_sig=; Path=/; Max-Age=0; HttpOnly; SameSite=Lax'
+      ]
+    });
+    res.end();
+    return;
+  }
+
+  // Rota de login simulado como ADM (SteamID: 76561198737554294)
+  if (cleanUrl === '/auth/demo-admin' || cleanUrl === '/api/auth/demo-admin') {
+    const profile = {
+      steamId: '76561198737554294',
+      steamid: '76561198737554294',
+      name: 'Admin_Horizon',
+      avatar: 'https://avatars.fastly.steamstatic.com/c5ff599f01c1c6496dbb96cc4321283e0b2cd8fd_full.jpg',
+      level: 50,
+      isAdmin: true
+    };
+    const userJson = JSON.stringify(profile);
+    const sig = signData(userJson);
+    res.writeHead(302, {
+      'Location': '/feed?login=success_admin',
+      'Set-Cookie': [
+        `horizon_user=${encodeURIComponent(userJson)}; Path=/; Max-Age=2592000; SameSite=Lax`,
+        `horizon_sig=${sig}; Path=/; Max-Age=2592000; SameSite=Lax; HttpOnly`
       ]
     });
     res.end();

@@ -44,15 +44,17 @@
       `;
 
       const avatarSrc = (user.avatar || 'https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg').replace(/\\\//g, '/');
+      const isAdm = user.isAdmin || user.steamId === '76561198737554294' || user.steamid === '76561198737554294';
 
       wrapper.innerHTML = `
         <div style="position: relative; display: flex; align-items: center; justify-content: center;">
-          <img src="${avatarSrc}" alt="${user.name}" style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 1.5px solid #6C978E; display: block;" onerror="this.onerror=null;this.src='https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg';">
+          <img src="${avatarSrc}" alt="${user.name}" style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 1.5px solid ${isAdm ? '#D7573B' : '#6C978E'}; display: block;" onerror="this.onerror=null;this.src='https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg';">
           <span style="position: absolute; bottom: -1px; right: -1px; width: 8px; height: 8px; background: #22c55e; border-radius: 50%; border: 1.5px solid #13100F;"></span>
         </div>
         <span style="color: #EDE8E5; font-weight: 700; font-size: 0.8rem; letter-spacing: 0.02em; max-width: 130px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
           ${user.name}
         </span>
+        ${isAdm ? `<span style="background: rgba(215, 87, 59, 0.35); border: 1px solid #D7573B; color: #ff8b70; font-size: 0.65rem; padding: 1px 5px; border-radius: 4px; font-weight: 800; letter-spacing: 0.05em;">ADM</span>` : ''}
         <a href="/auth/logout" title="Sair da conta Steam" style="color: #71717a; display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; text-decoration: none; transition: all 0.2s ease; margin-left: 2px;" onmouseover="this.style.color='#ef4444';this.style.background='rgba(239,68,68,0.15)'" onmouseout="this.style.color='#71717a';this.style.background='transparent'">
           <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
         </a>

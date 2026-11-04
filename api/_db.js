@@ -372,12 +372,102 @@ async function uploadImage({ buffer, mimeType, filename }) {
   return { success: false, error: 'Storage Supabase não configurado' };
 }
 
+/**
+ * Edita uma publicação (legenda e tag)
+ */
+async function editPost({ postId, caption, tag }) {
+  if (supabase) {
+    try {
+      const updateData = {};
+      if (caption !== undefined) updateData.caption = caption.slice(0, 500);
+      if (tag !== undefined) updateData.tag = tag.slice(0, 30);
+
+      const { data, error } = await supabase
+        .from('feed_posts')
+        .update(updateData)
+        .eq('id', postId)
+        .select()
+        .single();
+
+      if (error) throw error;
+      return { success: true, post: data };
+    } catch (e) {
+      console.error('[Database Supabase] Erro ao editar post, usando fallback local:', e.message);
+    }
+  }
+
+  // Fallback Local
+  const posts = loadLocalPosts();
+  const post = posts.find(p => p.id === postId);
+  if (!post) throw new Error('Publicação não encontrada');
+  if (caption !== undefined) post.caption = caption.slice(0, 500);
+  if (tag !== undefined) post.tag = tag.slice(0, 30);
+  saveLocalPosts(posts);
+  return { success: true, post };
+}
+
+/**
+ * Exclui uma publicação e todas as suas interações
+ */
+async function deletePost(postId) {
+  if (supabase) {
+    try {
+      const { error } = await supabase
+        .from('feed_posts')
+        .delete()
+        .eq('id', postId);
+
+      if (error) throw error;
+      return { success: true };
+    } catch (e) {
+      console.error('[Database Supabase] Erro ao excluir post, usando fallback local:', e.message);
+    }
+  }
+
+  // Fallback Local
+  let posts = loadLocalPosts();
+  posts = posts.filter(p => p.id !== postId);
+  saveLocalPosts(posts);
+  return { success: true };
+}
+
+/**
+ * Exclui um comentário
+ */
+async function deleteComment({ postId, commentId }) {
+  if (supabase) {
+    try {
+      const { error } = await supabase
+        .from('feed_comments')
+        .delete()
+        .eq('id', commentId);
+
+      if (error) throw error;
+      return { success: true };
+    } catch (e) {
+      console.error('[Database Supabase] Erro ao excluir comentário:', e.message);
+    }
+  }
+
+  // Fallback Local
+  const posts = loadLocalPosts();
+  const post = posts.find(p => p.id === postId);
+  if (post && Array.isArray(post.comments)) {
+    post.comments = post.comments.filter(c => c.id !== commentId);
+    saveLocalPosts(posts);
+  }
+  return { success: true };
+}
+
 module.exports = {
   isSupabaseConfigured: () => !!supabase,
   getPosts,
   createPost,
+  editPost,
+  deletePost,
   toggleLike,
   addComment,
+  deleteComment,
   uploadImage
 };
 

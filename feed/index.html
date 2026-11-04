@@ -669,6 +669,37 @@
     </div>
   </div>
 
+  <!-- MODAL DE EDIÇÃO DE POST (AUTOR OU ADM) -->
+  <div id="feed-edit-modal" class="feed-lightbox" style="display: none;">
+    <div style="background: #171312; border: 1px solid rgba(215, 87, 59, 0.4); border-radius: 12px; width: 90%; max-width: 560px; padding: 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.8); position: relative;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+        <h3 style="margin: 0; font-size: 1.15rem; font-weight: 800; color: #EDE8E5; display: flex; align-items: center; gap: 8px;">
+          <span>✏️</span> Editar Publicação
+        </h3>
+        <button type="button" id="edit-modal-close" style="background: transparent; border: none; color: #71717a; font-size: 20px; cursor: pointer;">✕</button>
+      </div>
+
+      <input type="hidden" id="edit-post-id">
+
+      <div style="font-size: 0.8rem; font-weight: 700; color: #a1a1aa; margin-bottom: 6px; text-transform: uppercase;">Legenda:</div>
+      <textarea id="edit-post-caption" class="feed-textarea" rows="4" style="margin-bottom: 16px;"></textarea>
+
+      <div style="font-size: 0.8rem; font-weight: 700; color: #a1a1aa; margin-bottom: 8px; text-transform: uppercase;">Categoria:</div>
+      <div class="feed-tag-selector" id="edit-tag-selector" style="margin-bottom: 20px;">
+        <span class="feed-tag-pill active" data-tag="📸 Screenshot">📸 Screenshot</span>
+        <span class="feed-tag-pill" data-tag="⚔️ PVP">⚔️ PVP</span>
+        <span class="feed-tag-pill" data-tag="🏰 Base">🏰 Base</span>
+        <span class="feed-tag-pill" data-tag="💥 Raid">💥 Raid</span>
+        <span class="feed-tag-pill" data-tag="🌾 Farm">🌾 Farm</span>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button type="button" id="edit-modal-cancel" style="background: #27272a; color: #EDE8E5; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 700; cursor: pointer;">Cancelar</button>
+        <button type="button" id="edit-modal-save" class="btn-horizon-primary" style="background: linear-gradient(135deg, #D7573B 0%, #B84329 100%); color: #fff; border: 1px solid rgba(255, 123, 94, 0.75); padding: 8px 20px; border-radius: 6px; font-weight: 800; cursor: pointer;">Salvar Alterações</button>
+      </div>
+    </div>
+  </div>
+
   <!-- TOAST NOTIFICATION -->
   <div id="feed-toast" class="feed-toast">Link copiado para a área de transferência!</div>
 

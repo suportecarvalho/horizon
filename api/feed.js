@@ -1,4 +1,4 @@
-const { getSessionUser } = require('./_auth');
+const { getSessionUser, isAdmin } = require('./_auth');
 const db = require('./_db');
 
 module.exports = async (req, res) => {
@@ -160,6 +160,111 @@ module.exports = async (req, res) => {
       } catch (e) {
         console.error('[API Feed] Erro ao criar postagem:', e);
         return res.status(500).json({ error: 'Erro ao salvar publicação' });
+      }
+    }
+
+    // 5. EDITAR PUBLICAÇÃO (Autor ou ADM)
+    if (action === 'edit') {
+      const postId = body.postId || req.query?.postId;
+      if (!postId) {
+        return res.status(400).json({ error: 'postId obrigatório' });
+      }
+
+      try {
+        const posts = await db.getPosts();
+        const post = posts.find(p => p.id === postId);
+        if (!post) {
+          return res.status(404).json({ error: 'Publicação não encontrada' });
+        }
+
+        const currentSteamId = user.steamId || user.steamid;
+        const userIsAdmin = user.isAdmin || isAdmin(currentSteamId);
+        const postAuthorId = post.author?.steamId || post.author?.steamid;
+        const isAuthor = postAuthorId === currentSteamId;
+
+        if (!userIsAdmin && !isAuthor) {
+          return res.status(403).json({ error: 'Você não tem permissão para editar esta publicação.' });
+        }
+
+        const caption = body.caption !== undefined ? body.caption.trim() : post.caption;
+        const tag = body.tag !== undefined ? body.tag.trim() : post.tag;
+
+        const updated = await db.editPost({ postId, caption, tag });
+        return res.status(200).json({ success: true, post: updated.post || post });
+      } catch (e) {
+        console.error('[API Feed] Erro ao editar publicação:', e);
+        return res.status(500).json({ error: 'Erro ao salvar edição' });
+      }
+    }
+
+    // 6. EXCLUIR PUBLICAÇÃO (Autor ou ADM)
+    if (action === 'delete') {
+      const postId = body.postId || req.query?.postId;
+      if (!postId) {
+        return res.status(400).json({ error: 'postId obrigatório' });
+      }
+
+      try {
+        const posts = await db.getPosts();
+        const post = posts.find(p => p.id === postId);
+        if (!post) {
+          return res.status(404).json({ error: 'Publicação não encontrada' });
+        }
+
+        const currentSteamId = user.steamId || user.steamid;
+        const userIsAdmin = user.isAdmin || isAdmin(currentSteamId);
+        const postAuthorId = post.author?.steamId || post.author?.steamid;
+        const isAuthor = postAuthorId === currentSteamId;
+
+        if (!userIsAdmin && !isAuthor) {
+          return res.status(403).json({ error: 'Você não tem permissão para excluir esta publicação.' });
+        }
+
+        await db.deletePost(postId);
+        return res.status(200).json({ success: true, postId });
+      } catch (e) {
+        console.error('[API Feed] Erro ao excluir publicação:', e);
+        return res.status(500).json({ error: 'Erro ao excluir publicação' });
+      }
+    }
+
+    // 7. EXCLUIR COMENTÁRIO (Autor do comentário, autor do post ou ADM)
+    if (action === 'delete_comment') {
+      const postId = body.postId || req.query?.postId;
+      const commentId = body.commentId || req.query?.commentId;
+
+      if (!postId || !commentId) {
+        return res.status(400).json({ error: 'postId e commentId obrigatórios' });
+      }
+
+      try {
+        const posts = await db.getPosts();
+        const post = posts.find(p => p.id === postId);
+        if (!post) {
+          return res.status(404).json({ error: 'Publicação não encontrada' });
+        }
+
+        const comment = (post.comments || []).find(c => c.id === commentId);
+        if (!comment) {
+          return res.status(404).json({ error: 'Comentário não encontrado' });
+        }
+
+        const currentSteamId = user.steamId || user.steamid;
+        const userIsAdmin = user.isAdmin || isAdmin(currentSteamId);
+        const commentAuthorId = comment.author?.steamId || comment.author?.steamid;
+        const postAuthorId = post.author?.steamId || post.author?.steamid;
+        const isCommentAuthor = commentAuthorId === currentSteamId;
+        const isPostAuthor = postAuthorId === currentSteamId;
+
+        if (!userIsAdmin && !isCommentAuthor && !isPostAuthor) {
+          return res.status(403).json({ error: 'Você não tem permissão para excluir este comentário.' });
+        }
+
+        await db.deleteComment({ postId, commentId });
+        return res.status(200).json({ success: true, commentId });
+      } catch (e) {
+        console.error('[API Feed] Erro ao excluir comentário:', e);
+        return res.status(500).json({ error: 'Erro ao excluir comentário' });
       }
     }
 

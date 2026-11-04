@@ -34,6 +34,16 @@
   const lightboxClose = document.getElementById('lightbox-close');
   const toastEl = document.getElementById('feed-toast');
 
+  // Elementos do Modal de Edição
+  const editModal = document.getElementById('feed-edit-modal');
+  const editPostId = document.getElementById('edit-post-id');
+  const editPostCaption = document.getElementById('edit-post-caption');
+  const editTagSelector = document.getElementById('edit-tag-selector');
+  const editModalClose = document.getElementById('edit-modal-close');
+  const editModalCancel = document.getElementById('edit-modal-cancel');
+  const editModalSave = document.getElementById('edit-modal-save');
+  let selectedEditTag = '📸 Screenshot';
+
   // Inicialização
   async function init() {
     setupEventListeners();
@@ -126,6 +136,7 @@
     }
 
     const mySteamId = currentUser ? (currentUser.steamId || currentUser.steamid) : null;
+    const userIsAdmin = currentUser && (currentUser.isAdmin || currentUser.steamId === '76561198737554294' || currentUser.steamid === '76561198737554294');
 
     postsStream.innerHTML = filtered.map(post => {
       const likes = Array.isArray(post.likes) ? post.likes : [];
@@ -133,7 +144,10 @@
       const hasLiked = mySteamId && likes.includes(mySteamId);
       const authorAvatar = (post.author?.avatar || 'https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg').replace(/\\\//g, '/');
       const authorName = escapeHtml(post.author?.name || 'Jogador');
-      const authorSteamId = post.author?.steamId || '';
+      const authorSteamId = post.author?.steamId || post.author?.steamid || '';
+      const isPostAdmin = authorSteamId === '76561198737554294' || authorSteamId === '76561199127717531';
+      const isAuthor = mySteamId && (authorSteamId === mySteamId);
+      const canManage = userIsAdmin || isAuthor;
       const dateText = formatDate(post.createdAt);
 
       return `
@@ -145,12 +159,25 @@
               <div>
                 <span class="feed-author-name">
                   ${authorName}
-                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6C978E" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  ${isPostAdmin ? '<span style="background: rgba(215, 87, 59, 0.25); border: 1px solid #D7573B; color: #ff8b70; font-size: 0.65rem; font-weight: 800; padding: 1px 6px; border-radius: 4px; letter-spacing: 0.06em; margin-left: 4px;">👑 ADM</span>' : '<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6C978E" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>'}
                 </span>
                 <span class="feed-post-meta">${dateText}</span>
               </div>
             </a>
-            <span class="feed-card-tag">${escapeHtml(post.tag || '📸 Screenshot')}</span>
+            
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span class="feed-card-tag">${escapeHtml(post.tag || '📸 Screenshot')}</span>
+              ${canManage ? `
+                <div style="display: inline-flex; align-items: center; gap: 4px;">
+                  <button type="button" title="Editar publicação" onclick="window.feedApp.openEditModal('${post.id}')" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #a1a1aa; border-radius: 6px; padding: 3px 8px; font-size: 0.72rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 3px;" onmouseover="this.style.color='#EDE8E5';this.style.borderColor='#6C978E'" onmouseout="this.style.color='#a1a1aa';this.style.borderColor='rgba(255,255,255,0.12)'">
+                    ✏️ <span style="font-size: 0.7rem;">Editar</span>
+                  </button>
+                  <button type="button" title="Excluir publicação" onclick="window.feedApp.deletePost('${post.id}')" style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.25); color: #f87171; border-radius: 6px; padding: 3px 8px; font-size: 0.72rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 3px;" onmouseover="this.style.background='rgba(239,68,68,0.25)'" onmouseout="this.style.background='rgba(239,68,68,0.1)'">
+                    🗑️ <span style="font-size: 0.7rem;">Excluir</span>
+                  </button>
+                </div>
+              ` : ''}
+            </div>
           </div>
 
           <!-- MÍDIA / IMAGEM -->
@@ -183,18 +210,34 @@
           <!-- SEÇÃO DE COMENTÁRIOS -->
           <div class="feed-comments-section" id="comments-sec-${post.id}">
             <div id="comments-list-${post.id}">
-              ${comments.map(c => `
-                <div class="feed-comment-item">
-                  <img src="${(c.author?.avatar || 'https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg').replace(/\\\//g, '/')}" alt="${escapeHtml(c.author?.name || 'Jogador')}" class="feed-comment-avatar">
-                  <div class="feed-comment-content">
-                    <div class="feed-comment-user">
-                      <span>${escapeHtml(c.author?.name || 'Jogador')}</span>
-                      <span class="feed-comment-time">${formatDate(c.createdAt)}</span>
+              ${comments.map(c => {
+                const commentSteamId = c.author?.steamId || c.author?.steamid || '';
+                const canDeleteC = userIsAdmin || isAuthor || (mySteamId && commentSteamId === mySteamId);
+                const isCAdmin = commentSteamId === '76561198737554294' || commentSteamId === '76561199127717531';
+
+                return `
+                  <div class="feed-comment-item">
+                    <img src="${(c.author?.avatar || 'https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg').replace(/\\\//g, '/')}" alt="${escapeHtml(c.author?.name || 'Jogador')}" class="feed-comment-avatar">
+                    <div class="feed-comment-content">
+                      <div class="feed-comment-user">
+                        <span>
+                          ${escapeHtml(c.author?.name || 'Jogador')}
+                          ${isCAdmin ? '<span style="background: rgba(215, 87, 59, 0.25); border: 1px solid #D7573B; color: #ff8b70; font-size: 0.6rem; font-weight: 800; padding: 0 4px; border-radius: 3px; margin-left: 4px;">ADM</span>' : ''}
+                        </span>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                          <span class="feed-comment-time">${formatDate(c.createdAt)}</span>
+                          ${canDeleteC ? `
+                            <button type="button" title="Excluir comentário" onclick="window.feedApp.deleteComment('${post.id}', '${c.id}')" style="background: transparent; border: none; color: #71717a; cursor: pointer; padding: 0 2px; font-size: 0.72rem; line-height: 1;" onmouseover="this.style.color='#ef4444'" onmouseout="this.style.color='#71717a'">
+                              🗑️
+                            </button>
+                          ` : ''}
+                        </div>
+                      </div>
+                      <div class="feed-comment-text">${escapeHtml(c.text || '')}</div>
                     </div>
-                    <div class="feed-comment-text">${escapeHtml(c.text || '')}</div>
                   </div>
-                </div>
-              `).join('')}
+                `;
+              }).join('')}
             </div>
 
             <!-- CAMPO PARA COMENTAR -->
@@ -595,6 +638,27 @@
       btnSubmitPost.addEventListener('click', handleCreatePost);
     }
 
+    // Modal de Edição (Listeners)
+    if (editTagSelector) {
+      editTagSelector.addEventListener('click', (e) => {
+        const pill = e.target.closest('.feed-tag-pill');
+        if (pill) {
+          editTagSelector.querySelectorAll('.feed-tag-pill').forEach(p => p.classList.remove('active'));
+          pill.classList.add('active');
+          selectedEditTag = pill.getAttribute('data-tag') || '📸 Screenshot';
+        }
+      });
+    }
+
+    if (editModalClose) editModalClose.addEventListener('click', closeEditModal);
+    if (editModalCancel) editModalCancel.addEventListener('click', closeEditModal);
+    if (editModalSave) editModalSave.addEventListener('click', submitEditPost);
+    if (editModal) {
+      editModal.addEventListener('click', (e) => {
+        if (e.target === editModal) closeEditModal();
+      });
+    }
+
     // Lightbox
     if (lightboxClose) {
       lightboxClose.addEventListener('click', closeLightbox);
@@ -605,8 +669,136 @@
       });
     }
     window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'Escape') {
+        closeLightbox();
+        closeEditModal();
+      }
     });
+  }
+
+  // Funções de Edição e Exclusão (Admin / Autor)
+  function openEditModal(postId) {
+    const post = allPosts.find(p => p.id === postId);
+    if (!post || !editModal) return;
+
+    editPostId.value = post.id;
+    editPostCaption.value = post.caption || '';
+    selectedEditTag = post.tag || '📸 Screenshot';
+
+    if (editTagSelector) {
+      editTagSelector.querySelectorAll('.feed-tag-pill').forEach(pill => {
+        if (pill.getAttribute('data-tag') === selectedEditTag) {
+          pill.classList.add('active');
+        } else {
+          pill.classList.remove('active');
+        }
+      });
+    }
+
+    editModal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeEditModal() {
+    if (!editModal) return;
+    editModal.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  async function submitEditPost() {
+    const postId = editPostId.value;
+    const caption = (editPostCaption.value || '').trim();
+
+    if (!caption) {
+      showToast('⚠️ A legenda não pode estar vazia.');
+      return;
+    }
+
+    editModalSave.disabled = true;
+    editModalSave.textContent = 'Salvando...';
+
+    try {
+      const res = await fetch('/api/feed', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'edit',
+          postId,
+          caption,
+          tag: selectedEditTag
+        })
+      });
+
+      if (res.ok) {
+        const post = allPosts.find(p => p.id === postId);
+        if (post) {
+          post.caption = caption;
+          post.tag = selectedEditTag;
+        }
+        closeEditModal();
+        renderFeed();
+        showToast('✅ Publicação atualizada com sucesso!');
+      } else {
+        const err = await res.json();
+        showToast(err.error || 'Erro ao editar publicação.');
+      }
+    } catch (e) {
+      showToast('Erro de conexão ao editar.');
+    } finally {
+      editModalSave.disabled = false;
+      editModalSave.textContent = 'Salvar Alterações';
+    }
+  }
+
+  async function deletePost(postId) {
+    if (!confirm('Tem certeza que deseja excluir esta publicação do Feed? Esta ação não pode ser desfeita.')) {
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/feed', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'delete', postId })
+      });
+
+      if (res.ok) {
+        allPosts = allPosts.filter(p => p.id !== postId);
+        renderFeed();
+        showToast('🗑️ Publicação excluída com sucesso!');
+      } else {
+        const err = await res.json();
+        showToast(err.error || 'Erro ao excluir publicação.');
+      }
+    } catch (e) {
+      showToast('Erro de conexão ao excluir.');
+    }
+  }
+
+  async function deleteComment(postId, commentId) {
+    if (!confirm('Deseja excluir este comentário?')) return;
+
+    try {
+      const res = await fetch('/api/feed', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'delete_comment', postId, commentId })
+      });
+
+      if (res.ok) {
+        const post = allPosts.find(p => p.id === postId);
+        if (post && Array.isArray(post.comments)) {
+          post.comments = post.comments.filter(c => c.id !== commentId);
+        }
+        renderFeed();
+        showToast('🗑️ Comentário excluído.');
+      } else {
+        const err = await res.json();
+        showToast(err.error || 'Erro ao excluir comentário.');
+      }
+    } catch (e) {
+      showToast('Erro de conexão ao excluir comentário.');
+    }
   }
 
   // Exporta métodos globais para inline onclicks
@@ -614,6 +806,10 @@
     toggleLike,
     submitComment,
     openLightbox,
+    openEditModal,
+    closeEditModal,
+    deletePost,
+    deleteComment,
     sharePost,
     toggleComments: (id) => {
       const sec = document.getElementById(`comments-sec-${id}`);

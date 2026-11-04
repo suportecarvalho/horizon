@@ -28,6 +28,10 @@
       "destination": "/api/auth/logout"
     },
     {
+      "source": "/auth/demo-admin",
+      "destination": "/api/auth/demo-admin"
+    },
+    {
       "source": "/auth/demo-login",
       "destination": "/api/auth/demo-login"
     },

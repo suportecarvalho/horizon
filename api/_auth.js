@@ -4,6 +4,17 @@ const https = require('https');
 const SESSION_SECRET = process.env.SESSION_SECRET || 'horizon-rust-session-secret-key-2026';
 const DEFAULT_AVATAR = 'https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg';
 
+const ADMIN_STEAM_IDS = [
+  '76561198737554294', // ADM configurado pelo usuário
+  '76561199127717531'  // ADM oficial Horizon
+];
+
+function isAdmin(steamId) {
+  if (!steamId) return false;
+  const envAdmins = (process.env.ADMIN_STEAM_IDS || '').split(',').map(s => s.trim()).filter(Boolean);
+  return ADMIN_STEAM_IDS.includes(steamId) || envAdmins.includes(steamId);
+}
+
 function signData(data) {
   return crypto.createHmac('sha256', SESSION_SECRET).update(data).digest('hex');
 }
@@ -34,7 +45,10 @@ function getSessionUser(req) {
   if (!userJson || !sig) return null;
   if (signData(userJson) !== sig) return null;
   try {
-    return JSON.parse(userJson);
+    const user = JSON.parse(userJson);
+    const sid = user.steamId || user.steamid;
+    user.isAdmin = isAdmin(sid);
+    return user;
   } catch (e) {
     return null;
   }
@@ -94,6 +108,8 @@ module.exports = {
   getSessionUser,
   getBaseUrl,
   fetchSteamProfile,
+  isAdmin,
+  ADMIN_STEAM_IDS,
   DEFAULT_AVATAR
 };
 
