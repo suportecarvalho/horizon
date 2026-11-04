@@ -632,3 +632,149 @@ footer.site-footer {
   margin-right: 0 !important;
   padding-right: 0 !important;
 }
+
+/* =========================================================
+   RANKINGS / LEADERBOARDS: Paleta Rust Horizon (Tema Home)
+   ========================================================= */
+body:has(.ranking),
+.ranking {
+  --bg: #13100F !important;
+  --bg2: #161312 !important;
+  --bg3: #1C1615 !important;
+  --border: rgba(108, 151, 142, 0.22) !important;
+  --border-subtle: rgba(255, 255, 255, 0.06) !important;
+}
+
+.ranking {
+  background-color: #13100F !important;
+}
+
+.ranking .olho {
+  color: #82ADA4 !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+}
+
+.ranking-servidores {
+  background: #181514 !important;
+  border-color: rgba(108, 151, 142, 0.25) !important;
+}
+
+.ranking-servidor-atual {
+  background: rgba(108, 151, 142, 0.18) !important;
+  border-color: rgba(108, 151, 142, 0.45) !important;
+  color: #82ADA4 !important;
+}
+
+.ranking-controles {
+  margin: 24px 0 16px !important;
+}
+
+.ranking-abas {
+  background: #181514 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 8px !important;
+}
+
+.ranking-aba {
+  color: #a1a1aa !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+  transition: all 0.2s ease !important;
+}
+
+.ranking-aba:hover {
+  color: #FFFFFF !important;
+  background: rgba(255, 255, 255, 0.03) !important;
+}
+
+.ranking-aba-atual,
+.ranking-aba-atual:hover {
+  color: #FFFFFF !important;
+  background: rgba(215, 87, 59, 0.12) !important;
+  box-shadow: inset 0 -3px 0 #D7573B !important;
+}
+
+.ranking-aba-atual .ranking-aba-icone {
+  color: #D7573B !important;
+}
+
+.ranking-busca-campo {
+  background: #181514 !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 8px !important;
+}
+
+.ranking-busca-campo:focus-within {
+  border-color: #D7573B !important;
+}
+
+.ranking-busca-input {
+  color: #EDE8E5 !important;
+}
+
+.ranking-busca-input::placeholder {
+  color: #71717a !important;
+}
+
+.ranking-total {
+  color: #a1a1aa !important;
+  font-family: var(--font-mono, monospace) !important;
+  font-size: 0.86rem !important;
+}
+
+.ranking-caixa {
+  background: #161312 !important;
+  border: 1px solid rgba(108, 151, 142, 0.25) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.65) !important;
+  overflow: hidden !important;
+}
+
+.ranking-cabecalho {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background: rgba(0, 0, 0, 0.28) !important;
+}
+
+.ranking-cab {
+  color: #82ADA4 !important;
+  background: transparent !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.08em !important;
+}
+
+.ranking-linha {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+  transition: background-color 0.15s ease !important;
+}
+
+.ranking-linha:hover {
+  background: rgba(255, 255, 255, 0.035) !important;
+}
+
+.ranking-nome {
+  color: #EDE8E5 !important;
+  font-weight: 700 !important;
+}
+
+.ranking-id {
+  color: #71717a !important;
+  font-family: monospace !important;
+}
+
+.ranking-valor-destaque {
+  color: #D7573B !important;
+  font-weight: 900 !important;
+}
+
+.ranking-avatar {
+  border: 1.5px solid rgba(215, 87, 59, 0.85) !important;
+  border-radius: 50% !important;
+}
+
+.ranking-avatar-vazio {
+  border: 1.5px solid #D7573B !important;
+  background: #221d1b !important;
+  color: #EDE8E5 !important;
+  font-weight: 800 !important;
+}
