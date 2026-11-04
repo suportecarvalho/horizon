@@ -1,7 +1,7 @@
 {
   "server": "Horizon 2x Solo/Duo/Trio",
-  "wipe_total_players": 33,
-  "updated_at": "2026-11-04T18:44:38.747Z",
+  "wipe_total_players": 34,
+  "updated_at": "2026-11-04T18:59:36.353Z",
   "pvp": [
     {
       "rank": 1,
@@ -155,7 +155,7 @@
       "kd": "0.00",
       "headshot_pct": "0.0%",
       "kills": 0,
-      "deaths": 3,
+      "deaths": 4,
       "headshots": 0,
       "distance": "0m"
     },
@@ -514,15 +514,15 @@
       "steamid": "76561198365369539",
       "name": "Cairo",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/c3c1f6bf05a3adbc21204fa31e34c2f5d8cf3bae_full.jpg",
-      "total": "44,772",
-      "stones": "19,386",
+      "total": "44,775",
+      "stones": "19,387",
       "sulfur": "7,661",
       "metal": "4,716",
       "hqm": "0",
-      "wood": "12,314",
+      "wood": "12,315",
       "leather": "116",
       "fat": "230",
-      "bone": "349"
+      "bone": "350"
     },
     {
       "rank": 10,
@@ -825,14 +825,14 @@
       "steamid": "76561198365369539",
       "name": "Cairo",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/c3c1f6bf05a3adbc21204fa31e34c2f5d8cf3bae_full.jpg",
-      "total": "657",
+      "total": "660",
       "cloth": "638",
       "yellow_berry": "0",
       "red_berry": "0",
       "blue_berry": "6",
       "green_berry": "0",
       "white_berry": "0",
-      "mushroom": "13",
+      "mushroom": "16",
       "pumpkin": "0",
       "corn": "0",
       "potato": "0",

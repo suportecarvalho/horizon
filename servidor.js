@@ -902,12 +902,12 @@ const server = http.createServer((req, res) => {
   // -------------------------------------------------------------
   if (cleanUrl.startsWith('/api/checkout/') || cleanUrl.startsWith('/api/vip/')) {
     const routeMap = {
-      '/api/checkout/create': './api/checkout/create',
-      '/api/checkout/status': './api/checkout/status',
-      '/api/checkout/webhook': './api/checkout/webhook',
-      '/api/vip/pending': './api/vip/pending',
-      '/api/vip/confirm': './api/vip/confirm',
-      '/api/vip/player': './api/vip/player'
+      '/api/checkout/create': './api/_checkout/create',
+      '/api/checkout/status': './api/_checkout/status',
+      '/api/checkout/webhook': './api/_checkout/webhook',
+      '/api/vip/pending': './api/_vip/pending',
+      '/api/vip/confirm': './api/_vip/confirm',
+      '/api/vip/player': './api/_vip/player'
     };
 
     const handlerPath = routeMap[cleanUrl];

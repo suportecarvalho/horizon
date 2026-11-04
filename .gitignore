@@ -30,3 +30,5 @@ check_*.js
 test_*.js
 corrigir_*.js
 ajustar_*.js
+.vercel
+.env*
