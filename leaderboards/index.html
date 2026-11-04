@@ -77,8 +77,8 @@
       if (currentTab === 'pvp') {
         thead.innerHTML = `
           <tr class="ranking-cabecalho">
-            <th class="ranking-cab ranking-cab-rank" style="width: 50px; text-align: center;">#</th>
-            <th class="ranking-cab ranking-cab-jogador" style="text-align: left;">JOGADOR</th>
+            <th class="ranking-cab ranking-cab-rank" style="width: 85px; text-align: center;">#</th>
+            <th class="ranking-cab ranking-cab-jogador" style="text-align: left; padding-left: 24px;">JOGADOR</th>
             <th class="ranking-cab" style="text-align: center;">KDR</th>
             <th class="ranking-cab" style="text-align: center;">% HS</th>
             <th class="ranking-cab" style="text-align: center;">KILLS</th>
@@ -89,8 +89,8 @@
       } else if (currentTab === 'recursos') {
         thead.innerHTML = `
           <tr class="ranking-cabecalho">
-            <th class="ranking-cab ranking-cab-rank" style="width: 50px; text-align: center;">#</th>
-            <th class="ranking-cab ranking-cab-jogador" style="text-align: left;">JOGADOR</th>
+            <th class="ranking-cab ranking-cab-rank" style="width: 85px; text-align: center;">#</th>
+            <th class="ranking-cab ranking-cab-jogador" style="text-align: left; padding-left: 24px;">JOGADOR</th>
             <th class="ranking-cab" style="text-align: center; width: 55px;" title="Pedra"><img src="/images/items/stones.png" alt="Pedra" class="hlb-item-icon"></th>
             <th class="ranking-cab" style="text-align: center; width: 55px;" title="Minério de Enxofre"><img src="/images/items/sulfur.ore.png" alt="Enxofre" class="hlb-item-icon"></th>
             <th class="ranking-cab" style="text-align: center; width: 55px;" title="Minério de Metal"><img src="/images/items/metal.ore.png" alt="Metal" class="hlb-item-icon"></th>
@@ -104,8 +104,8 @@
       } else if (currentTab === 'farming') {
         thead.innerHTML = `
           <tr class="ranking-cabecalho">
-            <th class="ranking-cab ranking-cab-rank" style="width: 50px; text-align: center;">#</th>
-            <th class="ranking-cab ranking-cab-jogador" style="text-align: left;">JOGADOR</th>
+            <th class="ranking-cab ranking-cab-rank" style="width: 85px; text-align: center;">#</th>
+            <th class="ranking-cab ranking-cab-jogador" style="text-align: left; padding-left: 24px;">JOGADOR</th>
             <th class="ranking-cab" style="text-align: center; width: 44px;" title="Tecido (Cloth)"><img src="/images/items/cloth.png" alt="Tecido" class="hlb-item-icon"></th>
             <th class="ranking-cab" style="text-align: center; width: 44px;" title="Amora Amarela"><img src="/images/items/yellow.berry.png" alt="Amora Amarela" class="hlb-item-icon"></th>
             <th class="ranking-cab" style="text-align: center; width: 44px;" title="Amora Vermelha"><img src="/images/items/red.berry.png" alt="Amora Vermelha" class="hlb-item-icon"></th>
@@ -185,9 +185,9 @@
 
       return `
         <tr class="ranking-linha">
-          <td class="ranking-celula-rank" style="text-align: center;"><span class="ranking-rank">${medalHtml}</span></td>
-          <td>
-            <div class="ranking-jogador">
+          <td class="ranking-celula-rank" style="width: 85px; text-align: center;"><span class="ranking-rank">${medalHtml}</span></td>
+          <td class="ranking-celula-jogador" style="padding-left: 24px;">
+            <div class="ranking-jogador" style="gap: 16px;">
               <span class="ranking-avatar-caixa"><img src="${avatarSrc}" class="ranking-avatar" alt="" onerror="this.onerror=null;this.src='https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg';"></span>
               <span class="ranking-nome-bloco">
                 <span class="ranking-nome" style="color: #EDE8E5; font-weight: 600;">${item.name}</span>

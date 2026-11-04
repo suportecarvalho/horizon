@@ -778,3 +778,42 @@ body:has(.ranking),
   color: #EDE8E5 !important;
   font-weight: 800 !important;
 }
+
+/* Espaçamento refinado da coluna do Rank e do Jogador */
+.ranking-cab-rank {
+  width: 85px !important;
+  min-width: 85px !important;
+  text-align: center !important;
+  padding: 0 10px !important;
+}
+
+.ranking-celula-rank {
+  width: 85px !important;
+  min-width: 85px !important;
+  padding: 0 10px !important;
+  text-align: center !important;
+}
+
+.ranking-rank {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  width: 100% !important;
+}
+
+.ranking-cab-jogador {
+  text-align: left !important;
+  padding-left: 24px !important;
+}
+
+.ranking-celula-jogador,
+.ranking-linha td:nth-child(2) {
+  padding-left: 24px !important;
+}
+
+.ranking-jogador {
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
+}
