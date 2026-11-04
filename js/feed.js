@@ -134,7 +134,6 @@
       const authorAvatar = (post.author?.avatar || 'https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg').replace(/\\\//g, '/');
       const authorName = escapeHtml(post.author?.name || 'Jogador');
       const authorSteamId = post.author?.steamId || post.author?.steamid || '';
-      const isPostAdmin = authorSteamId === '76561198737554294' || authorSteamId === '76561199127717531';
       const isAuthor = mySteamId && (authorSteamId === mySteamId);
       const canManage = userIsAdmin || isAuthor;
       const dateText = formatDate(post.createdAt);
@@ -148,7 +147,7 @@
               <div>
                 <span class="feed-author-name">
                   ${authorName}
-                  ${isPostAdmin ? '<span style="background: rgba(215, 87, 59, 0.25); border: 1px solid #D7573B; color: #ff8b70; font-size: 0.65rem; font-weight: 800; padding: 1px 6px; border-radius: 4px; letter-spacing: 0.06em; margin-left: 4px;">👑 ADM</span>' : '<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6C978E" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>'}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6C978E" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
                 </span>
                 <span class="feed-post-meta">${dateText}</span>
               </div>
@@ -200,7 +199,6 @@
               ${comments.map(c => {
                 const commentSteamId = c.author?.steamId || c.author?.steamid || '';
                 const canDeleteC = userIsAdmin || isAuthor || (mySteamId && commentSteamId === mySteamId);
-                const isCAdmin = commentSteamId === '76561198737554294' || commentSteamId === '76561199127717531';
 
                 return `
                   <div class="feed-comment-item">
@@ -209,7 +207,6 @@
                       <div class="feed-comment-user">
                         <span>
                           ${escapeHtml(c.author?.name || 'Jogador')}
-                          ${isCAdmin ? '<span style="background: rgba(215, 87, 59, 0.25); border: 1px solid #D7573B; color: #ff8b70; font-size: 0.6rem; font-weight: 800; padding: 0 4px; border-radius: 3px; margin-left: 4px;">ADM</span>' : ''}
                         </span>
                         <div style="display: flex; align-items: center; gap: 6px;">
                           <span class="feed-comment-time">${formatDate(c.createdAt)}</span>
