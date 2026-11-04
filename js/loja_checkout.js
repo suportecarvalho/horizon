@@ -339,8 +339,7 @@
         color: #d1d5db;
         line-height: 1.45;
       ">
-        <span style="color: #f97316; font-size: 0.9rem; margin-right: 4px;">⚡</span>
-        <strong style="color: #ffffff;">Liberação Automática:</strong> Assim que o pagamento for confirmado pelo Mercado Pago, o kit e privilégios VIP são ativados no servidor e permanecerão válidos por <strong>30 dias</strong>, sendo removidos automaticamente após o prazo.
+        <strong style="color: #ffffff;">VIP Automático:</strong> Ativação imediata no servidor assim que o Mercado Pago confirmar o pagamento. O kit e os privilégios são válidos por <strong>30 dias</strong> e expiram automaticamente.
       </div>
     `;
   }
