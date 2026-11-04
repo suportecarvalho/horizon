@@ -231,9 +231,27 @@ async function getPayment(paymentId) {
   return await requestMP(`/v1/payments/${paymentId}`, 'GET', null, token);
 }
 
+/**
+ * Busca pagamentos recentes na API do Mercado Pago
+ */
+async function searchRecentPayments(limit = 20) {
+  const config = getMPConfig();
+  const token = config.accessToken;
+  if (!token) return [];
+
+  try {
+    const res = await requestMP(`/v1/payments/search?sort=date_created&criteria=desc&limit=${limit}`, 'GET', null, token);
+    return res && Array.isArray(res.results) ? res.results : [];
+  } catch (e) {
+    console.error('[MercadoPago searchRecentPayments]:', e.message);
+    return [];
+  }
+}
+
 module.exports = {
   getMPConfig,
   createPixPayment,
   createPreference,
-  getPayment
+  getPayment,
+  searchRecentPayments
 };

@@ -360,7 +360,7 @@
       }
 
       // Inicia verificação contínua do pagamento
-      startPollingPayment(data.orderId);
+      startPollingPayment(data.orderId, data.paymentId);
 
     } catch (err) {
       container.innerHTML = `
@@ -571,13 +571,16 @@
     } catch (e) {}
   };
 
-  // POLLING: Verifica status a cada 3 segundos
-  function startPollingPayment(orderId) {
+  // POLLING: Verifica status a cada 2.5 segundos
+  function startPollingPayment(orderId, paymentId) {
     if (pollInterval) clearInterval(pollInterval);
 
     pollInterval = setInterval(async () => {
       try {
-        const res = await fetch(`/api/checkout/status?orderId=${encodeURIComponent(orderId)}`);
+        const queryParams = new URLSearchParams();
+        if (orderId) queryParams.set('orderId', orderId);
+        if (paymentId) queryParams.set('paymentId', paymentId);
+        const res = await fetch(`/api/checkout/status?${queryParams.toString()}`);
         if (!res.ok) return;
         const data = await res.json();
 
@@ -587,7 +590,7 @@
           renderSuccessScreen(data);
         }
       } catch (e) {}
-    }, 3000);
+    }, 2500);
   }
 
   // RENDER: Tela de Sucesso (VIP Entregue e Concedido)

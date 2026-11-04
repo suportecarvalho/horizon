@@ -1,5 +1,219 @@
 [
   {
+    "id": "HORIZON-BRONZE-MW2I49IG-500",
+    "payment_id": "186708829417",
+    "steam_id": "76561198737554294",
+    "player_name": "Jogador",
+    "vip_tier": "bronze",
+    "amount": 20,
+    "status": "approved",
+    "granted": false,
+    "created_at": "2026-11-04T15:20:09.000-04:00",
+    "approved_at": "2026-11-04T15:20:32.000-04:00",
+    "expires_at": "2026-12-04T19:20:32.000Z",
+    "raw_data": {
+      "id": 186708829417,
+      "date_created": "2026-11-04T15:20:09.000-04:00",
+      "date_approved": "2026-11-04T15:20:32.000-04:00",
+      "date_last_updated": "2026-11-04T15:20:36.000-04:00",
+      "date_of_expiration": "2026-11-05T15:20:09.000-04:00",
+      "money_release_date": "2026-11-04T15:20:32.000-04:00",
+      "money_release_status": "released",
+      "operation_type": "regular_payment",
+      "issuer_id": "12501",
+      "payment_method_id": "pix",
+      "payment_type_id": "bank_transfer",
+      "payment_method": {
+        "id": "pix",
+        "type": "bank_transfer",
+        "issuer_id": "12501"
+      },
+      "status": "approved",
+      "status_detail": "accredited",
+      "currency_id": "BRL",
+      "description": "VIP Bronze (30 Dias) - Rust Horizon (30 Dias)",
+      "live_mode": true,
+      "sponsor_id": null,
+      "authorization_code": null,
+      "money_release_schema": null,
+      "taxes_amount": 0,
+      "counter_currency": null,
+      "brand_id": null,
+      "shipping_amount": 0,
+      "build_version": "3.184.0-rc-1",
+      "idempotency_key": "idempotencyKeyPostPay_horizon-1793820009256-ggnqkac_6831509833853820",
+      "pos_id": null,
+      "store_id": null,
+      "integrator_id": null,
+      "platform_id": null,
+      "corporation_id": null,
+      "charges_execution_info": {
+        "internal_execution": {
+          "date": "2026-11-04T15:20:09.679-04:00",
+          "execution_id": "01M6M02958JJQN3KEMBEDJ0X38"
+        }
+      },
+      "payer": {
+        "type": null,
+        "id": "3813947323",
+        "operator_id": null,
+        "email": "XXXXXXXXXXX",
+        "identification": {
+          "type": "CNPJ",
+          "number": "10573521000191"
+        },
+        "phone": {
+          "number": null,
+          "extension": null,
+          "area_code": null
+        },
+        "first_name": null,
+        "last_name": null,
+        "entity_type": null
+      },
+      "collector_id": 350004076,
+      "marketplace_owner": null,
+      "metadata": {
+        "server": "Horizon 2x Solo/Duo/Trio",
+        "steam_id": "76561198737554294",
+        "vip_tier": "bronze",
+        "order_id": "HORIZON-BRONZE-MW2I49IG-500"
+      },
+      "additional_info": {
+        "bank_info": {
+          "is_same_bank_account_owner": true
+        },
+        "tracking_id": "platform:v1-whitelabel,so:ALL,type:N/A,security:none"
+      },
+      "order": {},
+      "external_reference": null,
+      "transaction_amount": 20,
+      "transaction_amount_refunded": 0,
+      "coupon_amount": 0,
+      "differential_pricing_id": null,
+      "financing_group": null,
+      "deduction_schema": null,
+      "callback_url": null,
+      "installments": 1,
+      "transaction_details": {
+        "payment_method_reference_id": null,
+        "acquirer_reference": null,
+        "net_received_amount": 19.8,
+        "total_paid_amount": 20,
+        "overpaid_amount": 0,
+        "external_resource_url": null,
+        "installment_amount": 0,
+        "financial_institution": "1",
+        "payable_deferral_period": null,
+        "bank_transfer_id": 129805216001,
+        "transaction_id": "PIXE18236120202611041920s05652708f1"
+      },
+      "fee_details": [
+        {
+          "type": "mercadopago_fee",
+          "amount": 0.2,
+          "fee_payer": "collector"
+        }
+      ],
+      "charges_details": [
+        {
+          "id": "186708829417-001",
+          "name": "mercadopago_fee",
+          "type": "fee",
+          "accounts": {
+            "from": "collector",
+            "to": "mp"
+          },
+          "client_id": 0,
+          "date_created": "2026-11-04T15:20:09.000-04:00",
+          "last_updated": "2026-11-04T15:20:09.000-04:00",
+          "amounts": {
+            "original": 0.2,
+            "refunded": 0
+          },
+          "metadata": {
+            "reason": "",
+            "source": "proc-svc-charges",
+            "source_detail": "processing_fee_charge"
+          },
+          "reserve_id": null,
+          "refund_charges": [],
+          "external_charge_id": "01M6M029668HQHHR7G3PGZQ94Y",
+          "update_charges": []
+        }
+      ],
+      "captured": true,
+      "binary_mode": false,
+      "call_for_authorize_id": null,
+      "statement_descriptor": null,
+      "card": {},
+      "notification_url": "https://lojahorizon.vercel.app/api/checkout/webhook",
+      "refunds": [],
+      "processing_mode": "aggregator",
+      "merchant_account_id": null,
+      "merchant_number": null,
+      "acquirer_reconciliation": [],
+      "point_of_interaction": {
+        "type": "OPENPLATFORM",
+        "sub_type": "INTER_PSP",
+        "business_info": {
+          "unit": "online_payments",
+          "sub_unit": "default",
+          "branch": "Merchant Services"
+        },
+        "location": {
+          "state_id": "null",
+          "source": "null"
+        },
+        "application_data": {
+          "name": null,
+          "operating_system": null,
+          "version": null
+        },
+        "transaction_data": {
+          "qr_code": "00020126330014br.gov.bcb.pix011140476660840520400005303986540520.005802BR5910STUNBURGER6009Rio Claro62250521mpqrinter18670882941763040515",
+          "qr_code_base64": "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",
+          "bank_transfer_id": 129805216001,
+          "transaction_id": "PIXE18236120202611041920s05652708f1",
+          "e2e_id": null,
+          "financial_institution": 1,
+          "ticket_url": "https://www.mercadopago.com.br/payments/186708829417/ticket?caller_id=3813947323&hash=5ca9df8c-d0a5-45c5-871d-c9ea1fc5cdb5",
+          "merchant_category_code": null,
+          "is_end_consumer": null,
+          "bank_info": {
+            "payer": {
+              "account_id": 714745018,
+              "branch": "1",
+              "id": null,
+              "long_name": "NU PAGAMENTOS S.A. - INSTITUIÇÃO DE PAGAMENTO",
+              "identification": {},
+              "external_account_id": null,
+              "account_alias": null,
+              "check_digit": null
+            },
+            "collector": {
+              "id": null,
+              "account_id": 90748978150,
+              "account_alias": null,
+              "long_name": "MERCADO PAGO INSTITUIÇÃO DE PAGAMENTO LTDA.",
+              "account_holder_name": "Lucas Fernandes Alves",
+              "transfer_account_id": null,
+              "check_digit": null
+            },
+            "is_same_bank_account_owner": true,
+            "origin_bank_id": null,
+            "origin_wallet_id": null
+          }
+        }
+      },
+      "accounts_info": null,
+      "release_info": null,
+      "tags": null,
+      "tenant_context": "mp",
+      "shipping_cost": 0
+    }
+  },
+  {
     "id": "HORIZON-OURO-MW2H6FRM-551",
     "payment_id": "186703746091",
     "steam_id": "76561198737554294",
@@ -52,81 +266,5 @@
       "ticket_url": "https://www.mercadopago.com.br/payments/187760587404/ticket?caller_id=3813944389&hash=4fe5244e-0490-4315-8d8d-879ae98aea41",
       "preference_url": "https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=350004076-e13aa82f-9771-4ba1-97c2-b09d24170fa8"
     }
-  },
-  {
-    "id": "HORIZON-OURO-MW2GPN7N-580",
-    "payment_id": "sim-1793817647581",
-    "steam_id": "76561198737554294",
-    "player_name": "Lucas Fernandes",
-    "player_avatar": "https://avatars.fastly.steamstatic.com/f9e23a80846972e0e7413f970c71b62a23460370_full.jpg",
-    "vip_tier": "ouro",
-    "amount": 62,
-    "status": "pending",
-    "granted": false,
-    "created_at": "2026-11-04T18:40:47.581Z",
-    "expires_at": null,
-    "raw_data": {
-      "pix_copia_e_cola": "00020101021226840014br.gov.bcb.pix2562horizon-rust-HORIZON-OURO-MW2GPN7N-58052040000530398654062.005802BR5914RUST_HORIZON6009SAO_PAULO62070503***6304ABCD",
-      "ticket_url": "https://www.mercadopago.com.br/payments/test-HORIZON-OURO-MW2GPN7N-580",
-      "preference_url": "https://localhost:3000/loja/?test_order=HORIZON-OURO-MW2GPN7N-580"
-    }
-  },
-  {
-    "id": "HORIZON-OURO-MW2FSKQI-945",
-    "payment_id": "sim-1793816104723",
-    "steam_id": "76561198737554294",
-    "player_name": "Delux",
-    "player_avatar": "https://avatars.fastly.steamstatic.com/f9e23a80846972e0e7413f970c71b62a23460370_full.jpg",
-    "vip_tier": "ouro",
-    "amount": 62,
-    "status": "approved",
-    "granted": false,
-    "created_at": "2026-11-04T18:15:04.723Z",
-    "expires_at": "2026-12-04T18:15:07.422Z",
-    "raw_data": {
-      "pix_copia_e_cola": "00020101021226840014br.gov.bcb.pix2562horizon-rust-HORIZON-OURO-MW2FSKQI-94552040000530398654062.005802BR5914RUST_HORIZON6009SAO_PAULO62070503***6304ABCD",
-      "ticket_url": "https://www.mercadopago.com.br/payments/test-HORIZON-OURO-MW2FSKQI-945",
-      "preference_url": "https://localhost:3000/loja/?test_order=HORIZON-OURO-MW2FSKQI-945"
-    },
-    "approved_at": "2026-11-04T18:15:07.422Z"
-  },
-  {
-    "id": "HORIZON-OURO-MW2FJYA6-827",
-    "payment_id": "sim-1793815702351",
-    "steam_id": "76561198737554294",
-    "player_name": "Delux",
-    "player_avatar": "https://avatars.fastly.steamstatic.com/f9e23a80846972e0e7413f970c71b62a23460370_full.jpg",
-    "vip_tier": "ouro",
-    "amount": 62,
-    "status": "approved",
-    "granted": false,
-    "created_at": "2026-11-04T18:08:22.351Z",
-    "expires_at": "2026-12-04T18:08:24.912Z",
-    "raw_data": {
-      "pix_copia_e_cola": "00020101021226840014br.gov.bcb.pix2562horizon-rust-HORIZON-OURO-MW2FJYA6-82752040000530398654062.005802BR5914RUST_HORIZON6009SAO_PAULO62070503***6304ABCD",
-      "ticket_url": "https://www.mercadopago.com.br/payments/test-HORIZON-OURO-MW2FJYA6-827",
-      "preference_url": "https://localhost:3000/loja/?test_order=HORIZON-OURO-MW2FJYA6-827"
-    },
-    "approved_at": "2026-11-04T18:08:24.912Z"
-  },
-  {
-    "id": "HORIZON-OURO-MW2FCV66-831",
-    "payment_id": "sim-1793815371727",
-    "steam_id": "76561198737554294",
-    "player_name": "Delux",
-    "player_avatar": "https://avatars.fastly.steamstatic.com/f9e23a80846972e0e7413f970c71b62a23460370_full.jpg",
-    "vip_tier": "ouro",
-    "amount": 62,
-    "status": "approved",
-    "granted": true,
-    "created_at": "2026-11-04T18:02:51.727Z",
-    "expires_at": "2026-12-04T18:03:04.403Z",
-    "raw_data": {
-      "pix_copia_e_cola": "00020101021226840014br.gov.bcb.pix2562horizon-rust-HORIZON-OURO-MW2FCV66-83152040000530398654062.005802BR5914RUST_HORIZON6009SAO_PAULO62070503***6304ABCD",
-      "ticket_url": "https://www.mercadopago.com.br/payments/test-HORIZON-OURO-MW2FCV66-831",
-      "preference_url": "https://localhost:3000/loja/?test_order=HORIZON-OURO-MW2FCV66-831"
-    },
-    "approved_at": "2026-11-04T18:03:04.403Z",
-    "granted_at": "2026-11-04T18:03:33.974Z"
   }
 ]

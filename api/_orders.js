@@ -52,16 +52,16 @@ async function saveOrder(order) {
   // Salva no Supabase se disponível
   if (supabase) {
     try {
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from('vip_orders')
         .upsert([{
           id: order.id,
           payment_id: String(order.payment_id || order.id),
-          steam_id: String(order.steam_id),
+          steam_id: String(order.steam_id || ''),
           player_name: order.player_name || '',
           player_avatar: order.player_avatar || '',
-          vip_tier: order.vip_tier,
-          amount: Number(order.amount),
+          vip_tier: order.vip_tier || 'bronze',
+          amount: Number(order.amount || 0),
           status: order.status || 'pending',
           granted: !!order.granted,
           created_at: order.created_at || new Date().toISOString(),
@@ -72,7 +72,6 @@ async function saveOrder(order) {
         }], { onConflict: 'id' });
 
       if (!error) {
-        // Também mantém cópia local
         const orders = loadLocalOrders();
         const idx = orders.findIndex(o => o.id === order.id);
         if (idx >= 0) orders[idx] = order;
@@ -80,9 +79,7 @@ async function saveOrder(order) {
         saveLocalOrders(orders);
         return order;
       }
-    } catch (e) {
-      console.warn('[Orders Supabase] Erro ao salvar pedido:', e.message);
-    }
+    } catch (e) {}
   }
 
   // Fallback Local
@@ -101,7 +98,9 @@ async function saveOrder(order) {
  * Busca pedido por ID do pedido ou ID do pagamento Mercado Pago
  */
 async function getOrder(idOrPaymentId) {
+  if (!idOrPaymentId) return null;
   const queryId = String(idOrPaymentId);
+
   if (supabase) {
     try {
       const { data } = await supabase
@@ -122,16 +121,25 @@ async function getOrder(idOrPaymentId) {
  * Aprova o pagamento e calcula os 30 dias de validade
  */
 async function approveOrder(idOrPaymentId, paymentDetails = {}) {
-  const order = await getOrder(idOrPaymentId);
-  if (!order) return null;
-
+  let order = await getOrder(idOrPaymentId);
   const now = new Date();
   const expires = new Date(now.getTime() + (30 * 24 * 60 * 60 * 1000)); // 30 dias exatos
 
-  order.status = 'approved';
-  order.approved_at = now.toISOString();
-  order.expires_at = expires.toISOString();
-  order.granted = false; // Pronto para o servidor entregar
+  if (!order) {
+    order = {
+      id: String(idOrPaymentId),
+      status: 'approved',
+      approved_at: now.toISOString(),
+      expires_at: expires.toISOString(),
+      granted: false
+    };
+  } else {
+    order.status = 'approved';
+    order.approved_at = now.toISOString();
+    order.expires_at = expires.toISOString();
+    order.granted = false; // Pronto para o servidor entregar
+  }
+
   if (paymentDetails.payment_id) order.payment_id = String(paymentDetails.payment_id);
   if (paymentDetails.raw_data) order.raw_data = paymentDetails.raw_data;
 
@@ -163,11 +171,22 @@ async function getPendingDeliveries() {
  * Marca uma entrega como concluída pelo servidor de Rust
  */
 async function markOrderGranted(orderId) {
-  const order = await getOrder(orderId);
-  if (!order) return false;
+  if (!orderId) return false;
+  let order = await getOrder(orderId);
+  const now = new Date().toISOString();
 
-  order.granted = true;
-  order.granted_at = new Date().toISOString();
+  if (!order) {
+    order = {
+      id: String(orderId),
+      status: 'approved',
+      granted: true,
+      granted_at: now
+    };
+  } else {
+    order.granted = true;
+    order.granted_at = now;
+  }
+
   await saveOrder(order);
   return true;
 }
@@ -210,4 +229,3 @@ module.exports = {
   getActiveVipForPlayer,
   loadLocalOrders
 };
-
