@@ -273,19 +273,19 @@
 
     /* Cards de Postagem do Feed */
     .feed-card {
-      background: #171312;
-      border: 1px solid rgba(255, 255, 255, 0.07);
-      border-radius: 12px;
-      margin-bottom: 28px;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+      background: #141212;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      margin-bottom: 30px;
+      padding: 22px 24px;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5);
       transition: border-color 0.2s ease;
     }
     .feed-card:hover {
-      border-color: rgba(255, 255, 255, 0.14);
+      border-color: rgba(255, 255, 255, 0.16);
     }
     .feed-card-header {
-      padding: 16px 20px;
+      padding: 0 0 16px 0;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -302,23 +302,24 @@
       height: 44px;
       border-radius: 50%;
       object-fit: cover;
-      border: 1.5px solid #D7573B;
+      border: 1px solid rgba(255, 255, 255, 0.15);
       flex-shrink: 0;
     }
     .feed-author-name {
       font-weight: 800;
-      font-size: 0.96rem;
+      font-size: 1.05rem;
       color: #EDE8E5;
       display: flex;
       align-items: center;
       gap: 6px;
     }
     .feed-author-name:hover {
-      color: #D7573B;
+      color: #ffffff;
     }
     .feed-post-meta {
-      font-size: 0.75rem;
+      font-size: 0.8rem;
       color: #71717a;
+      margin-top: 2px;
     }
     .feed-card-tag {
       background: rgba(108, 151, 142, 0.15);
@@ -334,10 +335,11 @@
     /* Imagem do Post */
     .feed-card-media {
       width: 100%;
-      background: #000;
+      border-radius: 16px;
       cursor: zoom-in;
       overflow: hidden;
       position: relative;
+      background: #0d0c0c;
     }
     .feed-card-media img {
       width: 100%;
@@ -345,6 +347,7 @@
       max-height: 580px;
       object-fit: cover;
       display: block;
+      border-radius: 16px;
       transition: transform 0.3s ease;
     }
     .feed-card-media:hover img {
@@ -353,19 +356,20 @@
 
     /* Legenda e Ações */
     .feed-card-body {
-      padding: 18px 20px;
+      padding: 18px 0 0 0;
     }
     .feed-card-caption {
       color: #EDE8E5;
-      font-size: 0.95rem;
-      line-height: 1.55;
-      margin-bottom: 16px;
+      font-size: 1.15rem;
+      font-weight: 800;
+      line-height: 1.4;
+      margin-bottom: 18px;
       word-break: break-word;
     }
     .feed-card-actions {
       display: flex;
       align-items: center;
-      gap: 16px;
+      justify-content: space-between;
       border-top: 1px solid rgba(255, 255, 255, 0.06);
       padding-top: 14px;
     }
@@ -376,11 +380,11 @@
       align-items: center;
       gap: 7px;
       color: #a1a1aa;
-      font-weight: 700;
-      font-size: 0.86rem;
+      font-weight: 600;
+      font-size: 0.88rem;
       cursor: pointer;
-      padding: 6px 12px;
-      border-radius: 6px;
+      padding: 6px 10px;
+      border-radius: 8px;
       transition: all 0.15s ease;
     }
     .feed-action-btn:hover {
@@ -391,53 +395,64 @@
       color: #ef4444;
     }
     .feed-action-btn.liked svg {
-      fill: #ef4444;
+      fill: none;
       stroke: #ef4444;
     }
 
     /* Seção de comentários */
     .feed-comments-section {
       border-top: 1px solid rgba(255, 255, 255, 0.06);
-      background: rgba(0, 0, 0, 0.18);
-      padding: 16px 20px;
+      margin-top: 18px;
+      padding-top: 18px;
+      background: transparent;
     }
     .feed-comment-item {
       display: flex;
+      align-items: center;
       gap: 12px;
-      margin-bottom: 14px;
+      background: #191616;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 12px 16px;
+      margin-bottom: 12px;
     }
     .feed-comment-avatar {
-      width: 32px;
-      height: 32px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       object-fit: cover;
       border: 1px solid rgba(255, 255, 255, 0.15);
       flex-shrink: 0;
     }
     .feed-comment-content {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 8px;
-      padding: 8px 12px;
+      background: transparent;
+      border: none;
+      padding: 0;
       flex-grow: 1;
     }
     .feed-comment-user {
-      font-weight: 800;
-      font-size: 0.82rem;
-      color: #EDE8E5;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      margin-bottom: 3px;
+      gap: 6px;
+      font-size: 0.88rem;
+      margin-bottom: 2px;
+    }
+    .feed-comment-author-name {
+      font-weight: 800;
+      color: #ffffff;
+    }
+    .feed-comment-separator {
+      color: #71717a;
+      font-size: 0.75rem;
     }
     .feed-comment-time {
-      font-size: 0.7rem;
+      font-size: 0.78rem;
       font-weight: 500;
       color: #71717a;
     }
     .feed-comment-text {
       font-size: 0.88rem;
-      color: #d4d4d8;
+      color: #EDE8E5;
       line-height: 1.4;
       word-break: break-word;
     }
@@ -448,30 +463,32 @@
     }
     .feed-comment-input {
       flex-grow: 1;
-      background: #120e0d;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 6px;
-      padding: 8px 12px;
+      background: #110f0f;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 12px 16px;
       color: #EDE8E5;
-      font-size: 0.86rem;
+      font-size: 0.88rem;
       outline: none;
+      transition: border-color 0.2s;
     }
     .feed-comment-input:focus {
-      border-color: #6C978E;
+      border-color: #5E8B7E;
     }
     .feed-comment-submit {
-      background: #6C978E;
-      color: #13100F;
+      background: #5E8B7E;
+      color: #0d1e19;
       border: none;
-      padding: 0 14px;
-      border-radius: 6px;
+      padding: 0 22px;
+      border-radius: 10px;
       font-weight: 800;
-      font-size: 0.82rem;
+      font-size: 0.88rem;
       cursor: pointer;
-      transition: background 0.15s ease;
+      transition: background 0.15s ease, filter 0.15s;
     }
     .feed-comment-submit:hover {
-      background: #82ADA4;
+      background: #6C978E;
+      filter: brightness(1.05);
     }
 
     /* Lightbox Modal */

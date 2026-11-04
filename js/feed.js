@@ -147,23 +147,24 @@
               <div>
                 <span class="feed-author-name">
                   ${authorName}
-                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6C978E" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#9ca3af" style="display:inline-block; vertical-align:middle; margin-left:3px;"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.707 7.707a1 1 0 00-1.414-1.414L10 13.586l-2.293-2.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l6-6z"/></svg>
                 </span>
                 <span class="feed-post-meta">${dateText}</span>
               </div>
             </a>
             
             ${canManage ? `
-              <div style="display: inline-flex; align-items: center; gap: 4px;">
-                <button type="button" title="Editar publicação" onclick="window.feedApp.openEditModal('${post.id}')" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #a1a1aa; border-radius: 6px; padding: 4px 10px; font-size: 0.75rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 4px;" onmouseover="this.style.color='#EDE8E5';this.style.borderColor='#6C978E'" onmouseout="this.style.color='#a1a1aa';this.style.borderColor='rgba(255,255,255,0.12)'">
-                  ✏️ <span>Editar</span>
+              <div style="display: inline-flex; align-items: center; gap: 8px;">
+                <button type="button" title="Editar publicação" onclick="window.feedApp.openEditModal('${post.id}')" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); color: #a1a1aa; border-radius: 8px; padding: 6px 14px; font-size: 0.82rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s;" onmouseover="this.style.color='#ffffff';this.style.borderColor='rgba(255,255,255,0.25)'" onmouseout="this.style.color='#a1a1aa';this.style.borderColor='rgba(255,255,255,0.1)'">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                  <span>Editar</span>
                 </button>
-                <button type="button" title="Excluir publicação" onclick="window.feedApp.deletePost('${post.id}')" style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.25); color: #f87171; border-radius: 6px; padding: 4px 10px; font-size: 0.75rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 4px;" onmouseover="this.style.background='rgba(239,68,68,0.25)'" onmouseout="this.style.background='rgba(239,68,68,0.1)'">
-                  🗑️ <span>Excluir</span>
+                <button type="button" title="Excluir publicação" onclick="window.feedApp.deletePost('${post.id}')" style="background: rgba(239, 68, 68, 0.06); border: 1px solid rgba(239, 68, 68, 0.25); color: #f87171; border-radius: 8px; padding: 6px 14px; font-size: 0.82rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s;" onmouseover="this.style.background='rgba(239, 68, 68, 0.15)'" onmouseout="this.style.background='rgba(239, 68, 68, 0.06)'">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                  <span>Excluir</span>
                 </button>
               </div>
             ` : ''}
-          </div>
           </div>
 
           <!-- MÍDIA / IMAGEM -->
@@ -177,18 +178,20 @@
 
             <!-- AÇÕES (CURTIR, COMENTAR, COMPARTILHAR) -->
             <div class="feed-card-actions">
-              <button type="button" class="feed-action-btn ${hasLiked ? 'liked' : ''}" onclick="window.feedApp.toggleLike('${post.id}')" id="like-btn-${post.id}">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
-                <span class="likes-count">${likes.length} curtida${likes.length === 1 ? '' : 's'}</span>
-              </button>
+              <div style="display: flex; align-items: center; gap: 20px;">
+                <button type="button" class="feed-action-btn ${hasLiked ? 'liked' : ''}" onclick="window.feedApp.toggleLike('${post.id}')" id="like-btn-${post.id}">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="${hasLiked || likes.length > 0 ? '#ef4444' : '#ef4444'}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                  <span style="color: ${hasLiked || likes.length > 0 ? '#f87171' : '#a1a1aa'}; font-weight: 700;">${likes.length} curtida${likes.length === 1 ? '' : 's'}</span>
+                </button>
 
-              <button type="button" class="feed-action-btn" onclick="window.feedApp.toggleComments('${post.id}')">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
-                <span>${comments.length} comentário${comments.length === 1 ? '' : 's'}</span>
-              </button>
+                <button type="button" class="feed-action-btn" onclick="window.feedApp.toggleComments('${post.id}')">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a1a1aa" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+                  <span style="color: #a1a1aa; font-weight: 600;">${comments.length} comentário${comments.length === 1 ? '' : 's'}</span>
+                </button>
+              </div>
 
-              <button type="button" class="feed-action-btn" style="margin-left: auto;" onclick="window.feedApp.sharePost('${post.id}')" title="Compartilhar">
-                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+              <button type="button" class="feed-action-btn" onclick="window.feedApp.sharePost('${post.id}')" title="Compartilhar">
+                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#a1a1aa" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
               </button>
             </div>
           </div>
@@ -205,20 +208,17 @@
                     <img src="${(c.author?.avatar || 'https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg').replace(/\\\//g, '/')}" alt="${escapeHtml(c.author?.name || 'Jogador')}" class="feed-comment-avatar">
                     <div class="feed-comment-content">
                       <div class="feed-comment-user">
-                        <span>
-                          ${escapeHtml(c.author?.name || 'Jogador')}
-                        </span>
-                        <div style="display: flex; align-items: center; gap: 6px;">
-                          <span class="feed-comment-time">${formatDate(c.createdAt)}</span>
-                          ${canDeleteC ? `
-                            <button type="button" title="Excluir comentário" onclick="window.feedApp.deleteComment('${post.id}', '${c.id}')" style="background: transparent; border: none; color: #71717a; cursor: pointer; padding: 0 2px; font-size: 0.72rem; line-height: 1;" onmouseover="this.style.color='#ef4444'" onmouseout="this.style.color='#71717a'">
-                              🗑️
-                            </button>
-                          ` : ''}
-                        </div>
+                        <span class="feed-comment-author-name">${escapeHtml(c.author?.name || 'Jogador')}</span>
+                        <span class="feed-comment-separator">•</span>
+                        <span class="feed-comment-time">${formatDate(c.createdAt)}</span>
                       </div>
                       <div class="feed-comment-text">${escapeHtml(c.text || '')}</div>
                     </div>
+                    ${canDeleteC ? `
+                      <button type="button" title="Excluir comentário" onclick="window.feedApp.deleteComment('${post.id}', '${c.id}')" style="background: transparent; border: none; color: #71717a; cursor: pointer; padding: 4px; font-size: 0.9rem; line-height: 1; margin-left: 8px; transition: color 0.15s;" onmouseover="this.style.color='#ef4444'" onmouseout="this.style.color='#71717a'">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                      </button>
+                    ` : ''}
                   </div>
                 `;
               }).join('')}
@@ -231,8 +231,8 @@
                 <button type="button" class="feed-comment-submit" onclick="window.feedApp.submitComment('${post.id}')">Enviar</button>
               </div>
             ` : `
-              <div style="font-size: 0.8rem; color: #71717a; text-align: center; padding: 8px 0;">
-                <a href="/auth/steam" style="color: #D7573B; font-weight: 700; text-decoration: underline;">Conecte sua Steam</a> para curtir e comentar nesta foto.
+              <div style="font-size: 0.8rem; color: #71717a; text-align: center; padding: 10px 0;">
+                <a href="/auth/steam" style="color: #5E8B7E; font-weight: 700; text-decoration: underline;">Conecte sua Steam</a> para comentar nesta foto.
               </div>
             `}
           </div>
