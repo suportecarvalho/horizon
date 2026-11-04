@@ -9,24 +9,27 @@
       name: 'VIP Bronze',
       price: 'R$ 20,00',
       numericPrice: 20.00,
-      badgeColor: '#CD7F32',
-      badgeBg: 'rgba(205, 127, 50, 0.2)',
+      badgeColor: '#f59e0b',
+      badgeBorder: '#d97706',
+      badgeBg: 'rgba(245, 158, 11, 0.12)',
       perks: '18 Itens no Inventário • 2x Caldeirões • Skip Fila com Prioridade'
     },
     prata: {
       name: 'VIP Prata',
       price: 'R$ 40,00',
       numericPrice: 40.00,
-      badgeColor: '#E2E8F0',
-      badgeBg: 'rgba(226, 232, 240, 0.2)',
+      badgeColor: '#e2e8f0',
+      badgeBorder: '#94a3b8',
+      badgeBg: 'rgba(148, 163, 184, 0.12)',
       perks: '24 Itens no Inventário • Airdrop • 4x Caldeirões • Skip Fila'
     },
     ouro: {
       name: 'VIP Ouro',
       price: 'R$ 62,00',
       numericPrice: 62.00,
-      badgeColor: '#F59E0B',
-      badgeBg: 'rgba(245, 158, 11, 0.2)',
+      badgeColor: '#fbbf24',
+      badgeBorder: '#f59e0b',
+      badgeBg: 'rgba(245, 158, 11, 0.15)',
       perks: '29 Itens no Inventário • Workbench T3 • Porta Blindada • Mini Refinarias • Skip Fila'
     }
   };
@@ -76,37 +79,38 @@
 
     overlay.innerHTML = `
       <div id="checkout-modal-box" style="
-        background: #141110;
-        border: 1px solid rgba(215, 87, 59, 0.4);
-        border-radius: 16px;
-        max-width: 520px;
+        background: #14151a;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 20px;
+        max-width: 480px;
         width: 100%;
         max-height: 92vh;
         overflow-y: auto;
-        box-shadow: 0 25px 70px rgba(0,0,0,0.95), 0 0 30px rgba(215, 87, 59, 0.15);
-        padding: 26px;
+        box-shadow: 0 30px 80px rgba(0,0,0,0.95);
+        padding: 30px 26px;
         position: relative;
         color: #EDE8E5;
+        box-sizing: border-box;
       " onclick="event.stopPropagation()">
         
         <!-- Botão Fechar -->
         <button onclick="closeCheckoutModal()" style="
           position: absolute;
-          top: 16px;
-          right: 16px;
+          top: 24px;
+          right: 24px;
           background: rgba(255,255,255,0.06);
           border: 1px solid rgba(255,255,255,0.1);
-          color: #a1a1aa;
-          width: 32px;
-          height: 32px;
+          color: #9ca3af;
+          width: 36px;
+          height: 36px;
           border-radius: 50%;
           cursor: pointer;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 1.1rem;
+          font-size: 1rem;
           transition: all 0.2s;
-        " onmouseover="this.style.color='#fff';this.style.background='rgba(215,87,59,0.3)'" onmouseout="this.style.color='#a1a1aa';this.style.background='rgba(255,255,255,0.06)'">✕</button>
+        " onmouseover="this.style.color='#fff';this.style.background='rgba(255,255,255,0.12)'" onmouseout="this.style.color='#9ca3af';this.style.background='rgba(255,255,255,0.06)'">✕</button>
 
         <!-- Conteúdo Dinâmico -->
         <div id="checkout-modal-content"></div>
@@ -146,59 +150,81 @@
 
   // RENDER: Passo 1 - Identificação e Escolha do Pagamento
   function renderStep1() {
-    const kit = KITS_INFO[currentTier] || KITS_INFO.ouro;
+    const kit = KITS_INFO[currentTier] || KITS_INFO.bronze;
     const container = document.getElementById('checkout-modal-content');
 
     const defaultSteamId = currentUser ? (currentUser.steamId || currentUser.steamid || '') : '';
-    const defaultName = currentUser ? currentUser.name : '';
+    const defaultName = currentUser ? (currentUser.name || currentUser.username || 'Jogador') : '';
     const defaultAvatar = currentUser ? currentUser.avatar : '';
 
     container.innerHTML = `
       <!-- Cabeçalho -->
-      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px;">
-        <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(215,87,59,0.15); border: 1px solid #D7573B; display: flex; align-items: center; justify-content: center; font-size: 1.4rem;">
-          🛒
-        </div>
-        <div>
-          <h2 style="font-size: 1.35rem; font-weight: 800; margin: 0; color: #EDE8E5; letter-spacing: 0.02em;">Checkout Oficial</h2>
-          <span style="font-size: 0.8rem; color: #82ADA4; display: flex; align-items: center; gap: 5px;">
-            🔒 Pagamento Seguro via Mercado Pago
-          </span>
-        </div>
+      <div style="margin-bottom: 22px; padding-right: 44px;">
+        <h2 style="font-size: 1.65rem; font-weight: 800; margin: 0 0 6px 0; color: #ffffff; display: flex; align-items: center; gap: 8px;">
+          Checkout
+          <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #10B981; box-shadow: 0 0 10px rgba(16, 185, 129, 0.8);"></span>
+        </h2>
+        <span style="font-size: 0.82rem; color: #9ca3af; display: flex; align-items: center; gap: 6px;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Pagamento Seguro via Mercado Pago
+        </span>
       </div>
 
       <!-- Card do Pacote Selecionado -->
       <div style="
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 12px;
-        padding: 16px;
-        margin-bottom: 20px;
+        background: #1e1f26;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 14px;
+        padding: 18px 20px;
+        margin-bottom: 24px;
         display: flex;
         align-items: center;
         justify-content: space-between;
+        gap: 16px;
       ">
-        <div>
-          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
-            <span style="background: ${kit.badgeBg}; border: 1px solid ${kit.badgeColor}; color: ${kit.badgeColor}; font-weight: 800; font-size: 0.72rem; padding: 2px 8px; border-radius: 6px; text-transform: uppercase;">
+        <div style="flex: 1;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
+            <span style="
+              background: ${kit.badgeBg};
+              border: 1px solid ${kit.badgeBorder || kit.badgeColor};
+              color: ${kit.badgeColor};
+              font-weight: 800;
+              font-size: 0.72rem;
+              padding: 3px 12px;
+              border-radius: 9999px;
+              text-transform: uppercase;
+              letter-spacing: 0.03em;
+            ">
               ${kit.name}
             </span>
-            <span style="background: rgba(56, 189, 248, 0.15); border: 1px solid #38BDF8; color: #38BDF8; font-weight: 700; font-size: 0.7rem; padding: 2px 7px; border-radius: 6px;">
-              ⏱ 30 DIAS
+            <span style="
+              background: rgba(37, 99, 235, 0.12);
+              border: 1px solid #3b82f6;
+              color: #60a5fa;
+              font-weight: 700;
+              font-size: 0.72rem;
+              padding: 3px 10px;
+              border-radius: 9999px;
+              display: inline-flex;
+              align-items: center;
+              gap: 4px;
+            ">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              30 DIAS
             </span>
           </div>
-          <p style="font-size: 0.78rem; color: #a1a1aa; margin: 0; max-width: 290px;">${kit.perks}</p>
+          <p style="font-size: 0.8rem; color: #9ca3af; margin: 0; line-height: 1.45;">${kit.perks}</p>
         </div>
-        <div style="text-align: right;">
-          <div style="font-size: 0.72rem; color: #71717a; text-transform: uppercase; font-weight: 700;">Valor Total</div>
-          <div style="font-size: 1.5rem; font-weight: 900; color: #F59E0B;">${kit.price}</div>
+        <div style="text-align: right; white-space: nowrap;">
+          <div style="font-size: 0.7rem; color: #71717a; text-transform: uppercase; font-weight: 700; letter-spacing: 0.06em; margin-bottom: 3px;">VALOR TOTAL</div>
+          <div style="font-size: 1.65rem; font-weight: 900; color: #ffffff; letter-spacing: -0.02em;">${kit.price}</div>
         </div>
       </div>
 
-      <!-- Passo 1: Identificação Steam -->
-      <div style="margin-bottom: 22px;">
-        <label style="display: block; font-size: 0.82rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; color: #EDE8E5; margin-bottom: 8px;">
-          1. Identificação do Jogador (Steam)
+      <!-- Passo 1: Identificação do Jogador -->
+      <div style="margin-bottom: 24px;">
+        <label style="display: block; font-size: 0.82rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: #9ca3af; margin-bottom: 10px;">
+          1. IDENTIFICAÇÃO DO JOGADOR
         </label>
 
         ${currentUser ? `
@@ -206,70 +232,76 @@
           <div style="
             display: flex;
             align-items: center;
-            gap: 12px;
-            background: rgba(34, 197, 94, 0.08);
-            border: 1px solid rgba(34, 197, 94, 0.35);
-            border-radius: 10px;
-            padding: 10px 14px;
+            gap: 14px;
+            background: #1e1f26;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 14px 18px;
           ">
-            <img src="${(defaultAvatar || '').replace(/\\\//g, '/')}" style="width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 1.5px solid #22c55e;">
+            <img src="${(defaultAvatar || 'https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg').replace(/\\\//g, '/')}" style="width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 1.5px solid rgba(255,255,255,0.15);">
             <div style="flex: 1;">
-              <div style="font-weight: 800; font-size: 0.9rem; color: #EDE8E5; display: flex; align-items: center; gap: 6px;">
+              <div style="font-weight: 800; font-size: 1.05rem; color: #ffffff; display: flex; align-items: center; gap: 8px;">
                 ${defaultName}
-                <span style="font-size: 0.65rem; background: #22c55e; color: #000; padding: 1px 5px; border-radius: 4px; font-weight: 800;">CONECTADO</span>
+                <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #10B981;"></span>
+                <span style="font-size: 0.68rem; background: rgba(34, 197, 94, 0.15); color: #4ade80; padding: 2px 8px; border-radius: 6px; font-weight: 800; letter-spacing: 0.04em;">CONECTADO</span>
               </div>
-              <div style="font-size: 0.75rem; color: #86efac; font-family: monospace;">SteamID: ${defaultSteamId}</div>
+              <div style="font-size: 0.8rem; color: #9ca3af; font-family: monospace; margin-top: 2px;">SteamID: ${defaultSteamId}</div>
             </div>
             <input type="hidden" id="chk-steamid" value="${defaultSteamId}">
           </div>
         ` : `
           <!-- Input Manual de SteamID64 ou Link -->
-          <div style="position: relative; margin-bottom: 8px;">
-            <input type="text" id="chk-steamid" placeholder="Digite seu SteamID64 ou link do perfil Steam..." value="${defaultSteamId}" style="
+          <div style="
+            background: #1e1f26;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 16px;
+          ">
+            <input type="text" id="chk-steamid" placeholder="Digite seu SteamID64 (ex: 76561198012345678)..." value="${defaultSteamId}" style="
               width: 100%;
-              background: #0d0a09;
-              border: 1px solid rgba(255,255,255,0.15);
-              border-radius: 8px;
-              padding: 12px 14px;
-              color: #EDE8E5;
-              font-size: 0.88rem;
+              background: #14151a;
+              border: 1px solid rgba(255,255,255,0.12);
+              border-radius: 10px;
+              padding: 13px 15px;
+              color: #ffffff;
+              font-size: 0.9rem;
               outline: none;
               box-sizing: border-box;
               transition: border-color 0.2s;
-            " onfocus="this.style.borderColor='#D7573B'" onblur="this.style.borderColor='rgba(255,255,255,0.15)'">
-          </div>
-          <div style="display: flex; align-items: center; justify-content: space-between; font-size: 0.75rem; color: #a1a1aa;">
-            <span>Exemplo: 76561198012345678</span>
-            <a href="/auth/steam" style="color: #6C978E; font-weight: 700; text-decoration: underline;">Ou faça login com a Steam</a>
+            " onfocus="this.style.borderColor='#10B981'" onblur="this.style.borderColor='rgba(255,255,255,0.12)'">
+            <div style="display: flex; align-items: center; justify-content: space-between; font-size: 0.76rem; color: #9ca3af; margin-top: 8px;">
+              <span>SteamID64 com 17 dígitos</span>
+              <a href="/auth/steam" style="color: #6C978E; font-weight: 700; text-decoration: underline;">Fazer login com Steam</a>
+            </div>
           </div>
         `}
       </div>
 
-      <!-- Passo 2: Forma de Pagamento -->
+      <!-- Passo 2: Escolha como pagar -->
       <div style="margin-bottom: 22px;">
-        <label style="display: block; font-size: 0.82rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em; color: #EDE8E5; margin-bottom: 8px;">
-          2. Escolha como pagar
+        <label style="display: block; font-size: 0.82rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: #9ca3af; margin-bottom: 12px;">
+          2. ESCOLHA COMO PAGAR
         </label>
 
         <!-- Botão PIX Direto (Destaque Principal) -->
         <button type="button" onclick="startCheckout('pix')" style="
           width: 100%;
-          background: linear-gradient(135deg, #10B981, #059669);
+          background: #00A86B;
           color: #ffffff;
           border: none;
-          border-radius: 10px;
-          padding: 14px;
-          font-size: 0.95rem;
+          border-radius: 12px;
+          padding: 15px 20px;
+          font-size: 0.98rem;
           font-weight: 800;
           cursor: pointer;
           display: flex;
           align-items: center;
           justify-content: center;
           gap: 10px;
-          box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35);
-          margin-bottom: 10px;
+          box-shadow: 0 4px 18px rgba(0, 168, 107, 0.35);
+          margin-bottom: 12px;
           transition: transform 0.15s, filter 0.15s;
-        " onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter='none'">
+        " onmouseover="this.style.filter='brightness(1.08)'" onmouseout="this.style.filter='none'">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
           Pagar com PIX (Ativação Instantânea)
         </button>
@@ -277,28 +309,38 @@
         <!-- Botão Cartão / Mercado Pago -->
         <button type="button" onclick="startCheckout('card')" style="
           width: 100%;
-          background: rgba(255, 255, 255, 0.05);
-          color: #EDE8E5;
-          border: 1px solid rgba(255, 255, 255, 0.15);
-          border-radius: 10px;
-          padding: 12px;
-          font-size: 0.85rem;
-          font-weight: 700;
+          background: #1e1f26;
+          color: #ffffff;
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          border-radius: 12px;
+          padding: 15px 20px;
+          font-size: 0.98rem;
+          font-weight: 800;
           cursor: pointer;
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 8px;
+          gap: 10px;
           transition: all 0.2s;
-        " onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+        " onmouseover="this.style.background='#272932';this.style.borderColor='rgba(255,255,255,0.2)'" onmouseout="this.style.background='#1e1f26';this.style.borderColor='rgba(255,255,255,0.12)'">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
           Pagar com Cartão de Crédito / Mercado Pago
         </button>
       </div>
 
       <!-- Mensagem Informativa de Prazo -->
-      <div style="background: rgba(215, 87, 59, 0.08); border-left: 3px solid #D7573B; padding: 10px 12px; border-radius: 6px; font-size: 0.74rem; color: #EDE8E5;">
-        ⚡ <strong>Liberação Automática:</strong> Assim que o pagamento for confirmado pelo Mercado Pago, o kit e privilégios VIP são ativados no servidor e permanecerão válidos por <strong>30 dias</strong>, sendo removidos automaticamente após o prazo.
+      <div style="
+        background: #221616;
+        border: 1px solid rgba(215, 87, 59, 0.25);
+        border-left: 3px solid #D7573B;
+        border-radius: 10px;
+        padding: 14px 16px;
+        font-size: 0.78rem;
+        color: #d1d5db;
+        line-height: 1.45;
+      ">
+        <span style="color: #f97316; font-size: 0.9rem; margin-right: 4px;">⚡</span>
+        <strong style="color: #ffffff;">Liberação Automática:</strong> Assim que o pagamento for confirmado pelo Mercado Pago, o kit e privilégios VIP são ativados no servidor e permanecerão válidos por <strong>30 dias</strong>, sendo removidos automaticamente após o prazo.
       </div>
     `;
   }
