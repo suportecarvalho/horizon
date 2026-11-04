@@ -45,12 +45,18 @@ ALTER TABLE public.feed_posts ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.feed_likes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.feed_comments ENABLE ROW LEVEL SECURITY;
 
--- Políticas de acesso (Permite leitura e escrita pelas APIs seguras do site)
+-- Políticas de acesso (Permite leitura, escrita, atualização e exclusão pelas APIs seguras do site)
 DROP POLICY IF EXISTS "Permitir leitura publica de posts" ON public.feed_posts;
 CREATE POLICY "Permitir leitura publica de posts" ON public.feed_posts FOR SELECT USING (true);
 
 DROP POLICY IF EXISTS "Permitir criacao de posts" ON public.feed_posts;
 CREATE POLICY "Permitir criacao de posts" ON public.feed_posts FOR INSERT WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Permitir atualizacao de posts" ON public.feed_posts;
+CREATE POLICY "Permitir atualizacao de posts" ON public.feed_posts FOR UPDATE USING (true);
+
+DROP POLICY IF EXISTS "Permitir exclusao de posts" ON public.feed_posts;
+CREATE POLICY "Permitir exclusao de posts" ON public.feed_posts FOR DELETE USING (true);
 
 DROP POLICY IF EXISTS "Permitir leitura publica de curtidas" ON public.feed_likes;
 CREATE POLICY "Permitir leitura publica de curtidas" ON public.feed_likes FOR SELECT USING (true);
@@ -63,6 +69,12 @@ CREATE POLICY "Permitir leitura publica de comentarios" ON public.feed_comments 
 
 DROP POLICY IF EXISTS "Permitir criacao de comentarios" ON public.feed_comments;
 CREATE POLICY "Permitir criacao de comentarios" ON public.feed_comments FOR INSERT WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Permitir atualizacao de comentarios" ON public.feed_comments;
+CREATE POLICY "Permitir atualizacao de comentarios" ON public.feed_comments FOR UPDATE USING (true);
+
+DROP POLICY IF EXISTS "Permitir exclusao de comentarios" ON public.feed_comments;
+CREATE POLICY "Permitir exclusao de comentarios" ON public.feed_comments FOR DELETE USING (true);
 
 -- Criar Bucket de Armazenamento para Uploads de Imagens do Feed (feed-photos)
 INSERT INTO storage.buckets (id, name, public)

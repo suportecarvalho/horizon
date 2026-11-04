@@ -100,33 +100,8 @@ async function getPosts() {
 
       if (postErr) throw postErr;
 
-      // Se o banco estiver vazio, migra os posts de semente automaticamente
       if (!posts || posts.length === 0) {
-        const local = loadLocalPosts();
-        if (local.length > 0) {
-          console.log('[Database] Banco Supabase vazio detectado. Semeando dados iniciais...');
-          for (const p of [...local].reverse()) {
-            await createPost({
-              id: p.id,
-              author: p.author,
-              imageUrl: p.imageUrl,
-              caption: p.caption,
-              tag: p.tag,
-              createdAt: p.createdAt
-            });
-            if (Array.isArray(p.likes)) {
-              for (const steamId of p.likes) {
-                await toggleLike({ postId: p.id, steamId });
-              }
-            }
-            if (Array.isArray(p.comments)) {
-              for (const c of p.comments) {
-                await addComment({ postId: p.id, author: c.author, text: c.text, createdAt: c.createdAt });
-              }
-            }
-          }
-          return getPosts();
-        }
+        return [];
       }
 
       // 2. Busca likes e comentários para compor a lista
@@ -192,9 +167,9 @@ async function createPost({ id, author, imageUrl, caption, tag, createdAt }) {
     try {
       const { error } = await supabase.from('feed_posts').insert([{
         id: newPostId,
-        author_steamid: author.steamId || author.steamid || '0',
-        author_name: (author.name || author.personaname || author.persona_name || 'Jogador').slice(0, 80),
-        author_avatar: (author.avatar || author.avatarfull || author.avatarmedium || '').replace(/\\\//g, '/'),
+        author_steamid: author.steamId || author.steamid,
+        author_name: author.name,
+        author_avatar: (author.avatar || '').replace(/\\\//g, '/'),
         image_url: imageUrl,
         caption: caption.slice(0, 500),
         tag: (tag || '📸 Screenshot').slice(0, 30),
@@ -299,9 +274,9 @@ async function addComment({ postId, author, text, createdAt }) {
       const { error } = await supabase.from('feed_comments').insert([{
         id: commentId,
         post_id: postId,
-        author_steamid: author.steamId || author.steamid || '0',
-        author_name: (author.name || author.personaname || author.persona_name || 'Jogador').slice(0, 80),
-        author_avatar: (author.avatar || author.avatarfull || author.avatarmedium || '').replace(/\\\//g, '/'),
+        author_steamid: author.steamId || author.steamid,
+        author_name: author.name,
+        author_avatar: (author.avatar || '').replace(/\\\//g, '/'),
         text: text.slice(0, 300),
         created_at: dateIso
       }]);
@@ -419,14 +394,16 @@ async function deletePost(postId) {
         .delete()
         .eq('id', postId);
 
-      if (error) throw error;
-      return { success: true };
+      if (error) {
+        console.error('[Database Supabase] Erro ao excluir post do Supabase:', error);
+        throw error;
+      }
     } catch (e) {
       console.error('[Database Supabase] Erro ao excluir post, usando fallback local:', e.message);
     }
   }
 
-  // Fallback Local
+  // Sincroniza sempre o cache local para nunca reaparecer
   let posts = loadLocalPosts();
   posts = posts.filter(p => p.id !== postId);
   saveLocalPosts(posts);
@@ -444,14 +421,16 @@ async function deleteComment({ postId, commentId }) {
         .delete()
         .eq('id', commentId);
 
-      if (error) throw error;
-      return { success: true };
+      if (error) {
+        console.error('[Database Supabase] Erro ao excluir comentário do Supabase:', error);
+        throw error;
+      }
     } catch (e) {
       console.error('[Database Supabase] Erro ao excluir comentário:', e.message);
     }
   }
 
-  // Fallback Local
+  // Sincroniza sempre o cache local
   const posts = loadLocalPosts();
   const post = posts.find(p => p.id === postId);
   if (post && Array.isArray(post.comments)) {

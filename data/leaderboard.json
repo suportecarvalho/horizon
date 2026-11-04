@@ -1,7 +1,7 @@
 {
   "server": "Horizon 2x Solo/Duo/Trio",
   "wipe_total_players": 26,
-  "updated_at": "2026-11-04T00:24:06.612Z",
+  "updated_at": "2026-11-04T00:35:05.334Z",
   "pvp": [
     {
       "rank": 1,
@@ -251,7 +251,7 @@
       "kd": "0.00",
       "headshot_pct": "0.0%",
       "kills": 0,
-      "deaths": 4,
+      "deaths": 6,
       "headshots": 0,
       "distance": "0m"
     },
@@ -300,6 +300,18 @@
       "headshot_pct": "0.0%",
       "kills": 0,
       "deaths": 6,
+      "headshots": 0,
+      "distance": "0m"
+    },
+    {
+      "rank": 26,
+      "steamid": "76561198987181145",
+      "name": "Theus212",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/b7fbf78e6d2abb73de19ff818cf221d1264cca7f_full.jpg",
+      "kd": "0.00",
+      "headshot_pct": "0.0%",
+      "kills": 0,
+      "deaths": 1,
       "headshots": 0,
       "distance": "0m"
     }
@@ -385,15 +397,15 @@
       "steamid": "76561198130679327",
       "name": "KroOs",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/862c21ced0a62021a690881ed214dbe986e298f6_full.jpg",
-      "total": "38,555",
+      "total": "39,410",
       "stones": "4,506",
-      "sulfur": "2,859",
+      "sulfur": "3,009",
       "metal": "11,696",
       "hqm": "0",
-      "wood": "18,454",
-      "leather": "300",
-      "fat": "220",
-      "bone": "520"
+      "wood": "18,459",
+      "leather": "500",
+      "fat": "420",
+      "bone": "820"
     },
     {
       "rank": 7,
@@ -564,6 +576,25 @@
   "farming": [
     {
       "rank": 1,
+      "steamid": "76561198130679327",
+      "name": "KroOs",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/862c21ced0a62021a690881ed214dbe986e298f6_full.jpg",
+      "total": "828",
+      "cloth": "810",
+      "yellow_berry": "0",
+      "red_berry": "0",
+      "blue_berry": "0",
+      "green_berry": "0",
+      "white_berry": "0",
+      "mushroom": "18",
+      "pumpkin": "0",
+      "corn": "0",
+      "potato": "0",
+      "wheat": "0",
+      "egg": "0"
+    },
+    {
+      "rank": 2,
       "steamid": "76561198280930794",
       "name": "JAIROL",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/34adcd2a2c63e40ce323f872f4781ef5ee322413_full.jpg",
@@ -582,31 +613,12 @@
       "egg": "0"
     },
     {
-      "rank": 2,
-      "steamid": "76561198130679327",
-      "name": "KroOs",
-      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/862c21ced0a62021a690881ed214dbe986e298f6_full.jpg",
-      "total": "687",
-      "cloth": "670",
-      "yellow_berry": "0",
-      "red_berry": "0",
-      "blue_berry": "0",
-      "green_berry": "0",
-      "white_berry": "0",
-      "mushroom": "17",
-      "pumpkin": "0",
-      "corn": "0",
-      "potato": "0",
-      "wheat": "0",
-      "egg": "0"
-    },
-    {
       "rank": 3,
       "steamid": "76561198131184791",
       "name": "Caique",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/626bbb7465867eefb8c7c536c5b332fb9ca47af9_full.jpg",
-      "total": "661",
-      "cloth": "620",
+      "total": "681",
+      "cloth": "640",
       "yellow_berry": "0",
       "red_berry": "8",
       "blue_berry": "2",
@@ -757,8 +769,8 @@
       "steamid": "76561198153384874",
       "name": "Memes",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/f1c5bb494247c1e0410d569aac1f3e84394114cd_full.jpg",
-      "total": "60",
-      "cloth": "60",
+      "total": "120",
+      "cloth": "120",
       "yellow_berry": "0",
       "red_berry": "0",
       "blue_berry": "0",
