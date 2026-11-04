@@ -546,6 +546,13 @@ function fetchSteamProfile(steamId64) {
 const server = http.createServer((req, res) => {
   const cleanUrl = req.url.split('?')[0];
 
+  // Silenciar requisições automáticas de favicon
+  if (cleanUrl === '/favicon.ico') {
+    res.writeHead(204);
+    res.end();
+    return;
+  }
+
   // -------------------------------------------------------------
   // ROTAS: AUTENTICAÇÃO STEAM OPENID
   // -------------------------------------------------------------
