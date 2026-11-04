@@ -82,72 +82,133 @@
       return;
     }
 
+    function makeItemRow(iconSrc, label, val) {
+      if (!label) return '<div></div>';
+      return `
+        <div style="display: flex; justify-content: space-between; align-items: center; min-height: 24px;">
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <img src="${iconSrc}" alt="${label}" style="width: 18px; height: 18px; object-fit: contain;">
+            <span style="color: #8E8B88; font-size: 0.82rem; font-weight: 500;">${label}</span>
+          </div>
+          <span style="color: #FFFFFF; font-size: 0.88rem; font-weight: 700;">${formatVal(val)}</span>
+        </div>
+      `;
+    }
+
     container.innerHTML = items.map(item => {
-      let medalSvg = '';
-      let rankClass = '';
+      let trophySvg = '';
       if (item.rank === 1) {
-        rankClass = 'ranking-medalha-ouro';
-        medalSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="lucide lucide-trophy ranking-medalha ranking-medalha-ouro"><path d="M10 14.66V17a1 1 0 0 1-1 1 2 2 0 0 0-2 2v2"></path><path d="M14 14.66V17a1 1 0 0 0 1 1 2 2 0 0 1 2 2v2"></path><path d="M17.916 10H19.5A2.5 2.5 0 0 0 22 7.5V5a1 1 0 0 0-1-1h-3"></path><path d="M4 22h16"></path><path d="M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z"></path><path d="M6.084 10H4.5A2.5 2.5 0 0 1 2 7.5V5a1 1 0 0 1 1-1h3"></path></svg>';
+        trophySvg = '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="#EAB308" stroke="#EAB308" stroke-width="1.5"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>';
       } else if (item.rank === 2) {
-        rankClass = 'ranking-medalha-prata';
-        medalSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="lucide lucide-trophy ranking-medalha ranking-medalha-prata"><path d="M10 14.66V17a1 1 0 0 1-1 1 2 2 0 0 0-2 2v2"></path><path d="M14 14.66V17a1 1 0 0 0 1 1 2 2 0 0 1 2 2v2"></path><path d="M17.916 10H19.5A2.5 2.5 0 0 0 22 7.5V5a1 1 0 0 0-1-1h-3"></path><path d="M4 22h16"></path><path d="M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z"></path><path d="M6.084 10H4.5A2.5 2.5 0 0 1 2 7.5V5a1 1 0 0 1 1-1h3"></path></svg>';
+        trophySvg = '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="#CBD5E1" stroke="#CBD5E1" stroke-width="1.5"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>';
       } else if (item.rank === 3) {
-        rankClass = 'ranking-medalha-bronze';
-        medalSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="lucide lucide-trophy ranking-medalha ranking-medalha-bronze"><path d="M10 14.66V17a1 1 0 0 1-1 1 2 2 0 0 0-2 2v2"></path><path d="M14 14.66V17a1 1 0 0 0 1 1 2 2 0 0 1 2 2v2"></path><path d="M17.916 10H19.5A2.5 2.5 0 0 0 22 7.5V5a1 1 0 0 0-1-1h-3"></path><path d="M4 22h16"></path><path d="M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z"></path><path d="M6.084 10H4.5A2.5 2.5 0 0 1 2 7.5V5a1 1 0 0 1 1-1h3"></path></svg>';
+        trophySvg = '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="#D97706" stroke="#D97706" stroke-width="1.5"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>';
       }
 
-      let contentHtml = '';
+      let highlightHtml = '';
+      let gridHtml = '';
+
       if (currentTab === 'pvp') {
-        contentHtml = `
-          <div class="ranking-cartao-destaque"><span class="ranking-cartao-destaque-valor ranking-valor-destaque">${item.kd}</span><span class="ranking-cartao-destaque-rotulo">KDR</span></div>
-          <div class="grid grid-cols-2 gap-2">
-            <div class="ranking-cartao-item"><span class="ranking-cartao-item-rotulo">% HS</span><span class="ranking-cartao-item-valor">${item.headshot_pct}</span></div>
-            <div class="ranking-cartao-item"><span class="ranking-cartao-item-rotulo">Kills</span><span class="ranking-cartao-item-valor" style="color:#6C978E;">${item.kills}</span></div>
-            <div class="ranking-cartao-item"><span class="ranking-cartao-item-rotulo">Mortes em PvP</span><span class="ranking-cartao-item-valor">${item.deaths}</span></div>
-            <div class="ranking-cartao-item"><span class="ranking-cartao-item-rotulo">Headshots</span><span class="ranking-cartao-item-valor">${item.headshots !== undefined ? item.headshots : 0}</span></div>
+        highlightHtml = `
+          <div style="margin-top: 14px; margin-bottom: 12px; display: flex; align-items: baseline; gap: 8px;">
+            <span style="font-size: 1.75rem; font-weight: 800; color: #D7573B; line-height: 1;">${item.kd}</span>
+            <span style="font-size: 0.82rem; font-weight: 700; color: #71717A; text-transform: uppercase;">KDR</span>
+          </div>
+        `;
+        gridHtml = `
+          <div style="display: grid; grid-template-columns: 1fr 1fr; column-gap: 20px; row-gap: 8px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; min-height: 24px;">
+              <span style="color: #8E8B88; font-size: 0.82rem; font-weight: 600;">% HS</span>
+              <span style="color: #FFFFFF; font-size: 0.88rem; font-weight: 700;">${item.headshot_pct}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; min-height: 24px;">
+              <span style="color: #8E8B88; font-size: 0.82rem; font-weight: 600;">Kills</span>
+              <span style="color: #FFFFFF; font-size: 0.88rem; font-weight: 700;">${item.kills}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; min-height: 24px;">
+              <span style="color: #8E8B88; font-size: 0.82rem; font-weight: 600;">Mortes em PvP</span>
+              <span style="color: #FFFFFF; font-size: 0.88rem; font-weight: 700;">${item.deaths}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; min-height: 24px;">
+              <span style="color: #8E8B88; font-size: 0.82rem; font-weight: 600;">Headshots</span>
+              <span style="color: #FFFFFF; font-size: 0.88rem; font-weight: 700;">${item.headshots !== undefined ? item.headshots : 0}</span>
+            </div>
           </div>
         `;
       } else if (currentTab === 'recursos') {
-        contentHtml = `
-          <div class="ranking-cartao-destaque"><span class="ranking-cartao-destaque-valor ranking-valor-destaque">${formatVal(item.total)}</span><span class="ranking-cartao-destaque-rotulo">Total Recursos</span></div>
-          <div class="grid grid-cols-2 gap-2">
-            <div class="ranking-cartao-item"><span class="ranking-cartao-item-rotulo">Pedra</span><span class="ranking-cartao-item-valor">${formatVal(item.stones || item.stone)}</span></div>
-            <div class="ranking-cartao-item"><span class="ranking-cartao-item-rotulo">Enxofre</span><span class="ranking-cartao-item-valor" style="color:#f59e0b;">${formatVal(item.sulfur)}</span></div>
-            <div class="ranking-cartao-item"><span class="ranking-cartao-item-rotulo">Metal</span><span class="ranking-cartao-item-valor" style="color:#60a5fa;">${formatVal(item.metal)}</span></div>
-            <div class="ranking-cartao-item"><span class="ranking-cartao-item-rotulo">HQM</span><span class="ranking-cartao-item-valor">${formatVal(item.hqm)}</span></div>
+        highlightHtml = `
+          <div style="margin-top: 14px; margin-bottom: 12px; display: flex; align-items: baseline; gap: 8px;">
+            <span style="font-size: 1.75rem; font-weight: 800; color: #FFFFFF; line-height: 1;">${formatVal(item.stones || item.stone || 0)}</span>
+            <span style="font-size: 0.82rem; font-weight: 600; color: #71717A;">Pedra</span>
+          </div>
+        `;
+        const recursoRows = [
+          [ { icon: '/images/items/sulfur.ore.png', label: 'Enxofre', val: item.sulfur }, { icon: '/images/items/metal.ore.png', label: 'Metal', val: item.metal } ],
+          [ { icon: '/images/items/hq.metal.ore.png', label: 'HQM', val: item.hqm }, { icon: '/images/items/wood.png', label: 'Madeira', val: item.wood } ],
+          [ { icon: '/images/items/leather.png', label: 'Couro', val: item.leather }, { icon: '/images/items/fat.animal.png', label: 'Gordura', val: item.fat } ],
+          [ { icon: '/images/items/bone.fragments.png', label: 'Ossos', val: item.bone }, null ]
+        ];
+        gridHtml = `
+          <div style="display: grid; grid-template-columns: 1fr 1fr; column-gap: 20px; row-gap: 8px;">
+            ${recursoRows.map(pair => `
+              ${makeItemRow(pair[0].icon, pair[0].label, pair[0].val)}
+              ${pair[1] ? makeItemRow(pair[1].icon, pair[1].label, pair[1].val) : '<div></div>'}
+            `).join('')}
           </div>
         `;
       } else if (currentTab === 'farming') {
-        contentHtml = `
-          <div class="ranking-cartao-destaque"><span class="ranking-cartao-destaque-valor ranking-valor-destaque">${formatVal(item.total)}</span><span class="ranking-cartao-destaque-rotulo">Total Colhido</span></div>
-          <div class="grid grid-cols-2 gap-2">
-            <div class="ranking-cartao-item"><span class="ranking-cartao-item-rotulo">Tecido</span><span class="ranking-cartao-item-valor">${formatVal(item.cloth)}</span></div>
-            <div class="ranking-cartao-item"><span class="ranking-cartao-item-rotulo">Abóbora</span><span class="ranking-cartao-item-valor">${formatVal(item.pumpkin)}</span></div>
-            <div class="ranking-cartao-item"><span class="ranking-cartao-item-rotulo">Milho</span><span class="ranking-cartao-item-valor">${formatVal(item.corn)}</span></div>
-            <div class="ranking-cartao-item"><span class="ranking-cartao-item-rotulo">Batata</span><span class="ranking-cartao-item-valor">${formatVal(item.potato)}</span></div>
+        highlightHtml = `
+          <div style="margin-top: 14px; margin-bottom: 12px; display: flex; align-items: baseline; gap: 8px;">
+            <span style="font-size: 1.75rem; font-weight: 800; color: #FFFFFF; line-height: 1;">${formatVal(item.cloth || 0)}</span>
+            <span style="font-size: 0.82rem; font-weight: 600; color: #71717A;">Pano</span>
+          </div>
+        `;
+        const farmingRows = [
+          [ { icon: '/images/items/yellow.berry.png', label: 'Amarela', val: item.yellow_berry }, { icon: '/images/items/red.berry.png', label: 'Vermelha', val: item.red_berry } ],
+          [ { icon: '/images/items/blue.berry.png', label: 'Azul', val: item.blue_berry }, { icon: '/images/items/green.berry.png', label: 'Verde', val: item.green_berry } ],
+          [ { icon: '/images/items/white.berry.png', label: 'Branca', val: item.white_berry }, { icon: '/images/items/mushroom.png', label: 'Cogumelo', val: item.mushroom } ],
+          [ { icon: '/images/items/pumpkin.png', label: 'Abóbora', val: item.pumpkin }, { icon: '/images/items/corn.png', label: 'Milho', val: item.corn } ],
+          [ { icon: '/images/items/potato.png', label: 'Batata', val: item.potato }, { icon: '/images/items/wheat.png', label: 'Trigo', val: item.wheat } ],
+          [ { icon: '/images/items/egg.png', label: 'Ovo', val: item.egg }, null ]
+        ];
+        gridHtml = `
+          <div style="display: grid; grid-template-columns: 1fr 1fr; column-gap: 20px; row-gap: 8px;">
+            ${farmingRows.map(pair => `
+              ${makeItemRow(pair[0].icon, pair[0].label, pair[0].val)}
+              ${pair[1] ? makeItemRow(pair[1].icon, pair[1].label, pair[1].val) : '<div></div>'}
+            `).join('')}
           </div>
         `;
       }
 
       const avatarSrc = cleanAvatarUrl(item.avatar);
+      const initial = (item.name || '?').trim().charAt(0).toUpperCase();
 
       return `
-        <div class="ranking-cartao-link">
-          <div data-slot="card" class="group/card flex flex-col gap-(--card-spacing) overflow-hidden rounded-xl bg-card py-(--card-spacing) text-sm text-card-foreground ring-1 ring-foreground/10" style="background:#161312; border:1px solid rgba(108,151,142,0.22); border-radius:12px; margin-bottom:12px; padding:16px;">
-            <div class="ranking-cartao-topo" style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
-              <span class="ranking-rank" style="display:inline-flex; align-items:center; gap:4px;">
-                ${medalSvg}
-                <span class="ranking-posicao ${rankClass}" style="font-weight:800;">#${item.rank}</span>
-              </span>
-              <span class="ranking-avatar-caixa"><img src="${avatarSrc}" class="ranking-avatar" alt="" style="width:36px; height:36px; border-radius:50%;" onerror="this.onerror=null;this.src='https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg';"></span>
-              <span class="ranking-nome-bloco">
-                <span class="ranking-nome" style="color:#EDE8E5; font-weight:700; display:block;">${item.name}</span>
-                <span class="ranking-id" style="color:#71717a; font-size:0.75rem;">${item.steamid}</span>
-              </span>
+        <div class="ranking-cartao-link" style="margin-bottom: 12px;">
+          <div style="background: #141211; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
+            <div style="display: flex; align-items: center;">
+              <div style="display: flex; align-items: center; gap: 6px; min-width: 50px;">
+                ${trophySvg}
+                <span style="font-size: 1.15rem; font-weight: 800; color: ${item.rank <= 3 ? '#FFFFFF' : '#A1A1AA'};">#${item.rank}</span>
+              </div>
+              <div style="width: 44px; height: 44px; min-width: 44px; border-radius: 50%; border: 2px solid #D7573B; display: flex; align-items: center; justify-content: center; background: #22201E; overflow: hidden; margin: 0 12px 0 8px;">
+                ${avatarSrc && !avatarSrc.includes('fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb') ? `
+                  <img src="${avatarSrc}" alt="${item.name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                  <span style="display: none; font-size: 1.2rem; font-weight: 700; color: #D4D4D8;">${initial}</span>
+                ` : `
+                  <span style="font-size: 1.2rem; font-weight: 700; color: #D4D4D8;">${initial}</span>
+                `}
+              </div>
+              <div style="overflow: hidden; flex: 1;">
+                <div style="color: #FFFFFF; font-weight: 800; font-size: 1.05rem; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${item.name}</div>
+                <div style="color: #71717A; font-size: 0.78rem; margin-top: 3px; font-family: monospace;">${item.steamid}</div>
+              </div>
             </div>
-            <div data-slot="card-content">
-              ${contentHtml}
-            </div>
+            
+            ${highlightHtml}
+            <div style="border-top: 1px solid rgba(255, 255, 255, 0.08); margin-bottom: 12px;"></div>
+            ${gridHtml}
           </div>
         </div>
       `;
