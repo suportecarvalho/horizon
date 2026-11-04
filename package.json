@@ -9,6 +9,9 @@
     "single": "node clonar.js --single",
     "spa": "node clonar.js --spa"
   },
+  "engines": {
+    "node": "22.x"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
