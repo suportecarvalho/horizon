@@ -1,7 +1,7 @@
 {
   "server": "Horizon 2x Solo/Duo/Trio",
   "wipe_total_players": 26,
-  "updated_at": "2026-11-04T00:44:04.547Z",
+  "updated_at": "2026-11-04T00:49:04.631Z",
   "pvp": [
     {
       "rank": 1,
@@ -227,7 +227,7 @@
       "kd": "0.00",
       "headshot_pct": "0.0%",
       "kills": 0,
-      "deaths": 5,
+      "deaths": 6,
       "headshots": 0,
       "distance": "0m"
     },
@@ -239,7 +239,7 @@
       "kd": "0.00",
       "headshot_pct": "0.0%",
       "kills": 0,
-      "deaths": 5,
+      "deaths": 7,
       "headshots": 0,
       "distance": "0m"
     },
@@ -454,6 +454,21 @@
     },
     {
       "rank": 10,
+      "steamid": "76561198987181145",
+      "name": "Theus212",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/b7fbf78e6d2abb73de19ff818cf221d1264cca7f_full.jpg",
+      "total": "6,914",
+      "stones": "1,590",
+      "sulfur": "0",
+      "metal": "0",
+      "hqm": "0",
+      "wood": "5,324",
+      "leather": "0",
+      "fat": "0",
+      "bone": "0"
+    },
+    {
+      "rank": 11,
       "steamid": "76561198358586780",
       "name": "Whillikat🌹",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/22440c345d7bc45b6ef39a5ce3c01178f031fc21_full.jpg",
@@ -468,7 +483,7 @@
       "bone": "60"
     },
     {
-      "rank": 11,
+      "rank": 12,
       "steamid": "76561198131184791",
       "name": "Caique",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/626bbb7465867eefb8c7c536c5b332fb9ca47af9_full.jpg",
@@ -483,11 +498,11 @@
       "bone": "10"
     },
     {
-      "rank": 12,
+      "rank": 13,
       "steamid": "76561198103340805",
       "name": "Gerits",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/2554fe13bbd6b2ebcdde8e075abdc85c7a85afec_full.jpg",
-      "total": "4,135",
+      "total": "4,195",
       "stones": "900",
       "sulfur": "1,500",
       "metal": "600",
@@ -495,10 +510,10 @@
       "wood": "960",
       "leather": "0",
       "fat": "45",
-      "bone": "130"
+      "bone": "190"
     },
     {
-      "rank": 13,
+      "rank": 14,
       "steamid": "76561198365369539",
       "name": "Cairo",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/c3c1f6bf05a3adbc21204fa31e34c2f5d8cf3bae_full.jpg",
@@ -508,21 +523,6 @@
       "metal": "0",
       "hqm": "0",
       "wood": "3,523",
-      "leather": "0",
-      "fat": "0",
-      "bone": "0"
-    },
-    {
-      "rank": 14,
-      "steamid": "76561198987181145",
-      "name": "Theus212",
-      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/b7fbf78e6d2abb73de19ff818cf221d1264cca7f_full.jpg",
-      "total": "3,294",
-      "stones": "0",
-      "sulfur": "0",
-      "metal": "0",
-      "hqm": "0",
-      "wood": "3,294",
       "leather": "0",
       "fat": "0",
       "bone": "0"
@@ -632,14 +632,14 @@
       "steamid": "76561198131184791",
       "name": "Caique",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/626bbb7465867eefb8c7c536c5b332fb9ca47af9_full.jpg",
-      "total": "681",
-      "cloth": "640",
-      "yellow_berry": "0",
-      "red_berry": "8",
+      "total": "721",
+      "cloth": "660",
+      "yellow_berry": "2",
+      "red_berry": "12",
       "blue_berry": "2",
-      "green_berry": "0",
+      "green_berry": "6",
       "white_berry": "6",
-      "mushroom": "17",
+      "mushroom": "25",
       "pumpkin": "6",
       "corn": "2",
       "potato": "0",
@@ -689,8 +689,8 @@
       "steamid": "76561198103340805",
       "name": "Gerits",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/2554fe13bbd6b2ebcdde8e075abdc85c7a85afec_full.jpg",
-      "total": "429",
-      "cloth": "420",
+      "total": "469",
+      "cloth": "460",
       "yellow_berry": "0",
       "red_berry": "0",
       "blue_berry": "0",
