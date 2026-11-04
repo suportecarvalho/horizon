@@ -230,20 +230,25 @@ namespace Oxide.Plugins
         }
 
         // -------------------------------------------------------------
-        // HOOKS: PVP
+        // HOOKS: PVP (Apenas mortes e abates em combate PvP entre jogadores reais)
         // -------------------------------------------------------------
         private void OnPlayerDeath(BasePlayer victim, HitInfo info)
         {
             if (victim == null || victim.IsNpc) return;
 
-            var victimStats = GetOrCreate(victim);
-            if (victimStats != null)
-            {
-                victimStats.Deaths++;
-            }
+            // Identifica se foi combate PvP legítimo (vítima morta por outro jogador real, excluindo suicídio e NPCs)
+            bool isPvpKill = info?.InitiatorPlayer != null && !info.InitiatorPlayer.IsNpc && info.InitiatorPlayer != victim;
 
-            if (info?.InitiatorPlayer != null && !info.InitiatorPlayer.IsNpc && info.InitiatorPlayer != victim)
+            if (isPvpKill)
             {
+                // Registra Morte em PvP para a vítima
+                var victimStats = GetOrCreate(victim);
+                if (victimStats != null)
+                {
+                    victimStats.Deaths++;
+                }
+
+                // Registra Kill para o atacante
                 var killer = info.InitiatorPlayer;
                 var killerStats = GetOrCreate(killer);
                 if (killerStats != null)

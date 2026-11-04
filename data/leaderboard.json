@@ -1,7 +1,7 @@
 {
   "server": "Horizon 2x Solo/Duo/Trio",
   "wipe_total_players": 34,
-  "updated_at": "2026-11-04T20:39:36.260Z",
+  "updated_at": "2026-11-04T20:49:36.248Z",
   "pvp": [
     {
       "rank": 1,
@@ -583,12 +583,12 @@
       "steamid": "76561198328567301",
       "name": "Hero",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/460d7fa283232088ed24fe422955bc7766fed698_full.jpg",
-      "total": "24,015",
-      "stones": "5,338",
+      "total": "27,548",
+      "stones": "6,700",
       "sulfur": "1,500",
       "metal": "10",
       "hqm": "0",
-      "wood": "16,543",
+      "wood": "18,714",
       "leather": "102",
       "fat": "284",
       "bone": "238"

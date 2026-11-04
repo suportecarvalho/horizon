@@ -82,8 +82,8 @@
             <th class="ranking-cab" style="text-align: center;">KDR</th>
             <th class="ranking-cab" style="text-align: center;">% HS</th>
             <th class="ranking-cab" style="text-align: center;">KILLS</th>
-            <th class="ranking-cab" style="text-align: center;">MORTES</th>
-            <th class="ranking-cab" style="text-align: center;">DISTÂNCIA MÁX</th>
+            <th class="ranking-cab" style="text-align: center;">MORTES EM PVP</th>
+            <th class="ranking-cab" style="text-align: center;">HEADSHOTS</th>
           </tr>
         `;
       } else if (currentTab === 'recursos') {
@@ -151,7 +151,7 @@
           <td class="ranking-valor" style="text-align: center;">${item.headshot_pct}</td>
           <td class="ranking-valor" style="color: #6C978E; font-weight: 700; text-align: center;">${item.kills}</td>
           <td class="ranking-valor" style="text-align: center;">${item.deaths}</td>
-          <td class="ranking-valor" style="text-align: center;">${item.headshots !== undefined ? item.headshots : (item.distance || '0')}</td>
+          <td class="ranking-valor" style="text-align: center;">${item.headshots !== undefined ? item.headshots : 0}</td>
         `;
       } else if (currentTab === 'recursos') {
         extraCols = `
