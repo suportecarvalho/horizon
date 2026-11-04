@@ -179,7 +179,12 @@
     const startIndex = (currentPage - 1) * pageSize;
     const pageItems = filtered.slice(startIndex, startIndex + pageSize);
 
-    // Atualiza cabeçalho da tabela
+    // Atualiza cabeçalho e classe da tabela
+    const table = document.querySelector('table.ranking-tabela');
+    if (table) {
+      table.className = `w-full caption-bottom text-sm ranking-tabela ranking-tabela-${currentTab}`;
+    }
+
     const thead = document.querySelector('table.ranking-tabela thead');
     if (thead) {
       if (currentTab === 'pvp') {
@@ -197,35 +202,35 @@
       } else if (currentTab === 'recursos') {
         thead.innerHTML = `
           <tr class="ranking-cabecalho">
-            <th class="ranking-cab ranking-cab-rank" style="width: 85px; text-align: center;">#</th>
-            <th class="ranking-cab ranking-cab-jogador" style="text-align: left; padding-left: 24px;">JOGADOR</th>
-            <th class="ranking-cab" style="text-align: center; width: 55px;" title="Pedra"><img src="/images/items/stones.png" alt="Pedra" class="hlb-item-icon"></th>
-            <th class="ranking-cab" style="text-align: center; width: 55px;" title="Minério de Enxofre"><img src="/images/items/sulfur.ore.png" alt="Enxofre" class="hlb-item-icon"></th>
-            <th class="ranking-cab" style="text-align: center; width: 55px;" title="Minério de Metal"><img src="/images/items/metal.ore.png" alt="Metal" class="hlb-item-icon"></th>
-            <th class="ranking-cab" style="text-align: center; width: 55px;" title="HQM (Metal de Alta Qualidade)"><img src="/images/items/hq.metal.ore.png" alt="HQM" class="hlb-item-icon"></th>
-            <th class="ranking-cab" style="text-align: center; width: 55px;" title="Madeira"><img src="/images/items/wood.png" alt="Madeira" class="hlb-item-icon"></th>
-            <th class="ranking-cab" style="text-align: center; width: 55px;" title="Couro"><img src="/images/items/leather.png" alt="Couro" class="hlb-item-icon"></th>
-            <th class="ranking-cab" style="text-align: center; width: 55px;" title="Gordura Animal"><img src="/images/items/fat.animal.png" alt="Gordura Animal" class="hlb-item-icon"></th>
-            <th class="ranking-cab" style="text-align: center; width: 55px;" title="Fragmentos de Osso"><img src="/images/items/bone.fragments.png" alt="Ossos" class="hlb-item-icon"></th>
+            <th class="ranking-cab ranking-cab-rank" style="width: 75px; text-align: center;">#</th>
+            <th class="ranking-cab ranking-cab-jogador" style="width: 28%; text-align: left; padding-left: 20px;">JOGADOR</th>
+            <th class="ranking-cab" style="width: 9%; text-align: center;" title="Pedra"><img src="/images/items/stones.png" alt="Pedra" class="hlb-item-icon"></th>
+            <th class="ranking-cab" style="width: 9%; text-align: center;" title="Minério de Enxofre"><img src="/images/items/sulfur.ore.png" alt="Enxofre" class="hlb-item-icon"></th>
+            <th class="ranking-cab" style="width: 9%; text-align: center;" title="Minério de Metal"><img src="/images/items/metal.ore.png" alt="Metal" class="hlb-item-icon"></th>
+            <th class="ranking-cab" style="width: 9%; text-align: center;" title="HQM (Metal de Alta Qualidade)"><img src="/images/items/hq.metal.ore.png" alt="HQM" class="hlb-item-icon"></th>
+            <th class="ranking-cab" style="width: 9%; text-align: center;" title="Madeira"><img src="/images/items/wood.png" alt="Madeira" class="hlb-item-icon"></th>
+            <th class="ranking-cab" style="width: 9%; text-align: center;" title="Couro"><img src="/images/items/leather.png" alt="Couro" class="hlb-item-icon"></th>
+            <th class="ranking-cab" style="width: 9%; text-align: center;" title="Gordura Animal"><img src="/images/items/fat.animal.png" alt="Gordura Animal" class="hlb-item-icon"></th>
+            <th class="ranking-cab" style="width: 9%; text-align: center;" title="Fragmentos de Osso"><img src="/images/items/bone.fragments.png" alt="Ossos" class="hlb-item-icon"></th>
           </tr>
         `;
       } else if (currentTab === 'farming') {
         thead.innerHTML = `
           <tr class="ranking-cabecalho">
-            <th class="ranking-cab ranking-cab-rank" style="width: 85px; text-align: center;">#</th>
-            <th class="ranking-cab ranking-cab-jogador" style="text-align: left; padding-left: 24px;">JOGADOR</th>
-            <th class="ranking-cab" style="text-align: center; width: 44px;" title="Tecido (Cloth)"><img src="/images/items/cloth.png" alt="Tecido" class="hlb-item-icon"></th>
-            <th class="ranking-cab" style="text-align: center; width: 44px;" title="Amora Amarela"><img src="/images/items/yellow.berry.png" alt="Amora Amarela" class="hlb-item-icon"></th>
-            <th class="ranking-cab" style="text-align: center; width: 44px;" title="Amora Vermelha"><img src="/images/items/red.berry.png" alt="Amora Vermelha" class="hlb-item-icon"></th>
-            <th class="ranking-cab" style="text-align: center; width: 44px;" title="Amora Azul"><img src="/images/items/blue.berry.png" alt="Amora Azul" class="hlb-item-icon"></th>
-            <th class="ranking-cab" style="text-align: center; width: 44px;" title="Amora Verde"><img src="/images/items/green.berry.png" alt="Amora Verde" class="hlb-item-icon"></th>
-            <th class="ranking-cab" style="text-align: center; width: 44px;" title="Amora Branca"><img src="/images/items/white.berry.png" alt="Amora Branca" class="hlb-item-icon"></th>
-            <th class="ranking-cab" style="text-align: center; width: 44px;" title="Cogumelo"><img src="/images/items/mushroom.png" alt="Cogumelo" class="hlb-item-icon"></th>
-            <th class="ranking-cab" style="text-align: center; width: 44px;" title="Abóbora"><img src="/images/items/pumpkin.png" alt="Abóbora" class="hlb-item-icon"></th>
-            <th class="ranking-cab" style="text-align: center; width: 44px;" title="Milho"><img src="/images/items/corn.png" alt="Milho" class="hlb-item-icon"></th>
-            <th class="ranking-cab" style="text-align: center; width: 44px;" title="Batata"><img src="/images/items/potato.png" alt="Batata" class="hlb-item-icon"></th>
-            <th class="ranking-cab" style="text-align: center; width: 44px;" title="Trigo"><img src="/images/items/wheat.png" alt="Trigo" class="hlb-item-icon"></th>
-            <th class="ranking-cab" style="text-align: center; width: 44px;" title="Ovo"><img src="/images/items/egg.png" alt="Ovo" class="hlb-item-icon"></th>
+            <th class="ranking-cab ranking-cab-rank" style="width: 65px; text-align: center;">#</th>
+            <th class="ranking-cab ranking-cab-jogador" style="width: 24%; text-align: left; padding-left: 16px;">JOGADOR</th>
+            <th class="ranking-cab" style="width: 6.33%; text-align: center;" title="Tecido (Cloth)"><img src="/images/items/cloth.png" alt="Tecido" class="hlb-item-icon"></th>
+            <th class="ranking-cab" style="width: 6.33%; text-align: center;" title="Amora Amarela"><img src="/images/items/yellow.berry.png" alt="Amora Amarela" class="hlb-item-icon"></th>
+            <th class="ranking-cab" style="width: 6.33%; text-align: center;" title="Amora Vermelha"><img src="/images/items/red.berry.png" alt="Amora Vermelha" class="hlb-item-icon"></th>
+            <th class="ranking-cab" style="width: 6.33%; text-align: center;" title="Amora Azul"><img src="/images/items/blue.berry.png" alt="Amora Azul" class="hlb-item-icon"></th>
+            <th class="ranking-cab" style="width: 6.33%; text-align: center;" title="Amora Verde"><img src="/images/items/green.berry.png" alt="Amora Verde" class="hlb-item-icon"></th>
+            <th class="ranking-cab" style="width: 6.33%; text-align: center;" title="Amora Branca"><img src="/images/items/white.berry.png" alt="Amora Branca" class="hlb-item-icon"></th>
+            <th class="ranking-cab" style="width: 6.33%; text-align: center;" title="Cogumelo"><img src="/images/items/mushroom.png" alt="Cogumelo" class="hlb-item-icon"></th>
+            <th class="ranking-cab" style="width: 6.33%; text-align: center;" title="Abóbora"><img src="/images/items/pumpkin.png" alt="Abóbora" class="hlb-item-icon"></th>
+            <th class="ranking-cab" style="width: 6.33%; text-align: center;" title="Milho"><img src="/images/items/corn.png" alt="Milho" class="hlb-item-icon"></th>
+            <th class="ranking-cab" style="width: 6.33%; text-align: center;" title="Batata"><img src="/images/items/potato.png" alt="Batata" class="hlb-item-icon"></th>
+            <th class="ranking-cab" style="width: 6.33%; text-align: center;" title="Trigo"><img src="/images/items/wheat.png" alt="Trigo" class="hlb-item-icon"></th>
+            <th class="ranking-cab" style="width: 6.33%; text-align: center;" title="Ovo"><img src="/images/items/egg.png" alt="Ovo" class="hlb-item-icon"></th>
           </tr>
         `;
       }
@@ -295,8 +300,8 @@
 
         return `
           <tr class="ranking-linha">
-            <td class="ranking-celula-rank" style="width: 85px; text-align: center;"><span class="ranking-rank">${medalHtml}</span></td>
-            <td class="ranking-celula-jogador" style="padding-left: 24px;">
+            <td class="ranking-celula-rank"><span class="ranking-rank">${medalHtml}</span></td>
+            <td class="ranking-celula-jogador">
               <div class="ranking-jogador" style="gap: 16px;">
                 <span class="ranking-avatar-caixa"><img src="${avatarSrc}" class="ranking-avatar" alt="" onerror="this.onerror=null;this.src='https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg';"></span>
                 <span class="ranking-nome-bloco">

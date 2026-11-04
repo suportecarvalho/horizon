@@ -857,6 +857,53 @@ body:has(.ranking),
   text-align: center !important;
 }
 
+/* Distribuição uniforme e balanceada para Recursos e Farming */
+.ranking-tabela-recursos,
+.ranking-tabela-farming {
+  table-layout: fixed !important;
+  width: 100% !important;
+}
+
+.ranking-tabela-recursos .ranking-cab-rank,
+.ranking-tabela-recursos .ranking-celula-rank {
+  width: 75px !important;
+  min-width: 75px !important;
+  padding: 0 4px !important;
+}
+
+.ranking-tabela-farming .ranking-cab-rank,
+.ranking-tabela-farming .ranking-celula-rank {
+  width: 65px !important;
+  min-width: 65px !important;
+  padding: 0 4px !important;
+}
+
+.ranking-tabela-recursos .ranking-cab-jogador,
+.ranking-tabela-recursos .ranking-celula-jogador {
+  width: 28% !important;
+  padding-left: 20px !important;
+}
+
+.ranking-tabela-farming .ranking-cab-jogador,
+.ranking-tabela-farming .ranking-celula-jogador {
+  width: 24% !important;
+  padding-left: 16px !important;
+}
+
+.ranking-tabela-recursos th:nth-child(n+3),
+.ranking-tabela-recursos td:nth-child(n+3) {
+  width: 9% !important;
+  text-align: center !important;
+  padding: 0 4px !important;
+}
+
+.ranking-tabela-farming th:nth-child(n+3),
+.ranking-tabela-farming td:nth-child(n+3) {
+  width: 6.33% !important;
+  text-align: center !important;
+  padding: 0 2px !important;
+}
+
 .ranking-rank {
   display: inline-flex !important;
   align-items: center !important;
