@@ -289,6 +289,69 @@ video.hero-midia {
   display: flex !important;
 }
 
+.hero-ip-sep {
+  color: rgba(255, 255, 255, 0.25) !important;
+  font-size: 12px !important;
+  user-select: none !important;
+}
+
+@media (max-width: 580px) {
+  .hero-ip-sep {
+    display: none !important;
+  }
+}
+
+.hero-server-ip {
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  padding: 4px 10px !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid rgba(108, 151, 142, 0.3) !important;
+  border-radius: 6px !important;
+  font-family: 'Martian Mono', monospace !important;
+  font-size: 12px !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+  transition: all 0.2s ease !important;
+  user-select: none !important;
+}
+
+.hero-ip-label {
+  color: #82ADA4 !important;
+  font-weight: 700 !important;
+  font-size: 11px !important;
+  letter-spacing: 0.04em !important;
+}
+
+.hero-ip-val {
+  color: #EDE8E5 !important;
+  font-weight: 600 !important;
+}
+
+.hero-ip-icon {
+  color: #82ADA4 !important;
+  opacity: 0.85 !important;
+  flex-shrink: 0 !important;
+  transition: transform 0.15s ease !important;
+}
+
+.hero-server-ip:hover {
+  background: rgba(108, 151, 142, 0.15) !important;
+  border-color: rgba(108, 151, 142, 0.6) !important;
+  color: #FFFFFF !important;
+  transform: translateY(-1px) !important;
+}
+
+.hero-server-ip:hover .hero-ip-icon {
+  transform: scale(1.1) !important;
+  opacity: 1 !important;
+}
+
+.hero-server-ip:active {
+  transform: translateY(0) !important;
+}
+
 .hero-acoes {
   display: flex !important;
   flex-wrap: wrap !important;

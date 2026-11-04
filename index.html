@@ -174,6 +174,60 @@
     box-shadow: 0 12px 35px rgba(88, 101, 242, 0.45) !important;
     transform: translateY(-2px) !important;
   }
+  .hero-ip-sep {
+    color: rgba(255, 255, 255, 0.25) !important;
+    font-size: 12px !important;
+    user-select: none !important;
+  }
+  @media (max-width: 580px) {
+    .hero-ip-sep {
+      display: none !important;
+    }
+  }
+  .hero-server-ip {
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    padding: 4px 10px !important;
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid rgba(108, 151, 142, 0.3) !important;
+    border-radius: 6px !important;
+    font-family: 'Martian Mono', monospace !important;
+    font-size: 12px !important;
+    color: rgba(255, 255, 255, 0.7) !important;
+    transition: all 0.2s ease !important;
+    user-select: none !important;
+  }
+  .hero-ip-label {
+    color: #82ADA4 !important;
+    font-weight: 700 !important;
+    font-size: 11px !important;
+    letter-spacing: 0.04em !important;
+  }
+  .hero-ip-val {
+    color: #EDE8E5 !important;
+    font-weight: 600 !important;
+  }
+  .hero-ip-icon {
+    color: #82ADA4 !important;
+    opacity: 0.85 !important;
+    flex-shrink: 0 !important;
+    transition: transform 0.15s ease !important;
+  }
+  .hero-server-ip:hover {
+    background: rgba(108, 151, 142, 0.15) !important;
+    border-color: rgba(108, 151, 142, 0.6) !important;
+    color: #FFFFFF !important;
+    transform: translateY(-1px) !important;
+  }
+  .hero-server-ip:hover .hero-ip-icon {
+    transform: scale(1.1) !important;
+    opacity: 1 !important;
+  }
+  .hero-server-ip:active {
+    transform: translateY(0) !important;
+  }
 </style>
 </head><body><header class="site-header"><div class="site-header-conteudo shell"><a href="/" class="site-header-marca horizon-brand-logo" aria-label="Horizon"><img src="/images/logo_horizon.svg" alt="Horizon Logo" class="horizon-brand-img"></a><div class="site-header-direita"><a href="https://discord.gg/VTu3m2MYeX" class="cabecalho-icone" aria-label="Discord" target="_blank" rel="noreferrer noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false" class="size-5"><path d="M20.317 4.3698a19.7913 19.7913 0 0 0-4.8851-1.5152.0741.0741 0 0 0-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 0 0-.0785-.037 19.7363 19.7363 0 0 0-4.8852 1.515.0699.0699 0 0 0-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 0 0 .0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 0 0 .0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 0 0-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 0 1-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 0 1 .0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 0 1 .0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 0 1-.0066.1276 12.2986 12.2986 0 0 1-1.873.8914.0766.0766 0 0 0-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 0 0 .0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 0 0 .0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 0 0-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"></path></svg></a><a href="/auth/steam" data-slot="button" data-variant="outline" data-size="cabecalho" class="group/button inline-flex shrink-0 items-center justify-center rounded-lg border bg-clip-padding whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&amp;_svg]:pointer-events-none [&amp;_svg]:shrink-0 [&amp;_svg:not([class*='size-'])]:size-4 border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 btn-corte [--corte:8px] h-8 gap-1.5 px-3.5 font-heading text-[0.7rem] font-bold tracking-[0.06em] uppercase">Entrar<span class="some-no-estreito">&nbsp;com Steam</span></a></div></div></header><main><section class="hero" style="position: relative !important; display: flex !important; align-items: center !important; justify-content: flex-start !important; box-sizing: border-box !important; height: calc(100vh - 85px) !important; min-height: calc(100vh - 85px) !important; height: calc(100dvh - 85px) !important; min-height: calc(100dvh - 85px) !important; overflow: hidden !important; width: 100% !important; padding: 0 !important; border-bottom: 1px solid rgba(108, 151, 142, 0.22) !important; background: #13100F !important;"><div class="hero-fundo" aria-hidden="true">
       <video class="hero-midia" src="/videos/rust_bg.mp4" autoplay="" muted="" loop="" playsinline="" preload="auto" disablepictureinpicture="" disableremoteplayback="" aria-hidden="true" tabindex="-1"></video>
@@ -185,6 +239,12 @@
         <span class="contagem-valor" id="hero-player-count">--</span>
         <span class="contagem-palavra" id="hero-player-label">players conectados</span>
       </span>
+      <span class="hero-ip-sep" aria-hidden="true">•</span>
+      <div class="hero-server-ip" onclick="navigator.clipboard.writeText('client.connect jogar.rusthorizon.com:28015'); var el=this.querySelector('.hero-ip-val'); var old=el.textContent; el.textContent='COPIADO!'; setTimeout(function(){ el.textContent=old; }, 2000);" title="Clique para copiar: client.connect jogar.rusthorizon.com:28015">
+        <span class="hero-ip-label">IP:</span>
+        <span class="hero-ip-val">jogar.rusthorizon.com:28015</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hero-ip-icon"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+      </div>
     </div><h1 class="titulo hero-titulo">ONDE A LEI<br>É APENAS<br><span class="hero-destaque">SOBREVIVER.</span></h1><div class="hero-acoes" style="display: flex !important; flex-wrap: wrap !important; gap: 22px !important; margin-top: 10px !important;">
           <a href="/loja" class="btn-horizon-primary group/button inline-flex shrink-0 items-center justify-center rounded-lg whitespace-nowrap outline-none btn-corte font-heading uppercase" style="height: 58px !important; min-height: 58px !important; padding: 0 46px 0 34px !important; gap: 16px !important; font-size: 1.05rem !important; font-weight: 800 !important; letter-spacing: 0.1em !important; --corte: 14px !important; background: linear-gradient(135deg, #D7573B 0%, #B84329 100%) !important; color: #FFFFFF !important; border: 1px solid rgba(255, 123, 94, 0.75) !important; box-shadow: 0 8px 25px rgba(215, 87, 59, 0.45) !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; border-radius: 8px !important; text-decoration: none !important;">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width: 24px; height: 24px; flex-shrink: 0;"><circle cx="8" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path></svg>
