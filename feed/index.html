@@ -609,9 +609,13 @@
 
       <div style="display: flex; gap: 10px; margin-bottom: 14px; flex-wrap: wrap;">
         <input type="url" id="post-image-url" class="feed-input-url" style="margin-bottom: 0; flex: 1; min-width: 240px;" placeholder="🔗 Link da foto (ex: Imgur, Discord, Facepunch) ou clique ao lado ➔">
-        <label for="post-file-input" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: rgba(108, 151, 142, 0.18); border: 1px solid rgba(108, 151, 142, 0.45); color: #82ADA4; font-weight: 700; font-size: 0.82rem; padding: 0 16px; border-radius: 8px; cursor: pointer; height: 42px; white-space: nowrap; transition: all 0.2s ease;">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-          📁 Escolher do PC
+        <label for="post-file-input" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: rgba(69, 189, 98, 0.12); border: 1px solid rgba(69, 189, 98, 0.35); color: #45BD62; font-weight: 700; font-size: 0.84rem; padding: 0 16px; border-radius: 8px; cursor: pointer; height: 42px; white-space: nowrap; transition: all 0.2s ease;" onmouseover="this.style.background='rgba(69,189,98,0.22)';this.style.borderColor='#45BD62'" onmouseout="this.style.background='rgba(69,189,98,0.12)';this.style.borderColor='rgba(69,189,98,0.35)'">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" style="flex-shrink: 0;">
+            <rect x="2.5" y="3.5" width="19" height="17" rx="3.5" fill="rgba(69, 189, 98, 0.2)" stroke="#45BD62" stroke-width="1.8"/>
+            <circle cx="8" cy="8.5" r="2" fill="#45BD62"/>
+            <path d="M21 15.5l-5.2-5.2a1.8 1.8 0 0 0-2.6 0L4 19" stroke="#45BD62" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Foto/Vídeo
           <input type="file" id="post-file-input" accept="image/png, image/jpeg, image/webp" style="display: none;">
         </label>
       </div>
@@ -620,16 +624,6 @@
       <div id="image-preview-container" class="feed-image-preview">
         <img id="image-preview-img" src="" alt="Prévia da foto">
         <button type="button" id="preview-remove-btn" class="feed-preview-remove" title="Remover imagem">✕</button>
-      </div>
-
-      <!-- SELETOR DE TAGS -->
-      <div style="font-size: 0.78rem; font-weight: 700; color: #a1a1aa; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em;">Escolha a categoria:</div>
-      <div class="feed-tag-selector" id="tag-selector">
-        <span class="feed-tag-pill active" data-tag="📸 Screenshot">📸 Screenshot</span>
-        <span class="feed-tag-pill" data-tag="⚔️ PVP">⚔️ PVP</span>
-        <span class="feed-tag-pill" data-tag="🏰 Base">🏰 Base</span>
-        <span class="feed-tag-pill" data-tag="💥 Raid">💥 Raid</span>
-        <span class="feed-tag-pill" data-tag="🌾 Farm">🌾 Farm</span>
       </div>
 
       <!-- BOTÃO DE SUBMETER -->
@@ -642,16 +636,10 @@
       </div>
     </div>
 
-    <!-- BARRA DE FILTROS DO FEED -->
-    <div class="feed-filters-bar">
-      <div style="display: flex; gap: 6px;" id="feed-filter-group">
-        <button type="button" class="feed-filter-btn active" data-filter="all">Todos os Posts</button>
-        <button type="button" class="feed-filter-btn" data-filter="📸 Screenshot">📸 Prints</button>
-        <button type="button" class="feed-filter-btn" data-filter="⚔️ PVP">⚔️ PVP</button>
-        <button type="button" class="feed-filter-btn" data-filter="🏰 Base">🏰 Bases</button>
-        <button type="button" class="feed-filter-btn" data-filter="💥 Raid">💥 Raids</button>
-      </div>
-      <div style="font-size: 0.8rem; color: #71717a; white-space: nowrap;" id="feed-total-count">Carregando...</div>
+    <!-- CABEÇALHO DO FEED -->
+    <div class="feed-filters-bar" style="display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 24px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 12px;">
+      <h3 style="margin: 0; font-size: 1.05rem; font-weight: 800; color: #EDE8E5; letter-spacing: 0.04em; text-transform: uppercase;">Publicações da Comunidade</h3>
+      <div style="font-size: 0.82rem; color: #71717a; white-space: nowrap;" id="feed-total-count">Carregando...</div>
     </div>
 
     <!-- LISTA DE POSTAGENS -->
@@ -682,16 +670,7 @@
       <input type="hidden" id="edit-post-id">
 
       <div style="font-size: 0.8rem; font-weight: 700; color: #a1a1aa; margin-bottom: 6px; text-transform: uppercase;">Legenda:</div>
-      <textarea id="edit-post-caption" class="feed-textarea" rows="4" style="margin-bottom: 16px;"></textarea>
-
-      <div style="font-size: 0.8rem; font-weight: 700; color: #a1a1aa; margin-bottom: 8px; text-transform: uppercase;">Categoria:</div>
-      <div class="feed-tag-selector" id="edit-tag-selector" style="margin-bottom: 20px;">
-        <span class="feed-tag-pill active" data-tag="📸 Screenshot">📸 Screenshot</span>
-        <span class="feed-tag-pill" data-tag="⚔️ PVP">⚔️ PVP</span>
-        <span class="feed-tag-pill" data-tag="🏰 Base">🏰 Base</span>
-        <span class="feed-tag-pill" data-tag="💥 Raid">💥 Raid</span>
-        <span class="feed-tag-pill" data-tag="🌾 Farm">🌾 Farm</span>
-      </div>
+      <textarea id="edit-post-caption" class="feed-textarea" rows="4" style="margin-bottom: 20px;"></textarea>
 
       <div style="display: flex; justify-content: flex-end; gap: 10px;">
         <button type="button" id="edit-modal-cancel" style="background: #27272a; color: #EDE8E5; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 700; cursor: pointer;">Cancelar</button>

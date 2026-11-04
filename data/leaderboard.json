@@ -1,7 +1,7 @@
 {
   "server": "Horizon 2x Solo/Duo/Trio",
   "wipe_total_players": 26,
-  "updated_at": "2026-11-04T00:35:05.334Z",
+  "updated_at": "2026-11-04T00:44:04.547Z",
   "pvp": [
     {
       "rank": 1,
@@ -155,7 +155,7 @@
       "kd": "0.00",
       "headshot_pct": "0.0%",
       "kills": 0,
-      "deaths": 9,
+      "deaths": 10,
       "headshots": 0,
       "distance": "0m"
     },
@@ -239,7 +239,7 @@
       "kd": "0.00",
       "headshot_pct": "0.0%",
       "kills": 0,
-      "deaths": 4,
+      "deaths": 5,
       "headshots": 0,
       "distance": "0m"
     },
@@ -299,7 +299,7 @@
       "kd": "0.00",
       "headshot_pct": "0.0%",
       "kills": 0,
-      "deaths": 6,
+      "deaths": 7,
       "headshots": 0,
       "distance": "0m"
     },
@@ -367,15 +367,15 @@
       "steamid": "76561198280930794",
       "name": "JAIROL",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/34adcd2a2c63e40ce323f872f4781ef5ee322413_full.jpg",
-      "total": "63,105",
+      "total": "63,315",
       "stones": "10,880",
       "sulfur": "300",
-      "metal": "300",
+      "metal": "450",
       "hqm": "0",
       "wood": "50,901",
       "leather": "160",
       "fat": "160",
-      "bone": "404"
+      "bone": "464"
     },
     {
       "rank": 5,
@@ -472,30 +472,30 @@
       "steamid": "76561198131184791",
       "name": "Caique",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/626bbb7465867eefb8c7c536c5b332fb9ca47af9_full.jpg",
-      "total": "4,597",
+      "total": "4,612",
       "stones": "308",
       "sulfur": "3,450",
       "metal": "300",
       "hqm": "0",
       "wood": "519",
       "leather": "0",
-      "fat": "20",
-      "bone": "0"
+      "fat": "25",
+      "bone": "10"
     },
     {
       "rank": 12,
       "steamid": "76561198103340805",
       "name": "Gerits",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/2554fe13bbd6b2ebcdde8e075abdc85c7a85afec_full.jpg",
-      "total": "4,120",
+      "total": "4,135",
       "stones": "900",
       "sulfur": "1,500",
       "metal": "600",
       "hqm": "0",
       "wood": "960",
       "leather": "0",
-      "fat": "40",
-      "bone": "120"
+      "fat": "45",
+      "bone": "130"
     },
     {
       "rank": 13,
@@ -514,6 +514,21 @@
     },
     {
       "rank": 14,
+      "steamid": "76561198987181145",
+      "name": "Theus212",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/b7fbf78e6d2abb73de19ff818cf221d1264cca7f_full.jpg",
+      "total": "3,294",
+      "stones": "0",
+      "sulfur": "0",
+      "metal": "0",
+      "hqm": "0",
+      "wood": "3,294",
+      "leather": "0",
+      "fat": "0",
+      "bone": "0"
+    },
+    {
+      "rank": 15,
       "steamid": "76561198858376648",
       "name": "_KING_ON_",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/5f2924aed147abc9918d4305b7002b763c5903c4_full.jpg",
@@ -528,7 +543,7 @@
       "bone": "0"
     },
     {
-      "rank": 15,
+      "rank": 16,
       "steamid": "76561198258143577",
       "name": "Negresco",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/983f461a43abc8d5450a5c1985e3cbce03dc7055_full.jpg",
@@ -543,7 +558,7 @@
       "bone": "16"
     },
     {
-      "rank": 16,
+      "rank": 17,
       "steamid": "76561198750662826",
       "name": "Shadow 残忍的",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/d6b56e750bb82c85881229b63f3a1436a42857a3_full.jpg",
@@ -558,7 +573,7 @@
       "bone": "0"
     },
     {
-      "rank": 17,
+      "rank": 18,
       "steamid": "76561199127717531",
       "name": "ADM",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/c5ff599f01c1c6496dbb96cc4321283e0b2cd8fd_full.jpg",
@@ -598,8 +613,8 @@
       "steamid": "76561198280930794",
       "name": "JAIROL",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/34adcd2a2c63e40ce323f872f4781ef5ee322413_full.jpg",
-      "total": "741",
-      "cloth": "738",
+      "total": "742",
+      "cloth": "739",
       "yellow_berry": "0",
       "red_berry": "0",
       "blue_berry": "0",

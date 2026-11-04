@@ -6,8 +6,6 @@
 
   let currentUser = null;
   let allPosts = [];
-  let currentFilter = 'all';
-  let selectedTag = '📸 Screenshot';
   let selectedFileBase64 = null;
   let selectedFileObj = null;
 
@@ -22,10 +20,8 @@
   const previewContainer = document.getElementById('image-preview-container');
   const previewImg = document.getElementById('image-preview-img');
   const previewRemoveBtn = document.getElementById('preview-remove-btn');
-  const tagSelector = document.getElementById('tag-selector');
   const btnSubmitPost = document.getElementById('btn-submit-post');
   const createPostMsg = document.getElementById('create-post-msg');
-  const feedFilterGroup = document.getElementById('feed-filter-group');
   const feedTotalCount = document.getElementById('feed-total-count');
   const postsStream = document.getElementById('feed-posts-stream');
   const lightboxModal = document.getElementById('feed-lightbox-modal');
@@ -38,11 +34,9 @@
   const editModal = document.getElementById('feed-edit-modal');
   const editPostId = document.getElementById('edit-post-id');
   const editPostCaption = document.getElementById('edit-post-caption');
-  const editTagSelector = document.getElementById('edit-tag-selector');
   const editModalClose = document.getElementById('edit-modal-close');
   const editModalCancel = document.getElementById('edit-modal-cancel');
   const editModalSave = document.getElementById('edit-modal-save');
-  let selectedEditTag = '📸 Screenshot';
 
   // Inicialização
   async function init() {
@@ -115,21 +109,16 @@
 
   // Renderiza publicações filtradas
   function renderFeed() {
-    let filtered = allPosts;
-    if (currentFilter !== 'all') {
-      filtered = allPosts.filter(p => (p.tag || '').toLowerCase().includes(currentFilter.toLowerCase()));
-    }
-
     if (feedTotalCount) {
-      feedTotalCount.textContent = `${filtered.length} ${filtered.length === 1 ? 'publicação' : 'publicações'}`;
+      feedTotalCount.textContent = `${allPosts.length} ${allPosts.length === 1 ? 'publicação' : 'publicações'}`;
     }
 
-    if (!filtered || filtered.length === 0) {
+    if (!allPosts || allPosts.length === 0) {
       postsStream.innerHTML = `
         <div style="text-align: center; padding: 60px 20px; background: #171312; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px;">
           <div style="font-size: 2.2rem; margin-bottom: 12px;">📸</div>
-          <h3 style="margin: 0 0 6px; font-weight: 800; font-size: 1.1rem; color: #EDE8E5;">Nenhuma publicação encontrada</h3>
-          <p style="margin: 0; color: #71717a; font-size: 0.9rem;">Seja o primeiro sobrevivente a postar nesta categoria!</p>
+          <h3 style="margin: 0 0 6px; font-weight: 800; font-size: 1.1rem; color: #EDE8E5;">Nenhuma publicação ainda</h3>
+          <p style="margin: 0; color: #71717a; font-size: 0.9rem;">Seja o primeiro sobrevivente a postar no feed!</p>
         </div>
       `;
       return;
@@ -138,7 +127,7 @@
     const mySteamId = currentUser ? (currentUser.steamId || currentUser.steamid) : null;
     const userIsAdmin = currentUser && (currentUser.isAdmin || currentUser.steamId === '76561198737554294' || currentUser.steamid === '76561198737554294');
 
-    postsStream.innerHTML = filtered.map(post => {
+    postsStream.innerHTML = allPosts.map(post => {
       const likes = Array.isArray(post.likes) ? post.likes : [];
       const comments = Array.isArray(post.comments) ? post.comments : [];
       const hasLiked = mySteamId && likes.includes(mySteamId);
@@ -165,19 +154,17 @@
               </div>
             </a>
             
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <span class="feed-card-tag">${escapeHtml(post.tag || '📸 Screenshot')}</span>
-              ${canManage ? `
-                <div style="display: inline-flex; align-items: center; gap: 4px;">
-                  <button type="button" title="Editar publicação" onclick="window.feedApp.openEditModal('${post.id}')" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #a1a1aa; border-radius: 6px; padding: 3px 8px; font-size: 0.72rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 3px;" onmouseover="this.style.color='#EDE8E5';this.style.borderColor='#6C978E'" onmouseout="this.style.color='#a1a1aa';this.style.borderColor='rgba(255,255,255,0.12)'">
-                    ✏️ <span style="font-size: 0.7rem;">Editar</span>
-                  </button>
-                  <button type="button" title="Excluir publicação" onclick="window.feedApp.deletePost('${post.id}')" style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.25); color: #f87171; border-radius: 6px; padding: 3px 8px; font-size: 0.72rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 3px;" onmouseover="this.style.background='rgba(239,68,68,0.25)'" onmouseout="this.style.background='rgba(239,68,68,0.1)'">
-                    🗑️ <span style="font-size: 0.7rem;">Excluir</span>
-                  </button>
-                </div>
-              ` : ''}
-            </div>
+            ${canManage ? `
+              <div style="display: inline-flex; align-items: center; gap: 4px;">
+                <button type="button" title="Editar publicação" onclick="window.feedApp.openEditModal('${post.id}')" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); color: #a1a1aa; border-radius: 6px; padding: 4px 10px; font-size: 0.75rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 4px;" onmouseover="this.style.color='#EDE8E5';this.style.borderColor='#6C978E'" onmouseout="this.style.color='#a1a1aa';this.style.borderColor='rgba(255,255,255,0.12)'">
+                  ✏️ <span>Editar</span>
+                </button>
+                <button type="button" title="Excluir publicação" onclick="window.feedApp.deletePost('${post.id}')" style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.25); color: #f87171; border-radius: 6px; padding: 4px 10px; font-size: 0.75rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 4px;" onmouseover="this.style.background='rgba(239,68,68,0.25)'" onmouseout="this.style.background='rgba(239,68,68,0.1)'">
+                  🗑️ <span>Excluir</span>
+                </button>
+              </div>
+            ` : ''}
+          </div>
           </div>
 
           <!-- MÍDIA / IMAGEM -->
@@ -442,8 +429,7 @@
         body: JSON.stringify({
           action: 'create',
           caption,
-          imageUrl,
-          tag: selectedTag
+          imageUrl
         })
       });
 
@@ -608,46 +594,9 @@
       });
     }
 
-    // Seletor de Tags
-    if (tagSelector) {
-      tagSelector.addEventListener('click', (e) => {
-        const pill = e.target.closest('.feed-tag-pill');
-        if (pill) {
-          tagSelector.querySelectorAll('.feed-tag-pill').forEach(p => p.classList.remove('active'));
-          pill.classList.add('active');
-          selectedTag = pill.getAttribute('data-tag') || '📸 Screenshot';
-        }
-      });
-    }
-
-    // Filtros
-    if (feedFilterGroup) {
-      feedFilterGroup.addEventListener('click', (e) => {
-        const btn = e.target.closest('.feed-filter-btn');
-        if (btn) {
-          feedFilterGroup.querySelectorAll('.feed-filter-btn').forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          currentFilter = btn.getAttribute('data-filter') || 'all';
-          renderFeed();
-        }
-      });
-    }
-
     // Botão Submit Post
     if (btnSubmitPost) {
       btnSubmitPost.addEventListener('click', handleCreatePost);
-    }
-
-    // Modal de Edição (Listeners)
-    if (editTagSelector) {
-      editTagSelector.addEventListener('click', (e) => {
-        const pill = e.target.closest('.feed-tag-pill');
-        if (pill) {
-          editTagSelector.querySelectorAll('.feed-tag-pill').forEach(p => p.classList.remove('active'));
-          pill.classList.add('active');
-          selectedEditTag = pill.getAttribute('data-tag') || '📸 Screenshot';
-        }
-      });
     }
 
     if (editModalClose) editModalClose.addEventListener('click', closeEditModal);
@@ -683,17 +632,6 @@
 
     editPostId.value = post.id;
     editPostCaption.value = post.caption || '';
-    selectedEditTag = post.tag || '📸 Screenshot';
-
-    if (editTagSelector) {
-      editTagSelector.querySelectorAll('.feed-tag-pill').forEach(pill => {
-        if (pill.getAttribute('data-tag') === selectedEditTag) {
-          pill.classList.add('active');
-        } else {
-          pill.classList.remove('active');
-        }
-      });
-    }
 
     editModal.style.display = 'flex';
     document.body.style.overflow = 'hidden';
@@ -724,8 +662,7 @@
         body: JSON.stringify({
           action: 'edit',
           postId,
-          caption,
-          tag: selectedEditTag
+          caption
         })
       });
 
@@ -733,7 +670,6 @@
         const post = allPosts.find(p => p.id === postId);
         if (post) {
           post.caption = caption;
-          post.tag = selectedEditTag;
         }
         closeEditModal();
         renderFeed();
