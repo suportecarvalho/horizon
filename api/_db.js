@@ -92,10 +92,11 @@ function saveLocalPosts(posts) {
 async function getPosts() {
   if (supabase) {
     try {
-      // 1. Busca todos os posts ordenados por data
-      const { data: posts, error: postErr } = await supabase
+      // 1. Busca todos os posts ordenados por data (ignorando dados do sistema)
+      let { data: posts, error: postErr } = await supabase
         .from('feed_posts')
         .select('*')
+        .neq('tag', '__system__')
         .order('created_at', { ascending: false });
 
       if (postErr) throw postErr;
@@ -103,6 +104,7 @@ async function getPosts() {
       if (!posts || posts.length === 0) {
         return [];
       }
+      posts = posts.filter(p => p.tag !== '__system__' && p.id !== '__horizon_vip_orders_db__');
 
       // 2. Busca likes e comentários para compor a lista
       const postIds = posts.map(p => p.id);

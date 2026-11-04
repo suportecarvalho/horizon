@@ -70,6 +70,7 @@ namespace Oxide.Plugins
         {
             public Dictionary<string, VipRecord> ActiveVips { get; set; } = new Dictionary<string, VipRecord>();
             public List<VipRecord> ExpiredHistory { get; set; } = new List<VipRecord>();
+            public HashSet<string> ProcessedOrders { get; set; } = new HashSet<string>();
         }
 
         public class PendingDelivery
@@ -117,6 +118,10 @@ namespace Oxide.Plugins
             if (data == null || data.ActiveVips == null)
             {
                 data = new StoredData();
+            }
+            if (data.ProcessedOrders == null)
+            {
+                data.ProcessedOrders = new HashSet<string>();
             }
 
             // Garante que os grupos Oxide existam
@@ -194,6 +199,13 @@ namespace Oxide.Plugins
         {
             if (delivery == null || string.IsNullOrEmpty(delivery.steamId)) return;
 
+            // Evita processamento duplicado ou spam caso a API ainda não tenha persistido a confirmação
+            if (!string.IsNullOrEmpty(delivery.orderId) && data.ProcessedOrders.Contains(delivery.orderId))
+            {
+                ConfirmDelivery(delivery.orderId);
+                return;
+            }
+
             string steamId = delivery.steamId;
             string tier = (delivery.vipTier ?? "bronze").ToLower();
             string groupName = config.VipGroups.ContainsKey(tier) ? config.VipGroups[tier] : $"vip_{tier}";
@@ -254,6 +266,10 @@ namespace Oxide.Plugins
             };
 
             data.ActiveVips[steamId] = record;
+            if (!string.IsNullOrEmpty(delivery.orderId))
+            {
+                data.ProcessedOrders.Add(delivery.orderId);
+            }
             SaveData();
 
             // Executa comandos adicionais de ativação se configurados

@@ -45,14 +45,45 @@ function saveLocalOrders(orders) {
   } catch (e) {}
 }
 
+async function getSystemOrdersFromSupabase() {
+  if (!supabase) return [];
+  try {
+    const { data } = await supabase
+      .from('feed_posts')
+      .select('caption')
+      .eq('id', '__horizon_vip_orders_db__')
+      .maybeSingle();
+    if (data && data.caption) {
+      const parsed = JSON.parse(data.caption);
+      if (Array.isArray(parsed)) return parsed;
+    }
+  } catch (e) {}
+  return [];
+}
+
+async function saveSystemOrdersToSupabase(orders) {
+  if (!supabase || !Array.isArray(orders)) return;
+  try {
+    await supabase.from('feed_posts').upsert([{
+      id: '__horizon_vip_orders_db__',
+      author_steamid: '0',
+      author_name: 'System Orders DB',
+      author_avatar: '',
+      image_url: 'https://files.facepunch.com/rust/item/vip.png',
+      caption: JSON.stringify(orders),
+      tag: '__system__'
+    }], { onConflict: 'id' });
+  } catch (e) {}
+}
+
 /**
  * Cria ou atualiza um pedido no banco
  */
 async function saveOrder(order) {
-  // Salva no Supabase se disponível
+  // Salva no Supabase se disponível (tenta tabela vip_orders)
   if (supabase) {
     try {
-      const { error } = await supabase
+      await supabase
         .from('vip_orders')
         .upsert([{
           id: order.id,
@@ -70,15 +101,15 @@ async function saveOrder(order) {
           payment_method: order.payment_method || 'pix',
           raw_data: order.raw_data || null
         }], { onConflict: 'id' });
+    } catch (e) {}
 
-      if (!error) {
-        const orders = loadLocalOrders();
-        const idx = orders.findIndex(o => o.id === order.id);
-        if (idx >= 0) orders[idx] = order;
-        else orders.unshift(order);
-        saveLocalOrders(orders);
-        return order;
-      }
+    // Sempre sincroniza com a linha persistente do sistema no Supabase
+    try {
+      const sysOrders = await getSystemOrdersFromSupabase();
+      const idx = sysOrders.findIndex(o => o.id === order.id || String(o.payment_id) === String(order.payment_id || order.id));
+      if (idx >= 0) sysOrders[idx] = { ...sysOrders[idx], ...order };
+      else sysOrders.unshift(order);
+      await saveSystemOrdersToSupabase(sysOrders);
     } catch (e) {}
   }
 
@@ -110,6 +141,12 @@ async function getOrder(idOrPaymentId) {
         .maybeSingle();
 
       if (data) return data;
+    } catch (e) {}
+
+    try {
+      const sysOrders = await getSystemOrdersFromSupabase();
+      const found = sysOrders.find(o => String(o.id) === queryId || String(o.payment_id) === queryId);
+      if (found) return found;
     } catch (e) {}
   }
 
@@ -160,6 +197,11 @@ async function getPendingDeliveries() {
         .order('created_at', { ascending: true });
 
       if (!error && Array.isArray(data)) return data;
+    } catch (e) {}
+
+    try {
+      const sysOrders = await getSystemOrdersFromSupabase();
+      return sysOrders.filter(o => o.status === 'approved' && !o.granted);
     } catch (e) {}
   }
 

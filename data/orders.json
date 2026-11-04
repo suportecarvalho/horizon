@@ -1,5 +1,11 @@
 [
   {
+    "id": "HORIZON-PRATA-MW2IQ1QR-175",
+    "status": "approved",
+    "granted": true,
+    "granted_at": "2026-11-04T20:40:57.575Z"
+  },
+  {
     "id": "HORIZON-BRONZE-MW2I49IG-500",
     "payment_id": "186708829417",
     "steam_id": "76561198737554294",
@@ -7,7 +13,7 @@
     "vip_tier": "bronze",
     "amount": 20,
     "status": "approved",
-    "granted": false,
+    "granted": true,
     "created_at": "2026-11-04T15:20:09.000-04:00",
     "approved_at": "2026-11-04T15:20:32.000-04:00",
     "expires_at": "2026-12-04T19:20:32.000Z",
@@ -211,7 +217,8 @@
       "tags": null,
       "tenant_context": "mp",
       "shipping_cost": 0
-    }
+    },
+    "granted_at": "2026-11-04T20:34:45.902Z"
   },
   {
     "id": "HORIZON-OURO-MW2H6FRM-551",
