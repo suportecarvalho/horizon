@@ -1,7 +1,7 @@
 {
   "server": "Horizon 2x Solo/Duo/Trio",
   "wipe_total_players": 34,
-  "updated_at": "2026-11-04T21:35:39.335Z",
+  "updated_at": "2026-11-04T22:00:39.353Z",
   "pvp": [
     {
       "rank": 1,
@@ -505,6 +505,21 @@
     },
     {
       "rank": 7,
+      "steamid": "76561198103340805",
+      "name": "Gerits",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/2554fe13bbd6b2ebcdde8e075abdc85c7a85afec_full.jpg",
+      "total": "57,308",
+      "stones": "1,651",
+      "sulfur": "15,600",
+      "metal": "10,238",
+      "hqm": "0",
+      "wood": "25,827",
+      "leather": "940",
+      "fat": "1,222",
+      "bone": "1,830"
+    },
+    {
+      "rank": 8,
       "steamid": "76561198365369539",
       "name": "Cairo",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/c3c1f6bf05a3adbc21204fa31e34c2f5d8cf3bae_full.jpg",
@@ -517,21 +532,6 @@
       "leather": "624",
       "fat": "636",
       "bone": "976"
-    },
-    {
-      "rank": 8,
-      "steamid": "76561198103340805",
-      "name": "Gerits",
-      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/2554fe13bbd6b2ebcdde8e075abdc85c7a85afec_full.jpg",
-      "total": "54,954",
-      "stones": "1,651",
-      "sulfur": "15,450",
-      "metal": "8,874",
-      "hqm": "0",
-      "wood": "25,627",
-      "leather": "800",
-      "fat": "1,022",
-      "bone": "1,530"
     },
     {
       "rank": 9,
@@ -803,8 +803,8 @@
       "steamid": "76561198103340805",
       "name": "Gerits",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/2554fe13bbd6b2ebcdde8e075abdc85c7a85afec_full.jpg",
-      "total": "1,958",
-      "cloth": "1,949",
+      "total": "2,198",
+      "cloth": "2,189",
       "yellow_berry": "0",
       "red_berry": "0",
       "blue_berry": "0",

@@ -904,6 +904,27 @@ body:has(.ranking),
   padding: 0 2px !important;
 }
 
+/* Responsividade Tabela Desktop vs Cards Mobile */
+@media (min-width: 768px) {
+  .ranking-cartoes {
+    display: none !important;
+  }
+  .ranking-desktop-wrap {
+    display: block !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .ranking-desktop-wrap {
+    display: none !important;
+  }
+  .ranking-cartoes {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+  }
+}
+
 .ranking-rank {
   display: inline-flex !important;
   align-items: center !important;
