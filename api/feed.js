@@ -35,15 +35,8 @@ module.exports = async (req, res) => {
     }
   }
 
-  // POST: Ações autenticadas com Steam
+  // POST: Ações no feed
   if (req.method === 'POST') {
-    const user = getSessionUser(req);
-    if (!user) {
-      return res.status(401).json({
-        error: 'Você precisa estar conectado com a Steam para realizar esta ação!'
-      });
-    }
-
     let body = req.body;
     if (typeof body === 'string') {
       try {
@@ -55,6 +48,28 @@ module.exports = async (req, res) => {
     body = body || {};
 
     const action = body.action || req.query?.action || 'create';
+    let user = getSessionUser(req);
+
+    // Suporte flexível para visitantes curtirem publicações
+    if (!user && action === 'like') {
+      const guestId = body.guestId || body.steamId || (req.headers['x-forwarded-for'] ? 'guest_' + String(req.headers['x-forwarded-for']).split(',')[0].replace(/[^a-zA-Z0-9]/g, '') : 'guest_anon');
+      user = { steamId: guestId, name: 'Visitante' };
+    }
+
+    // Suporte para visitantes comentarem informando apelido
+    if (!user && action === 'comment' && body.authorName) {
+      user = {
+        steamId: body.guestId || 'guest_' + Date.now(),
+        name: body.authorName || 'Jogador',
+        avatar: 'https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg'
+      };
+    }
+
+    if (!user) {
+      return res.status(401).json({
+        error: 'Você precisa estar conectado com a Steam para realizar esta ação!'
+      });
+    }
 
     // 1. UPLOAD DE FOTO (Base64)
     if (action === 'upload') {

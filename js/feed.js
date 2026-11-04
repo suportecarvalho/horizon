@@ -180,8 +180,8 @@
             <div class="feed-card-actions">
               <div style="display: flex; align-items: center; gap: 20px;">
                 <button type="button" class="feed-action-btn ${hasLiked ? 'liked' : ''}" onclick="window.feedApp.toggleLike('${post.id}')" id="like-btn-${post.id}">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="${hasLiked || likes.length > 0 ? '#ef4444' : '#ef4444'}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
-                  <span style="color: ${hasLiked || likes.length > 0 ? '#f87171' : '#a1a1aa'}; font-weight: 700;">${likes.length} curtida${likes.length === 1 ? '' : 's'}</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="${hasLiked ? '#ef4444' : 'none'}" stroke="${hasLiked || likes.length > 0 ? '#ef4444' : '#a1a1aa'}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                  <span class="likes-count" style="color: ${hasLiked || likes.length > 0 ? '#f87171' : '#a1a1aa'}; font-weight: 700;">${likes.length} curtida${likes.length === 1 ? '' : 's'}</span>
                 </button>
 
                 <button type="button" class="feed-action-btn" onclick="window.feedApp.toggleComments('${post.id}')">
@@ -225,16 +225,31 @@
             </div>
 
             <!-- CAMPO PARA COMENTAR -->
-            ${currentUser ? `
-              <div class="feed-comment-input-box">
-                <input type="text" id="comment-input-${post.id}" class="feed-comment-input" placeholder="Escreva um comentário..." onkeydown="if(event.key==='Enter') window.feedApp.submitComment('${post.id}')">
-                <button type="button" class="feed-comment-submit" onclick="window.feedApp.submitComment('${post.id}')">Enviar</button>
-              </div>
-            ` : `
-              <div style="font-size: 0.8rem; color: #71717a; text-align: center; padding: 10px 0;">
-                <a href="/auth/steam" style="color: #5E8B7E; font-weight: 700; text-decoration: underline;">Conecte sua Steam</a> para comentar nesta foto.
-              </div>
-            `}
+            <div class="feed-comment-input-box">
+              <input type="text" id="comment-input-${post.id}" class="feed-comment-input" placeholder="Escreva um comentário..." onkeydown="if(event.key==='Enter') window.feedApp.submitComment('${post.id}')">
+              <button type="button" class="feed-comment-submit" onclick="window.feedApp.submitComment('${post.id}')">Enviar</button>
+            </div>
+
+            <!-- BARRA DE EMOJIS RÁPIDOS -->
+            <div class="feed-comment-emoji-bar" style="display: flex; align-items: center; gap: 5px; margin-top: 8px; flex-wrap: wrap;">
+              <span style="font-size: 0.72rem; color: #71717a; font-weight: 700; text-transform: uppercase; margin-right: 4px; display: inline-flex; align-items: center; gap: 3px;">
+                <span>😊</span> Emojis:
+              </span>
+              ${['🔥', '😂', '👀', '❤️', '💀', '👍', '👏', '🎯', '⚡', '👑', '🚀', '💣', '😎', '🏆', '⛏️'].map(emoji => `
+                <button type="button" class="feed-emoji-btn" onclick="window.feedApp.insertEmoji('${post.id}', '${emoji}')" title="Adicionar ${emoji}" style="
+                  background: rgba(255, 255, 255, 0.04);
+                  border: 1px solid rgba(255, 255, 255, 0.08);
+                  border-radius: 8px;
+                  padding: 3px 8px;
+                  font-size: 1rem;
+                  line-height: 1.2;
+                  cursor: pointer;
+                  transition: transform 0.15s ease, background 0.15s ease;
+                " onmouseover="this.style.background='rgba(255,255,255,0.12)';this.style.transform='scale(1.18)'" onmouseout="this.style.background='rgba(255,255,255,0.04)';this.style.transform='scale(1)'">
+                  ${emoji}
+                </button>
+              `).join('')}
+            </div>
           </div>
         </article>
       `;
@@ -243,36 +258,48 @@
 
   // Ação: Curtir / Descurtir
   async function toggleLike(postId) {
-    if (!currentUser) {
-      showToast('⚠️ Entre com a Steam para curtir publicações!');
-      return;
-    }
-
     const post = allPosts.find(p => p.id === postId);
     if (!post) return;
 
-    const mySteamId = currentUser.steamId || currentUser.steamid;
+    // Obtém identificador único (SteamID se logado, ou guestId persistente no localStorage)
+    let myId = currentUser ? (currentUser.steamId || currentUser.steamid) : null;
+    if (!myId) {
+      myId = localStorage.getItem('horizon_guest_id');
+      if (!myId) {
+        myId = 'guest_' + Math.random().toString(36).substring(2, 11);
+        localStorage.setItem('horizon_guest_id', myId);
+      }
+    }
+
     if (!Array.isArray(post.likes)) post.likes = [];
 
-    // Otimista
-    const idx = post.likes.indexOf(mySteamId);
+    // Otimista: alterna o like localmente na hora
+    const idx = post.likes.indexOf(myId);
+    let isNowLiked = false;
     if (idx >= 0) {
       post.likes.splice(idx, 1);
+      isNowLiked = false;
     } else {
-      post.likes.push(mySteamId);
+      post.likes.push(myId);
+      isNowLiked = true;
     }
-    updateLikeButton(post);
+    updateLikeButton(post, isNowLiked, post.likes.length);
 
     try {
       const res = await fetch('/api/feed', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'like', postId })
+        body: JSON.stringify({ action: 'like', postId, guestId: myId, steamId: myId })
       });
       if (res.ok) {
         const data = await res.json();
-        if (data.success) {
-          // Confirmado pelo backend
+        if (typeof data.likesCount === 'number') {
+          if (data.hasLiked && !post.likes.includes(myId)) post.likes.push(myId);
+          if (!data.hasLiked) {
+            const i = post.likes.indexOf(myId);
+            if (i >= 0) post.likes.splice(i, 1);
+          }
+          updateLikeButton(post, data.hasLiked, data.likesCount);
         }
       }
     } catch (e) {
@@ -280,37 +307,74 @@
     }
   }
 
-  function updateLikeButton(post) {
+  function updateLikeButton(post, forcedLikedState, forcedCount) {
     const btn = document.getElementById(`like-btn-${post.id}`);
     if (!btn) return;
 
-    const mySteamId = currentUser ? (currentUser.steamId || currentUser.steamid) : null;
-    const hasLiked = mySteamId && post.likes.includes(mySteamId);
+    let myId = currentUser ? (currentUser.steamId || currentUser.steamid) : localStorage.getItem('horizon_guest_id');
+    const hasLiked = forcedLikedState !== undefined ? forcedLikedState : (myId && post.likes.includes(myId));
+    const count = forcedCount !== undefined ? forcedCount : post.likes.length;
+
+    const svg = btn.querySelector('svg');
+    const counter = btn.querySelector('.likes-count');
 
     if (hasLiked) {
       btn.classList.add('liked');
+      if (svg) {
+        svg.setAttribute('fill', '#ef4444');
+        svg.setAttribute('stroke', '#ef4444');
+      }
+      if (counter) {
+        counter.style.color = '#f87171';
+      }
     } else {
       btn.classList.remove('liked');
+      if (svg) {
+        svg.setAttribute('fill', 'none');
+        svg.setAttribute('stroke', count > 0 ? '#ef4444' : '#a1a1aa');
+      }
+      if (counter) {
+        counter.style.color = count > 0 ? '#f87171' : '#a1a1aa';
+      }
     }
 
-    const counter = btn.querySelector('.likes-count');
     if (counter) {
-      counter.textContent = `${post.likes.length} curtida${post.likes.length === 1 ? '' : 's'}`;
+      counter.textContent = `${count} curtida${count === 1 ? '' : 's'}`;
     }
+  }
+
+  // Insere emoji no campo de comentário do post
+  function insertEmoji(postId, emoji) {
+    const input = document.getElementById(`comment-input-${postId}`);
+    if (!input) return;
+    const start = input.selectionStart ?? input.value.length;
+    const end = input.selectionEnd ?? input.value.length;
+    const val = input.value;
+    input.value = val.substring(0, start) + emoji + val.substring(end);
+    input.focus();
+    const nextPos = start + emoji.length;
+    input.setSelectionRange(nextPos, nextPos);
   }
 
   // Ação: Comentar
   async function submitComment(postId) {
-    if (!currentUser) {
-      showToast('⚠️ Entre com a Steam para comentar!');
-      return;
-    }
-
     const input = document.getElementById(`comment-input-${postId}`);
     if (!input) return;
 
     const text = input.value.trim();
     if (!text) return;
+
+    let authorName = currentUser ? (currentUser.name || currentUser.username) : localStorage.getItem('horizon_author_name');
+    if (!currentUser && !authorName) {
+      authorName = prompt('Informe seu nome de jogador para comentar:') || 'Jogador';
+      if (authorName) localStorage.setItem('horizon_author_name', authorName);
+    }
+
+    let guestId = localStorage.getItem('horizon_guest_id');
+    if (!guestId) {
+      guestId = 'guest_' + Math.random().toString(36).substring(2, 11);
+      localStorage.setItem('horizon_guest_id', guestId);
+    }
 
     input.value = '';
     input.disabled = true;
@@ -319,7 +383,13 @@
       const res = await fetch('/api/feed', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'comment', postId, text })
+        body: JSON.stringify({
+          action: 'comment',
+          postId,
+          text,
+          authorName: authorName || 'Jogador',
+          guestId
+        })
       });
 
       if (res.ok) {
@@ -340,7 +410,8 @@
               <img src="${(data.comment.author?.avatar || 'https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg').replace(/\\\//g, '/')}" alt="${escapeHtml(data.comment.author?.name || 'Jogador')}" class="feed-comment-avatar">
               <div class="feed-comment-content">
                 <div class="feed-comment-user">
-                  <span>${escapeHtml(data.comment.author?.name || 'Jogador')}</span>
+                  <span class="feed-comment-author-name">${escapeHtml(data.comment.author?.name || 'Jogador')}</span>
+                  <span class="feed-comment-separator">•</span>
                   <span class="feed-comment-time">agora mesmo</span>
                 </div>
                 <div class="feed-comment-text">${escapeHtml(data.comment.text || '')}</div>
@@ -738,6 +809,7 @@
   window.feedApp = {
     toggleLike,
     submitComment,
+    insertEmoji,
     openLightbox,
     openEditModal,
     closeEditModal,

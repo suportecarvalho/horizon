@@ -1,7 +1,7 @@
 {
   "server": "Horizon 2x Solo/Duo/Trio",
   "wipe_total_players": 34,
-  "updated_at": "2026-11-04T19:33:40.991Z",
+  "updated_at": "2026-11-04T20:24:36.258Z",
   "pvp": [
     {
       "rank": 1,
@@ -77,6 +77,18 @@
     },
     {
       "rank": 7,
+      "steamid": "76561198365369539",
+      "name": "Cairo",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/c3c1f6bf05a3adbc21204fa31e34c2f5d8cf3bae_full.jpg",
+      "kd": "0.50",
+      "headshot_pct": "100.0%",
+      "kills": 2,
+      "deaths": 4,
+      "headshots": 2,
+      "distance": "2m"
+    },
+    {
+      "rank": 8,
       "steamid": "76561198358586780",
       "name": "Whillikat🌹",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/22440c345d7bc45b6ef39a5ce3c01178f031fc21_full.jpg",
@@ -88,7 +100,7 @@
       "distance": "1m"
     },
     {
-      "rank": 8,
+      "rank": 9,
       "steamid": "76561198103340805",
       "name": "Gerits",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/2554fe13bbd6b2ebcdde8e075abdc85c7a85afec_full.jpg",
@@ -100,19 +112,19 @@
       "distance": "1m"
     },
     {
-      "rank": 9,
+      "rank": 10,
       "steamid": "76561198737554294",
       "name": "Delux",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/f9e23a80846972e0e7413f970c71b62a23460370_full.jpg",
       "kd": "0.00",
       "headshot_pct": "0.0%",
       "kills": 0,
-      "deaths": 3,
+      "deaths": 4,
       "headshots": 0,
       "distance": "0m"
     },
     {
-      "rank": 10,
+      "rank": 11,
       "steamid": "76561198396729417",
       "name": "TIÃO",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/6db2ac365ae4ee52c350ac4e9a34fdbf013c64ce_full.jpg",
@@ -124,7 +136,7 @@
       "distance": "0m"
     },
     {
-      "rank": 11,
+      "rank": 12,
       "steamid": "76561198781709247",
       "name": "Jaiminho Carteiro",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/7da2b313179c9713c23cdbd2b842aeb7a0a6cb67_full.jpg",
@@ -136,7 +148,7 @@
       "distance": "0m"
     },
     {
-      "rank": 12,
+      "rank": 13,
       "steamid": "76561198918765015",
       "name": "Tesouro",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/233bdc0eeb1ba48159f8794629db1c57b02f9d5e_full.jpg",
@@ -144,18 +156,6 @@
       "headshot_pct": "0.0%",
       "kills": 0,
       "deaths": 1,
-      "headshots": 0,
-      "distance": "0m"
-    },
-    {
-      "rank": 13,
-      "steamid": "76561198365369539",
-      "name": "Cairo",
-      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/c3c1f6bf05a3adbc21204fa31e34c2f5d8cf3bae_full.jpg",
-      "kd": "0.00",
-      "headshot_pct": "0.0%",
-      "kills": 0,
-      "deaths": 4,
       "headshots": 0,
       "distance": "0m"
     },
@@ -203,7 +203,7 @@
       "kd": "0.00",
       "headshot_pct": "0.0%",
       "kills": 0,
-      "deaths": 10,
+      "deaths": 11,
       "headshots": 0,
       "distance": "0m"
     },
@@ -251,7 +251,7 @@
       "kd": "0.00",
       "headshot_pct": "0.0%",
       "kills": 0,
-      "deaths": 29,
+      "deaths": 30,
       "headshots": 0,
       "distance": "0m"
     },
@@ -377,9 +377,33 @@
     },
     {
       "rank": 32,
+      "steamid": "76561199403715800",
+      "name": "vou te pega kkkkk",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/983f461a43abc8d5450a5c1985e3cbce03dc7055_full.jpg",
+      "kd": "0.00",
+      "headshot_pct": "0.0%",
+      "kills": 0,
+      "deaths": 1,
+      "headshots": 0,
+      "distance": "0m"
+    },
+    {
+      "rank": 33,
       "steamid": "76561198751081609",
       "name": "Fabinho",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/690dfba2176a6383f2ab80460b809db542d8555e_full.jpg",
+      "kd": "0.00",
+      "headshot_pct": "0.0%",
+      "kills": 0,
+      "deaths": 1,
+      "headshots": 0,
+      "distance": "0m"
+    },
+    {
+      "rank": 34,
+      "steamid": "76561198328567301",
+      "name": "Hero",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/460d7fa283232088ed24fe422955bc7766fed698_full.jpg",
       "kd": "0.00",
       "headshot_pct": "0.0%",
       "kills": 0,
@@ -481,6 +505,21 @@
     },
     {
       "rank": 7,
+      "steamid": "76561198365369539",
+      "name": "Cairo",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/c3c1f6bf05a3adbc21204fa31e34c2f5d8cf3bae_full.jpg",
+      "total": "55,426",
+      "stones": "21,190",
+      "sulfur": "7,961",
+      "metal": "4,716",
+      "hqm": "0",
+      "wood": "19,323",
+      "leather": "624",
+      "fat": "636",
+      "bone": "976"
+    },
+    {
+      "rank": 8,
       "steamid": "76561198103340805",
       "name": "Gerits",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/2554fe13bbd6b2ebcdde8e075abdc85c7a85afec_full.jpg",
@@ -493,21 +532,6 @@
       "leather": "800",
       "fat": "1,022",
       "bone": "1,530"
-    },
-    {
-      "rank": 8,
-      "steamid": "76561198365369539",
-      "name": "Cairo",
-      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/c3c1f6bf05a3adbc21204fa31e34c2f5d8cf3bae_full.jpg",
-      "total": "48,742",
-      "stones": "19,387",
-      "sulfur": "7,961",
-      "metal": "4,716",
-      "hqm": "0",
-      "wood": "14,442",
-      "leather": "624",
-      "fat": "636",
-      "bone": "976"
     },
     {
       "rank": 9,
@@ -556,6 +580,21 @@
     },
     {
       "rank": 12,
+      "steamid": "76561198328567301",
+      "name": "Hero",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/460d7fa283232088ed24fe422955bc7766fed698_full.jpg",
+      "total": "23,036",
+      "stones": "5,338",
+      "sulfur": "1,500",
+      "metal": "10",
+      "hqm": "0",
+      "wood": "15,564",
+      "leather": "102",
+      "fat": "284",
+      "bone": "238"
+    },
+    {
+      "rank": 13,
       "steamid": "76561198987181145",
       "name": "Theus212",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/b7fbf78e6d2abb73de19ff818cf221d1264cca7f_full.jpg",
@@ -570,7 +609,7 @@
       "bone": "86"
     },
     {
-      "rank": 13,
+      "rank": 14,
       "steamid": "76561199403715800",
       "name": "vou te pega kkkkk",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/983f461a43abc8d5450a5c1985e3cbce03dc7055_full.jpg",
@@ -585,7 +624,7 @@
       "bone": "80"
     },
     {
-      "rank": 14,
+      "rank": 15,
       "steamid": "76561198804497592",
       "name": "Revoltz_BR",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/aff41859f28f5b880c3e3b424bc97436596a925d_full.jpg",
@@ -598,21 +637,6 @@
       "leather": "76",
       "fat": "10",
       "bone": "593"
-    },
-    {
-      "rank": 15,
-      "steamid": "76561198328567301",
-      "name": "Hero",
-      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/460d7fa283232088ed24fe422955bc7766fed698_full.jpg",
-      "total": "5,919",
-      "stones": "2,000",
-      "sulfur": "0",
-      "metal": "10",
-      "hqm": "0",
-      "wood": "3,349",
-      "leather": "102",
-      "fat": "240",
-      "bone": "218"
     },
     {
       "rank": 16,
@@ -745,7 +769,7 @@
       "steamid": "76561199621926627",
       "name": "Kaktуs",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/7596682ef71fa0287a8cbffabf102a9272ca4439_full.jpg",
-      "total": "3,161",
+      "total": "3,162",
       "cloth": "3,100",
       "yellow_berry": "0",
       "red_berry": "6",
@@ -757,7 +781,7 @@
       "corn": "2",
       "potato": "0",
       "wheat": "2",
-      "egg": "14"
+      "egg": "15"
     },
     {
       "rank": 3,
@@ -821,16 +845,16 @@
       "steamid": "76561198365369539",
       "name": "Cairo",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/c3c1f6bf05a3adbc21204fa31e34c2f5d8cf3bae_full.jpg",
-      "total": "860",
-      "cloth": "838",
+      "total": "885",
+      "cloth": "858",
       "yellow_berry": "0",
       "red_berry": "0",
       "blue_berry": "6",
       "green_berry": "0",
       "white_berry": "0",
-      "mushroom": "16",
+      "mushroom": "20",
       "pumpkin": "0",
-      "corn": "0",
+      "corn": "1",
       "potato": "0",
       "wheat": "0",
       "egg": "0"
@@ -932,6 +956,25 @@
     },
     {
       "rank": 12,
+      "steamid": "76561198328567301",
+      "name": "Hero",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/460d7fa283232088ed24fe422955bc7766fed698_full.jpg",
+      "total": "371",
+      "cloth": "352",
+      "yellow_berry": "0",
+      "red_berry": "0",
+      "blue_berry": "0",
+      "green_berry": "0",
+      "white_berry": "0",
+      "mushroom": "9",
+      "pumpkin": "9",
+      "corn": "0",
+      "potato": "1",
+      "wheat": "0",
+      "egg": "0"
+    },
+    {
+      "rank": 13,
       "steamid": "76561198987181145",
       "name": "Theus212",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/b7fbf78e6d2abb73de19ff818cf221d1264cca7f_full.jpg",
@@ -950,7 +993,7 @@
       "egg": "0"
     },
     {
-      "rank": 13,
+      "rank": 14,
       "steamid": "76561199208470397",
       "name": "dba3456789",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/25d0a75726818b92ad0725b14f3626c4e9809003_full.jpg",
@@ -969,7 +1012,7 @@
       "egg": "0"
     },
     {
-      "rank": 14,
+      "rank": 15,
       "steamid": "76561199403715800",
       "name": "vou te pega kkkkk",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/983f461a43abc8d5450a5c1985e3cbce03dc7055_full.jpg",
@@ -988,7 +1031,7 @@
       "egg": "0"
     },
     {
-      "rank": 15,
+      "rank": 16,
       "steamid": "76561198065611001",
       "name": "Cowboy Vagabundo",
       "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/0291037b31f13d7e6737d72fe648adf3e123aa78_full.jpg",
@@ -1002,25 +1045,6 @@
       "mushroom": "0",
       "pumpkin": "12",
       "corn": "24",
-      "potato": "0",
-      "wheat": "0",
-      "egg": "0"
-    },
-    {
-      "rank": 16,
-      "steamid": "76561198328567301",
-      "name": "Hero",
-      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/460d7fa283232088ed24fe422955bc7766fed698_full.jpg",
-      "total": "205",
-      "cloth": "200",
-      "yellow_berry": "0",
-      "red_berry": "0",
-      "blue_berry": "0",
-      "green_berry": "0",
-      "white_berry": "0",
-      "mushroom": "5",
-      "pumpkin": "0",
-      "corn": "0",
       "potato": "0",
       "wheat": "0",
       "egg": "0"
