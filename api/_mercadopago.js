@@ -122,7 +122,14 @@ async function createPixPayment({ orderId, amount, description, payerEmail, paye
     };
   }
 
-  const notificationUrl = config.notificationUrl || `${baseUrl}/api/checkout/webhook`;
+  let notificationUrl = config.notificationUrl;
+  if (!notificationUrl || notificationUrl.includes('localhost') || !notificationUrl.startsWith('https://')) {
+    if (baseUrl && baseUrl.startsWith('https://') && !baseUrl.includes('localhost')) {
+      notificationUrl = `${baseUrl}/api/checkout/webhook`;
+    } else {
+      notificationUrl = 'https://lojahorizon.vercel.app/api/checkout/webhook';
+    }
+  }
 
   const payload = {
     transaction_amount: Number(amount),
@@ -170,7 +177,14 @@ async function createPreference({ orderId, amount, description, payerEmail, stea
     };
   }
 
-  const notificationUrl = config.notificationUrl || `${baseUrl}/api/checkout/webhook`;
+  let notificationUrl = config.notificationUrl;
+  if (!notificationUrl || notificationUrl.includes('localhost') || !notificationUrl.startsWith('https://')) {
+    if (baseUrl && baseUrl.startsWith('https://') && !baseUrl.includes('localhost')) {
+      notificationUrl = `${baseUrl}/api/checkout/webhook`;
+    } else {
+      notificationUrl = 'https://lojahorizon.vercel.app/api/checkout/webhook';
+    }
+  }
 
   const payload = {
     items: [
