@@ -1,0 +1,114 @@
+[
+  {
+    "id": "HORIZON-BRONZE-MW2GU551-516",
+    "payment_id": "187760587696",
+    "steam_id": "76561198737554294",
+    "player_name": "Delux",
+    "player_avatar": "https://avatars.fastly.steamstatic.com/f9e23a80846972e0e7413f970c71b62a23460370_full.jpg",
+    "vip_tier": "bronze",
+    "amount": 20,
+    "status": "pending",
+    "granted": false,
+    "created_at": "2026-11-04T18:44:19.216Z",
+    "expires_at": null,
+    "raw_data": {
+      "pix_copia_e_cola": "00020126330014br.gov.bcb.pix011140476660840520400005303986540520.005802BR5910STUNBURGER6009Rio Claro62250521mpqrinter1877605876966304E986",
+      "ticket_url": "https://www.mercadopago.com.br/payments/187760587696/ticket?caller_id=3813947323&hash=9838e9c1-2754-4a99-9363-91d5cffc04ae",
+      "preference_url": "https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=350004076-b19f220b-d5df-47df-963b-488859b3ad08"
+    }
+  },
+  {
+    "id": "HORIZON-OURO-MW2GSGOZ-696",
+    "payment_id": "187760587404",
+    "steam_id": "76561198737554294",
+    "player_name": "Lucas Fernandes",
+    "player_avatar": "https://avatars.fastly.steamstatic.com/f9e23a80846972e0e7413f970c71b62a23460370_full.jpg",
+    "vip_tier": "ouro",
+    "amount": 62,
+    "status": "pending",
+    "granted": false,
+    "created_at": "2026-11-04T18:43:00.880Z",
+    "expires_at": null,
+    "raw_data": {
+      "pix_copia_e_cola": "00020126330014br.gov.bcb.pix011140476660840520400005303986540562.005802BR5910STUNBURGER6009Rio Claro62250521mpqrinter18776058740463046EC2",
+      "ticket_url": "https://www.mercadopago.com.br/payments/187760587404/ticket?caller_id=3813944389&hash=4fe5244e-0490-4315-8d8d-879ae98aea41",
+      "preference_url": "https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=350004076-e13aa82f-9771-4ba1-97c2-b09d24170fa8"
+    }
+  },
+  {
+    "id": "HORIZON-OURO-MW2GPN7N-580",
+    "payment_id": "sim-1793817647581",
+    "steam_id": "76561198737554294",
+    "player_name": "Lucas Fernandes",
+    "player_avatar": "https://avatars.fastly.steamstatic.com/f9e23a80846972e0e7413f970c71b62a23460370_full.jpg",
+    "vip_tier": "ouro",
+    "amount": 62,
+    "status": "pending",
+    "granted": false,
+    "created_at": "2026-11-04T18:40:47.581Z",
+    "expires_at": null,
+    "raw_data": {
+      "pix_copia_e_cola": "00020101021226840014br.gov.bcb.pix2562horizon-rust-HORIZON-OURO-MW2GPN7N-58052040000530398654062.005802BR5914RUST_HORIZON6009SAO_PAULO62070503***6304ABCD",
+      "ticket_url": "https://www.mercadopago.com.br/payments/test-HORIZON-OURO-MW2GPN7N-580",
+      "preference_url": "https://localhost:3000/loja/?test_order=HORIZON-OURO-MW2GPN7N-580"
+    }
+  },
+  {
+    "id": "HORIZON-OURO-MW2FSKQI-945",
+    "payment_id": "sim-1793816104723",
+    "steam_id": "76561198737554294",
+    "player_name": "Delux",
+    "player_avatar": "https://avatars.fastly.steamstatic.com/f9e23a80846972e0e7413f970c71b62a23460370_full.jpg",
+    "vip_tier": "ouro",
+    "amount": 62,
+    "status": "approved",
+    "granted": false,
+    "created_at": "2026-11-04T18:15:04.723Z",
+    "expires_at": "2026-12-04T18:15:07.422Z",
+    "raw_data": {
+      "pix_copia_e_cola": "00020101021226840014br.gov.bcb.pix2562horizon-rust-HORIZON-OURO-MW2FSKQI-94552040000530398654062.005802BR5914RUST_HORIZON6009SAO_PAULO62070503***6304ABCD",
+      "ticket_url": "https://www.mercadopago.com.br/payments/test-HORIZON-OURO-MW2FSKQI-945",
+      "preference_url": "https://localhost:3000/loja/?test_order=HORIZON-OURO-MW2FSKQI-945"
+    },
+    "approved_at": "2026-11-04T18:15:07.422Z"
+  },
+  {
+    "id": "HORIZON-OURO-MW2FJYA6-827",
+    "payment_id": "sim-1793815702351",
+    "steam_id": "76561198737554294",
+    "player_name": "Delux",
+    "player_avatar": "https://avatars.fastly.steamstatic.com/f9e23a80846972e0e7413f970c71b62a23460370_full.jpg",
+    "vip_tier": "ouro",
+    "amount": 62,
+    "status": "approved",
+    "granted": false,
+    "created_at": "2026-11-04T18:08:22.351Z",
+    "expires_at": "2026-12-04T18:08:24.912Z",
+    "raw_data": {
+      "pix_copia_e_cola": "00020101021226840014br.gov.bcb.pix2562horizon-rust-HORIZON-OURO-MW2FJYA6-82752040000530398654062.005802BR5914RUST_HORIZON6009SAO_PAULO62070503***6304ABCD",
+      "ticket_url": "https://www.mercadopago.com.br/payments/test-HORIZON-OURO-MW2FJYA6-827",
+      "preference_url": "https://localhost:3000/loja/?test_order=HORIZON-OURO-MW2FJYA6-827"
+    },
+    "approved_at": "2026-11-04T18:08:24.912Z"
+  },
+  {
+    "id": "HORIZON-OURO-MW2FCV66-831",
+    "payment_id": "sim-1793815371727",
+    "steam_id": "76561198737554294",
+    "player_name": "Delux",
+    "player_avatar": "https://avatars.fastly.steamstatic.com/f9e23a80846972e0e7413f970c71b62a23460370_full.jpg",
+    "vip_tier": "ouro",
+    "amount": 62,
+    "status": "approved",
+    "granted": true,
+    "created_at": "2026-11-04T18:02:51.727Z",
+    "expires_at": "2026-12-04T18:03:04.403Z",
+    "raw_data": {
+      "pix_copia_e_cola": "00020101021226840014br.gov.bcb.pix2562horizon-rust-HORIZON-OURO-MW2FCV66-83152040000530398654062.005802BR5914RUST_HORIZON6009SAO_PAULO62070503***6304ABCD",
+      "ticket_url": "https://www.mercadopago.com.br/payments/test-HORIZON-OURO-MW2FCV66-831",
+      "preference_url": "https://localhost:3000/loja/?test_order=HORIZON-OURO-MW2FCV66-831"
+    },
+    "approved_at": "2026-11-04T18:03:04.403Z",
+    "granted_at": "2026-11-04T18:03:33.974Z"
+  }
+]
