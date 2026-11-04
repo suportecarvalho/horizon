@@ -27,6 +27,10 @@
   --card: #1C1615 !important;
   --card-foreground: #EDE8E5 !important;
   --border: rgba(108, 151, 142, 0.22) !important;
+  --text: rgba(255, 255, 255, 0.92) !important;
+  --text-muted: rgba(255, 255, 255, 0.6) !important;
+  --text-dim: rgba(255, 255, 255, 0.4) !important;
+  --bg-alt: #11100f !important;
 }
 
 body {
@@ -445,6 +449,134 @@ footer.site-footer {
   font-size: 0.85rem !important;
   color: var(--text-dim) !important;
   width: 100% !important;
+}
+
+.site-footer .rodape-titulo {
+  color: var(--text-dim) !important;
+  letter-spacing: .16em !important;
+  text-transform: uppercase !important;
+  margin: 0 !important;
+  font-size: .64rem !important;
+  font-weight: 700 !important;
+}
+
+.site-footer .rodape-link {
+  color: var(--text-muted) !important;
+  align-items: center !important;
+  gap: 6px !important;
+  font-size: .9rem !important;
+  text-decoration: none !important;
+  transition: color .15s ease !important;
+  display: inline-flex !important;
+}
+
+.site-footer .rodape-link:hover {
+  color: #EDE8E5 !important;
+}
+
+.site-footer .rodape-marca {
+  letter-spacing: .02em !important;
+  text-transform: uppercase !important;
+  color: var(--text) !important;
+  width: fit-content !important;
+  font-size: 1.05rem !important;
+  font-weight: 800 !important;
+  text-decoration: none !important;
+  display: inline-block !important;
+}
+
+.site-footer .rodape-sobre {
+  max-width: 38ch !important;
+  color: var(--text-muted) !important;
+  margin: 0 !important;
+  font-size: .88rem !important;
+  line-height: 1.6 !important;
+}
+
+/* Normalização universal do Rodapé para páginas sem Tailwind (ex: Perfil) */
+.site-footer ul {
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.site-footer li {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.site-footer .rodape-grade {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  gap: 40px 48px !important;
+}
+
+.site-footer .rodape-grade > div:first-child {
+  flex: 2 320px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 16px !important;
+}
+
+.site-footer .rodape-grade > nav {
+  flex: 1 140px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+}
+
+.site-footer .rodape-grade > nav ul {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+}
+
+.site-footer [data-variant="ghost"] {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 8px !important;
+  color: var(--text-muted) !important;
+  transition: color 0.15s ease, background 0.15s ease !important;
+}
+
+.site-footer [data-variant="ghost"]:hover {
+  color: #EDE8E5 !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.site-footer [data-variant="ghost"] svg {
+  width: 20px !important;
+  height: 20px !important;
+  max-width: 20px !important;
+  max-height: 20px !important;
+}
+
+.site-footer .rodape-base {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+
+.site-footer [data-slot="separator"] {
+  height: 1px !important;
+  width: 100% !important;
+  background: rgba(108, 151, 142, 0.22) !important;
+  margin: 32px 0 !important;
+}
+
+.site-footer > .shell > p:last-child,
+.site-footer > .site-footer-conteudo > p:last-child {
+  text-align: right !important;
+  font-size: 0.7rem !important;
+  color: var(--text-dim) !important;
+  margin-top: 6px !important;
+  margin-bottom: 0 !important;
 }
 
 /* Ícones de itens no Leaderboard */
