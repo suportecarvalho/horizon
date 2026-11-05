@@ -37,35 +37,22 @@
 <div class="vip-grade">
   <!-- ==================== VIP BRONZE ==================== -->
   <div data-slot="card" data-size="default" class="group/card flex flex-col rounded-xl bg-card text-sm text-card-foreground ring-1 ring-foreground/10 has-data-[slot=card-footer]:pb-0 has-[>div:first-child]:pt-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[div:first-child]:rounded-t-xl *:[div:last-child]:rounded-b-xl relative [--card-spacing:1.5rem] gap-4 overflow-hidden transition-all duration-300 hover:ring-2 hover:ring-[#CD7F32]/60 hover:shadow-[0_10px_35px_rgba(205,127,50,0.18)]">
-    <div class="relative overflow-hidden cursor-pointer group/img" onclick="openKitModal('bronze')" title="Clique para ampliar o inventário do Kit Bronze" style="height: 190px; background: #0c0a09;">
-      <img src="/images/vip_bronze.jpg" alt="Inventário VIP Bronze" class="w-full h-full object-cover object-top transition-transform duration-300 group-hover/img:scale-105 border-b border-[var(--border)]">
-      <div class="absolute inset-0 bg-black/55 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center gap-2 text-xs font-bold text-white uppercase tracking-wider">
+    <div class="relative overflow-hidden cursor-pointer group/img" onclick="openKitModal('bronze')" title="Clique para ampliar o inventário do Kit Bronze" style="background: #0c0a09; width: 100%;">
+      <img src="/images/vip_bronze.jpg" alt="Inventário VIP Bronze" class="w-full h-auto block object-contain transition-transform duration-300 group-hover/img:scale-105 border-b border-[var(--border)]">
+      <div class="absolute inset-0 bg-black/45 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center gap-2 text-xs font-bold text-white uppercase tracking-wider">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>
         Ampliar Inventário
       </div>
       <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded text-[0.7rem] font-bold tracking-wider uppercase bg-[#CD7F32] text-white shadow-md">VIP BRONZE</span>
     </div>
-    <div data-slot="card-content" class="px-(--card-spacing) relative flex flex-1 flex-col gap-4">
-      <div class="flex flex-col items-start gap-1">
-        <h3 class="vip-nome" style="color: #E6A15C; font-size: 1.4rem; font-weight: 800; letter-spacing: 0.02em;">VIP Bronze</h3>
-        <span data-slot="badge" data-variant="outline" class="group/badge inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-4xl border px-2 py-0.5 text-xs font-medium whitespace-nowrap border-border text-foreground vip-duracao">30 dias</span>
+    <div data-slot="card-content" class="px-(--card-spacing) relative flex flex-1 flex-col gap-3">
+      <div class="flex items-center justify-between gap-2">
+        <h3 class="vip-nome" style="color: #E6A15C; font-size: 1.35rem; font-weight: 800; letter-spacing: 0.02em; margin: 0;">VIP Bronze</h3>
+        <span data-slot="badge" class="inline-flex h-5 items-center justify-center rounded border border-[var(--border)] px-2 text-xs font-semibold text-[var(--text-muted)]" style="background: rgba(255,255,255,0.04);">30 dias</span>
       </div>
-      <div data-orientation="horizontal" role="none" data-slot="separator" class="shrink-0 data-horizontal:h-px data-horizontal:w-full data-vertical:w-px data-vertical:self-stretch bg-[var(--border)]"></div>
-      <ul class="perks">
-        <li class="perk"><span class="vip-perk-ico">🪵</span> <span><strong>10.000x</strong> Madeira & <strong>10.000x</strong> Pedra</span></li>
-        <li class="perk"><span class="vip-perk-ico">⛏️</span> <span><strong>5.000x</strong> Metal Frags & <strong>100x</strong> Metal HQM</span></li>
-        <li class="perk"><span class="vip-perk-ico">🧵</span> <span><strong>250x</strong> Gordura, Pano, Couro & Sucata</span></li>
-        <li class="perk"><span class="vip-perk-ico">⚙️</span> <span><strong>10x</strong> Molas, Tubos, Costura, Cordas, Chapas & Engrenagens</span></li>
-        <li class="perk"><span class="vip-perk-ico">🪓</span> <span><strong>1x</strong> Picareta & Machado Recuperados</span></li>
-        <li class="perk"><span class="vip-perk-ico">🔥</span> <span><strong>2x</strong> Caldeirões Especiais (Fornalhas)</span></li>
-        <li class="perk"><span class="vip-perk-ico">⚡</span> <span><strong>Skip Fila</strong> com Prioridade Máxima</span></li>
-      </ul>
-      <a href="javascript:void(0)" onclick="openKitModal('bronze')" class="vip-ver-mais" style="color: #82ADA4; cursor: pointer; font-weight: 700; font-size: 0.8rem; text-decoration: underline; text-underline-offset: 3px;">🔍 Ver inventário completo (18 itens)</a>
-      <div class="mt-auto flex flex-col gap-4 pt-1">
-        <div data-orientation="horizontal" role="none" data-slot="separator" class="shrink-0 data-horizontal:h-px data-horizontal:w-full data-vertical:w-px data-vertical:self-stretch bg-[var(--border)]"></div>
-        <div class="flex flex-col gap-1">
-          <span class="preco-valor" style="color: #E6A15C; font-weight: 900; font-size: 1.65rem;">R$ 20,00</span>
-        </div>
+      <div data-orientation="horizontal" role="none" data-slot="separator" class="shrink-0 data-horizontal:h-px data-horizontal:w-full bg-[var(--border)]"></div>
+      <div class="mt-auto flex flex-col gap-1 pt-1">
+        <span class="preco-valor" style="color: #E6A15C; font-weight: 900; font-size: 1.65rem;">R$ 20,00</span>
       </div>
     </div>
     <div data-slot="card-footer" class="flex items-center rounded-b-xl border-t bg-muted/50 p-(--card-spacing) relative">
@@ -75,37 +62,22 @@
 
   <!-- ==================== VIP PRATA ==================== -->
   <div data-slot="card" data-size="default" class="group/card flex flex-col rounded-xl bg-card text-sm text-card-foreground ring-1 ring-foreground/10 has-data-[slot=card-footer]:pb-0 has-[>div:first-child]:pt-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[div:first-child]:rounded-t-xl *:[div:last-child]:rounded-b-xl relative [--card-spacing:1.5rem] gap-4 overflow-hidden transition-all duration-300 hover:ring-2 hover:ring-[#C0C0C0]/60 hover:shadow-[0_10px_35px_rgba(192,192,192,0.18)]">
-    <div class="relative overflow-hidden cursor-pointer group/img" onclick="openKitModal('prata')" title="Clique para ampliar o inventário do Kit Prata" style="height: 190px; background: #0c0a09;">
-      <img src="/images/vip_prata.jpg" alt="Inventário VIP Prata" class="w-full h-full object-cover object-top transition-transform duration-300 group-hover/img:scale-105 border-b border-[var(--border)]">
-      <div class="absolute inset-0 bg-black/55 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center gap-2 text-xs font-bold text-white uppercase tracking-wider">
+    <div class="relative overflow-hidden cursor-pointer group/img" onclick="openKitModal('prata')" title="Clique para ampliar o inventário do Kit Prata" style="background: #0c0a09; width: 100%;">
+      <img src="/images/vip_prata.jpg" alt="Inventário VIP Prata" class="w-full h-auto block object-contain transition-transform duration-300 group-hover/img:scale-105 border-b border-[var(--border)]">
+      <div class="absolute inset-0 bg-black/45 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center gap-2 text-xs font-bold text-white uppercase tracking-wider">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>
         Ampliar Inventário
       </div>
       <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded text-[0.7rem] font-bold tracking-wider uppercase bg-[#94A3B8] text-black shadow-md font-extrabold">VIP PRATA</span>
     </div>
-    <div data-slot="card-content" class="px-(--card-spacing) relative flex flex-1 flex-col gap-4">
-      <div class="flex flex-col items-start gap-1">
-        <h3 class="vip-nome" style="color: #E2E8F0; font-size: 1.4rem; font-weight: 800; letter-spacing: 0.02em;">VIP Prata</h3>
-        <span data-slot="badge" data-variant="outline" class="group/badge inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-4xl border px-2 py-0.5 text-xs font-medium whitespace-nowrap border-border text-foreground vip-duracao">30 dias</span>
+    <div data-slot="card-content" class="px-(--card-spacing) relative flex flex-1 flex-col gap-3">
+      <div class="flex items-center justify-between gap-2">
+        <h3 class="vip-nome" style="color: #E2E8F0; font-size: 1.35rem; font-weight: 800; letter-spacing: 0.02em; margin: 0;">VIP Prata</h3>
+        <span data-slot="badge" class="inline-flex h-5 items-center justify-center rounded border border-[var(--border)] px-2 text-xs font-semibold text-[var(--text-muted)]" style="background: rgba(255,255,255,0.04);">30 dias</span>
       </div>
-      <div data-orientation="horizontal" role="none" data-slot="separator" class="shrink-0 data-horizontal:h-px data-horizontal:w-full data-vertical:w-px data-vertical:self-stretch bg-[var(--border)]"></div>
-      <ul class="perks">
-        <li class="perk"><span class="vip-perk-ico">🪵</span> <span><strong>20.000x</strong> Madeira & <strong>20.000x</strong> Pedra</span></li>
-        <li class="perk"><span class="vip-perk-ico">⛏️</span> <span><strong>10.000x</strong> Metal Frags & <strong>200x</strong> Metal HQM</span></li>
-        <li class="perk"><span class="vip-perk-ico">🧵</span> <span><strong>500x</strong> Gordura, Pano, Couro & Sucata</span></li>
-        <li class="perk"><span class="vip-perk-ico">⚙️</span> <span><strong>20x</strong> Molas, Tubos, Costura, Cordas, Chapas & Engrenagens</span></li>
-        <li class="perk"><span class="vip-perk-ico">🔫</span> <span><strong>10x</strong> Corpos Semi, <strong>10x</strong> SMG & <strong>5x</strong> Rifle</span></li>
-        <li class="perk"><span class="vip-perk-ico">🪓</span> <span><strong>1x</strong> Jackhammer & <strong>1x</strong> Motosserra</span></li>
-        <li class="perk"><span class="vip-perk-ico">🪂</span> <span><strong>1x</strong> Supply Signal (Airdrop)</span></li>
-        <li class="perk"><span class="vip-perk-ico">💳</span> <span><strong>2x</strong> Cartões Azuis, <strong>2x</strong> Vermelhos & 4x Caldeirões</span></li>
-        <li class="perk"><span class="vip-perk-ico">⚡</span> <span><strong>Skip Fila</strong> com Prioridade Máxima</span></li>
-      </ul>
-      <a href="javascript:void(0)" onclick="openKitModal('prata')" class="vip-ver-mais" style="color: #82ADA4; cursor: pointer; font-weight: 700; font-size: 0.8rem; text-decoration: underline; text-underline-offset: 3px;">🔍 Ver inventário completo (24 itens)</a>
-      <div class="mt-auto flex flex-col gap-4 pt-1">
-        <div data-orientation="horizontal" role="none" data-slot="separator" class="shrink-0 data-horizontal:h-px data-horizontal:w-full data-vertical:w-px data-vertical:self-stretch bg-[var(--border)]"></div>
-        <div class="flex flex-col gap-1">
-          <span class="preco-valor" style="color: #E2E8F0; font-weight: 900; font-size: 1.65rem;">R$ 40,00</span>
-        </div>
+      <div data-orientation="horizontal" role="none" data-slot="separator" class="shrink-0 data-horizontal:h-px data-horizontal:w-full bg-[var(--border)]"></div>
+      <div class="mt-auto flex flex-col gap-1 pt-1">
+        <span class="preco-valor" style="color: #E2E8F0; font-weight: 900; font-size: 1.65rem;">R$ 40,00</span>
       </div>
     </div>
     <div data-slot="card-footer" class="flex items-center rounded-b-xl border-t bg-muted/50 p-(--card-spacing) relative">
@@ -115,38 +87,22 @@
 
   <!-- ==================== VIP OURO ==================== -->
   <div data-slot="card" data-size="default" class="group/card flex flex-col rounded-xl bg-card text-sm text-card-foreground ring-2 ring-[#F59E0B]/50 has-data-[slot=card-footer]:pb-0 has-[>div:first-child]:pt-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[div:first-child]:rounded-t-xl *:[div:last-child]:rounded-b-xl relative [--card-spacing:1.5rem] gap-4 overflow-hidden transition-all duration-300 hover:ring-2 hover:ring-[#F59E0B] shadow-[0_0_30px_rgba(245,158,11,0.22)]">
-    <div class="relative overflow-hidden cursor-pointer group/img" onclick="openKitModal('ouro')" title="Clique para ampliar o inventário do Kit Ouro" style="height: 190px; background: #0c0a09;">
-      <img src="/images/vip_ouro.jpg" alt="Inventário VIP Ouro" class="w-full h-full object-cover object-top transition-transform duration-300 group-hover/img:scale-105 border-b border-[var(--border)]">
-      <div class="absolute inset-0 bg-black/55 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center gap-2 text-xs font-bold text-white uppercase tracking-wider">
+    <div class="relative overflow-hidden cursor-pointer group/img" onclick="openKitModal('ouro')" title="Clique para ampliar o inventário do Kit Ouro" style="background: #0c0a09; width: 100%;">
+      <img src="/images/vip_ouro.jpg" alt="Inventário VIP Ouro" class="w-full h-auto block object-contain transition-transform duration-300 group-hover/img:scale-105 border-b border-[var(--border)]">
+      <div class="absolute inset-0 bg-black/45 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center gap-2 text-xs font-bold text-white uppercase tracking-wider">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>
         Ampliar Inventário
       </div>
       <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded text-[0.7rem] font-bold tracking-wider uppercase bg-gradient-to-r from-amber-500 to-yellow-400 text-black shadow-md font-extrabold">👑 MAIS COMPLETO • VIP OURO</span>
     </div>
-    <div data-slot="card-content" class="px-(--card-spacing) relative flex flex-1 flex-col gap-4">
-      <div class="flex flex-col items-start gap-1">
-        <h3 class="vip-nome" style="color: #FBBF24; font-size: 1.4rem; font-weight: 800; letter-spacing: 0.02em;">VIP Ouro</h3>
-        <span data-slot="badge" data-variant="outline" class="group/badge inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-4xl border px-2 py-0.5 text-xs font-medium whitespace-nowrap border-border text-foreground vip-duracao">30 dias</span>
+    <div data-slot="card-content" class="px-(--card-spacing) relative flex flex-1 flex-col gap-3">
+      <div class="flex items-center justify-between gap-2">
+        <h3 class="vip-nome" style="color: #FBBF24; font-size: 1.35rem; font-weight: 800; letter-spacing: 0.02em; margin: 0;">VIP Ouro</h3>
+        <span data-slot="badge" class="inline-flex h-5 items-center justify-center rounded border border-[var(--border)] px-2 text-xs font-semibold text-[var(--text-muted)]" style="background: rgba(255,255,255,0.04);">30 dias</span>
       </div>
-      <div data-orientation="horizontal" role="none" data-slot="separator" class="shrink-0 data-horizontal:h-px data-horizontal:w-full data-vertical:w-px data-vertical:self-stretch bg-[var(--border)]"></div>
-      <ul class="perks">
-        <li class="perk"><span class="vip-perk-ico">🪵</span> <span><strong>40.000x</strong> Madeira & <strong>40.000x</strong> Pedra</span></li>
-        <li class="perk"><span class="vip-perk-ico">⛏️</span> <span><strong>20.000x</strong> Metal Frags & <strong>300x</strong> Metal HQM</span></li>
-        <li class="perk"><span class="vip-perk-ico">🧵</span> <span><strong>1.000x</strong> Gordura, Pano, Couro & <strong>750x</strong> Sucata</span></li>
-        <li class="perk"><span class="vip-perk-ico">⚙️</span> <span><strong>40x</strong> Molas, Tubos, Costura, Cordas, Chapas & Engrenagens</span></li>
-        <li class="perk"><span class="vip-perk-ico">🔫</span> <span><strong>20x</strong> Corpos Semi, <strong>20x</strong> SMG & <strong>10x</strong> Rifle</span></li>
-        <li class="perk"><span class="vip-perk-ico">🏛️</span> <span><strong>1x Bancada T3</strong>, <strong>1x Porta Blindada</strong> & <strong>1x Garagem</strong></span></li>
-        <li class="perk"><span class="vip-perk-ico">🛢️</span> <span><strong>2x</strong> Mini Refinarias, <strong>2x</strong> Jackhammers & <strong>1x</strong> Motosserra</span></li>
-        <li class="perk"><span class="vip-perk-ico">🪂</span> <span><strong>1x</strong> Supply Signal + <strong>3x</strong> Cartões Verdes, Azuis & Vermelhos</span></li>
-        <li class="perk"><span class="vip-perk-ico">🔥</span> <span><strong>6x</strong> Caldeirões Especiais (3 Abóbora, 3 Festiva)</span></li>
-        <li class="perk"><span class="vip-perk-ico">⚡</span> <span><strong>Skip Fila</strong> com Prioridade Máxima</span></li>
-      </ul>
-      <a href="javascript:void(0)" onclick="openKitModal('ouro')" class="vip-ver-mais" style="color: #82ADA4; cursor: pointer; font-weight: 700; font-size: 0.8rem; text-decoration: underline; text-underline-offset: 3px;">🔍 Ver inventário completo (29 itens)</a>
-      <div class="mt-auto flex flex-col gap-4 pt-1">
-        <div data-orientation="horizontal" role="none" data-slot="separator" class="shrink-0 data-horizontal:h-px data-horizontal:w-full data-vertical:w-px data-vertical:self-stretch bg-[var(--border)]"></div>
-        <div class="flex flex-col gap-1">
-          <span class="preco-valor" style="color: #FBBF24; font-weight: 900; font-size: 1.65rem;">R$ 62,00</span>
-        </div>
+      <div data-orientation="horizontal" role="none" data-slot="separator" class="shrink-0 data-horizontal:h-px data-horizontal:w-full bg-[var(--border)]"></div>
+      <div class="mt-auto flex flex-col gap-1 pt-1">
+        <span class="preco-valor" style="color: #FBBF24; font-weight: 900; font-size: 1.65rem;">R$ 62,00</span>
       </div>
     </div>
     <div data-slot="card-footer" class="flex items-center rounded-b-xl border-t bg-muted/50 p-(--card-spacing) relative">
