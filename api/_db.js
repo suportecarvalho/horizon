@@ -104,7 +104,7 @@ async function getPosts() {
       if (!posts || posts.length === 0) {
         return [];
       }
-      posts = posts.filter(p => p.tag !== '__system__' && p.id !== '__horizon_vip_orders_db__');
+      posts = posts.filter(p => p.tag !== '__system__' && p.id !== '__horizon_vip_orders_db__' && p.id !== '__horizon_leaderboard_db__');
 
       // 2. Busca likes e comentários para compor a lista
       const postIds = posts.map(p => p.id);
