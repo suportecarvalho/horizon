@@ -189,6 +189,164 @@
     }).join('');
   }
 
+  function renderPodiumCards(container, list) {
+    if (!container) return;
+    if (!list || list.length === 0) {
+      container.innerHTML = '';
+      return;
+    }
+
+    const top3 = list.slice(0, 3);
+    if (top3.length === 0) {
+      container.innerHTML = '';
+      return;
+    }
+
+    const categoryNames = {
+      pvp: 'PVP',
+      recursos: 'Recursos',
+      farming: 'Farming'
+    };
+
+    const trophySvgs = {
+      1: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#EAB308" stroke="#EAB308" stroke-width="1.5"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>',
+      2: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#CBD5E1" stroke="#CBD5E1" stroke-width="1.5"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>',
+      3: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="#D97706" stroke="#D97706" stroke-width="1.5"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>'
+    };
+
+    const badgeClasses = {
+      1: 'podium-badge-gold',
+      2: 'podium-badge-silver',
+      3: 'podium-badge-bronze'
+    };
+
+    container.innerHTML = top3.map(function(item, idx) {
+      const rankNum = idx + 1; // 1, 2, 3
+      const avatarSrc = cleanAvatarUrl(item.avatar);
+      const trophySvg = trophySvgs[rankNum] || '';
+      const badgeCls = badgeClasses[rankNum] || 'podium-badge-gold';
+
+      let primaryStatHtml = '';
+      let substatsHtml = '';
+
+      if (currentTab === 'pvp') {
+        primaryStatHtml = `
+          <div class="podium-primary-stat">
+            <span class="podium-stat-label">KDR Geral</span>
+            <span class="podium-stat-val">${item.kd || '0.00'}</span>
+          </div>
+        `;
+        substatsHtml = `
+          <div class="podium-substats-grid">
+            <div class="podium-substat-item">
+              <span class="podium-substat-name">Kills</span>
+              <span class="podium-substat-val" style="color: #6C978E;">${item.kills || 0}</span>
+            </div>
+            <div class="podium-substat-item">
+              <span class="podium-substat-name">% HS</span>
+              <span class="podium-substat-val">${item.headshot_pct || '0%'}</span>
+            </div>
+            <div class="podium-substat-item">
+              <span class="podium-substat-name">Mortes</span>
+              <span class="podium-substat-val">${item.deaths || 0}</span>
+            </div>
+            <div class="podium-substat-item">
+              <span class="podium-substat-name">Headshots</span>
+              <span class="podium-substat-val">${item.headshots !== undefined ? item.headshots : 0}</span>
+            </div>
+          </div>
+        `;
+      } else if (currentTab === 'recursos') {
+        primaryStatHtml = `
+          <div class="podium-primary-stat">
+            <span class="podium-stat-label">Total Coletado</span>
+            <span class="podium-stat-val">${item.total || '0'}</span>
+          </div>
+        `;
+        substatsHtml = `
+          <div class="podium-substats-grid">
+            <div class="podium-substat-item">
+              <span class="podium-substat-name"><img src="/images/items/stones.png" alt="Pedra"> Pedra</span>
+              <span class="podium-substat-val">${formatVal(item.stones || item.stone)}</span>
+            </div>
+            <div class="podium-substat-item">
+              <span class="podium-substat-name"><img src="/images/items/sulfur.ore.png" alt="Enxofre"> Enxofre</span>
+              <span class="podium-substat-val">${formatVal(item.sulfur)}</span>
+            </div>
+            <div class="podium-substat-item">
+              <span class="podium-substat-name"><img src="/images/items/metal.ore.png" alt="Metal"> Metal</span>
+              <span class="podium-substat-val">${formatVal(item.metal)}</span>
+            </div>
+            <div class="podium-substat-item">
+              <span class="podium-substat-name"><img src="/images/items/wood.png" alt="Madeira"> Madeira</span>
+              <span class="podium-substat-val">${formatVal(item.wood)}</span>
+            </div>
+          </div>
+        `;
+      } else if (currentTab === 'farming') {
+        primaryStatHtml = `
+          <div class="podium-primary-stat">
+            <span class="podium-stat-label">Total Colhido</span>
+            <span class="podium-stat-val">${item.total || '0'}</span>
+          </div>
+        `;
+        substatsHtml = `
+          <div class="podium-substats-grid">
+            <div class="podium-substat-item">
+              <span class="podium-substat-name"><img src="/images/items/cloth.png" alt="Tecido"> Tecido</span>
+              <span class="podium-substat-val">${formatVal(item.cloth)}</span>
+            </div>
+            <div class="podium-substat-item">
+              <span class="podium-substat-name"><img src="/images/items/pumpkin.png" alt="Abóbora"> Abóbora</span>
+              <span class="podium-substat-val">${formatVal(item.pumpkin)}</span>
+            </div>
+            <div class="podium-substat-item">
+              <span class="podium-substat-name"><img src="/images/items/mushroom.png" alt="Cogumelo"> Cogumelo</span>
+              <span class="podium-substat-val">${formatVal(item.mushroom)}</span>
+            </div>
+            <div class="podium-substat-item">
+              <span class="podium-substat-name"><img src="/images/items/corn.png" alt="Milho"> Milho</span>
+              <span class="podium-substat-val">${formatVal(item.corn)}</span>
+            </div>
+          </div>
+        `;
+      }
+
+      return `
+        <div class="podium-card podium-card-rank-${rankNum}">
+          <div class="podium-header-row">
+            <span class="podium-top-badge ${badgeCls}">
+              ${trophySvg}
+              ${rankNum}º Lugar
+            </span>
+            <span class="podium-category-tag">${categoryNames[currentTab] || 'Ranking'}</span>
+          </div>
+
+          <div class="podium-player-header">
+            <div class="podium-avatar-wrap">
+              <img src="${avatarSrc}" alt="${item.name}" class="podium-avatar-img" onerror="this.onerror=null;this.src='https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg';">
+              <span class="podium-avatar-num">${rankNum}</span>
+            </div>
+            <div class="podium-player-info">
+              <a href="/leaderboards/${item.steamid}" class="podium-player-name" title="${item.name}">${item.name}</a>
+              <span class="podium-player-steamid">${item.steamid}</span>
+            </div>
+          </div>
+
+          <div class="podium-stats-box">
+            ${primaryStatHtml}
+            ${substatsHtml}
+          </div>
+
+          <a href="/leaderboards/${item.steamid}" class="podium-link-btn">
+            Ver Estatísticas
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+          </a>
+        </div>
+      `;
+    }).join('');
+  }
+
   async function fetchLeaderboardData() {
     try {
       const res = await fetch('/api/leaderboard');
@@ -207,6 +365,12 @@
     const searchInput = document.getElementById('home-leaderboard-search');
     const searchTerm = (searchInput ? searchInput.value : '').toLowerCase().trim();
     const list = cachedLbData[currentTab] || [];
+
+    // Renderiza sempre os 3 cards do topo da categoria ativa
+    const podiumContainer = document.getElementById('home-podium-cards');
+    if (podiumContainer) {
+      renderPodiumCards(podiumContainer, list);
+    }
 
     const filtered = list.filter(function(item) {
       if (!searchTerm) return true;
@@ -413,6 +577,20 @@
     }
 
     // Inicialização dos dados
+    if (window.location.hash === '#recursos' || window.location.search.includes('tab=recursos')) {
+      currentTab = 'recursos';
+    } else if (window.location.hash === '#farming' || window.location.search.includes('tab=farming')) {
+      currentTab = 'farming';
+    }
+
+    document.querySelectorAll('#home-leaderboard-tabs button').forEach(function(b) {
+      if (b.getAttribute('data-tab') === currentTab) {
+        b.classList.add('ranking-aba-atual');
+      } else {
+        b.classList.remove('ranking-aba-atual');
+      }
+    });
+
     fetchLeaderboardData();
     setInterval(fetchLeaderboardData, 45000);
   }
