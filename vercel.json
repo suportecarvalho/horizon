@@ -4,7 +4,7 @@
   "trailingSlash": false,
   "rewrites": [
     {
-      "source": "/leaderboards/:steamid(\\d+)",
+      "source": "/leaderboards/:steamid",
       "destination": "/leaderboards/player.html"
     },
     {
