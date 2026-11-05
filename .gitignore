@@ -32,3 +32,5 @@ corrigir_*.js
 ajustar_*.js
 .vercel
 .env*
+
+scratch/

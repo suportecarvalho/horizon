@@ -664,6 +664,15 @@
       currentTab = 'raid';
     }
 
+    if (window.location.hash.includes('ranking') || window.location.search.includes('tab=')) {
+      setTimeout(function() {
+        const topTarget = document.getElementById('ranking');
+        if (topTarget) {
+          topTarget.scrollIntoView();
+        }
+      }, 300);
+    }
+
     document.querySelectorAll('#home-leaderboard-tabs button').forEach(function(b) {
       if (b.getAttribute('data-tab') === currentTab) {
         b.classList.add('ranking-aba-atual');
