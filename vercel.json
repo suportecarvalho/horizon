@@ -4,6 +4,14 @@
   "trailingSlash": false,
   "rewrites": [
     {
+      "source": "/leaderboards/:steamid(\\d+)",
+      "destination": "/leaderboards/player.html"
+    },
+    {
+      "source": "/leaderboards/player",
+      "destination": "/leaderboards/player.html"
+    },
+    {
       "source": "/feed",
       "destination": "/feed/index.html"
     },

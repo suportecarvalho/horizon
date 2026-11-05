@@ -398,6 +398,12 @@ function resolveFile(cleanUrl) {
 
   const relPath = cleanUrl === '/' ? '' : cleanUrl.replace(/^\//, '');
 
+  // Rota dinâmica para estatísticas de jogadores: /leaderboards/:steamid
+  if (/^\/leaderboards\/\d+/.test(cleanUrl) || cleanUrl === '/leaderboards/player') {
+    const playerFile = path.join(__dirname, 'leaderboards', 'player.html');
+    if (fs.existsSync(playerFile)) return playerFile;
+  }
+
   // Priorizar arquivos da raiz (mesmo comportamento da Vercel)
   const rootIndex = path.join(__dirname, relPath, 'index.html');
   if (fs.existsSync(rootIndex) && fs.statSync(rootIndex).isFile()) {
