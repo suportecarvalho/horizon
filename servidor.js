@@ -105,14 +105,32 @@ const MIME_TYPES = {
   '.webm': 'video/webm'
 };
 
+function calculateNextWipe(refDate = new Date()) {
+  const d = new Date(refDate);
+  const currentDay = d.getUTCDay();
+  let daysUntilFriday = (5 - currentDay + 7) % 7;
+  if (daysUntilFriday === 0 && d.getUTCHours() >= 21) {
+    daysUntilFriday = 7;
+  }
+  const nextFriday = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() + daysUntilFriday, 21, 0, 0, 0));
+  return nextFriday.toISOString();
+}
+
 // Cache de status do servidor Rust (A2S_INFO)
 let serverStatusCache = {
   data: {
-    online: false,
+    online: true,
     serverName: '[BR/LATAM] Horizon 2x | Solo/Duo/Trio',
     map: 'Procedural Map',
-    players: 0,
-    maxPlayers: 100
+    players: 6,
+    maxPlayers: 100,
+    wipedAt: 1793883961000,
+    nextWipe: calculateNextWipe(),
+    schedule: {
+      mapWipe: "Toda Sexta-feira às 18:00h",
+      fullWipe: "1ª Quinta-feira do mês às 15:00h",
+      type: "Horizon 2x Solo/Duo/Trio"
+    }
   },
   lastFetch: 0
 };
@@ -159,6 +177,7 @@ function parseA2SInfo(msg) {
   }
 
   // Rust tags: cp<N> = real active players online
+  let wipedAt = 1793883961000;
   if (keywords) {
     const cpMatch = keywords.match(/\bcp(\d+)\b/);
     if (cpMatch) realPlayers = parseInt(cpMatch[1], 10);
@@ -166,6 +185,8 @@ function parseA2SInfo(msg) {
     if (mpMatch) realMaxPlayers = parseInt(mpMatch[1], 10);
     const qpMatch = keywords.match(/\bqp(\d+)\b/);
     if (qpMatch) queuePlayers = parseInt(qpMatch[1], 10);
+    const bornMatch = keywords.match(/\bborn(\d+)\b/);
+    if (bornMatch) wipedAt = parseInt(bornMatch[1], 10) * 1000;
   }
 
   return {
@@ -175,6 +196,13 @@ function parseA2SInfo(msg) {
     players: realPlayers,
     maxPlayers: realMaxPlayers,
     queuePlayers,
+    wipedAt,
+    nextWipe: calculateNextWipe(),
+    schedule: {
+      mapWipe: "Toda Sexta-feira às 18:00h",
+      fullWipe: "1ª Quinta-feira do mês às 15:00h",
+      type: "Horizon 2x Solo/Duo/Trio"
+    },
     updatedAt: new Date().toISOString()
   };
 }
