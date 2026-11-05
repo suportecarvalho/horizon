@@ -794,14 +794,46 @@ const server = http.createServer((req, res) => {
   }
 
   if (cleanUrl === '/api/status') {
-
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-API-KEY, Bypass-Tunnel-Reminder');
 
     if (req.method === 'OPTIONS') {
       res.writeHead(204);
       res.end();
+      return;
+    }
+
+    if (req.method === 'POST') {
+      let bodyStr = '';
+      req.on('data', chunk => { bodyStr += chunk; });
+      req.on('end', () => {
+        try {
+          const body = JSON.parse(bodyStr);
+          serverStatusCache.data = {
+            online: true,
+            serverName: body.serverName || serverStatusCache.data.serverName,
+            map: body.map || serverStatusCache.data.map,
+            worldSize: body.worldSize || 3500,
+            players: typeof body.players === 'number' ? body.players : serverStatusCache.data.players,
+            maxPlayers: typeof body.maxPlayers === 'number' ? body.maxPlayers : serverStatusCache.data.maxPlayers,
+            queuePlayers: typeof body.queuePlayers === 'number' ? body.queuePlayers : 0,
+            joiningPlayers: typeof body.joiningPlayers === 'number' ? body.joiningPlayers : 0,
+            fps: body.fps || 250,
+            entities: body.entities || 0,
+            wipedAt: body.wipedAt || serverStatusCache.data.wipedAt,
+            nextWipe: body.nextWipe || calculateNextWipe(),
+            schedule: body.schedule || serverStatusCache.data.schedule,
+            updatedAt: new Date().toISOString()
+          };
+          serverStatusCache.lastFetch = Date.now();
+          res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+          res.end(JSON.stringify({ success: true, message: 'Status recebido do plugin VPS!', data: serverStatusCache.data }));
+        } catch (err) {
+          res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+          res.end(JSON.stringify({ error: err.message }));
+        }
+      });
       return;
     }
 

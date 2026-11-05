@@ -1,4 +1,19 @@
 const dgram = require('dgram');
+const { createClient } = require('@supabase/supabase-js');
+
+const SUPABASE_URL = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://rwgswqwqwrnpmcirajre.supabase.co';
+const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ3Z3N3cXdxd3JucG1jaXJhanJlIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc5Mzc0NzgxMiwiZXhwIjoyMTA5MzIzODEyfQ.GPb3PY0kWwQZwfSVo4wp6QC_3ee-cW0_OYiTkZVIW4U';
+
+let supabase = null;
+if (SUPABASE_URL && SUPABASE_KEY) {
+  try {
+    supabase = createClient(SUPABASE_URL, SUPABASE_KEY, {
+      auth: { persistSession: false }
+    });
+  } catch (e) {}
+}
+
+const STATUS_DOC_ID = '__horizon_server_status_db__';
 
 function calculateNextWipe(refDate = new Date()) {
   const d = new Date(refDate);
@@ -18,13 +33,15 @@ let serverStatusCache = {
     map: 'Procedural Map',
     players: 6,
     maxPlayers: 100,
+    queuePlayers: 0,
     wipedAt: 1793883961000,
     nextWipe: calculateNextWipe(),
     schedule: {
       mapWipe: "Toda Sexta-feira às 18:00h",
       fullWipe: "1ª Quinta-feira do mês às 15:00h",
       type: "Horizon 2x Solo/Duo/Trio"
-    }
+    },
+    updatedAt: new Date().toISOString()
   },
   lastFetch: 0
 };
@@ -106,11 +123,6 @@ function parseA2SInfo(msg) {
 }
 
 function queryRustServer(host = '179.198.115.201', port = 28016, timeoutMs = 2500) {
-  const now = Date.now();
-  if (now - serverStatusCache.lastFetch < 15000 && serverStatusCache.data) {
-    return Promise.resolve(serverStatusCache.data);
-  }
-
   return new Promise((resolve) => {
     const client = dgram.createSocket('udp4');
     let finished = false;
@@ -167,17 +179,116 @@ function queryRustServer(host = '179.198.115.201', port = 28016, timeoutMs = 250
 
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-API-KEY, Bypass-Tunnel-Reminder');
 
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
 
-  try {
-    const data = await queryRustServer();
-    return res.status(200).json(data);
-  } catch (err) {
-    return res.status(200).json(serverStatusCache.data);
+  // ---------------------------------------------------------------------------
+  // POST: Recebe status sincronizado direto do plugin HorizonServerInfo na VPS
+  // ---------------------------------------------------------------------------
+  if (req.method === 'POST') {
+    try {
+      const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
+      if (!body) {
+        return res.status(400).json({ error: 'Corpo da requisição vazio' });
+      }
+
+      const statusData = {
+        online: true,
+        serverName: body.serverName || '[BR/LATAM] Horizon 2x | Solo/Duo/Trio',
+        map: body.map || 'Procedural Map',
+        worldSize: body.worldSize || 3500,
+        players: typeof body.players === 'number' ? body.players : 0,
+        maxPlayers: typeof body.maxPlayers === 'number' ? body.maxPlayers : 100,
+        queuePlayers: typeof body.queuePlayers === 'number' ? body.queuePlayers : 0,
+        joiningPlayers: typeof body.joiningPlayers === 'number' ? body.joiningPlayers : 0,
+        fps: body.fps || 250,
+        entities: body.entities || 0,
+        wipedAt: body.wipedAt || 1793883961000,
+        nextWipe: body.nextWipe || calculateNextWipe(),
+        schedule: body.schedule || {
+          mapWipe: "Toda Sexta-feira às 18:00h",
+          fullWipe: "1ª Quinta-feira do mês às 15:00h",
+          type: "Horizon 2x Solo/Duo/Trio"
+        },
+        updatedAt: new Date().toISOString()
+      };
+
+      // Atualizar cache em memória
+      serverStatusCache = {
+        data: statusData,
+        lastFetch: Date.now()
+      };
+
+      // Persistir no Supabase para que todas as instâncias da Vercel vejam em tempo real
+      if (supabase) {
+        try {
+          await supabase.from('feed_posts').upsert([{
+            id: STATUS_DOC_ID,
+            author_steamid: '0',
+            author_name: 'Server Status Monitor',
+            author_avatar: '',
+            image_url: 'https://files.facepunch.com/rust/item/radar.png',
+            caption: JSON.stringify(statusData),
+            tag: '__system__'
+          }], { onConflict: 'id' });
+        } catch (errSupabase) {
+          console.error('[Status Supabase Error]', errSupabase);
+        }
+      }
+
+      return res.status(200).json({
+        success: true,
+        message: 'Status do servidor atualizado com sucesso via VPS!',
+        data: statusData
+      });
+    } catch (err) {
+      return res.status(400).json({ error: 'Erro ao processar status', details: err.message });
+    }
   }
+
+  // ---------------------------------------------------------------------------
+  // GET: Retorna o status mais recente do servidor
+  // ---------------------------------------------------------------------------
+  if (req.method === 'GET') {
+    const now = Date.now();
+    // 1. Se o cache em memória tiver menos de 15 segundos, retorna imediatamente
+    if (serverStatusCache.data && (now - serverStatusCache.lastFetch < 15000)) {
+      return res.status(200).json(serverStatusCache.data);
+    }
+
+    // 2. Tenta buscar o último status enviado pela VPS no Supabase
+    if (supabase) {
+      try {
+        const { data: row } = await supabase
+          .from('feed_posts')
+          .select('caption, updated_at')
+          .eq('id', STATUS_DOC_ID)
+          .maybeSingle();
+
+        if (row && row.caption) {
+          const parsed = JSON.parse(row.caption);
+          if (parsed && parsed.wipedAt) {
+            // Garantir que o nextWipe esteja calculado
+            if (!parsed.nextWipe) parsed.nextWipe = calculateNextWipe();
+            serverStatusCache = { data: parsed, lastFetch: now };
+            return res.status(200).json(parsed);
+          }
+        }
+      } catch (e) {}
+    }
+
+    // 3. Fallback: Consulta direta A2S via UDP (funciona no servidor local / VPS)
+    try {
+      const data = await queryRustServer();
+      return res.status(200).json(data);
+    } catch (err) {
+      return res.status(200).json(serverStatusCache.data);
+    }
+  }
+
+  return res.status(405).json({ error: 'Método não permitido' });
 };
