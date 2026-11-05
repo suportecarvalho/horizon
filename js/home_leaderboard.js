@@ -192,7 +192,7 @@
               </div>
               <div style="width: 44px; height: 44px; min-width: 44px; border-radius: 50%; border: 2px solid #D7573B; display: flex; align-items: center; justify-content: center; background: #22201E; overflow: hidden; margin: 0 12px 0 8px; flex-shrink: 0;">
                 ${avatarSrc && !avatarSrc.includes('fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb') ? `
-                  <img src="${avatarSrc}" alt="${item.name}" style="width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1.15);" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                  <img src="${avatarSrc}" alt="${item.name}" loading="lazy" decoding="async" style="width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1.15);" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                   <span style="display: none; font-size: 1.2rem; font-weight: 700; color: #D4D4D8;">${initial}</span>
                 ` : `
                   <span style="font-size: 1.2rem; font-weight: 700; color: #D4D4D8;">${initial}</span>
@@ -372,7 +372,7 @@
 
           <div class="podium-player-header">
             <div class="podium-avatar-wrap">
-              <img src="${avatarSrc}" alt="${item.name}" class="podium-avatar-img" onerror="this.onerror=null;this.src='https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg';">
+              <img src="${avatarSrc}" alt="${item.name}" loading="lazy" decoding="async" class="podium-avatar-img" onerror="this.onerror=null;this.src='https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg';">
               <span class="podium-avatar-num">${rankNum}</span>
             </div>
             <div class="podium-player-info">
@@ -584,7 +584,7 @@
             <td class="ranking-celula-rank"><span class="ranking-rank">${medalHtml}</span></td>
             <td class="ranking-celula-jogador">
               <a href="/leaderboards/${item.steamid}" class="ranking-jogador" style="text-decoration: none; gap: 16px;">
-                <span class="ranking-avatar-caixa"><img src="${avatarSrc}" class="ranking-avatar" alt="" onerror="this.onerror=null;this.src='https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg';"></span>
+                <span class="ranking-avatar-caixa"><img src="${avatarSrc}" loading="lazy" decoding="async" class="ranking-avatar" alt="" onerror="this.onerror=null;this.src='https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg';"></span>
                 <span class="ranking-nome-bloco">
                   <span class="ranking-nome" style="color: #EDE8E5; font-weight: 600;">${item.name}</span>
                   <span class="ranking-id">${item.steamid}</span>

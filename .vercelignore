@@ -1,0 +1,13 @@
+# Heavy binaries & tooling
+cloudflared*
+*.exe
+*.cs
+*.sql
+*.log
+
+# Duplicate local mirror folders
+site_completo/
+site_completo_single/
+screenshots/
+scratch/
+.system_generated/
