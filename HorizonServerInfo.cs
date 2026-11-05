@@ -28,7 +28,7 @@ namespace Oxide.Plugins
             public string ApiKey { get; set; } = "horizon_live_server_secret";
 
             [JsonProperty("CronogramaWipeMapa")]
-            public string MapWipeSchedule { get; set; } = "Toda Sexta-feira às 18:00h";
+            public string MapWipeSchedule { get; set; } = "Todo Sábado às 12:00h";
 
             [JsonProperty("CronogramaWipeFull")]
             public string FullWipeSchedule { get; set; } = "1ª Quinta-feira do mês às 15:00h";
@@ -224,3 +224,4 @@ namespace Oxide.Plugins
         }
     }
 }
+

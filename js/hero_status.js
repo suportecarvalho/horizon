@@ -75,11 +75,11 @@
   function getCalculatedNextWipe() {
     var d = new Date();
     var currentDay = d.getUTCDay();
-    var daysUntilFriday = (5 - currentDay + 7) % 7;
-    if (daysUntilFriday === 0 && d.getUTCHours() >= 21) {
-      daysUntilFriday = 7;
+    var daysUntilSaturday = (6 - currentDay + 7) % 7;
+    if (daysUntilSaturday === 0 && d.getUTCHours() >= 15) {
+      daysUntilSaturday = 7;
     }
-    return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() + daysUntilFriday, 21, 0, 0, 0));
+    return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() + daysUntilSaturday, 15, 0, 0, 0));
   }
 
   function tickWipeDisplay() {
@@ -101,6 +101,10 @@
     var nextWipeDate = currentNextWipe ? new Date(currentNextWipe) : getCalculatedNextWipe();
     if (elWipeCountdown) {
       elWipeCountdown.textContent = formatCountdown(nextWipeDate);
+    }
+
+    if (elWipeNextDate) {
+      elWipeNextDate.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #D7573B; flex-shrink: 0;"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg> Sábado às 12:00h (Horário de Brasília)';
     }
   }
 
@@ -124,6 +128,15 @@
     }
     if (dados && dados.nextWipe) {
       currentNextWipe = dados.nextWipe;
+    }
+
+    if (dados && dados.schedule) {
+      var elSchedMap = document.getElementById('wipe-sched-map');
+      var elSchedFull = document.getElementById('wipe-sched-full');
+      var elSchedType = document.getElementById('wipe-sched-type');
+      if (elSchedMap && dados.schedule.mapWipe) elSchedMap.textContent = dados.schedule.mapWipe;
+      if (elSchedFull && dados.schedule.fullWipe) elSchedFull.textContent = dados.schedule.fullWipe;
+      if (elSchedType && dados.schedule.type) elSchedType.textContent = dados.schedule.type;
     }
 
     tickWipeDisplay();

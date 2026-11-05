@@ -18,12 +18,12 @@ const STATUS_DOC_ID = '__horizon_server_status_db__';
 function calculateNextWipe(refDate = new Date()) {
   const d = new Date(refDate);
   const currentDay = d.getUTCDay();
-  let daysUntilFriday = (5 - currentDay + 7) % 7;
-  if (daysUntilFriday === 0 && d.getUTCHours() >= 21) {
-    daysUntilFriday = 7;
+  let daysUntilSaturday = (6 - currentDay + 7) % 7;
+  if (daysUntilSaturday === 0 && d.getUTCHours() >= 15) {
+    daysUntilSaturday = 7;
   }
-  const nextFriday = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() + daysUntilFriday, 21, 0, 0, 0));
-  return nextFriday.toISOString();
+  const nextSaturday = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() + daysUntilSaturday, 15, 0, 0, 0));
+  return nextSaturday.toISOString();
 }
 
 let serverStatusCache = {
@@ -37,7 +37,7 @@ let serverStatusCache = {
     wipedAt: 1793883961000,
     nextWipe: calculateNextWipe(),
     schedule: {
-      mapWipe: "Toda Sexta-feira às 18:00h",
+      mapWipe: "Todo Sábado às 12:00h",
       fullWipe: "1ª Quinta-feira do mês às 15:00h",
       type: "Horizon 2x Solo/Duo/Trio"
     },
@@ -114,7 +114,7 @@ function parseA2SInfo(msg) {
     wipedAt,
     nextWipe: calculateNextWipe(),
     schedule: {
-      mapWipe: "Toda Sexta-feira às 18:00h",
+      mapWipe: "Todo Sábado às 12:00h",
       fullWipe: "1ª Quinta-feira do mês às 15:00h",
       type: "Horizon 2x Solo/Duo/Trio"
     },
@@ -208,11 +208,11 @@ module.exports = async (req, res) => {
         fps: body.fps || 250,
         entities: body.entities || 0,
         wipedAt: body.wipedAt || 1793883961000,
-        nextWipe: body.nextWipe || calculateNextWipe(),
-        schedule: body.schedule || {
-          mapWipe: "Toda Sexta-feira às 18:00h",
-          fullWipe: "1ª Quinta-feira do mês às 15:00h",
-          type: "Horizon 2x Solo/Duo/Trio"
+        nextWipe: calculateNextWipe(),
+        schedule: {
+          mapWipe: (body.schedule && body.schedule.mapWipe && !body.schedule.mapWipe.toLowerCase().includes('sexta')) ? body.schedule.mapWipe : "Todo Sábado às 12:00h",
+          fullWipe: (body.schedule && body.schedule.fullWipe) ? body.schedule.fullWipe : "1ª Quinta-feira do mês às 15:00h",
+          type: (body.schedule && body.schedule.type) ? body.schedule.type : "Horizon 2x Solo/Duo/Trio"
         },
         updatedAt: new Date().toISOString()
       };
