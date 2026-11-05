@@ -378,7 +378,7 @@ namespace Oxide.Plugins
         }
 
         // -------------------------------------------------------------
-        // HOOKS: RAID (Explosivos lançados & Estruturas/Portas destruídas)
+        // HOOKS: RAID (Apenas Explosivos e Foguetes legítimos)
         // -------------------------------------------------------------
         private void OnRocketLaunched(BasePlayer player, BaseEntity entity)
         {
@@ -404,25 +404,6 @@ namespace Oxide.Plugins
             else if (sname.Contains("explosive.satchel") || sname.Contains("satchel"))
             {
                 stats.SatchelsUsed++;
-            }
-        }
-
-        private void OnEntityDeath(BaseCombatEntity entity, HitInfo info)
-        {
-            if (entity == null || info?.InitiatorPlayer == null) return;
-            var player = info.InitiatorPlayer;
-            if (player.IsNpc) return;
-
-            var stats = GetOrCreate(player);
-            if (stats == null) return;
-
-            if (entity is BuildingBlock)
-            {
-                stats.StructuresDestroyed++;
-            }
-            else if (entity is Door)
-            {
-                stats.DoorsDestroyed++;
             }
         }
 
@@ -566,15 +547,16 @@ namespace Oxide.Plugins
                     };
                 }).ToList();
 
-            // 4. RAID (Explosivos usados + Estruturas destruídas)
+            // 4. RAID (Apenas Explosivos e Foguetes: Rockets, C4, Satchels)
             var raidList = data.Players.Values
                 .Select(p => new {
                     Player = p,
-                    TotalScore = (p.RocketsUsed * 4) + (p.C4Used * 5) + (p.SatchelsUsed * 2) + (p.StructuresDestroyed * 2) + (p.DoorsDestroyed * 3),
-                    TotalActions = p.RocketsUsed + p.C4Used + p.SatchelsUsed + p.StructuresDestroyed + p.DoorsDestroyed
+                    TotalExplosives = p.RocketsUsed + p.C4Used + p.SatchelsUsed,
+                    TotalScore = (p.C4Used * 5) + (p.RocketsUsed * 4) + (p.SatchelsUsed * 2)
                 })
-                .Where(x => x.TotalActions > 0)
+                .Where(x => x.TotalExplosives > 0)
                 .OrderByDescending(x => x.TotalScore)
+                .ThenByDescending(x => x.TotalExplosives)
                 .Take(limit)
                 .Select((x, idx) => {
                     var p = x.Player;
@@ -588,11 +570,10 @@ namespace Oxide.Plugins
                         name = p.Name,
                         avatar = avatarUrl,
                         total_score = x.TotalScore.ToString("N0"),
+                        total_explosives = x.TotalExplosives.ToString("N0"),
                         rockets = p.RocketsUsed.ToString("N0"),
                         c4 = p.C4Used.ToString("N0"),
-                        satchels = p.SatchelsUsed.ToString("N0"),
-                        structures = p.StructuresDestroyed.ToString("N0"),
-                        doors = p.DoorsDestroyed.ToString("N0")
+                        satchels = p.SatchelsUsed.ToString("N0")
                     };
                 }).ToList();
 

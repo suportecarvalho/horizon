@@ -167,8 +167,7 @@
         `;
         const raidRows = [
           [ { icon: '/images/items/ammo.rocket.basic.png', label: 'Foguetes', val: item.rockets }, { icon: '/images/items/explosive.timed.png', label: 'C4', val: item.c4 } ],
-          [ { icon: '/images/items/explosive.satchel.png', label: 'Satchels', val: item.satchels }, { icon: '/images/items/door.hinged.metal.png', label: 'Portas', val: item.doors } ],
-          [ { icon: '/images/items/wall.external.high.stone.png', label: 'Estruturas', val: item.structures }, null ]
+          [ { icon: '/images/items/explosive.satchel.png', label: 'Satchels', val: item.satchels }, null ]
         ];
         gridHtml = `
           <div style="display: grid; grid-template-columns: 1fr 1fr; column-gap: 20px; row-gap: 8px;">
@@ -353,17 +352,9 @@
               <span class="podium-substat-name"><img src="/images/items/explosive.timed.png" alt="C4"> C4</span>
               <span class="podium-substat-val">${formatVal(item.c4)}</span>
             </div>
-            <div class="podium-substat-item">
+            <div class="podium-substat-item" style="grid-column: span 2;">
               <span class="podium-substat-name"><img src="/images/items/explosive.satchel.png" alt="Satchels"> Satchels</span>
               <span class="podium-substat-val">${formatVal(item.satchels)}</span>
-            </div>
-            <div class="podium-substat-item">
-              <span class="podium-substat-name"><img src="/images/items/door.hinged.metal.png" alt="Portas"> Portas</span>
-              <span class="podium-substat-val">${formatVal(item.doors)}</span>
-            </div>
-            <div class="podium-substat-item" style="grid-column: span 2;">
-              <span class="podium-substat-name"><img src="/images/items/wall.external.high.stone.png" alt="Estruturas"> Paredes / Estruturas</span>
-              <span class="podium-substat-val">${formatVal(item.structures)}</span>
             </div>
           </div>
         `;
@@ -509,13 +500,11 @@
         thead.innerHTML = `
           <tr class="ranking-cabecalho">
             <th class="ranking-cab ranking-cab-rank" style="width: 75px; text-align: center;">#</th>
-            <th class="ranking-cab ranking-cab-jogador" style="width: 28%; text-align: left; padding-left: 20px;">JOGADOR</th>
-            <th class="ranking-cab" style="width: 12%; text-align: center;" title="Score Total de Raid">SCORE</th>
-            <th class="ranking-cab" style="width: 12%; text-align: center;" title="Foguetes Disparados"><img src="/images/items/ammo.rocket.basic.png" alt="Foguetes" class="hlb-item-icon"></th>
-            <th class="ranking-cab" style="width: 12%; text-align: center;" title="C4 Detonados"><img src="/images/items/explosive.timed.png" alt="C4" class="hlb-item-icon"></th>
-            <th class="ranking-cab" style="width: 12%; text-align: center;" title="Satchels Lançados"><img src="/images/items/explosive.satchel.png" alt="Satchels" class="hlb-item-icon"></th>
-            <th class="ranking-cab" style="width: 12%; text-align: center;" title="Paredes e Fundações Destruídas"><img src="/images/items/wall.external.high.stone.png" alt="Estruturas" class="hlb-item-icon"></th>
-            <th class="ranking-cab" style="width: 12%; text-align: center;" title="Portas Destruídas"><img src="/images/items/door.hinged.metal.png" alt="Portas" class="hlb-item-icon"></th>
+            <th class="ranking-cab ranking-cab-jogador" style="width: 35%; text-align: left; padding-left: 20px;">JOGADOR</th>
+            <th class="ranking-cab" style="width: 14%; text-align: center;" title="Score Total de Raid">SCORE</th>
+            <th class="ranking-cab" style="width: 14%; text-align: center;" title="Foguetes Disparados"><img src="/images/items/ammo.rocket.basic.png" alt="Foguetes" class="hlb-item-icon"></th>
+            <th class="ranking-cab" style="width: 14%; text-align: center;" title="C4 Detonados"><img src="/images/items/explosive.timed.png" alt="C4" class="hlb-item-icon"></th>
+            <th class="ranking-cab" style="width: 14%; text-align: center;" title="Satchels Lançados"><img src="/images/items/explosive.satchel.png" alt="Satchels" class="hlb-item-icon"></th>
           </tr>
         `;
       }
@@ -523,7 +512,7 @@
 
     // Atualiza o corpo da tabela
     const tbody = document.getElementById('home-table-body');
-    const colSpan = currentTab === 'farming' ? 14 : (currentTab === 'recursos' ? 10 : (currentTab === 'raid' ? 8 : 7));
+    const colSpan = currentTab === 'farming' ? 14 : (currentTab === 'recursos' ? 10 : (currentTab === 'raid' ? 6 : 7));
 
     if (filtered.length === 0) {
       if (tbody) tbody.innerHTML = '<tr><td colspan="' + colSpan + '" style="text-align: center; padding: 40px; color: #a1a1aa; font-weight: 600;">Nenhum jogador encontrado com esses critérios.</td></tr>';
@@ -585,8 +574,6 @@
             <td class="ranking-valor" style="text-align: center;">${formatVal(item.rockets)}</td>
             <td class="ranking-valor" style="text-align: center;">${formatVal(item.c4)}</td>
             <td class="ranking-valor" style="text-align: center;">${formatVal(item.satchels)}</td>
-            <td class="ranking-valor" style="text-align: center;">${formatVal(item.structures)}</td>
-            <td class="ranking-valor" style="text-align: center;">${formatVal(item.doors)}</td>
           `;
         }
 
