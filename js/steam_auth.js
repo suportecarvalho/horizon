@@ -5,6 +5,17 @@
 (function() {
   'use strict';
 
+  // 1. Tenta renderizar imediatamente do cache do localStorage (elimina delay/piscada visual ao navegar entre páginas)
+  try {
+    const cached = localStorage.getItem('horizon_steam_user');
+    if (cached) {
+      const u = JSON.parse(cached);
+      if (u && (u.steamId || u.steamid)) {
+        renderUserHeader(u);
+      }
+    }
+  } catch (e) {}
+
   async function checkSteamAuth() {
     try {
       const res = await fetch('/api/me');
@@ -12,10 +23,18 @@
       const data = await res.json();
 
       if (!data || !data.authenticated || !data.user) {
+        try {
+          localStorage.removeItem('horizon_steam_user');
+        } catch (e) {}
+        resetUserHeader();
         return;
       }
 
       const user = data.user;
+      try {
+        localStorage.setItem('horizon_steam_user', JSON.stringify(user));
+      } catch (e) {}
+
       renderUserHeader(user);
       highlightUserInLeaderboards(user.steamId || user.steamid);
       checkWelcomeToast(user);
@@ -23,6 +42,20 @@
     } catch (e) {
       console.warn('[Steam Auth] Erro ao verificar sessão:', e);
     }
+  }
+
+  function resetUserHeader() {
+    const pills = document.querySelectorAll('.horizon-steam-user-pill');
+    pills.forEach(pill => {
+      const btn = document.createElement('a');
+      btn.href = '/auth/steam?redirect=' + encodeURIComponent(window.location.pathname);
+      btn.setAttribute('data-slot', 'button');
+      btn.setAttribute('data-variant', 'outline');
+      btn.setAttribute('data-size', 'cabecalho');
+      btn.className = "group/button inline-flex shrink-0 items-center justify-center rounded-lg border bg-clip-padding whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 btn-corte [--corte:8px] h-8 gap-1.5 px-3.5 font-heading text-[0.7rem] font-bold tracking-[0.06em] uppercase";
+      btn.innerHTML = 'Entrar<span class="some-no-estreito">&nbsp;com Steam</span>';
+      pill.replaceWith(btn);
+    });
   }
 
   function renderUserHeader(user) {
@@ -55,7 +88,7 @@
           ${user.name}
         </span>
         ${isAdm ? `<span style="background: rgba(215, 87, 59, 0.35); border: 1px solid #D7573B; color: #ff8b70; font-size: 0.65rem; padding: 1px 5px; border-radius: 4px; font-weight: 800; letter-spacing: 0.05em;">ADM</span>` : ''}
-        <a href="/auth/logout" title="Sair da conta Steam" style="color: #71717a; display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; text-decoration: none; transition: all 0.2s ease; margin-left: 2px;" onmouseover="this.style.color='#ef4444';this.style.background='rgba(239,68,68,0.15)'" onmouseout="this.style.color='#71717a';this.style.background='transparent'">
+        <a href="/auth/logout" onclick="try{localStorage.removeItem('horizon_steam_user');}catch(e){}" title="Sair da conta Steam" style="color: #71717a; display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; text-decoration: none; transition: all 0.2s ease; margin-left: 2px;" onmouseover="this.style.color='#ef4444';this.style.background='rgba(239,68,68,0.15)'" onmouseout="this.style.color='#71717a';this.style.background='transparent'">
           <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
         </a>
       `;
@@ -88,7 +121,6 @@
     }
 
     applyHighlight();
-    // Re-aplica se abas mudarem
     const observer = new MutationObserver(applyHighlight);
     const tbody = document.querySelector('table.ranking-tabela tbody, #hlb-table-body');
     if (tbody) {
@@ -99,11 +131,9 @@
   function checkWelcomeToast(user) {
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('login') === 'success') {
-      // Remove query param sem recarregar a página
       const cleanUrl = window.location.pathname;
       window.history.replaceState({}, document.title, cleanUrl);
 
-      // Exibe notificação de boas-vindas
       const toast = document.createElement('div');
       toast.style.cssText = `
         position: fixed;
@@ -146,4 +176,3 @@
     checkSteamAuth();
   }
 })();
-

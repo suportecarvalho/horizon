@@ -2,7 +2,20 @@ const { getBaseUrl } = require('../_auth');
 
 module.exports = async (req, res) => {
   const baseUrl = getBaseUrl(req);
-  const returnTo = `${baseUrl}/auth/steam/return`;
+  
+  // Suporte a redirecionamento pós-login para a página de origem (ex: /loja)
+  let redirectTarget = '/';
+  try {
+    const urlObj = new URL(req.url, baseUrl);
+    redirectTarget = urlObj.searchParams.get('redirect') || req.headers.referer || '/';
+    // Se for URL completa do mesmo domínio, pega só o pathname
+    if (redirectTarget.startsWith('http')) {
+      const parsedRef = new URL(redirectTarget);
+      redirectTarget = parsedRef.pathname + parsedRef.search;
+    }
+  } catch (e) {}
+
+  const returnTo = `${baseUrl}/auth/steam/return?redirect=${encodeURIComponent(redirectTarget)}`;
   
   const params = new URLSearchParams({
     'openid.ns': 'http://specs.openid.net/auth/2.0',
@@ -21,4 +34,3 @@ module.exports = async (req, res) => {
   });
   res.end();
 };
-

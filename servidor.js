@@ -592,7 +592,17 @@ const server = http.createServer((req, res) => {
   // -------------------------------------------------------------
   if (cleanUrl === '/auth/steam' || cleanUrl === '/api/auth/steam') {
     const baseUrl = getBaseUrl(req);
-    const returnTo = `${baseUrl}/auth/steam/return`;
+    let redirectTarget = '/';
+    try {
+      const urlObj = new URL(req.url, baseUrl);
+      redirectTarget = urlObj.searchParams.get('redirect') || req.headers.referer || '/';
+      if (redirectTarget.startsWith('http')) {
+        const parsedRef = new URL(redirectTarget);
+        redirectTarget = parsedRef.pathname + parsedRef.search;
+      }
+    } catch (e) {}
+
+    const returnTo = `${baseUrl}/auth/steam/return?redirect=${encodeURIComponent(redirectTarget)}`;
     const params = new URLSearchParams({
       'openid.ns': 'http://specs.openid.net/auth/2.0',
       'openid.mode': 'checkid_setup',
@@ -659,8 +669,13 @@ const server = http.createServer((req, res) => {
           const isHttps = baseUrl.startsWith('https');
           const secureFlag = isHttps ? '; Secure' : '';
 
+          let redirectTarget = searchParams.get('redirect') || '/';
+          if (!redirectTarget.startsWith('/')) redirectTarget = '/';
+          const sep = redirectTarget.includes('?') ? '&' : '?';
+          const destUrl = `${redirectTarget}${sep}login=success`;
+
           res.writeHead(302, {
-            'Location': '/?login=success',
+            'Location': destUrl,
             'Set-Cookie': [
               `horizon_user=${encodeURIComponent(userJson)}; Path=/; Max-Age=2592000; SameSite=Lax${secureFlag}`,
               `horizon_sig=${sig}; Path=/; Max-Age=2592000; SameSite=Lax${secureFlag}; HttpOnly`

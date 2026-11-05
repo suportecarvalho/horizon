@@ -85,8 +85,13 @@ module.exports = async (req, res) => {
   const isHttps = baseUrl.startsWith('https');
   const secureFlag = isHttps ? '; Secure' : '';
 
+  let redirectTarget = queryParams.get('redirect') || '/';
+  if (!redirectTarget.startsWith('/')) redirectTarget = '/';
+  const sep = redirectTarget.includes('?') ? '&' : '?';
+  const destUrl = `${redirectTarget}${sep}login=success`;
+
   res.writeHead(302, {
-    'Location': '/?login=success',
+    'Location': destUrl,
     'Set-Cookie': [
       `horizon_user=${encodeURIComponent(userJson)}; Path=/; Max-Age=2592000; SameSite=Lax${secureFlag}`,
       `horizon_sig=${sig}; Path=/; Max-Age=2592000; SameSite=Lax${secureFlag}; HttpOnly`

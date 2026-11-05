@@ -41,12 +41,33 @@
 
   // Carrega usuário da sessão
   async function loadUser() {
+    // 1. Tenta carregar imediatamente do cache local para resposta instantânea
+    try {
+      const cached = localStorage.getItem('horizon_steam_user');
+      if (cached) {
+        const u = JSON.parse(cached);
+        if (u && (u.steamId || u.steamid)) {
+          currentUser = u;
+        }
+      }
+    } catch (e) {}
+
+    // 2. Valida com a API
     try {
       const res = await fetch('/api/me');
       if (res.ok) {
         const data = await res.json();
         if (data && data.authenticated && data.user) {
           currentUser = data.user;
+          try {
+            localStorage.setItem('horizon_steam_user', JSON.stringify(currentUser));
+          } catch (e) {}
+        } else {
+          // Sessão não ativa no servidor
+          currentUser = null;
+          try {
+            localStorage.removeItem('horizon_steam_user');
+          } catch (e) {}
         }
       }
     } catch (e) {}
