@@ -16,6 +16,8 @@ if (SUPABASE_URL && SUPABASE_KEY) {
 
 const LEADERBOARD_DOC_ID = '__horizon_leaderboard_db__';
 let memoryData = null;
+let lastMemoryTime = 0;
+const CACHE_TTL_MS = 20000; // 20 segundos
 
 module.exports = async (req, res) => {
   // CORS
@@ -30,7 +32,8 @@ module.exports = async (req, res) => {
   const dataFile = path.join(process.cwd(), 'data', 'leaderboard.json');
 
   if (req.method === 'GET') {
-    if (memoryData) {
+    const isCacheValid = memoryData && (Date.now() - lastMemoryTime < CACHE_TTL_MS) && ((memoryData.pvp && memoryData.pvp.length > 0) || (memoryData.raid && memoryData.raid.length > 0));
+    if (isCacheValid) {
       return res.status(200).json(memoryData);
     }
 
@@ -46,6 +49,7 @@ module.exports = async (req, res) => {
         if (row && row.caption) {
           const parsed = JSON.parse(row.caption);
           memoryData = parsed;
+          lastMemoryTime = Date.now();
           return res.status(200).json(parsed);
         }
       } catch (err) {}

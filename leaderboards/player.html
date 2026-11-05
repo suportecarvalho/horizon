@@ -452,9 +452,27 @@
         }
 
         try {
-          const res = await fetch('/api/leaderboard');
-          if (!res.ok) throw new Error('Falha ao conectar com o servidor');
-          const data = await res.json();
+          let data = null;
+          try {
+            const res = await fetch('/api/leaderboard?t=' + Date.now());
+            if (res.ok) {
+              const json = await res.json();
+              if ((json.pvp && json.pvp.length > 0) || (json.raid && json.raid.length > 0)) {
+                data = json;
+              }
+            }
+          } catch (e) {}
+
+          if (!data) {
+            try {
+              const resStatic = await fetch('/data/leaderboard.json?t=' + Date.now());
+              if (resStatic.ok) {
+                data = await resStatic.json();
+              }
+            } catch (e) {}
+          }
+
+          if (!data) throw new Error('Falha ao carregar dados do ranking');
 
           const pvpEntry = (data.pvp || []).find(p => p.steamid === targetSteamId);
           const raidEntry = (data.raid || []).find(p => p.steamid === targetSteamId);

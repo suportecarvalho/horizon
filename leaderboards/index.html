@@ -50,9 +50,28 @@
 
   async function loadData() {
     try {
-      const res = await fetch('/api/leaderboard');
-      if (res.ok) {
-        cachedData = await res.json();
+      let data = null;
+      try {
+        const res = await fetch('/api/leaderboard?t=' + Date.now());
+        if (res.ok) {
+          const json = await res.json();
+          if ((json.pvp && json.pvp.length > 0) || (json.raid && json.raid.length > 0)) {
+            data = json;
+          }
+        }
+      } catch (e) {}
+
+      if (!data) {
+        try {
+          const resStatic = await fetch('/data/leaderboard.json?t=' + Date.now());
+          if (resStatic.ok) {
+            data = await resStatic.json();
+          }
+        } catch (e) {}
+      }
+
+      if (data) {
+        cachedData = data;
         render();
       }
     } catch (e) {
