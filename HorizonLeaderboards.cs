@@ -9,8 +9,8 @@ using UnityEngine;
 
 namespace Oxide.Plugins
 {
-    [Info("HorizonLeaderboards", "RustHorizon", "1.3.0")]
-    [Description("Exporta estatísticas de jogadores (PvP, 8 Recursos e 12 Farming) para o site do Horizon")]
+    [Info("HorizonLeaderboards", "RustHorizon", "1.4.0")]
+    [Description("Exporta estatísticas de jogadores (PvP, Recursos, Farming e Raid) para o site do Horizon")]
     public class HorizonLeaderboards : RustPlugin
     {
         [PluginReference]
@@ -72,6 +72,13 @@ namespace Oxide.Plugins
             public int Potato { get; set; } = 0;         // potato
             public int Wheat { get; set; } = 0;          // wheat
             public int Egg { get; set; } = 0;            // egg
+
+            // Raid (Explosivos usados + Estruturas/Portas destruídas)
+            public int RocketsUsed { get; set; } = 0;
+            public int C4Used { get; set; } = 0;
+            public int SatchelsUsed { get; set; } = 0;
+            public int StructuresDestroyed { get; set; } = 0;
+            public int DoorsDestroyed { get; set; } = 0;
         }
 
         public class StoredData
@@ -371,6 +378,55 @@ namespace Oxide.Plugins
         }
 
         // -------------------------------------------------------------
+        // HOOKS: RAID (Explosivos lançados & Estruturas/Portas destruídas)
+        // -------------------------------------------------------------
+        private void OnRocketLaunched(BasePlayer player, BaseEntity entity)
+        {
+            if (player == null || player.IsNpc) return;
+            var stats = GetOrCreate(player);
+            if (stats != null)
+            {
+                stats.RocketsUsed++;
+            }
+        }
+
+        private void OnExplosiveThrown(BasePlayer player, BaseEntity entity)
+        {
+            if (player == null || player.IsNpc || entity == null) return;
+            var stats = GetOrCreate(player);
+            if (stats == null) return;
+
+            string sname = entity.ShortPrefabName;
+            if (sname.Contains("explosive.timed") || sname.Contains("c4"))
+            {
+                stats.C4Used++;
+            }
+            else if (sname.Contains("explosive.satchel") || sname.Contains("satchel"))
+            {
+                stats.SatchelsUsed++;
+            }
+        }
+
+        private void OnEntityDeath(BaseCombatEntity entity, HitInfo info)
+        {
+            if (entity == null || info?.InitiatorPlayer == null) return;
+            var player = info.InitiatorPlayer;
+            if (player.IsNpc) return;
+
+            var stats = GetOrCreate(player);
+            if (stats == null) return;
+
+            if (entity is BuildingBlock)
+            {
+                stats.StructuresDestroyed++;
+            }
+            else if (entity is Door)
+            {
+                stats.DoorsDestroyed++;
+            }
+        }
+
+        // -------------------------------------------------------------
         // COMANDOS DE CONSOLE (ADMIN)
         // -------------------------------------------------------------
         [ConsoleCommand("horizon.sync")]
@@ -510,6 +566,36 @@ namespace Oxide.Plugins
                     };
                 }).ToList();
 
+            // 4. RAID (Explosivos usados + Estruturas destruídas)
+            var raidList = data.Players.Values
+                .Select(p => new {
+                    Player = p,
+                    TotalScore = (p.RocketsUsed * 4) + (p.C4Used * 5) + (p.SatchelsUsed * 2) + (p.StructuresDestroyed * 2) + (p.DoorsDestroyed * 3),
+                    TotalActions = p.RocketsUsed + p.C4Used + p.SatchelsUsed + p.StructuresDestroyed + p.DoorsDestroyed
+                })
+                .Where(x => x.TotalActions > 0)
+                .OrderByDescending(x => x.TotalScore)
+                .Take(limit)
+                .Select((x, idx) => {
+                    var p = x.Player;
+                    string avatarUrl = !string.IsNullOrEmpty(p.Avatar) 
+                        ? p.Avatar 
+                        : $"https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg";
+
+                    return new {
+                        rank = idx + 1,
+                        steamid = p.SteamId,
+                        name = p.Name,
+                        avatar = avatarUrl,
+                        total_score = x.TotalScore.ToString("N0"),
+                        rockets = p.RocketsUsed.ToString("N0"),
+                        c4 = p.C4Used.ToString("N0"),
+                        satchels = p.SatchelsUsed.ToString("N0"),
+                        structures = p.StructuresDestroyed.ToString("N0"),
+                        doors = p.DoorsDestroyed.ToString("N0")
+                    };
+                }).ToList();
+
             var payload = new
             {
                 server = config.ServerName,
@@ -517,7 +603,8 @@ namespace Oxide.Plugins
                 updated_at = DateTime.UtcNow.ToString("o"),
                 pvp = pvpList,
                 recursos = recursosList,
-                farming = farmingList
+                farming = farmingList,
+                raid = raidList
             };
 
             string json = JsonConvert.SerializeObject(payload);

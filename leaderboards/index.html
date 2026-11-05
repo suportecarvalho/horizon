@@ -12,6 +12,10 @@
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-tractor ranking-aba-icone"><path d="m10 11 11 .9a1 1 0 0 1 .8 1.1l-.665 4.158a1 1 0 0 1-.988.842H20"></path><path d="M16 18h-5"></path><path d="M18 5a1 1 0 0 0-1 1v5.573"></path><path d="M3 4h8.129a1 1 0 0 1 .99.863L13 11.246"></path><path d="M4 11V4"></path><path d="M7 15h.01"></path><path d="M8 10.1V4"></path><circle cx="18" cy="18" r="2"></circle><circle cx="7" cy="15" r="5"></circle></svg>
       Farming
     </button>
+    <button type="button" class="ranking-aba" data-tab="raid">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bomb ranking-aba-icone"><circle cx="11" cy="13" r="9"></circle><path d="m19.5 9.5 1.8-1.8a2.4 2.4 0 0 0 0-3.4l-1.6-1.6a2.4 2.4 0 0 0-3.4 0l-1.8 1.8"></path><path d="m17 7-2 2"></path></svg>
+      Raid
+    </button>
   </nav><div class="ranking-busca">
     <span class="ranking-busca-campo">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search ranking-busca-lupa"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg>
@@ -185,6 +189,31 @@
             `).join('')}
           </div>
         `;
+      } else if (currentTab === 'raid') {
+        highlightHtml = `
+          <div style="margin-top: 14px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 6px; background: rgba(239, 68, 68, 0.15); color: #EF4444;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="13" r="9"></circle><path d="m19.5 9.5 1.8-1.8a2.4 2.4 0 0 0 0-3.4l-1.6-1.6a2.4 2.4 0 0 0-3.4 0l-1.8 1.8"></path><path d="m17 7-2 2"></path></svg>
+              </span>
+              <span style="font-size: 1.05rem; font-weight: 700; color: #EDE8E5;">Score de Raid</span>
+            </div>
+            <span style="font-size: 1.75rem; font-weight: 800; color: #EF4444; line-height: 1;">${formatVal(item.total_score || 0)}</span>
+          </div>
+        `;
+        const raidRows = [
+          [ { icon: '/images/items/ammo.rocket.basic.png', label: 'Foguetes', val: item.rockets }, { icon: '/images/items/explosive.timed.png', label: 'C4', val: item.c4 } ],
+          [ { icon: '/images/items/explosive.satchel.png', label: 'Satchels', val: item.satchels }, { icon: '/images/items/door.hinged.metal.png', label: 'Portas', val: item.doors } ],
+          [ { icon: '/images/items/building.planner.png', label: 'Estruturas', val: item.structures }, null ]
+        ];
+        gridHtml = `
+          <div style="display: grid; grid-template-columns: 1fr 1fr; column-gap: 20px; row-gap: 8px;">
+            ${raidRows.map(pair => `
+              ${makeItemRow(pair[0].icon, pair[0].label, pair[0].val)}
+              ${pair[1] ? makeItemRow(pair[1].icon, pair[1].label, pair[1].val) : '<div></div>'}
+            `).join('')}
+          </div>
+        `;
       }
 
       const avatarSrc = cleanAvatarUrl(item.avatar);
@@ -300,12 +329,25 @@
             <th class="ranking-cab" style="width: 6.33%; text-align: center;" title="Ovo"><img src="/images/items/egg.png" alt="Ovo" class="hlb-item-icon"></th>
           </tr>
         `;
+      } else if (currentTab === 'raid') {
+        thead.innerHTML = `
+          <tr class="ranking-cabecalho">
+            <th class="ranking-cab ranking-cab-rank" style="width: 75px; text-align: center;">#</th>
+            <th class="ranking-cab ranking-cab-jogador" style="width: 28%; text-align: left; padding-left: 20px;">JOGADOR</th>
+            <th class="ranking-cab" style="width: 12%; text-align: center;" title="Score Total de Raid">SCORE</th>
+            <th class="ranking-cab" style="width: 12%; text-align: center;" title="Foguetes Disparados"><img src="/images/items/ammo.rocket.basic.png" alt="Foguetes" class="hlb-item-icon"></th>
+            <th class="ranking-cab" style="width: 12%; text-align: center;" title="C4 Detonados"><img src="/images/items/explosive.timed.png" alt="C4" class="hlb-item-icon"></th>
+            <th class="ranking-cab" style="width: 12%; text-align: center;" title="Satchels Lançados"><img src="/images/items/explosive.satchel.png" alt="Satchels" class="hlb-item-icon"></th>
+            <th class="ranking-cab" style="width: 12%; text-align: center;" title="Paredes e Fundações Destruídas"><img src="/images/items/building.planner.png" alt="Estruturas" class="hlb-item-icon"></th>
+            <th class="ranking-cab" style="width: 12%; text-align: center;" title="Portas Destruídas"><img src="/images/items/door.hinged.metal.png" alt="Portas" class="hlb-item-icon"></th>
+          </tr>
+        `;
       }
     }
 
     // Atualiza o corpo da tabela com os 10 itens da página atual
     const tbody = document.querySelector('table.ranking-tabela tbody');
-    const colSpan = currentTab === 'farming' ? 14 : (currentTab === 'recursos' ? 10 : 7);
+    const colSpan = currentTab === 'farming' ? 14 : (currentTab === 'recursos' ? 10 : (currentTab === 'raid' ? 8 : 7));
 
     if (filtered.length === 0) {
       if (tbody) tbody.innerHTML = '<tr><td colspan="' + colSpan + '" style="text-align: center; padding: 40px; color: #a1a1aa; font-weight: 600;">Nenhum jogador encontrado com esses critérios.</td></tr>';
@@ -360,6 +402,15 @@
             <td class="ranking-valor" style="text-align: center;">${formatVal(item.potato)}</td>
             <td class="ranking-valor" style="text-align: center;">${formatVal(item.wheat)}</td>
             <td class="ranking-valor" style="text-align: center;">${formatVal(item.egg)}</td>
+          `;
+        } else if (currentTab === 'raid') {
+          extraCols = `
+            <td class="ranking-valor ranking-valor-destaque" style="color: #EF4444; font-weight: 800; text-align: center;">${formatVal(item.total_score || 0)}</td>
+            <td class="ranking-valor" style="text-align: center;">${formatVal(item.rockets)}</td>
+            <td class="ranking-valor" style="text-align: center;">${formatVal(item.c4)}</td>
+            <td class="ranking-valor" style="text-align: center;">${formatVal(item.satchels)}</td>
+            <td class="ranking-valor" style="text-align: center;">${formatVal(item.structures)}</td>
+            <td class="ranking-valor" style="text-align: center;">${formatVal(item.doors)}</td>
           `;
         }
 
@@ -426,6 +477,21 @@
   }
 
   // Iniciar
+  if (window.location.hash === '#recursos' || window.location.search.includes('tab=recursos')) {
+    currentTab = 'recursos';
+  } else if (window.location.hash === '#farming' || window.location.search.includes('tab=farming')) {
+    currentTab = 'farming';
+  } else if (window.location.hash === '#raid' || window.location.search.includes('tab=raid')) {
+    currentTab = 'raid';
+  }
+  document.querySelectorAll('#leaderboard-tabs button').forEach(b => {
+    if (b.getAttribute('data-tab') === currentTab) {
+      b.classList.add('ranking-aba-atual');
+    } else {
+      b.classList.remove('ranking-aba-atual');
+    }
+  });
+
   loadData();
 })();
 </script>

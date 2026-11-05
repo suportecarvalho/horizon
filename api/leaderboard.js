@@ -65,7 +65,8 @@ module.exports = async (req, res) => {
       server: "Horizon 2x Solo/Duo/Trio",
       pvp: [],
       recursos: [],
-      farming: []
+      farming: [],
+      raid: []
     });
   }
 

@@ -888,15 +888,18 @@ body:has(.ranking),
   text-align: center !important;
 }
 
-/* Distribuição uniforme e balanceada para Recursos e Farming */
+/* Distribuição uniforme e balanceada para Recursos, Farming e Raid */
 .ranking-tabela-recursos,
-.ranking-tabela-farming {
+.ranking-tabela-farming,
+.ranking-tabela-raid {
   table-layout: fixed !important;
   width: 100% !important;
 }
 
 .ranking-tabela-recursos .ranking-cab-rank,
-.ranking-tabela-recursos .ranking-celula-rank {
+.ranking-tabela-recursos .ranking-celula-rank,
+.ranking-tabela-raid .ranking-cab-rank,
+.ranking-tabela-raid .ranking-celula-rank {
   width: 75px !important;
   min-width: 75px !important;
   padding: 0 4px !important;
@@ -910,7 +913,9 @@ body:has(.ranking),
 }
 
 .ranking-tabela-recursos .ranking-cab-jogador,
-.ranking-tabela-recursos .ranking-celula-jogador {
+.ranking-tabela-recursos .ranking-celula-jogador,
+.ranking-tabela-raid .ranking-cab-jogador,
+.ranking-tabela-raid .ranking-celula-jogador {
   width: 28% !important;
   padding-left: 20px !important;
 }
@@ -933,6 +938,13 @@ body:has(.ranking),
   width: 6.33% !important;
   text-align: center !important;
   padding: 0 2px !important;
+}
+
+.ranking-tabela-raid th:nth-child(n+3),
+.ranking-tabela-raid td:nth-child(n+3) {
+  width: 11% !important;
+  text-align: center !important;
+  padding: 0 4px !important;
 }
 
 /* Responsividade Tabela Desktop vs Cards Mobile */

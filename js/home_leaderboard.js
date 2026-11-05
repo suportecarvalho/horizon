@@ -153,6 +153,31 @@
             `).join('')}
           </div>
         `;
+      } else if (currentTab === 'raid') {
+        highlightHtml = `
+          <div style="margin-top: 14px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 6px; background: rgba(239, 68, 68, 0.15); color: #EF4444;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="13" r="9"></circle><path d="m19.5 9.5 1.8-1.8a2.4 2.4 0 0 0 0-3.4l-1.6-1.6a2.4 2.4 0 0 0-3.4 0l-1.8 1.8"></path><path d="m17 7-2 2"></path></svg>
+              </span>
+              <span style="font-size: 1.05rem; font-weight: 700; color: #EDE8E5;">Score de Raid</span>
+            </div>
+            <span style="font-size: 1.75rem; font-weight: 800; color: #EF4444; line-height: 1;">${formatVal(item.total_score || 0)}</span>
+          </div>
+        `;
+        const raidRows = [
+          [ { icon: '/images/items/ammo.rocket.basic.png', label: 'Foguetes', val: item.rockets }, { icon: '/images/items/explosive.timed.png', label: 'C4', val: item.c4 } ],
+          [ { icon: '/images/items/explosive.satchel.png', label: 'Satchels', val: item.satchels }, { icon: '/images/items/door.hinged.metal.png', label: 'Portas', val: item.doors } ],
+          [ { icon: '/images/items/building.planner.png', label: 'Estruturas', val: item.structures }, null ]
+        ];
+        gridHtml = `
+          <div style="display: grid; grid-template-columns: 1fr 1fr; column-gap: 20px; row-gap: 8px;">
+            ${raidRows.map(pair => `
+              ${makeItemRow(pair[0].icon, pair[0].label, pair[0].val)}
+              ${pair[1] ? makeItemRow(pair[1].icon, pair[1].label, pair[1].val) : '<div></div>'}
+            `).join('')}
+          </div>
+        `;
       }
 
       const avatarSrc = cleanAvatarUrl(item.avatar);
@@ -205,7 +230,8 @@
     const categoryNames = {
       pvp: 'PVP',
       recursos: 'Recursos',
-      farming: 'Farming'
+      farming: 'Farming',
+      raid: 'Raid'
     };
 
     const trophySvgs = {
@@ -307,6 +333,37 @@
             <div class="podium-substat-item">
               <span class="podium-substat-name"><img src="/images/items/corn.png" alt="Milho"> Milho</span>
               <span class="podium-substat-val">${formatVal(item.corn)}</span>
+            </div>
+          </div>
+        `;
+      } else if (currentTab === 'raid') {
+        primaryStatHtml = `
+          <div class="podium-primary-stat">
+            <span class="podium-stat-label">Score de Raid</span>
+            <span class="podium-stat-val" style="color: #EF4444;">${item.total_score || '0'}</span>
+          </div>
+        `;
+        substatsHtml = `
+          <div class="podium-substats-grid">
+            <div class="podium-substat-item">
+              <span class="podium-substat-name"><img src="/images/items/ammo.rocket.basic.png" alt="Foguetes"> Foguetes</span>
+              <span class="podium-substat-val">${formatVal(item.rockets)}</span>
+            </div>
+            <div class="podium-substat-item">
+              <span class="podium-substat-name"><img src="/images/items/explosive.timed.png" alt="C4"> C4</span>
+              <span class="podium-substat-val">${formatVal(item.c4)}</span>
+            </div>
+            <div class="podium-substat-item">
+              <span class="podium-substat-name"><img src="/images/items/explosive.satchel.png" alt="Satchels"> Satchels</span>
+              <span class="podium-substat-val">${formatVal(item.satchels)}</span>
+            </div>
+            <div class="podium-substat-item">
+              <span class="podium-substat-name"><img src="/images/items/door.hinged.metal.png" alt="Portas"> Portas</span>
+              <span class="podium-substat-val">${formatVal(item.doors)}</span>
+            </div>
+            <div class="podium-substat-item" style="grid-column: span 2;">
+              <span class="podium-substat-name"><img src="/images/items/building.planner.png" alt="Estruturas"> Paredes / Estruturas</span>
+              <span class="podium-substat-val">${formatVal(item.structures)}</span>
             </div>
           </div>
         `;
@@ -448,12 +505,25 @@
             <th class="ranking-cab" style="width: 6.33%; text-align: center;" title="Ovo"><img src="/images/items/egg.png" alt="Ovo" class="hlb-item-icon"></th>
           </tr>
         `;
+      } else if (currentTab === 'raid') {
+        thead.innerHTML = `
+          <tr class="ranking-cabecalho">
+            <th class="ranking-cab ranking-cab-rank" style="width: 75px; text-align: center;">#</th>
+            <th class="ranking-cab ranking-cab-jogador" style="width: 28%; text-align: left; padding-left: 20px;">JOGADOR</th>
+            <th class="ranking-cab" style="width: 12%; text-align: center;" title="Score Total de Raid">SCORE</th>
+            <th class="ranking-cab" style="width: 12%; text-align: center;" title="Foguetes Disparados"><img src="/images/items/ammo.rocket.basic.png" alt="Foguetes" class="hlb-item-icon"></th>
+            <th class="ranking-cab" style="width: 12%; text-align: center;" title="C4 Detonados"><img src="/images/items/explosive.timed.png" alt="C4" class="hlb-item-icon"></th>
+            <th class="ranking-cab" style="width: 12%; text-align: center;" title="Satchels Lançados"><img src="/images/items/explosive.satchel.png" alt="Satchels" class="hlb-item-icon"></th>
+            <th class="ranking-cab" style="width: 12%; text-align: center;" title="Paredes e Fundações Destruídas"><img src="/images/items/building.planner.png" alt="Estruturas" class="hlb-item-icon"></th>
+            <th class="ranking-cab" style="width: 12%; text-align: center;" title="Portas Destruídas"><img src="/images/items/door.hinged.metal.png" alt="Portas" class="hlb-item-icon"></th>
+          </tr>
+        `;
       }
     }
 
     // Atualiza o corpo da tabela
     const tbody = document.getElementById('home-table-body');
-    const colSpan = currentTab === 'farming' ? 14 : (currentTab === 'recursos' ? 10 : 7);
+    const colSpan = currentTab === 'farming' ? 14 : (currentTab === 'recursos' ? 10 : (currentTab === 'raid' ? 8 : 7));
 
     if (filtered.length === 0) {
       if (tbody) tbody.innerHTML = '<tr><td colspan="' + colSpan + '" style="text-align: center; padding: 40px; color: #a1a1aa; font-weight: 600;">Nenhum jogador encontrado com esses critérios.</td></tr>';
@@ -508,6 +578,15 @@
             <td class="ranking-valor" style="text-align: center;">${formatVal(item.potato)}</td>
             <td class="ranking-valor" style="text-align: center;">${formatVal(item.wheat)}</td>
             <td class="ranking-valor" style="text-align: center;">${formatVal(item.egg)}</td>
+          `;
+        } else if (currentTab === 'raid') {
+          extraCols = `
+            <td class="ranking-valor ranking-valor-destaque" style="color: #EF4444; font-weight: 800; text-align: center;">${formatVal(item.total_score || 0)}</td>
+            <td class="ranking-valor" style="text-align: center;">${formatVal(item.rockets)}</td>
+            <td class="ranking-valor" style="text-align: center;">${formatVal(item.c4)}</td>
+            <td class="ranking-valor" style="text-align: center;">${formatVal(item.satchels)}</td>
+            <td class="ranking-valor" style="text-align: center;">${formatVal(item.structures)}</td>
+            <td class="ranking-valor" style="text-align: center;">${formatVal(item.doors)}</td>
           `;
         }
 
@@ -581,6 +660,8 @@
       currentTab = 'recursos';
     } else if (window.location.hash === '#farming' || window.location.search.includes('tab=farming')) {
       currentTab = 'farming';
+    } else if (window.location.hash === '#raid' || window.location.search.includes('tab=raid')) {
+      currentTab = 'raid';
     }
 
     document.querySelectorAll('#home-leaderboard-tabs button').forEach(function(b) {

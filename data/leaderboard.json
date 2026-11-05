@@ -1,7 +1,7 @@
 {
   "server": "Horizon 2x Solo/Duo/Trio",
   "wipe_total_players": 35,
-  "updated_at": "2026-11-05T09:13:30.597Z",
+  "updated_at": "2026-11-05T12:46:01.188Z",
   "pvp": [
     {
       "rank": 1,
@@ -1189,6 +1189,188 @@
       "potato": "0",
       "wheat": "0",
       "egg": "0"
+    }
+  ],
+  "raid": [
+    {
+      "rank": 1,
+      "steamid": "76561198153384874",
+      "name": "Memes",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/f1c5bb494247c1e0410d569aac1f3e84394114cd_full.jpg",
+      "total_score": "1.008",
+      "rockets": "84",
+      "c4": "32",
+      "satchels": "48",
+      "structures": "145",
+      "doors": "42"
+    },
+    {
+      "rank": 2,
+      "steamid": "76561199161530872",
+      "name": "Dona Crotildis",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/c51c1c8ca806f88f529a61bcc0b935fd8736233a_full.jpg",
+      "total_score": "788",
+      "rockets": "65",
+      "c4": "26",
+      "satchels": "35",
+      "structures": "110",
+      "doors": "36"
+    },
+    {
+      "rank": 3,
+      "steamid": "76561198280930794",
+      "name": "JAIROL",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/34adcd2a2c63e40ce323f872f4781ef5ee322413_full.jpg",
+      "total_score": "690",
+      "rockets": "52",
+      "c4": "18",
+      "satchels": "60",
+      "structures": "94",
+      "doors": "28"
+    },
+    {
+      "rank": 4,
+      "steamid": "76561197981013423",
+      "name": "ocuLTo",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/533a3f64d59b5298fce27f093d04006a39541ebb_full.jpg",
+      "total_score": "532",
+      "rockets": "44",
+      "c4": "15",
+      "satchels": "22",
+      "structures": "81",
+      "doors": "25"
+    },
+    {
+      "rank": 5,
+      "steamid": "76561198065611001",
+      "name": "Cowboy Vagabundo",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/0291037b31f13d7e6737d72fe648adf3e123aa78_full.jpg",
+      "total_score": "435",
+      "rockets": "38",
+      "c4": "12",
+      "satchels": "18",
+      "structures": "65",
+      "doors": "19"
+    },
+    {
+      "rank": 6,
+      "steamid": "76561199127717531",
+      "name": "ADM",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/c5ff599f01c1c6496dbb96cc4321283e0b2cd8fd_full.jpg",
+      "total_score": "375",
+      "rockets": "31",
+      "c4": "9",
+      "satchels": "25",
+      "structures": "54",
+      "doors": "16"
+    },
+    {
+      "rank": 7,
+      "steamid": "76561198365369539",
+      "name": "Cairo",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/c3c1f6bf05a3adbc21204fa31e34c2f5d8cf3bae_full.jpg",
+      "total_score": "288",
+      "rockets": "25",
+      "c4": "8",
+      "satchels": "14",
+      "structures": "42",
+      "doors": "12"
+    },
+    {
+      "rank": 8,
+      "steamid": "76561198358586780",
+      "name": "Whillikat🌹",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/22440c345d7bc45b6ef39a5ce3c01178f031fc21_full.jpg",
+      "total_score": "236",
+      "rockets": "20",
+      "c4": "6",
+      "satchels": "12",
+      "structures": "36",
+      "doors": "10"
+    },
+    {
+      "rank": 9,
+      "steamid": "76561198103340805",
+      "name": "Gerits",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/2554fe13bbd6b2ebcdde8e075abdc85c7a85afec_full.jpg",
+      "total_score": "182",
+      "rockets": "16",
+      "c4": "4",
+      "satchels": "9",
+      "structures": "28",
+      "doors": "8"
+    },
+    {
+      "rank": 10,
+      "steamid": "76561198737554294",
+      "name": "Delux",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/f9e23a80846972e0e7413f970c71b62a23460370_full.jpg",
+      "total_score": "141",
+      "rockets": "12",
+      "c4": "3",
+      "satchels": "8",
+      "structures": "22",
+      "doors": "6"
+    },
+    {
+      "rank": 11,
+      "steamid": "76561198396729417",
+      "name": "TIÃO",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/6db2ac365ae4ee52c350ac4e9a34fdbf013c64ce_full.jpg",
+      "total_score": "111",
+      "rockets": "10",
+      "c4": "2",
+      "satchels": "5",
+      "structures": "18",
+      "doors": "5"
+    },
+    {
+      "rank": 12,
+      "steamid": "76561198781709247",
+      "name": "Jaiminho Carteiro",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/7da2b313179c9713c23cdbd2b842aeb7a0a6cb67_full.jpg",
+      "total_score": "89",
+      "rockets": "8",
+      "c4": "1",
+      "satchels": "6",
+      "structures": "14",
+      "doors": "4"
+    },
+    {
+      "rank": 13,
+      "steamid": "76561198918765015",
+      "name": "Tesouro",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/233bdc0eeb1ba48159f8794629db1c57b02f9d5e_full.jpg",
+      "total_score": "68",
+      "rockets": "6",
+      "c4": "1",
+      "satchels": "4",
+      "structures": "11",
+      "doors": "3"
+    },
+    {
+      "rank": 14,
+      "steamid": "76561198750662826",
+      "name": "Shadow 残忍的",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/d6b56e750bb82c85881229b63f3a1436a42857a3_full.jpg",
+      "total_score": "52",
+      "rockets": "4",
+      "c4": "0",
+      "satchels": "6",
+      "structures": "9",
+      "doors": "2"
+    },
+    {
+      "rank": 15,
+      "steamid": "76561198258143577",
+      "name": "Negresco",
+      "avatar": "https:\\/\\/avatars.fastly.steamstatic.com\\/983f461a43abc8d5450a5c1985e3cbce03dc7055_full.jpg",
+      "total_score": "29",
+      "rockets": "2",
+      "c4": "0",
+      "satchels": "3",
+      "structures": "6",
+      "doors": "1"
     }
   ]
 }
