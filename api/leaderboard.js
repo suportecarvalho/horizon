@@ -78,6 +78,26 @@ module.exports = async (req, res) => {
     try {
       const data = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
       data.updated_at = new Date().toISOString();
+
+      // Sanitizar aba de Raid: apenas jogadores com explosivos reais
+      if (Array.isArray(data.raid)) {
+        data.raid = data.raid.filter(r => {
+          const ro = parseInt(String(r.rockets || '0').replace(/\D/g, ''), 10) || 0;
+          const c = parseInt(String(r.c4 || '0').replace(/\D/g, ''), 10) || 0;
+          const sa = parseInt(String(r.satchels || '0').replace(/\D/g, ''), 10) || 0;
+          return (ro + c + sa) > 0;
+        }).map(r => {
+          const ro = parseInt(String(r.rockets || '0').replace(/\D/g, ''), 10) || 0;
+          const c = parseInt(String(r.c4 || '0').replace(/\D/g, ''), 10) || 0;
+          const sa = parseInt(String(r.satchels || '0').replace(/\D/g, ''), 10) || 0;
+          const totalScore = (c * 5) + (ro * 4) + (sa * 2);
+          delete r.structures;
+          delete r.doors;
+          r.total_score = totalScore.toLocaleString('pt-BR');
+          return r;
+        });
+      }
+
       memoryData = data;
 
       // Persistir no Supabase para acesso global no Vercel
