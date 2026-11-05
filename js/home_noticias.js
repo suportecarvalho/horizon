@@ -126,27 +126,6 @@
               display: block;
               transition: transform 0.4s ease;
             " class="fn-card-img" onerror="this.onerror=null;this.src='https://files.facepunch.com/lewis/1b2611b1/Rust%20x%20Common%20Grounds%20Hero.jpg';">
-            <span style="
-              position: absolute;
-              top: 12px;
-              left: 12px;
-              display: inline-flex;
-              align-items: center;
-              gap: 6px;
-              background: rgba(19, 16, 15, 0.88);
-              backdrop-filter: blur(8px);
-              border: 1px solid rgba(215, 87, 59, 0.55);
-              color: #D7573B;
-              font-size: 0.68rem;
-              font-weight: 800;
-              letter-spacing: 0.1em;
-              text-transform: uppercase;
-              padding: 4px 10px;
-              border-radius: 6px;
-            ">
-              <span style="width: 6px; height: 6px; background: #D7573B; border-radius: 50%;"></span>
-              Facepunch
-            </span>
           </div>
 
           <!-- Conteúdo do Card -->
