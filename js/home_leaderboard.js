@@ -439,7 +439,7 @@
     // Atualiza contagem
     const totalEl = document.getElementById('home-ranking-total');
     if (totalEl) {
-      totalEl.innerHTML = '<strong>' + filtered.length + '</strong> jogadores sincronizados neste wipe';
+      totalEl.innerHTML = '<strong>' + filtered.length + '</strong> jogadores neste wipe';
     }
 
     // Calcula paginação (máximo de 10 por página)
