@@ -5,7 +5,7 @@
   "rewrites": [
     {
       "source": "/leaderboards/:steamid",
-      "destination": "/leaderboards/player.html"
+      "destination": "/leaderboards/player"
     },
     {
       "source": "/leaderboards/player",
