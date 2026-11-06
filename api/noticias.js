@@ -2,6 +2,11 @@ const https = require('https');
 
 const TRANSLATIONS = [
   {
+    match: /printed (and|&) polished/i,
+    title: 'Impresso e Polido (Printed and Polished)',
+    desc: 'A atualização deste mês traz a reformulação dos Blueprints, a nova submetralhadora Uzi 9mm, grandes focos de otimização de desempenho, além de várias correções e melhorias de qualidade de vida!'
+  },
+  {
     match: /halloween/i,
     title: 'Halloween 2026',
     desc: 'A escuridão cai sobre a ilha enquanto monstros despertam de seu sono. Fendas se abrem em locais aleatórios, levando para o desconhecido. Entre se tiver coragem, mas se entrar, é melhor se preparar!'
@@ -93,6 +98,13 @@ function translateTitleAndDesc(rawTitle, rawDesc) {
 
 let newsCache = {
   data: [
+    {
+      title: 'Impresso e Polido (Printed and Polished)',
+      link: 'https://rust.facepunch.com/news/printed_and_polished/',
+      date: '5 de novembro de 2026',
+      image: 'https://files.facepunch.com/lewis/2026/November/pp_blog_hero.jpg',
+      description: 'A atualização deste mês traz a reformulação dos Blueprints, a nova submetralhadora Uzi 9mm, grandes focos de otimização de desempenho, além de várias correções e melhorias de qualidade de vida!'
+    },
     {
       title: 'Halloween 2026',
       link: 'https://rust.facepunch.com/news/halloween-2026/',
