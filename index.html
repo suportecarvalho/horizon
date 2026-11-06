@@ -269,42 +269,14 @@
     <section class="shell wipe-section" id="wipe" style="padding-top: 45px; padding-bottom: 25px; width: 100%; box-sizing: border-box; max-width: 1200px; margin: 0 auto; padding-left: 20px; padding-right: 20px;">
       
       <!-- Cabeçalho da Seção -->
-      <div style="display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 22px; flex-wrap: wrap; gap: 12px;">
-        <div>
-          <span style="font-family: 'Martian Mono', monospace; font-size: 0.76rem; font-weight: 800; color: #D7573B; text-transform: uppercase; letter-spacing: 0.12em; display: flex; align-items: center; gap: 8px;">
-            <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #D7573B; box-shadow: 0 0 10px #D7573B;"></span>
-            STATUS DO SERVIDOR
-          </span>
-          <h2 style="font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 900; color: #EDE8E5; text-transform: uppercase; margin: 4px 0 0 0; letter-spacing: 0.02em;">
-            Wipe & Cronograma
-          </h2>
-        </div>
-        <div style="font-size: 0.82rem; color: #82ADA4; font-family: monospace; display: flex; align-items: center; gap: 6px;">
-          <span>HORIZON 2X SOLO/DUO/TRIO</span>
-        </div>
+      <div style="margin-bottom: 22px;">
+        <h2 style="font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 900; color: #EDE8E5; text-transform: uppercase; margin: 0; letter-spacing: 0.02em;">
+          Wipe E Cronograma
+        </h2>
       </div>
 
-      <!-- Grade dos 3 Cards de Wipe -->
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 18px;">
-        
-        <!-- CARD 1: TEMPO QUE O SERVIDOR WIPOU -->
-        <div class="wipe-card" style="background: #171312; border: 1px solid rgba(215, 87, 59, 0.4); border-radius: 12px; padding: 22px 24px; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.45); transition: transform 0.2s ease, border-color 0.2s ease;">
-          <div style="position: absolute; top: -25px; right: -25px; width: 100px; height: 100px; background: radial-gradient(circle, rgba(215,87,59,0.22) 0%, transparent 70%); pointer-events: none;"></div>
-          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
-            <span style="display: inline-flex; align-items: center; gap: 8px; font-family: 'Martian Mono', monospace; font-size: 0.74rem; font-weight: 800; color: #D7573B; text-transform: uppercase; letter-spacing: 0.08em;">
-              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-              Último Wipe
-            </span>
-            <span id="wipe-type-badge" style="font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; background: rgba(215, 87, 59, 0.15); border: 1px solid rgba(215, 87, 59, 0.45); color: #FF7B5E; padding: 3px 8px; border-radius: 4px;">Wipe Ativo</span>
-          </div>
-          <div id="wipe-elapsed-time" style="font-size: 1.85rem; font-weight: 900; color: #FFFFFF; font-family: 'Martian Mono', monospace; line-height: 1.15; margin-bottom: 8px;">
-            Calculando...
-          </div>
-          <p id="wipe-last-date" style="margin: 0; font-size: 0.84rem; color: #A1A1AA; display: flex; align-items: center; gap: 7px; line-height: 1.4;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #82ADA4; flex-shrink: 0;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            Sincronizando com o servidor...
-          </p>
-        </div>
+      <!-- Grade dos Cards de Wipe -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 18px;">
 
         <!-- CARD 2: PRÓXIMO WIPE & CONTAGEM REGRESSIVA -->
         <div class="wipe-card" style="background: #171312; border: 1px solid rgba(108, 151, 142, 0.35); border-radius: 12px; padding: 22px 24px; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.45); transition: transform 0.2s ease, border-color 0.2s ease;">
