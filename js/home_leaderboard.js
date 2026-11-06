@@ -669,7 +669,11 @@
     });
 
     fetchLeaderboardData();
-    setInterval(fetchLeaderboardData, 45000);
+    setInterval(function() {
+      if (!document.hidden) {
+        fetchLeaderboardData();
+      }
+    }, 45000);
   }
 
   if (document.readyState === 'loading') {

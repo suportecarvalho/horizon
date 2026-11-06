@@ -109,6 +109,9 @@ html, body {
     min-height: 60px !important;
     height: 60px !important;
     max-height: 60px !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(19, 16, 15, 0.98) !important;
   }
   .site-header-conteudo {
     min-height: 60px !important;
@@ -153,6 +156,25 @@ html, body {
     min-height: calc(100dvh - 60px) !important;
     padding: 32px 0 44px 0 !important;
     overflow: visible !important;
+  }
+}
+
+/* Otimizações Mobile de Alta Performance (Alívio de GPU e 60 FPS) */
+@media (max-width: 768px) {
+  .hero-fundo video.hero-midia,
+  video.hero-midia {
+    filter: none !important;
+    -webkit-filter: none !important;
+  }
+  .hero-fundo::after {
+    background-image: linear-gradient(180deg, rgba(19, 16, 15, 0.35) 0%, transparent 35%, rgba(19, 16, 15, 0.85) 100%) !important;
+    background-size: auto !important;
+  }
+  .feed-faixa,
+  .wipe-section,
+  .ranking-secao {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 500px;
   }
 }
 

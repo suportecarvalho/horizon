@@ -333,7 +333,28 @@
     });
 
     renderFeedCards();
-    startAuto();
+    
+    // Inicia autoPlay apenas quando o Feed estiver visível na tela (economiza CPU/bateria e melhora o scroll mobile)
+    var feedSection = document.getElementById('feed-comunidade') || document.getElementById('hf-carousel-viewport');
+    if (feedSection && 'IntersectionObserver' in window) {
+      var feedObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          if (e.isIntersecting && !document.hidden) {
+            startAuto();
+          } else {
+            stopAuto();
+          }
+        });
+      }, { threshold: 0.1 });
+      feedObserver.observe(feedSection);
+    } else {
+      startAuto();
+    }
+
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden) stopAuto();
+    });
+
     loadFeedApi();
   }
 

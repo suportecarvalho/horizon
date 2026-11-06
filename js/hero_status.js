@@ -163,8 +163,16 @@
 
   function iniciar() {
     fetchStatus();
-    setInterval(fetchStatus, POLL_INTERVAL);
-    setInterval(tickWipeDisplay, 1000); // Atualiza cronômetro todo segundo
+    setInterval(function() {
+      if (!document.hidden) {
+        fetchStatus();
+      }
+    }, POLL_INTERVAL);
+    setInterval(function() {
+      if (!document.hidden) {
+        tickWipeDisplay();
+      }
+    }, 1000); // Atualiza cronômetro todo segundo
   }
 
   if (document.readyState === 'loading') {

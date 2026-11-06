@@ -380,9 +380,33 @@
       updateSlide();
     });
 
-    startAutoPlay();
+    // Inicia autoPlay apenas quando o carrossel de notícias estiver visível na tela
+    var newsSection = document.getElementById('noticias') || document.getElementById('fn-carousel-viewport');
+    if (newsSection && 'IntersectionObserver' in window) {
+      var newsObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          if (e.isIntersecting && !document.hidden) {
+            startAutoPlay();
+          } else {
+            stopAutoPlay();
+          }
+        });
+      }, { threshold: 0.1 });
+      newsObserver.observe(newsSection);
+    } else {
+      startAutoPlay();
+    }
+
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden) stopAutoPlay();
+    });
+
     syncNewsFromApi();
-    setInterval(syncNewsFromApi, 600000);
+    setInterval(function() {
+      if (!document.hidden) {
+        syncNewsFromApi();
+      }
+    }, 600000);
   }
 
   if (document.readyState === 'loading') {
