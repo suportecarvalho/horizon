@@ -145,7 +145,7 @@ async function createPixPayment({ orderId, amount, description, payerEmail, paye
       order_id: orderId,
       steam_id: String(steamId),
       vip_tier: vipTier,
-      server: "Horizon 2x Solo/Duo/Trio"
+      server: "Horizon 2x (Max 4)"
     }
   };
 

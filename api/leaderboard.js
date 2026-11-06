@@ -66,7 +66,7 @@ module.exports = async (req, res) => {
     } catch (e) {}
 
     return res.status(200).json({
-      server: "Horizon 2x Solo/Duo/Trio",
+      server: "Horizon 2x (Max 4)",
       pvp: [],
       recursos: [],
       farming: [],

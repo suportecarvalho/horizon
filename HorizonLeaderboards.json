@@ -1,6 +1,6 @@
 {
   "UrlDaApiDoSite": "https://lojahorizon.vercel.app/api/leaderboard",
   "IntervaloDeSincronizacaoMinutos": 5,
-  "NomeDoServidor": "Horizon 2x Solo/Duo/Trio",
+  "NomeDoServidor": "Horizon 2x (Max 4)",
   "LimiteJogadoresPorAba": 100
 }

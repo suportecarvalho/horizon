@@ -31,7 +31,7 @@ namespace Oxide.Plugins
             public int SyncIntervalMinutes { get; set; } = 5;
 
             [JsonProperty("NomeDoServidor")]
-            public string ServerName { get; set; } = "Horizon 2x Solo/Duo/Trio";
+            public string ServerName { get; set; } = "Horizon 2x (Max 4)";
 
             [JsonProperty("LimiteJogadoresPorAba")]
             public int TopPlayersLimit { get; set; } = 100;

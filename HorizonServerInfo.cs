@@ -28,13 +28,13 @@ namespace Oxide.Plugins
             public string ApiKey { get; set; } = "horizon_live_server_secret";
 
             [JsonProperty("CronogramaWipeMapa")]
-            public string MapWipeSchedule { get; set; } = "Todo Sábado às 12:00h";
+            public string MapWipeSchedule { get; set; } = "Toda Sexta às 18:00h";
 
             [JsonProperty("CronogramaWipeFull")]
             public string FullWipeSchedule { get; set; } = "1ª Quinta-feira do mês às 15:00h";
 
             [JsonProperty("LimitePorTime")]
-            public string TeamLimit { get; set; } = "Max 3 (Solo/Duo/Trio)";
+            public string TeamLimit { get; set; } = "Horizon 2x (Max 4)";
 
             [JsonProperty("LogarSincronizacaoNoConsole")]
             public bool LogSyncToConsole { get; set; } = false;

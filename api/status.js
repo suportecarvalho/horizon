@@ -18,28 +18,29 @@ const STATUS_DOC_ID = '__horizon_server_status_db__';
 function calculateNextWipe(refDate = new Date()) {
   const d = new Date(refDate);
   const currentDay = d.getUTCDay();
-  let daysUntilSaturday = (6 - currentDay + 7) % 7;
-  if (daysUntilSaturday === 0 && d.getUTCHours() >= 15) {
-    daysUntilSaturday = 7;
+  // 5 = Sexta-feira. No Horário de Brasília (UTC-3), 18:00 equivale a 21:00 UTC.
+  let daysUntilFriday = (5 - currentDay + 7) % 7;
+  if (daysUntilFriday === 0 && d.getUTCHours() >= 21) {
+    daysUntilFriday = 7;
   }
-  const nextSaturday = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() + daysUntilSaturday, 15, 0, 0, 0));
-  return nextSaturday.toISOString();
+  const nextFriday = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() + daysUntilFriday, 21, 0, 0, 0));
+  return nextFriday.toISOString();
 }
 
 let serverStatusCache = {
   data: {
     online: true,
-    serverName: '[BR/LATAM] Horizon 2x | Solo/Duo/Trio',
+    serverName: '[BR/LATAM] Horizon 2x | Max 4',
     map: 'Procedural Map',
     players: 6,
     maxPlayers: 100,
     queuePlayers: 0,
-    wipedAt: 1793883961000,
+    wipedAt: 1793999340000,
     nextWipe: calculateNextWipe(),
     schedule: {
-      mapWipe: "Todo Sábado às 12:00h",
+      mapWipe: "Toda Sexta às 18:00h",
       fullWipe: "1ª Quinta-feira do mês às 15:00h",
-      type: "Horizon 2x Solo/Duo/Trio"
+      type: "Horizon 2x (Max 4)"
     },
     updatedAt: new Date().toISOString()
   },
@@ -114,9 +115,9 @@ function parseA2SInfo(msg) {
     wipedAt,
     nextWipe: calculateNextWipe(),
     schedule: {
-      mapWipe: "Todo Sábado às 12:00h",
+      mapWipe: "Toda Sexta às 18:00h",
       fullWipe: "1ª Quinta-feira do mês às 15:00h",
-      type: "Horizon 2x Solo/Duo/Trio"
+      type: "Horizon 2x (Max 4)"
     },
     updatedAt: new Date().toISOString()
   };
@@ -196,9 +197,24 @@ module.exports = async (req, res) => {
         return res.status(400).json({ error: 'Corpo da requisição vazio' });
       }
 
+      let mapWipeStr = "Toda Sexta às 18:00h";
+      if (body.schedule && body.schedule.mapWipe) {
+        mapWipeStr = body.schedule.mapWipe;
+      }
+      let fullWipeStr = "1ª Quinta-feira do mês às 15:00h";
+      if (body.schedule && body.schedule.fullWipe) {
+        fullWipeStr = body.schedule.fullWipe;
+      }
+      let serverTypeStr = "Horizon 2x (Max 4)";
+      if (body.schedule && body.schedule.type) {
+        serverTypeStr = body.schedule.type;
+      } else if (body.serverName) {
+        serverTypeStr = body.serverName;
+      }
+
       const statusData = {
         online: true,
-        serverName: body.serverName || '[BR/LATAM] Horizon 2x | Solo/Duo/Trio',
+        serverName: body.serverName || '[BR/LATAM] Horizon 2x | Max 4',
         map: body.map || 'Procedural Map',
         worldSize: body.worldSize || 3500,
         players: typeof body.players === 'number' ? body.players : 0,
@@ -207,12 +223,12 @@ module.exports = async (req, res) => {
         joiningPlayers: typeof body.joiningPlayers === 'number' ? body.joiningPlayers : 0,
         fps: body.fps || 250,
         entities: body.entities || 0,
-        wipedAt: body.wipedAt || 1793883961000,
+        wipedAt: body.wipedAt || 1793999340000,
         nextWipe: calculateNextWipe(),
         schedule: {
-          mapWipe: (body.schedule && body.schedule.mapWipe && !body.schedule.mapWipe.toLowerCase().includes('sexta')) ? body.schedule.mapWipe : "Todo Sábado às 12:00h",
-          fullWipe: (body.schedule && body.schedule.fullWipe) ? body.schedule.fullWipe : "1ª Quinta-feira do mês às 15:00h",
-          type: "Horizon 2x Solo/Duo/Trio"
+          mapWipe: mapWipeStr,
+          fullWipe: fullWipeStr,
+          type: serverTypeStr
         },
         updatedAt: new Date().toISOString()
       };
@@ -272,8 +288,19 @@ module.exports = async (req, res) => {
         if (row && row.caption) {
           const parsed = JSON.parse(row.caption);
           if (parsed && parsed.wipedAt) {
-            // Garantir que o nextWipe esteja calculado
-            if (!parsed.nextWipe) parsed.nextWipe = calculateNextWipe();
+            // Recalcular nextWipe para a próxima sexta às 18h
+            parsed.nextWipe = calculateNextWipe();
+            if (parsed.schedule) {
+              if (parsed.schedule.mapWipe && parsed.schedule.mapWipe.includes('Sábado')) {
+                parsed.schedule.mapWipe = "Toda Sexta às 18:00h";
+              }
+              if (parsed.schedule.type && parsed.schedule.type.includes('Solo/Duo/Trio')) {
+                parsed.schedule.type = "Horizon 2x (Max 4)";
+              }
+            }
+            if (parsed.serverName && parsed.serverName.includes('Solo/Duo/Trio')) {
+              parsed.serverName = parsed.serverName.replace('Solo/Duo/Trio', 'Max 4');
+            }
             serverStatusCache = { data: parsed, lastFetch: now };
             return res.status(200).json(parsed);
           }

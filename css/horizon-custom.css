@@ -557,8 +557,21 @@ footer.site-footer {
   display: inline-block !important;
 }
 
+.site-footer-logo {
+  display: inline-flex !important;
+  align-items: center !important;
+  text-decoration: none !important;
+  margin-bottom: 6px !important;
+  transition: transform 0.2s ease !important;
+}
+
+.site-footer-logo:hover {
+  transform: scale(1.03) !important;
+}
+
 .site-footer-logo-img {
   height: 28px !important;
+  max-height: 30px !important;
   width: auto !important;
   display: block !important;
   object-fit: contain !important;
