@@ -79,10 +79,11 @@ html, body {
 
 .horizon-brand-logo .horizon-brand-img,
 .horizon-brand-img {
-  height: 32px !important;
-  max-height: 34px !important;
+  height: 30px !important;
+  max-height: 32px !important;
   width: auto !important;
   display: block !important;
+  object-fit: contain !important;
   filter: none !important;
   transition: transform 0.25s ease !important;
 }
@@ -96,8 +97,8 @@ html, body {
 @media (max-width: 640px) {
   .horizon-brand-logo .horizon-brand-img,
   .horizon-brand-img {
-    height: 32px !important;
-    max-height: 36px !important;
+    height: 26px !important;
+    max-height: 28px !important;
     filter: none !important;
   }
 }
@@ -554,6 +555,13 @@ footer.site-footer {
   font-weight: 800 !important;
   text-decoration: none !important;
   display: inline-block !important;
+}
+
+.site-footer-logo-img {
+  height: 28px !important;
+  width: auto !important;
+  display: block !important;
+  object-fit: contain !important;
 }
 
 .site-footer .rodape-sobre {
