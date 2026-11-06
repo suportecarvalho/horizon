@@ -136,7 +136,13 @@
       var elSchedType = document.getElementById('wipe-sched-type');
       if (elSchedMap && dados.schedule.mapWipe) elSchedMap.textContent = dados.schedule.mapWipe;
       if (elSchedFull && dados.schedule.fullWipe) elSchedFull.textContent = dados.schedule.fullWipe;
-      if (elSchedType && dados.schedule.type) elSchedType.textContent = dados.schedule.type;
+      if (elSchedType) {
+        if (dados.schedule.type && dados.schedule.type.toLowerCase().includes('horizon')) {
+          elSchedType.textContent = dados.schedule.type;
+        } else {
+          elSchedType.textContent = "Horizon 2x Solo/Duo/Trio";
+        }
+      }
     }
 
     tickWipeDisplay();

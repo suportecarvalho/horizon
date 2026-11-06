@@ -212,7 +212,7 @@ module.exports = async (req, res) => {
         schedule: {
           mapWipe: (body.schedule && body.schedule.mapWipe && !body.schedule.mapWipe.toLowerCase().includes('sexta')) ? body.schedule.mapWipe : "Todo Sábado às 12:00h",
           fullWipe: (body.schedule && body.schedule.fullWipe) ? body.schedule.fullWipe : "1ª Quinta-feira do mês às 15:00h",
-          type: (body.schedule && body.schedule.type) ? body.schedule.type : "Horizon 2x Solo/Duo/Trio"
+          type: "Horizon 2x Solo/Duo/Trio"
         },
         updatedAt: new Date().toISOString()
       };
