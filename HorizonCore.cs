@@ -518,6 +518,14 @@ namespace Oxide.Plugins
             }
         }
 
+        private void OnPlayerRecovered(BasePlayer victim)
+        {
+            if (victim != null)
+            {
+                lastWoundAttacker.Remove(victim.userID);
+            }
+        }
+
         private BasePlayer ResolveAttacker(BasePlayer victim, HitInfo info)
         {
             if (victim == null) return null;
