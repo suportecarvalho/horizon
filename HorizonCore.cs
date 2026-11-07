@@ -141,7 +141,10 @@ namespace Oxide.Plugins
             }
         }
 
-        protected override void SaveConfig() => Config.WriteObject(config, true);
+        protected override void SaveConfig()
+        {
+            Config.WriteObject(config, true);
+        }
 
         private void SaveData()
         {
@@ -814,7 +817,10 @@ namespace Oxide.Plugins
         }
 
         [ConsoleCommand("wipe.leaderboard")]
-        private void CmdWipeLb(ConsoleSystem.Arg arg) => CmdReset(arg);
+        private void CmdWipeLb(ConsoleSystem.Arg arg)
+        {
+            CmdReset(arg);
+        }
 
         [ConsoleCommand("horizon.stats")]
         private void CmdStats(ConsoleSystem.Arg arg)
