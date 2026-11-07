@@ -1,0 +1,13 @@
+{
+  "Status_UrlDaApiDoSite": "https://lojahorizon.vercel.app/api/status",
+  "Status_IntervaloSegundos": 30,
+  "Status_ApiKey": "horizon_live_server_secret",
+  "Status_CronogramaWipeMapa": "Toda Sexta às 18:00h",
+  "Status_CronogramaWipeFull": "1ª Quinta-feira do mês às 15:00h",
+  "Status_NomeDoServidor": "Horizon 2x (Max 4)",
+  "Status_LimitePorTime": "Horizon 2x (Max 4)",
+  "Leaderboard_UrlDaApiDoSite": "https://lojahorizon.vercel.app/api/leaderboard",
+  "Leaderboard_IntervaloMinutos": 5,
+  "Leaderboard_LimiteJogadoresPorAba": 100,
+  "LogarNoConsole": false
+}

@@ -207,9 +207,10 @@ module.exports = async (req, res) => {
       }
       let serverTypeStr = "Horizon 2x (Max 4)";
       if (body.schedule && body.schedule.type) {
-        serverTypeStr = body.schedule.type;
-      } else if (body.serverName) {
-        serverTypeStr = body.serverName;
+        const t = String(body.schedule.type);
+        if (!t.includes("Solo") && !t.includes("Quad")) {
+          serverTypeStr = t;
+        }
       }
 
       const statusData = {
@@ -294,7 +295,7 @@ module.exports = async (req, res) => {
               if (parsed.schedule.mapWipe && parsed.schedule.mapWipe.includes('Sábado')) {
                 parsed.schedule.mapWipe = "Toda Sexta às 18:00h";
               }
-              if (parsed.schedule.type && parsed.schedule.type.includes('Solo/Duo/Trio')) {
+              if (parsed.schedule.type && (parsed.schedule.type.includes('Solo') || parsed.schedule.type.includes('Quad') || parsed.schedule.type.includes('Max 4 ('))) {
                 parsed.schedule.type = "Horizon 2x (Max 4)";
               }
             }

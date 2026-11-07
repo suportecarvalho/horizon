@@ -137,13 +137,11 @@
       if (elSchedMap && dados.schedule.mapWipe) elSchedMap.textContent = dados.schedule.mapWipe;
       if (elSchedFull && dados.schedule.fullWipe) elSchedFull.textContent = dados.schedule.fullWipe;
       if (elSchedType) {
-        if (dados.schedule.type) {
-          elSchedType.textContent = dados.schedule.type;
-        } else if (dados.serverName) {
-          elSchedType.textContent = dados.serverName;
-        } else {
-          elSchedType.textContent = "Horizon 2x (Max 4)";
+        var sTipo = "Horizon 2x (Max 4)";
+        if (dados.schedule.type && !dados.schedule.type.includes("Solo") && !dados.schedule.type.includes("Quad")) {
+          sTipo = dados.schedule.type;
         }
+        elSchedType.textContent = sTipo;
       }
     }
 
