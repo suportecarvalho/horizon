@@ -40,6 +40,7 @@ let serverStatusCache = {
     schedule: {
       mapWipe: "Toda Sexta às 18:00h",
       fullWipe: "1ª Quinta-feira do mês às 15:00h",
+      teamLimit: "Max 4 (Solo/Duo/Trio/Quad)",
       type: "Horizon 2x (Max 4)"
     },
     updatedAt: new Date().toISOString()
@@ -117,6 +118,7 @@ function parseA2SInfo(msg) {
     schedule: {
       mapWipe: "Toda Sexta às 18:00h",
       fullWipe: "1ª Quinta-feira do mês às 15:00h",
+      teamLimit: "Max 4 (Solo/Duo/Trio/Quad)",
       type: "Horizon 2x (Max 4)"
     },
     updatedAt: new Date().toISOString()
@@ -205,12 +207,11 @@ module.exports = async (req, res) => {
       if (body.schedule && body.schedule.fullWipe) {
         fullWipeStr = body.schedule.fullWipe;
       }
-      let serverTypeStr = "Horizon 2x (Max 4)";
-      if (body.schedule && body.schedule.type) {
-        const t = String(body.schedule.type);
-        if (!t.includes("Solo") && !t.includes("Quad")) {
-          serverTypeStr = t;
-        }
+      let teamLimitStr = "Max 4 (Solo/Duo/Trio/Quad)";
+      if (body.schedule && body.schedule.teamLimit) {
+        teamLimitStr = body.schedule.teamLimit;
+      } else if (body.schedule && body.schedule.type && (body.schedule.type.includes("Max") || body.schedule.type.includes("Solo"))) {
+        teamLimitStr = body.schedule.type;
       }
 
       const statusData = {
@@ -229,7 +230,8 @@ module.exports = async (req, res) => {
         schedule: {
           mapWipe: mapWipeStr,
           fullWipe: fullWipeStr,
-          type: serverTypeStr
+          teamLimit: teamLimitStr,
+          type: "Horizon 2x (Max 4)"
         },
         updatedAt: new Date().toISOString()
       };
@@ -295,9 +297,10 @@ module.exports = async (req, res) => {
               if (parsed.schedule.mapWipe && parsed.schedule.mapWipe.includes('Sábado')) {
                 parsed.schedule.mapWipe = "Toda Sexta às 18:00h";
               }
-              if (parsed.schedule.type && (parsed.schedule.type.includes('Solo') || parsed.schedule.type.includes('Quad') || parsed.schedule.type.includes('Max 4 ('))) {
-                parsed.schedule.type = "Horizon 2x (Max 4)";
+              if (!parsed.schedule.teamLimit) {
+                parsed.schedule.teamLimit = "Max 4 (Solo/Duo/Trio/Quad)";
               }
+              parsed.schedule.type = "Horizon 2x (Max 4)";
             }
             if (parsed.serverName && parsed.serverName.includes('Solo/Duo/Trio')) {
               parsed.serverName = parsed.serverName.replace('Solo/Duo/Trio', 'Max 4');

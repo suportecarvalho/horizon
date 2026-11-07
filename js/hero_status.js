@@ -133,15 +133,19 @@
     if (dados && dados.schedule) {
       var elSchedMap = document.getElementById('wipe-sched-map');
       var elSchedFull = document.getElementById('wipe-sched-full');
+      var elSchedLimit = document.getElementById('wipe-sched-limit');
       var elSchedType = document.getElementById('wipe-sched-type');
       if (elSchedMap && dados.schedule.mapWipe) elSchedMap.textContent = dados.schedule.mapWipe;
       if (elSchedFull && dados.schedule.fullWipe) elSchedFull.textContent = dados.schedule.fullWipe;
-      if (elSchedType) {
-        var sTipo = "Horizon 2x (Max 4)";
-        if (dados.schedule.type && !dados.schedule.type.includes("Solo") && !dados.schedule.type.includes("Quad")) {
-          sTipo = dados.schedule.type;
+      if (elSchedLimit) {
+        var limStr = dados.schedule.teamLimit || "(Max 4)";
+        if (limStr === "(Max 4)" || limStr === "Max 4") {
+          limStr = "Max 4 (Solo/Duo/Trio/Quad)";
         }
-        elSchedType.textContent = sTipo;
+        elSchedLimit.textContent = limStr;
+      }
+      if (elSchedType) {
+        elSchedType.textContent = "Horizon 2x (Max 4)";
       }
     }
 

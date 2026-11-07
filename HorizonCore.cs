@@ -394,7 +394,8 @@ namespace Oxide.Plugins
                     {
                         mapWipe = config.MapWipeSchedule,
                         fullWipe = config.FullWipeSchedule,
-                        type = config.TeamLimit // Padronizado para "Horizon 2x (Max 4)"
+                        teamLimit = config.TeamLimit,
+                        type = "Horizon 2x (Max 4)"
                     },
                     syncReason = motivo,
                     updatedAt = DateTime.UtcNow.ToString("o")
@@ -819,3 +820,4 @@ namespace Oxide.Plugins
         }
     }
 }
+
