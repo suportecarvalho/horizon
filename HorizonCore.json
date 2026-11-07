@@ -5,9 +5,10 @@
   "Status_CronogramaWipeMapa": "Toda Sexta às 18:00h",
   "Status_CronogramaWipeFull": "1ª Quinta-feira do mês às 15:00h",
   "Status_NomeDoServidor": "Horizon 2x (Max 4)",
-  "Status_LimitePorTime": "Horizon 2x (Max 4)",
+  "Status_LimitePorTime": "Max 4 (Solo/Duo/Trio/Quad)",
   "Leaderboard_UrlDaApiDoSite": "https://lojahorizon.vercel.app/api/leaderboard",
   "Leaderboard_IntervaloMinutos": 5,
   "Leaderboard_LimiteJogadoresPorAba": 100,
   "LogarNoConsole": false
 }
+
