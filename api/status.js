@@ -30,7 +30,7 @@ function calculateNextWipe(refDate = new Date()) {
 let serverStatusCache = {
   data: {
     online: true,
-    serverName: '[BR/LATAM] Horizon 2x | Max 4',
+    serverName: '[BR/LATAM] HORIZON 2X | SOLO/DUO/TRIO/QUAD',
     map: 'Procedural Map',
     players: 6,
     maxPlayers: 100,
@@ -40,8 +40,9 @@ let serverStatusCache = {
     schedule: {
       mapWipe: "Toda Sexta às 18:00h",
       fullWipe: "1ª Quinta-feira do mês às 15:00h",
-      teamLimit: "Max 4 (Solo/Duo/Trio/Quad)",
-      type: "Horizon 2x (Max 4)"
+      teamLimit: "(Max 4)",
+      serverName: "[BR/LATAM] HORIZON 2X | SOLO/DUO/TRIO/QUAD",
+      type: "[BR/LATAM] HORIZON 2X | SOLO/DUO/TRIO/QUAD"
     },
     updatedAt: new Date().toISOString()
   },
@@ -106,9 +107,11 @@ function parseA2SInfo(msg) {
     if (bornMatch) wipedAt = parseInt(bornMatch[1], 10) * 1000;
   }
 
+  const cleanServerName = serverName ? serverName.replace(/\s*\|\s*(?:WIPE|FULL\s*WIPE|\d{2}\/\d{2}).*$/i, '').trim() : "[BR/LATAM] HORIZON 2X | SOLO/DUO/TRIO/QUAD";
+
   return {
     online: true,
-    serverName,
+    serverName: serverName || "[BR/LATAM] HORIZON 2X | SOLO/DUO/TRIO/QUAD",
     map,
     players: realPlayers,
     maxPlayers: realMaxPlayers,
@@ -118,8 +121,9 @@ function parseA2SInfo(msg) {
     schedule: {
       mapWipe: "Toda Sexta às 18:00h",
       fullWipe: "1ª Quinta-feira do mês às 15:00h",
-      teamLimit: "Max 4 (Solo/Duo/Trio/Quad)",
-      type: "Horizon 2x (Max 4)"
+      teamLimit: "(Max 4)",
+      serverName: cleanServerName,
+      type: cleanServerName
     },
     updatedAt: new Date().toISOString()
   };
@@ -207,16 +211,19 @@ module.exports = async (req, res) => {
       if (body.schedule && body.schedule.fullWipe) {
         fullWipeStr = body.schedule.fullWipe;
       }
-      let teamLimitStr = "Max 4 (Solo/Duo/Trio/Quad)";
+      let teamLimitStr = "(Max 4)";
       if (body.schedule && body.schedule.teamLimit) {
         teamLimitStr = body.schedule.teamLimit;
       } else if (body.schedule && body.schedule.type && (body.schedule.type.includes("Max") || body.schedule.type.includes("Solo"))) {
         teamLimitStr = body.schedule.type;
       }
 
+      let rawServerName = body.schedule?.serverName || body.serverName || '[BR/LATAM] HORIZON 2X | SOLO/DUO/TRIO/QUAD';
+      let cleanServerName = rawServerName.replace(/\s*\|\s*(?:WIPE|FULL\s*WIPE|\d{2}\/\d{2}).*$/i, '').trim() || rawServerName;
+
       const statusData = {
         online: true,
-        serverName: body.serverName || '[BR/LATAM] Horizon 2x | Max 4',
+        serverName: body.serverName || '[BR/LATAM] HORIZON 2X | SOLO/DUO/TRIO/QUAD',
         map: body.map || 'Procedural Map',
         worldSize: body.worldSize || 3500,
         players: typeof body.players === 'number' ? body.players : 0,
@@ -231,7 +238,8 @@ module.exports = async (req, res) => {
           mapWipe: mapWipeStr,
           fullWipe: fullWipeStr,
           teamLimit: teamLimitStr,
-          type: "Horizon 2x (Max 4)"
+          serverName: cleanServerName,
+          type: cleanServerName
         },
         updatedAt: new Date().toISOString()
       };
@@ -284,7 +292,7 @@ module.exports = async (req, res) => {
       try {
         const { data: row } = await supabase
           .from('feed_posts')
-          .select('caption, updated_at')
+          .select('caption')
           .eq('id', STATUS_DOC_ID)
           .maybeSingle();
 
@@ -298,12 +306,11 @@ module.exports = async (req, res) => {
                 parsed.schedule.mapWipe = "Toda Sexta às 18:00h";
               }
               if (!parsed.schedule.teamLimit) {
-                parsed.schedule.teamLimit = "Max 4 (Solo/Duo/Trio/Quad)";
+                parsed.schedule.teamLimit = "(Max 4)";
               }
-              parsed.schedule.type = "Horizon 2x (Max 4)";
-            }
-            if (parsed.serverName && parsed.serverName.includes('Solo/Duo/Trio')) {
-              parsed.serverName = parsed.serverName.replace('Solo/Duo/Trio', 'Max 4');
+              let sName = parsed.schedule.serverName || parsed.serverName || '[BR/LATAM] HORIZON 2X | SOLO/DUO/TRIO/QUAD';
+              parsed.schedule.serverName = sName.replace(/\s*\|\s*(?:WIPE|FULL\s*WIPE|\d{2}\/\d{2}).*$/i, '').trim() || sName;
+              parsed.schedule.type = parsed.schedule.serverName;
             }
             serverStatusCache = { data: parsed, lastFetch: now };
             return res.status(200).json(parsed);

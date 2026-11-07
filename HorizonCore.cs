@@ -48,10 +48,10 @@ namespace Oxide.Plugins
             public string FullWipeSchedule { get; set; } = "1ª Quinta-feira do mês às 15:00h";
 
             [JsonProperty("Status_NomeDoServidor")]
-            public string ServerName { get; set; } = "Horizon 2x (Max 4)";
+            public string ServerName { get; set; } = "[BR/LATAM] HORIZON 2X | SOLO/DUO/TRIO/QUAD";
 
             [JsonProperty("Status_LimitePorTime")]
-            public string TeamLimit { get; set; } = "Horizon 2x (Max 4)";
+            public string TeamLimit { get; set; } = "(Max 4)";
 
             [JsonProperty("Leaderboard_UrlDaApiDoSite")]
             public string LeaderboardApiUrl { get; set; } = "https://lojahorizon.vercel.app/api/leaderboard";
@@ -370,7 +370,9 @@ namespace Oxide.Plugins
                 }
                 catch { }
 
-                string serverName = !string.IsNullOrEmpty(ConVar.Server.hostname) ? ConVar.Server.hostname : config.ServerName;
+                string serverName = !string.IsNullOrEmpty(config.ServerName) 
+                    ? config.ServerName 
+                    : (!string.IsNullOrEmpty(ConVar.Server.hostname) ? ConVar.Server.hostname : "[BR/LATAM] HORIZON 2X | SOLO/DUO/TRIO/QUAD");
                 string mapName = !string.IsNullOrEmpty(ConVar.Server.level) ? ConVar.Server.level : "Procedural Map";
                 int worldSize = ConVar.Server.worldsize;
                 int fps = (int)Performance.current.frameRate;
@@ -395,7 +397,8 @@ namespace Oxide.Plugins
                         mapWipe = config.MapWipeSchedule,
                         fullWipe = config.FullWipeSchedule,
                         teamLimit = config.TeamLimit,
-                        type = "Horizon 2x (Max 4)"
+                        serverName = serverName,
+                        type = serverName
                     },
                     syncReason = motivo,
                     updatedAt = DateTime.UtcNow.ToString("o")

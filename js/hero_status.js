@@ -104,7 +104,7 @@
     }
 
     if (elWipeNextDate) {
-      elWipeNextDate.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #D7573B; flex-shrink: 0;"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg> Sábado às 12:00h (Horário de Brasília)';
+      elWipeNextDate.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #D7573B; flex-shrink: 0;"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg> Sexta-feira às 18:00h (Horário de Brasília)';
     }
   }
 
@@ -139,13 +139,18 @@
       if (elSchedFull && dados.schedule.fullWipe) elSchedFull.textContent = dados.schedule.fullWipe;
       if (elSchedLimit) {
         var limStr = dados.schedule.teamLimit || "(Max 4)";
-        if (limStr === "(Max 4)" || limStr === "Max 4") {
-          limStr = "Max 4 (Solo/Duo/Trio/Quad)";
-        }
         elSchedLimit.textContent = limStr;
       }
       if (elSchedType) {
-        elSchedType.textContent = "Horizon 2x (Max 4)";
+        var sName = "[BR/LATAM] HORIZON 2X | SOLO/DUO/TRIO/QUAD";
+        if (dados.schedule && dados.schedule.serverName) {
+          sName = dados.schedule.serverName;
+        } else if (dados.serverName) {
+          sName = dados.serverName.replace(/\s*\|\s*(?:WIPE|FULL\s*WIPE|\d{2}\/\d{2}).*$/i, '').trim() || dados.serverName;
+        } else if (dados.schedule && dados.schedule.type && dados.schedule.type !== "(Max 4)" && dados.schedule.type !== "Max 4") {
+          sName = dados.schedule.type;
+        }
+        elSchedType.textContent = sName;
       }
     }
 
