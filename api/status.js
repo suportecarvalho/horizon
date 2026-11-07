@@ -222,7 +222,7 @@ module.exports = async (req, res) => {
       let cleanServerName = rawServerName.replace(/\s*\|\s*(?:WIPE|FULL\s*WIPE|\d{2}\/\d{2}).*$/i, '').trim() || rawServerName;
 
       const statusData = {
-        online: true,
+        online: typeof body.online === 'boolean' ? body.online : true,
         serverName: body.serverName || '[BR/LATAM] HORIZON 2X | SOLO/DUO/TRIO/QUAD',
         map: body.map || 'Procedural Map',
         worldSize: body.worldSize || 3500,
@@ -299,6 +299,18 @@ module.exports = async (req, res) => {
         if (row && row.caption) {
           const parsed = JSON.parse(row.caption);
           if (parsed && parsed.wipedAt) {
+            // Se o último heartbeat foi há mais de 75 segundos, o servidor está offline ou reiniciando/wipando
+            const lastUpdate = parsed.updatedAt ? new Date(parsed.updatedAt).getTime() : 0;
+            const isStale = (now - lastUpdate) > 75000;
+
+            if (isStale) {
+              parsed.online = false;
+              parsed.players = 0;
+              parsed.queuePlayers = 0;
+              parsed.joiningPlayers = 0;
+              parsed.isWipingOrRestarting = true;
+            }
+
             // Recalcular nextWipe para a próxima sexta às 18h
             parsed.nextWipe = calculateNextWipe();
             if (parsed.schedule) {

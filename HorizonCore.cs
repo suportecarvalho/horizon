@@ -198,6 +198,54 @@ namespace Oxide.Plugins
             }
         }
 
+        private void OnServerShutdown()
+        {
+            try
+            {
+                // Notifica imediatamente o site de que o servidor está desligando/wipando
+                DateTime wipeDateTime = SaveRestore.SaveCreatedTime.ToUniversalTime();
+                long wipedAtMs = new DateTimeOffset(wipeDateTime).ToUnixTimeMilliseconds();
+
+                var payload = new
+                {
+                    online = false,
+                    serverName = !string.IsNullOrEmpty(config.ServerName) ? config.ServerName : "[BR/LATAM] HORIZON 2X | SOLO/DUO/TRIO/QUAD",
+                    map = !string.IsNullOrEmpty(ConVar.Server.level) ? ConVar.Server.level : "Procedural Map",
+                    worldSize = ConVar.Server.worldsize,
+                    players = 0,
+                    maxPlayers = ConVar.Server.maxplayers,
+                    queuePlayers = 0,
+                    joiningPlayers = 0,
+                    fps = 0,
+                    entities = 0,
+                    wipedAt = wipedAtMs,
+                    wipeDateTimeUtc = wipeDateTime.ToString("o"),
+                    schedule = new
+                    {
+                        mapWipe = config.MapWipeSchedule,
+                        fullWipe = config.FullWipeSchedule,
+                        teamLimit = config.TeamLimit,
+                        serverName = config.ServerName,
+                        type = config.ServerName
+                    },
+                    syncReason = "Servidor Desligando / Reiniciando / Wipe",
+                    updatedAt = DateTime.UtcNow.ToString("o")
+                };
+
+                string json = JsonConvert.SerializeObject(payload);
+                var headers = new Dictionary<string, string>
+                {
+                    { "Content-Type", "application/json" },
+                    { "X-API-KEY", config.ApiKey },
+                    { "Bypass-Tunnel-Reminder", "true" },
+                    { "User-Agent", "HorizonCore/2.0" }
+                };
+
+                webrequest.Enqueue(config.StatusApiUrl, json, (code, response) => { }, this, RequestMethod.POST, headers);
+            }
+            catch { }
+        }
+
         private void Unload()
         {
             if (statusTimer != null)
@@ -362,7 +410,18 @@ namespace Oxide.Plugins
                 DateTime wipeDateTime = SaveRestore.SaveCreatedTime.ToUniversalTime();
                 long wipedAtMs = new DateTimeOffset(wipeDateTime).ToUnixTimeMilliseconds();
 
-                int players = BasePlayer.activePlayerList != null ? BasePlayer.activePlayerList.Count : 0;
+                int players = 0;
+                if (BasePlayer.activePlayerList != null)
+                {
+                    for (int i = 0; i < BasePlayer.activePlayerList.Count; i++)
+                    {
+                        var p = BasePlayer.activePlayerList[i];
+                        if (p != null && p.IsConnected && !p.IsNpc && p.net != null && p.net.connection != null)
+                        {
+                            players++;
+                        }
+                    }
+                }
                 int maxPlayers = ConVar.Server.maxplayers;
                 int queue = 0;
                 int joining = 0;

@@ -116,10 +116,14 @@
 
       elCount.textContent = qtd;
       if (elLabel) {
-        elLabel.textContent = qtd === 1 ? 'player conectado' : 'players conectados';
+        if (!online || dados.isWipingOrRestarting) {
+          elLabel.textContent = 'servidor reiniciando/wipando';
+        } else {
+          elLabel.textContent = qtd === 1 ? 'player conectado' : 'players conectados';
+        }
       }
       if (elDot) {
-        elDot.style.background = online ? '#22c55e' : '#ef4444';
+        elDot.style.background = (!online || dados.isWipingOrRestarting) ? '#f59e0b' : '#22c55e';
       }
     }
 
