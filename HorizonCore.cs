@@ -166,6 +166,9 @@ namespace Oxide.Plugins
             {
                 data = new StoredData();
             }
+
+            cmd.AddChatCommand("ranking", this, nameof(CmdChatRank));
+            cmd.AddChatCommand("top", this, nameof(CmdChatRank));
         }
 
         private void OnServerInitialized()
@@ -785,8 +788,6 @@ namespace Oxide.Plugins
         }
 
         [ChatCommand("rank")]
-        [ChatCommand("ranking")]
-        [ChatCommand("top")]
         private void CmdChatRank(BasePlayer player, string command, string[] args)
         {
             if (player == null) return;
