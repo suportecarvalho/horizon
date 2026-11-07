@@ -1695,3 +1695,346 @@ body:has(.ranking),
     max-width: 100%;
   }
 }
+
+
+/* ==========================================================================
+   HORIZON TOP NAVIGATION & MOBILE HAMBURGER MENU
+   ========================================================================== */
+
+/* Trava de scroll quando o menu mobile estiver aberto */
+body.horizon-menu-locked {
+  overflow: hidden !important;
+  touch-action: none !important;
+}
+
+/* Menu Desktop */
+.horizon-header-nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: 28px;
+}
+
+.horizon-nav-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-family: var(--font-heading, "Inter", sans-serif);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #A39C96;
+  text-decoration: none;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid transparent;
+  user-select: none;
+}
+
+.horizon-nav-link:hover {
+  color: #EDE8E5;
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.25);
+}
+
+.horizon-nav-link.active {
+  color: #FFFFFF;
+  background: rgba(108, 151, 142, 0.16);
+  border-color: rgba(108, 151, 142, 0.42);
+  box-shadow: 0 0 16px rgba(108, 151, 142, 0.2);
+}
+
+.horizon-nav-link.active::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 18px;
+  height: 2px;
+  background: #82ADA4;
+  border-radius: 2px;
+  box-shadow: 0 0 8px #82ADA4;
+}
+
+/* Botão Sanduíche (Mobile Toggle) */
+.horizon-mobile-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #EDE8E5;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.2s ease;
+  position: relative;
+  z-index: 101;
+  flex-shrink: 0;
+}
+
+.horizon-mobile-toggle:hover,
+.horizon-mobile-toggle:focus-visible {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(130, 173, 164, 0.4);
+  outline: none;
+}
+
+.horizon-toggle-bars {
+  width: 18px;
+  height: 14px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.horizon-toggle-bars span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: #EDE8E5;
+  border-radius: 2px;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease, background-color 0.2s ease;
+  transform-origin: center;
+}
+
+/* Animação Hamburger para X */
+.horizon-mobile-toggle.is-open .horizon-toggle-bars span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+  background-color: #D7573B;
+}
+.horizon-mobile-toggle.is-open .horizon-toggle-bars span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.horizon-mobile-toggle.is-open .horizon-toggle-bars span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+  background-color: #D7573B;
+}
+
+/* Gaveta do Menu Mobile (Drawer) */
+.horizon-mobile-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
+  z-index: 99999;
+  transition: visibility 0.28s ease, opacity 0.28s ease;
+}
+
+.horizon-mobile-drawer.is-open {
+  pointer-events: auto;
+  visibility: visible;
+  opacity: 1;
+}
+
+.horizon-mobile-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  cursor: pointer;
+}
+
+.horizon-mobile-drawer-content {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: min(86%, 330px);
+  height: 100%;
+  background: #141110;
+  background: linear-gradient(180deg, #181413 0%, #100E0D 100%);
+  border-left: 1px solid rgba(130, 173, 164, 0.25);
+  box-shadow: -10px 0 35px rgba(0, 0, 0, 0.75);
+  padding: 20px 18px 28px;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.horizon-mobile-drawer.is-open .horizon-mobile-drawer-content {
+  transform: translateX(0);
+}
+
+.horizon-mobile-nav-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 14px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.horizon-mobile-nav-title {
+  font-family: var(--font-heading, "Inter", sans-serif);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #82ADA4;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.horizon-mobile-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #A39C96;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.horizon-mobile-close:hover {
+  color: #FFFFFF;
+  background: rgba(215, 87, 59, 0.2);
+  border-color: #D7573B;
+}
+
+.horizon-mobile-nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  flex-grow: 1;
+}
+
+.horizon-mobile-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.horizon-mobile-link:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.15);
+  transform: translateX(3px);
+}
+
+.horizon-mobile-link.active {
+  background: rgba(108, 151, 142, 0.16);
+  border-color: rgba(108, 151, 142, 0.45);
+  box-shadow: 0 0 16px rgba(108, 151, 142, 0.15);
+}
+
+.horizon-mobile-link-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #82ADA4;
+  flex-shrink: 0;
+}
+
+.horizon-mobile-link.active .horizon-mobile-link-icon {
+  background: rgba(108, 151, 142, 0.25);
+  color: #FFFFFF;
+}
+
+.horizon-mobile-link-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex-grow: 1;
+}
+
+.horizon-mobile-link-label {
+  font-family: var(--font-heading, "Inter", sans-serif);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #EDE8E5;
+}
+
+.horizon-mobile-link.active .horizon-mobile-link-label {
+  color: #FFFFFF;
+}
+
+.horizon-mobile-link-sub {
+  font-size: 0.72rem;
+  color: #8A8480;
+}
+
+.horizon-mobile-chevron {
+  color: #55504D;
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.horizon-mobile-link:hover .horizon-mobile-chevron {
+  color: #82ADA4;
+  transform: translateX(2px);
+}
+
+.horizon-mobile-extra {
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.horizon-mobile-discord-pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 11px;
+  border-radius: 8px;
+  background: #5865F2;
+  color: #FFFFFF;
+  font-family: var(--font-heading, "Inter", sans-serif);
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(88, 101, 242, 0.3);
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.horizon-mobile-discord-pill:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+/* Responsividade Mobile: esconde links desktop e mostra botão sanduíche */
+@media (max-width: 860px) {
+  .horizon-header-nav {
+    display: none !important;
+  }
+  .horizon-mobile-toggle {
+    display: inline-flex !important;
+  }
+}
