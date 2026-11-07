@@ -785,6 +785,8 @@ namespace Oxide.Plugins
         }
 
         [ChatCommand("rank")]
+        [ChatCommand("ranking")]
+        [ChatCommand("top")]
         private void CmdChatRank(BasePlayer player, string command, string[] args)
         {
             if (player == null) return;
@@ -801,7 +803,7 @@ namespace Oxide.Plugins
 
             if (data == null || data.Players == null || data.Players.Count == 0)
             {
-                SendReply(player, "<color=#82ADA4><b>[HORIZON RANKING]</b></color> <color=#94A3B8>Nenhuma estatística registrada ainda neste wipe.</color>");
+                SendReply(player, "<color=#82ADA4><b>[HORIZON RANKING]</b></color> <color=#94A3B8>Nenhuma estatistica registrada ainda neste wipe.</color>");
                 return;
             }
 
@@ -817,22 +819,10 @@ namespace Oxide.Plugins
             ShowAllTop3(player);
         }
 
-        [ChatCommand("ranking")]
-        private void CmdChatRanking(BasePlayer player, string command, string[] args)
-        {
-            CmdChatRank(player, command, args);
-        }
-
-        [ChatCommand("top")]
-        private void CmdChatTop(BasePlayer player, string command, string[] args)
-        {
-            CmdChatRank(player, command, args);
-        }
-
         private void ShowAllTop3(BasePlayer player)
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("<color=#82ADA4><b>━━━━━━━━━━━━━━ [ TOP 3 LEADERBOARD ] ━━━━━━━━━━━━━━</b></color>");
+            sb.AppendLine("<color=#82ADA4><b>================ [ TOP 3 LEADERBOARD ] ================</b></color>");
 
             // 1. PVP
             sb.AppendLine("<color=#EF4444><b>[ PVP ]</b></color> <color=#71717A>(Kills & K/D)</color>");
@@ -935,7 +925,7 @@ namespace Oxide.Plugins
                 }
             }
 
-            sb.AppendLine("<color=#82ADA4>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</color>");
+            sb.AppendLine("<color=#82ADA4>=======================================================</color>");
             sb.AppendLine("<color=#94A3B8>Ranking completo em: <color=#38BDF8>lojahorizon.vercel.app/leaderboard</color></color>");
 
             SendReply(player, sb.ToString());
@@ -944,7 +934,7 @@ namespace Oxide.Plugins
         private void ShowPvpTop(BasePlayer player)
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("<color=#EF4444><b>━━━━━━━━━━━━━━ [ TOP 5 PVP ] ━━━━━━━━━━━━━━</b></color>");
+            sb.AppendLine("<color=#EF4444><b>==================== [ TOP 5 PVP ] ====================</b></color>");
             var topPvp = data.Players.Values
                 .Where(p => p.Kills > 0 || p.Deaths > 0)
                 .OrderByDescending(p => p.Kills)
@@ -966,14 +956,14 @@ namespace Oxide.Plugins
                     sb.AppendLine($"{GetRankBadge(i + 1)} <color=#EDE8E5>{CleanPlayerName(p.Name)}</color> | <color=#F87171><b>{p.Kills}</b> Kills</color> | <color=#94A3B8>{p.Deaths} Deaths</color> | <color=#FDE047>K/D {kd:0.00}</color> | <color=#A7F3D0>HS {hsPct:0.0}%</color>");
                 }
             }
-            sb.AppendLine("<color=#EF4444>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</color>");
+            sb.AppendLine("<color=#EF4444>=======================================================</color>");
             SendReply(player, sb.ToString());
         }
 
         private void ShowRecursosTop(BasePlayer player)
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("<color=#EAB308><b>━━━━━━━━━━━━━━ [ TOP 5 RECURSOS ] ━━━━━━━━━━━━━━</b></color>");
+            sb.AppendLine("<color=#EAB308><b>================== [ TOP 5 RECURSOS ] ==================</b></color>");
             var topRec = data.Players.Values
                 .Select(p => new {
                     Player = p,
@@ -997,14 +987,14 @@ namespace Oxide.Plugins
                     sb.AppendLine($"{GetRankBadge(i + 1)} <color=#EDE8E5>{CleanPlayerName(p.Name)}</color> - <color=#FDE047><b>{x.Total:N0}</b></color> total <color=#71717A>(Madeira: {p.Wood:N0} | Pedra: {p.Stone:N0} | Metal: {p.Metal:N0} | Enxofre: {p.Sulfur:N0})</color>");
                 }
             }
-            sb.AppendLine("<color=#EAB308>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</color>");
+            sb.AppendLine("<color=#EAB308>=======================================================</color>");
             SendReply(player, sb.ToString());
         }
 
         private void ShowFarmingTop(BasePlayer player)
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("<color=#22C55E><b>━━━━━━━━━━━━━━ [ TOP 5 FARMING ] ━━━━━━━━━━━━━━</b></color>");
+            sb.AppendLine("<color=#22C55E><b>================== [ TOP 5 FARMING ] ===================</b></color>");
             var topFarm = data.Players.Values
                 .Select(p => new {
                     Player = p,
@@ -1029,14 +1019,14 @@ namespace Oxide.Plugins
                     sb.AppendLine($"{GetRankBadge(i + 1)} <color=#EDE8E5>{CleanPlayerName(p.Name)}</color> - <color=#86EFAC><b>{x.Total:N0}</b></color> colheitas <color=#71717A>(Tecido: {p.Cloth:N0} | Comida: {(p.Pumpkin + p.Corn + p.Potato):N0})</color>");
                 }
             }
-            sb.AppendLine("<color=#22C55E>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</color>");
+            sb.AppendLine("<color=#22C55E>=======================================================</color>");
             SendReply(player, sb.ToString());
         }
 
         private void ShowRaidTop(BasePlayer player)
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("<color=#F97316><b>━━━━━━━━━━━━━━ [ TOP 5 RAID ] ━━━━━━━━━━━━━━</b></color>");
+            sb.AppendLine("<color=#F97316><b>==================== [ TOP 5 RAID ] ====================</b></color>");
             var topRaid = data.Players.Values
                 .Select(p => new {
                     Player = p,
@@ -1062,7 +1052,7 @@ namespace Oxide.Plugins
                     sb.AppendLine($"{GetRankBadge(i + 1)} <color=#EDE8E5>{CleanPlayerName(p.Name)}</color> - <color=#FDBA74><b>{x.TotalScore:N0} pts</b></color> <color=#71717A>(C4: {p.C4Used} | Foguetes: {p.RocketsUsed} | Satchels: {p.SatchelsUsed})</color>");
                 }
             }
-            sb.AppendLine("<color=#F97316>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</color>");
+            sb.AppendLine("<color=#F97316>=======================================================</color>");
             SendReply(player, sb.ToString());
         }
 
