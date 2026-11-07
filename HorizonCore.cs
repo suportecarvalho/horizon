@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Newtonsoft.Json;
 using Oxide.Core;
 using Oxide.Core.Libraries;
@@ -756,6 +757,313 @@ namespace Oxide.Plugins
                     Puts($"[HorizonCore] Erro ao enviar leaderboards para '{config.LeaderboardApiUrl}' (HTTP {code}): {response}");
                 }
             }, this, RequestMethod.POST, headers);
+        }
+
+        // -------------------------------------------------------------
+        // COMANDOS DE CHAT (/rank, /ranking, /top)
+        // -------------------------------------------------------------
+        private readonly Dictionary<ulong, float> rankCooldowns = new Dictionary<ulong, float>();
+
+        private string CleanPlayerName(string rawName)
+        {
+            if (string.IsNullOrEmpty(rawName)) return "Sobrevivente";
+            string clean = rawName.Replace("<", "").Replace(">", "").Trim();
+            if (string.IsNullOrEmpty(clean)) return "Sobrevivente";
+            if (clean.Length > 16) clean = clean.Substring(0, 16) + "..";
+            return clean;
+        }
+
+        private string GetRankBadge(int pos)
+        {
+            switch (pos)
+            {
+                case 1: return "<color=#F59E0B><b>#1</b></color>";
+                case 2: return "<color=#E2E8F0><b>#2</b></color>";
+                case 3: return "<color=#CD7F32><b>#3</b></color>";
+                default: return $"<color=#94A3B8><b>#{pos}</b></color>";
+            }
+        }
+
+        [ChatCommand("rank")]
+        private void CmdChatRank(BasePlayer player, string command, string[] args)
+        {
+            if (player == null) return;
+
+            ulong playerId = player.userID;
+            float now = UnityEngine.Time.realtimeSinceStartup;
+            float lastTime;
+            if (rankCooldowns.TryGetValue(playerId, out lastTime) && (now - lastTime) < 3f)
+            {
+                SendReply(player, "<color=#E6A15C>[Horizon]</color> <color=#94A3B8>Aguarde alguns segundos antes de consultar o /rank novamente.</color>");
+                return;
+            }
+            rankCooldowns[playerId] = now;
+
+            if (data == null || data.Players == null || data.Players.Count == 0)
+            {
+                SendReply(player, "<color=#82ADA4><b>[HORIZON RANKING]</b></color> <color=#94A3B8>Nenhuma estatística registrada ainda neste wipe.</color>");
+                return;
+            }
+
+            if (args != null && args.Length > 0)
+            {
+                string sub = args[0].ToLower();
+                if (sub == "pvp") { ShowPvpTop(player); return; }
+                if (sub == "recursos" || sub == "rec" || sub == "farmrec") { ShowRecursosTop(player); return; }
+                if (sub == "farming" || sub == "farm" || sub == "plantas") { ShowFarmingTop(player); return; }
+                if (sub == "raid" || sub == "raids") { ShowRaidTop(player); return; }
+            }
+
+            ShowAllTop3(player);
+        }
+
+        [ChatCommand("ranking")]
+        private void CmdChatRanking(BasePlayer player, string command, string[] args)
+        {
+            CmdChatRank(player, command, args);
+        }
+
+        [ChatCommand("top")]
+        private void CmdChatTop(BasePlayer player, string command, string[] args)
+        {
+            CmdChatRank(player, command, args);
+        }
+
+        private void ShowAllTop3(BasePlayer player)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("<color=#82ADA4><b>━━━━━━━━━━━━━━ [ TOP 3 LEADERBOARD ] ━━━━━━━━━━━━━━</b></color>");
+
+            // 1. PVP
+            sb.AppendLine("<color=#EF4444><b>[ PVP ]</b></color> <color=#71717A>(Kills & K/D)</color>");
+            var topPvp = data.Players.Values
+                .Where(p => p.Kills > 0 || p.Deaths > 0)
+                .OrderByDescending(p => p.Kills)
+                .ThenByDescending(p => p.Deaths > 0 ? (float)p.Kills / p.Deaths : p.Kills)
+                .Take(3)
+                .ToList();
+
+            if (topPvp.Count == 0)
+            {
+                sb.AppendLine("  <color=#71717A>Nenhum dado registrado neste wipe.</color>");
+            }
+            else
+            {
+                for (int i = 0; i < topPvp.Count; i++)
+                {
+                    var p = topPvp[i];
+                    float kd = p.Deaths > 0 ? (float)p.Kills / p.Deaths : p.Kills;
+                    sb.AppendLine($"  {GetRankBadge(i + 1)} <color=#EDE8E5>{CleanPlayerName(p.Name)}</color> - <color=#F87171><b>{p.Kills}</b> kills</color> <color=#71717A>(K/D: {kd:0.00})</color>");
+                }
+            }
+
+            // 2. RECURSOS
+            sb.AppendLine("<color=#EAB308><b>[ RECURSOS ]</b></color> <color=#71717A>(Total Coletado)</color>");
+            var topRec = data.Players.Values
+                .Select(p => new {
+                    Player = p,
+                    Total = p.Stone + p.Sulfur + p.Metal + p.HQM + p.Wood + p.Leather + p.Fat + p.Bone
+                })
+                .Where(x => x.Total > 0)
+                .OrderByDescending(x => x.Total)
+                .Take(3)
+                .ToList();
+
+            if (topRec.Count == 0)
+            {
+                sb.AppendLine("  <color=#71717A>Nenhum recurso coletado neste wipe.</color>");
+            }
+            else
+            {
+                for (int i = 0; i < topRec.Count; i++)
+                {
+                    var x = topRec[i];
+                    sb.AppendLine($"  {GetRankBadge(i + 1)} <color=#EDE8E5>{CleanPlayerName(x.Player.Name)}</color> - <color=#FDE047><b>{x.Total:N0}</b></color> <color=#71717A>recursos</color>");
+                }
+            }
+
+            // 3. FARMING
+            sb.AppendLine("<color=#22C55E><b>[ FARMING ]</b></color> <color=#71717A>(Plantas & Coletas)</color>");
+            var topFarm = data.Players.Values
+                .Select(p => new {
+                    Player = p,
+                    Total = p.Cloth + p.YellowBerry + p.RedBerry + p.BlueBerry + p.GreenBerry + p.WhiteBerry +
+                            p.Mushroom + p.Pumpkin + p.Corn + p.Potato + p.Wheat + p.Egg
+                })
+                .Where(x => x.Total > 0)
+                .OrderByDescending(x => x.Total)
+                .Take(3)
+                .ToList();
+
+            if (topFarm.Count == 0)
+            {
+                sb.AppendLine("  <color=#71717A>Nenhum farm registrado neste wipe.</color>");
+            }
+            else
+            {
+                for (int i = 0; i < topFarm.Count; i++)
+                {
+                    var x = topFarm[i];
+                    sb.AppendLine($"  {GetRankBadge(i + 1)} <color=#EDE8E5>{CleanPlayerName(x.Player.Name)}</color> - <color=#86EFAC><b>{x.Total:N0}</b></color> <color=#71717A>itens</color>");
+                }
+            }
+
+            // 4. RAID
+            sb.AppendLine("<color=#F97316><b>[ RAID ]</b></color> <color=#71717A>(Score & Explosivos)</color>");
+            var topRaid = data.Players.Values
+                .Select(p => new {
+                    Player = p,
+                    TotalExplosives = p.RocketsUsed + p.C4Used + p.SatchelsUsed,
+                    TotalScore = (p.C4Used * 5) + (p.RocketsUsed * 4) + (p.SatchelsUsed * 2)
+                })
+                .Where(x => x.TotalExplosives > 0)
+                .OrderByDescending(x => x.TotalScore)
+                .ThenByDescending(x => x.TotalExplosives)
+                .Take(3)
+                .ToList();
+
+            if (topRaid.Count == 0)
+            {
+                sb.AppendLine("  <color=#71717A>Nenhum raid registrado neste wipe.</color>");
+            }
+            else
+            {
+                for (int i = 0; i < topRaid.Count; i++)
+                {
+                    var x = topRaid[i];
+                    sb.AppendLine($"  {GetRankBadge(i + 1)} <color=#EDE8E5>{CleanPlayerName(x.Player.Name)}</color> - <color=#FDBA74><b>{x.TotalScore:N0} pts</b></color> <color=#71717A>({x.TotalExplosives:N0} explosivos)</color>");
+                }
+            }
+
+            sb.AppendLine("<color=#82ADA4>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</color>");
+            sb.AppendLine("<color=#94A3B8>Ranking completo em: <color=#38BDF8>lojahorizon.vercel.app/leaderboard</color></color>");
+
+            SendReply(player, sb.ToString());
+        }
+
+        private void ShowPvpTop(BasePlayer player)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("<color=#EF4444><b>━━━━━━━━━━━━━━ [ TOP 5 PVP ] ━━━━━━━━━━━━━━</b></color>");
+            var topPvp = data.Players.Values
+                .Where(p => p.Kills > 0 || p.Deaths > 0)
+                .OrderByDescending(p => p.Kills)
+                .ThenByDescending(p => p.Deaths > 0 ? (float)p.Kills / p.Deaths : p.Kills)
+                .Take(5)
+                .ToList();
+
+            if (topPvp.Count == 0)
+            {
+                sb.AppendLine("<color=#71717A>Nenhum dado registrado neste wipe.</color>");
+            }
+            else
+            {
+                for (int i = 0; i < topPvp.Count; i++)
+                {
+                    var p = topPvp[i];
+                    float kd = p.Deaths > 0 ? (float)p.Kills / p.Deaths : p.Kills;
+                    float hsPct = p.Kills > 0 ? ((float)p.Headshots / p.Kills) * 100f : 0f;
+                    sb.AppendLine($"{GetRankBadge(i + 1)} <color=#EDE8E5>{CleanPlayerName(p.Name)}</color> | <color=#F87171><b>{p.Kills}</b> Kills</color> | <color=#94A3B8>{p.Deaths} Deaths</color> | <color=#FDE047>K/D {kd:0.00}</color> | <color=#A7F3D0>HS {hsPct:0.0}%</color>");
+                }
+            }
+            sb.AppendLine("<color=#EF4444>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</color>");
+            SendReply(player, sb.ToString());
+        }
+
+        private void ShowRecursosTop(BasePlayer player)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("<color=#EAB308><b>━━━━━━━━━━━━━━ [ TOP 5 RECURSOS ] ━━━━━━━━━━━━━━</b></color>");
+            var topRec = data.Players.Values
+                .Select(p => new {
+                    Player = p,
+                    Total = p.Stone + p.Sulfur + p.Metal + p.HQM + p.Wood + p.Leather + p.Fat + p.Bone
+                })
+                .Where(x => x.Total > 0)
+                .OrderByDescending(x => x.Total)
+                .Take(5)
+                .ToList();
+
+            if (topRec.Count == 0)
+            {
+                sb.AppendLine("<color=#71717A>Nenhum recurso coletado neste wipe.</color>");
+            }
+            else
+            {
+                for (int i = 0; i < topRec.Count; i++)
+                {
+                    var x = topRec[i];
+                    var p = x.Player;
+                    sb.AppendLine($"{GetRankBadge(i + 1)} <color=#EDE8E5>{CleanPlayerName(p.Name)}</color> - <color=#FDE047><b>{x.Total:N0}</b></color> total <color=#71717A>(Madeira: {p.Wood:N0} | Pedra: {p.Stone:N0} | Metal: {p.Metal:N0} | Enxofre: {p.Sulfur:N0})</color>");
+                }
+            }
+            sb.AppendLine("<color=#EAB308>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</color>");
+            SendReply(player, sb.ToString());
+        }
+
+        private void ShowFarmingTop(BasePlayer player)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("<color=#22C55E><b>━━━━━━━━━━━━━━ [ TOP 5 FARMING ] ━━━━━━━━━━━━━━</b></color>");
+            var topFarm = data.Players.Values
+                .Select(p => new {
+                    Player = p,
+                    Total = p.Cloth + p.YellowBerry + p.RedBerry + p.BlueBerry + p.GreenBerry + p.WhiteBerry +
+                            p.Mushroom + p.Pumpkin + p.Corn + p.Potato + p.Wheat + p.Egg
+                })
+                .Where(x => x.Total > 0)
+                .OrderByDescending(x => x.Total)
+                .Take(5)
+                .ToList();
+
+            if (topFarm.Count == 0)
+            {
+                sb.AppendLine("<color=#71717A>Nenhum farm registrado neste wipe.</color>");
+            }
+            else
+            {
+                for (int i = 0; i < topFarm.Count; i++)
+                {
+                    var x = topFarm[i];
+                    var p = x.Player;
+                    sb.AppendLine($"{GetRankBadge(i + 1)} <color=#EDE8E5>{CleanPlayerName(p.Name)}</color> - <color=#86EFAC><b>{x.Total:N0}</b></color> colheitas <color=#71717A>(Tecido: {p.Cloth:N0} | Comida: {(p.Pumpkin + p.Corn + p.Potato):N0})</color>");
+                }
+            }
+            sb.AppendLine("<color=#22C55E>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</color>");
+            SendReply(player, sb.ToString());
+        }
+
+        private void ShowRaidTop(BasePlayer player)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("<color=#F97316><b>━━━━━━━━━━━━━━ [ TOP 5 RAID ] ━━━━━━━━━━━━━━</b></color>");
+            var topRaid = data.Players.Values
+                .Select(p => new {
+                    Player = p,
+                    TotalExplosives = p.RocketsUsed + p.C4Used + p.SatchelsUsed,
+                    TotalScore = (p.C4Used * 5) + (p.RocketsUsed * 4) + (p.SatchelsUsed * 2)
+                })
+                .Where(x => x.TotalExplosives > 0)
+                .OrderByDescending(x => x.TotalScore)
+                .ThenByDescending(x => x.TotalExplosives)
+                .Take(5)
+                .ToList();
+
+            if (topRaid.Count == 0)
+            {
+                sb.AppendLine("<color=#71717A>Nenhum raid registrado neste wipe.</color>");
+            }
+            else
+            {
+                for (int i = 0; i < topRaid.Count; i++)
+                {
+                    var x = topRaid[i];
+                    var p = x.Player;
+                    sb.AppendLine($"{GetRankBadge(i + 1)} <color=#EDE8E5>{CleanPlayerName(p.Name)}</color> - <color=#FDBA74><b>{x.TotalScore:N0} pts</b></color> <color=#71717A>(C4: {p.C4Used} | Foguetes: {p.RocketsUsed} | Satchels: {p.SatchelsUsed})</color>");
+                }
+            }
+            sb.AppendLine("<color=#F97316>━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</color>");
+            SendReply(player, sb.ToString());
         }
 
         // -------------------------------------------------------------
