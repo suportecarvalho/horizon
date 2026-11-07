@@ -1399,3 +1399,299 @@ body:has(.ranking),
   border-color: rgba(108, 151, 142, 0.45);
   color: #FFFFFF;
 }
+
+/* ==========================================================================
+   PÁGINA EQUIPE (ESTILO BRASA / HORIZON)
+   ========================================================================== */
+
+.equipe-page {
+  padding-bottom: 80px;
+  min-height: calc(100vh - 80px);
+}
+
+.equipe-hero-banner {
+  position: relative;
+  padding: 56px 20px 42px;
+  text-align: center;
+  background: radial-gradient(circle at 50% 20%, rgba(215, 87, 59, 0.15) 0%, rgba(14, 11, 10, 0) 70%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  margin-bottom: 46px;
+}
+
+.equipe-hero-title {
+  font-family: var(--font-heading, inherit);
+  font-size: 2.6rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  color: #FFFFFF;
+  margin: 0 0 10px 0;
+  text-transform: uppercase;
+}
+
+.equipe-hero-subtitle {
+  color: #8E8B88;
+  font-size: 0.95rem;
+  max-width: 620px;
+  margin: 0 auto;
+  line-height: 1.55;
+}
+
+.equipe-breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-top: 18px;
+}
+
+.equipe-breadcrumb a {
+  color: #8E8B88;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.equipe-breadcrumb a:hover {
+  color: #EDE8E5;
+}
+
+.equipe-breadcrumb-sep {
+  color: #CE422B;
+}
+
+.equipe-breadcrumb-current {
+  color: #FF7B5E;
+}
+
+.equipe-section {
+  margin-bottom: 58px;
+}
+
+.equipe-section-title-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.equipe-section-title {
+  font-family: var(--font-heading, inherit);
+  font-size: 1.85rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.equipe-section-line {
+  width: 140px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, currentColor, transparent);
+  margin-top: 10px;
+  opacity: 0.7;
+}
+
+.equipe-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.equipe-card {
+  position: relative;
+  background: #141110;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  padding: 30px 22px 24px;
+  width: 100%;
+  max-width: 270px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+.equipe-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--card-accent, #CE422B);
+  opacity: 0.6;
+  transition: opacity 0.25s ease;
+}
+
+.equipe-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--card-accent-border, rgba(215, 87, 59, 0.4));
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6), 0 0 25px var(--card-glow, rgba(215, 87, 59, 0.15));
+}
+
+.equipe-card:hover::before {
+  opacity: 1;
+}
+
+.equipe-avatar-wrap {
+  position: relative;
+  width: 104px;
+  height: 104px;
+  border-radius: 50%;
+  padding: 4px;
+  background: linear-gradient(135deg, var(--card-accent, #CE422B), rgba(255, 255, 255, 0.05));
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.equipe-avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #1f1b19;
+  display: block;
+}
+
+.equipe-status-dot {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #22c55e;
+  border: 2px solid #141110;
+  box-shadow: 0 0 8px rgba(34, 197, 94, 0.6);
+}
+
+.equipe-name {
+  font-family: var(--font-heading, inherit);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  margin: 0 0 6px;
+  letter-spacing: 0.03em;
+}
+
+.equipe-role-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--card-accent, #CE422B);
+  background: var(--card-accent-bg, rgba(215, 87, 59, 0.12));
+  border: 1px solid var(--card-accent-border, rgba(215, 87, 59, 0.25));
+  margin-bottom: 12px;
+}
+
+.equipe-desc {
+  font-size: 0.82rem;
+  color: #8E8B88;
+  line-height: 1.45;
+  margin: 0 0 16px;
+  min-height: 36px;
+}
+
+.equipe-socials {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.equipe-social-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8E8B88;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.equipe-social-btn:hover {
+  background: var(--card-accent-bg, rgba(215, 87, 59, 0.2));
+  border-color: var(--card-accent, #CE422B);
+  color: #FFFFFF;
+  transform: translateY(-2px);
+}
+
+.equipe-card-owner {
+  --card-accent: #FF7B5E;
+  --card-accent-bg: rgba(255, 123, 94, 0.12);
+  --card-accent-border: rgba(255, 123, 94, 0.35);
+  --card-glow: rgba(255, 123, 94, 0.2);
+}
+
+.equipe-card-admin {
+  --card-accent: #E5A93C;
+  --card-accent-bg: rgba(229, 169, 60, 0.12);
+  --card-accent-border: rgba(229, 169, 60, 0.35);
+  --card-glow: rgba(229, 169, 60, 0.2);
+}
+
+.equipe-card-mod {
+  --card-accent: #82ADA4;
+  --card-accent-bg: rgba(130, 173, 164, 0.12);
+  --card-accent-border: rgba(130, 173, 164, 0.35);
+  --card-glow: rgba(130, 173, 164, 0.2);
+}
+
+.equipe-card-dev {
+  --card-accent: #60A5FA;
+  --card-accent-bg: rgba(96, 165, 250, 0.12);
+  --card-accent-border: rgba(96, 165, 250, 0.35);
+  --card-glow: rgba(96, 165, 250, 0.2);
+}
+
+.equipe-join-banner {
+  margin-top: 50px;
+  background: linear-gradient(135deg, rgba(206, 66, 43, 0.08) 0%, rgba(20, 17, 16, 0.95) 100%);
+  border: 1px solid rgba(206, 66, 43, 0.25);
+  border-radius: 14px;
+  padding: 36px 24px;
+  text-align: center;
+  max-width: 820px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  overflow: hidden;
+}
+
+@media (max-width: 640px) {
+  .equipe-hero-title {
+    font-size: 2.1rem;
+  }
+  .equipe-hero-banner {
+    padding: 40px 16px 30px;
+  }
+  .equipe-section-title {
+    font-size: 1.5rem;
+  }
+  .equipe-card {
+    max-width: 100%;
+  }
+}
