@@ -1707,45 +1707,80 @@ body.horizon-menu-locked {
   touch-action: none !important;
 }
 
-/* Menu Desktop */
+/* Menu Desktop Tático Horizon */
+.site-header-conteudo {
+  position: relative !important;
+}
+
 .horizon-header-nav {
   display: flex;
   align-items: center;
-  gap: 6px;
-  margin-left: 28px;
+  gap: 4px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(14, 11, 10, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 4px 6px;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  z-index: 20;
 }
 
 .horizon-nav-link {
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 14px;
+  gap: 7px;
+  padding: 7px 15px;
   border-radius: 6px;
   font-family: var(--font-heading, "Inter", sans-serif);
-  font-size: 0.76rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.09em;
   text-transform: uppercase;
-  color: #A39C96;
+  color: #9F9791;
   text-decoration: none;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   border: 1px solid transparent;
   user-select: none;
+  white-space: nowrap;
+}
+
+.horizon-nav-link svg {
+  width: 14px;
+  height: 14px;
+  opacity: 0.65;
+  transition: opacity 0.2s ease, color 0.2s ease, transform 0.2s ease;
+  color: currentColor;
+  flex-shrink: 0;
 }
 
 .horizon-nav-link:hover {
   color: #EDE8E5;
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 255, 255, 0.1);
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.horizon-nav-link:hover svg {
+  opacity: 1;
+  color: #D7573B;
+  transform: translateY(-1px);
 }
 
 .horizon-nav-link.active {
-  color: #FFFFFF;
-  background: rgba(108, 151, 142, 0.16);
-  border-color: rgba(108, 151, 142, 0.42);
-  box-shadow: 0 0 16px rgba(108, 151, 142, 0.2);
+  color: #FFFFFF !important;
+  background: linear-gradient(180deg, rgba(206, 66, 43, 0.28) 0%, rgba(206, 66, 43, 0.1) 100%) !important;
+  border: 1px solid rgba(206, 66, 43, 0.55) !important;
+  box-shadow: 0 0 18px rgba(206, 66, 43, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.18) !important;
+}
+
+.horizon-nav-link.active svg {
+  opacity: 1;
+  color: #E05A3C;
 }
 
 .horizon-nav-link.active::after {
@@ -1754,11 +1789,11 @@ body.horizon-menu-locked {
   bottom: -1px;
   left: 50%;
   transform: translateX(-50%);
-  width: 18px;
+  width: 22px;
   height: 2px;
-  background: #82ADA4;
+  background: #E05A3C;
   border-radius: 2px;
-  box-shadow: 0 0 8px #82ADA4;
+  box-shadow: 0 0 10px #E05A3C, 0 0 4px #FFFFFF;
 }
 
 /* Botão Sanduíche (Mobile Toggle) */
