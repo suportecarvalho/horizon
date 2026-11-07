@@ -28,6 +28,9 @@ namespace Oxide.Plugins
         // Cache em memória de avatares já buscados nesta sessão (steamid → url)
         private readonly Dictionary<string, string> avatarCache = new Dictionary<string, string>();
 
+        // Rastreamento de quem derrubou (wounded) cada jogador para creditar o kill se ele sangrar ou der F1 kill
+        private readonly Dictionary<ulong, ulong> lastWoundAttacker = new Dictionary<ulong, ulong>();
+
         // -------------------------------------------------------------
         // CONFIGURAÇÃO UNIFICADA
         // -------------------------------------------------------------
@@ -265,6 +268,7 @@ namespace Oxide.Plugins
             }
 
             SaveData();
+            lastWoundAttacker.Clear();
             Puts("[HorizonCore] Descarregado e dados salvos com sucesso.");
         }
 
@@ -504,30 +508,99 @@ namespace Oxide.Plugins
         // -------------------------------------------------------------
         // 2. HOOKS: PVP, RECURSOS, FARMING E RAID (Horizonleadbords)
         // -------------------------------------------------------------
-        private void OnPlayerDeath(BasePlayer victim, HitInfo info)
+        private void OnPlayerWound(BasePlayer victim, HitInfo info)
         {
             if (victim == null || victim.IsNpc) return;
-
-            bool isPvpKill = info?.InitiatorPlayer != null && !info.InitiatorPlayer.IsNpc && info.InitiatorPlayer != victim;
-            if (isPvpKill)
+            BasePlayer attacker = ResolveAttacker(victim, info);
+            if (attacker != null && !attacker.IsNpc && attacker != victim)
             {
-                var victimStats = GetOrCreate(victim);
-                if (victimStats != null) victimStats.Deaths++;
+                lastWoundAttacker[victim.userID] = attacker.userID;
+            }
+        }
 
-                var killer = info.InitiatorPlayer;
+        private BasePlayer ResolveAttacker(BasePlayer victim, HitInfo info)
+        {
+            if (victim == null) return null;
+
+            // 1. Atacante direto no HitInfo
+            if (info?.InitiatorPlayer != null && !info.InitiatorPlayer.IsNpc && info.InitiatorPlayer != victim)
+            {
+                return info.InitiatorPlayer;
+            }
+
+            // 2. Iniciador como entidade (foguete, C4, flecha de fogo, granada, torreta, armadilha)
+            if (info?.Initiator != null)
+            {
+                var p = info.Initiator as BasePlayer 
+                        ?? info.Initiator.ToPlayer() 
+                        ?? (info.Initiator as BaseEntity)?.creatorEntity as BasePlayer;
+                if (p != null && !p.IsNpc && p != victim)
+                {
+                    return p;
+                }
+            }
+
+            // 3. Fallback para lastAttacker mantido nativamente no BaseCombatEntity pelo Rust
+            if (victim.lastAttacker != null)
+            {
+                var p = victim.lastAttacker as BasePlayer 
+                        ?? victim.lastAttacker.ToPlayer() 
+                        ?? (victim.lastAttacker as BaseEntity)?.creatorEntity as BasePlayer;
+                if (p != null && !p.IsNpc && p != victim)
+                {
+                    return p;
+                }
+            }
+
+            // 4. Se a vítima caiu ferida e sangrou até a morte ou deu F1 kill, credita a quem derrubou
+            if (lastWoundAttacker.TryGetValue(victim.userID, out ulong woundAttackerId))
+            {
+                var p = BasePlayer.FindByID(woundAttackerId) ?? BasePlayer.FindSleeping(woundAttackerId);
+                if (p != null && !p.IsNpc && p != victim)
+                {
+                    return p;
+                }
+            }
+
+            return null;
+        }
+
+        private void OnEntityDeath(BaseCombatEntity entity, HitInfo info)
+        {
+            var victim = entity as BasePlayer;
+            if (victim == null || victim.IsNpc) return;
+
+            BasePlayer killer = ResolveAttacker(victim, info);
+
+            var victimStats = GetOrCreate(victim);
+            if (victimStats != null)
+            {
+                victimStats.Deaths++;
+            }
+
+            if (killer != null && !killer.IsNpc && killer != victim)
+            {
                 var killerStats = GetOrCreate(killer);
                 if (killerStats != null)
                 {
                     killerStats.Kills++;
-                    if (info.isHeadshot) killerStats.Headshots++;
+                    if (info != null && info.isHeadshot) killerStats.Headshots++;
 
                     float dist = Vector3.Distance(killer.transform.position, victim.transform.position);
                     if (dist > killerStats.MaxKillDistance)
                     {
                         killerStats.MaxKillDistance = dist;
                     }
+
+                    if (config.LogToConsole)
+                    {
+                        Puts($"[HorizonCore PVP] Kill registrado: {killer.displayName} matou {victim.displayName} (Total de Kills: {killerStats.Kills})");
+                    }
                 }
             }
+
+            // Limpa registro de ferimento
+            lastWoundAttacker.Remove(victim.userID);
         }
 
         private void OnDispenserGather(ResourceDispenser dispenser, BaseEntity entity, Item item)
@@ -1211,6 +1284,91 @@ namespace Oxide.Plugins
         private void CmdStats(ConsoleSystem.Arg arg)
         {
             arg.ReplyWith($"[HorizonCore] Jogadores no Ranking: {data.Players.Count} | Status API: {config.StatusApiUrl} | Leaderboards API: {config.LeaderboardApiUrl}");
+        }
+
+        [ConsoleCommand("horizon.addkills")]
+        private void CmdConsoleAddKills(ConsoleSystem.Arg arg)
+        {
+            if (arg.Player() != null && !arg.Player().IsAdmin)
+            {
+                arg.ReplyWith("Apenas administradores podem executar este comando.");
+                return;
+            }
+            if (!arg.HasArgs(2))
+            {
+                arg.ReplyWith("Uso: horizon.addkills <steamid ou nome> <quantidade>");
+                return;
+            }
+
+            string target = arg.GetString(0);
+            int amount = arg.GetInt(1, 0);
+
+            PlayerStats stats = null;
+            if (!data.Players.TryGetValue(target, out stats))
+            {
+                foreach (var p in data.Players.Values)
+                {
+                    if (p.Name != null && p.Name.IndexOf(target, StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        stats = p;
+                        break;
+                    }
+                }
+            }
+
+            if (stats == null)
+            {
+                arg.ReplyWith($"[HorizonCore] Jogador '{target}' não encontrado nos dados deste wipe.");
+                return;
+            }
+
+            stats.Kills += amount;
+            if (stats.Kills < 0) stats.Kills = 0;
+            SaveData();
+            SendLeaderboardToWeb();
+            arg.ReplyWith($"[HorizonCore] Atualizado: {stats.Name} agora possui {stats.Kills} kills no ranking!");
+        }
+
+        [ConsoleCommand("horizon.setkills")]
+        private void CmdConsoleSetKills(ConsoleSystem.Arg arg)
+        {
+            if (arg.Player() != null && !arg.Player().IsAdmin)
+            {
+                arg.ReplyWith("Apenas administradores podem executar este comando.");
+                return;
+            }
+            if (!arg.HasArgs(2))
+            {
+                arg.ReplyWith("Uso: horizon.setkills <steamid ou nome> <quantidade>");
+                return;
+            }
+
+            string target = arg.GetString(0);
+            int amount = arg.GetInt(1, 0);
+
+            PlayerStats stats = null;
+            if (!data.Players.TryGetValue(target, out stats))
+            {
+                foreach (var p in data.Players.Values)
+                {
+                    if (p.Name != null && p.Name.IndexOf(target, StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        stats = p;
+                        break;
+                    }
+                }
+            }
+
+            if (stats == null)
+            {
+                arg.ReplyWith($"[HorizonCore] Jogador '{target}' não encontrado nos dados deste wipe.");
+                return;
+            }
+
+            stats.Kills = Math.Max(0, amount);
+            SaveData();
+            SendLeaderboardToWeb();
+            arg.ReplyWith($"[HorizonCore] Definido: {stats.Name} agora possui {stats.Kills} kills no ranking!");
         }
     }
 }
