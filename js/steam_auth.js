@@ -1,6 +1,6 @@
 /**
  * Horizon Rust - Sistema de Autenticação Steam OpenID
- * Gerencia a sessão do jogador, badge de perfil no topo e destaque no ranking.
+ * Gerencia a sessão do jogador, badge de perfil no topo (desktop e gaveta mobile) e destaque no ranking.
  */
 (function() {
   'use strict';
@@ -45,55 +45,95 @@
   }
 
   function resetUserHeader() {
-    const pills = document.querySelectorAll('.horizon-steam-user-pill');
+    const pills = document.querySelectorAll('.horizon-steam-user-pill, .horizon-mobile-user-card');
     pills.forEach(pill => {
-      const btn = document.createElement('a');
-      btn.href = '/auth/steam?redirect=' + encodeURIComponent(window.location.pathname);
-      btn.setAttribute('data-slot', 'button');
-      btn.setAttribute('data-variant', 'outline');
-      btn.setAttribute('data-size', 'cabecalho');
-      btn.className = "group/button inline-flex shrink-0 items-center justify-center rounded-lg border bg-clip-padding whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 btn-corte [--corte:8px] h-8 gap-1.5 px-3.5 font-heading text-[0.7rem] font-bold tracking-[0.06em] uppercase";
-      btn.innerHTML = 'Entrar<span class="some-no-estreito">&nbsp;com Steam</span>';
-      pill.replaceWith(btn);
+      const isMobile = pill.classList.contains('horizon-mobile-user-card') || pill.closest('.horizon-mobile-auth-slot');
+      if (isMobile) {
+        const btn = document.createElement('a');
+        btn.href = '/auth/steam?redirect=' + encodeURIComponent(window.location.pathname);
+        btn.className = 'horizon-mobile-steam-login';
+        btn.innerHTML = `
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2a10 10 0 0 0-10 10c0 4.8 3.4 8.8 8 9.8v-4.6a2.5 2.5 0 0 1-1.3-.9l-3.3 1.3a4.4 4.4 0 0 1-.4-2.8l2.6-1.1a2.5 2.5 0 0 1 2.4-.7l2.2-3.2A4.2 4.2 0 1 1 16.2 12l-3.2 2.2a2.5 2.5 0 0 1-.7 2.3v.1a2.5 2.5 0 0 1-2.3 2.5v.9c.7.1 1.3.1 2 .1a10 10 0 0 0 10-10A10 10 0 0 0 12 2zm4.2 7a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z"/>
+          </svg>
+          <span>Entrar com Steam</span>
+        `;
+        pill.replaceWith(btn);
+      } else {
+        const btn = document.createElement('a');
+        btn.href = '/auth/steam?redirect=' + encodeURIComponent(window.location.pathname);
+        btn.setAttribute('data-slot', 'button');
+        btn.setAttribute('data-variant', 'outline');
+        btn.setAttribute('data-size', 'cabecalho');
+        btn.className = "horizon-auth-desktop group/button inline-flex shrink-0 items-center justify-center rounded-lg border bg-clip-padding whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 btn-corte [--corte:8px] h-8 gap-1.5 px-3.5 font-heading text-[0.7rem] font-bold tracking-[0.06em] uppercase";
+        btn.innerHTML = 'Entrar<span class="some-no-estreito">&nbsp;com Steam</span>';
+        pill.replaceWith(btn);
+      }
     });
   }
 
   function renderUserHeader(user) {
-    const steamButtons = document.querySelectorAll('a[href="/auth/steam"], a[href^="/auth/steam"]');
+    const steamButtons = document.querySelectorAll('a[href="/auth/steam"], a[href^="/auth/steam"], .horizon-mobile-steam-login');
     
     steamButtons.forEach(btn => {
-      const wrapper = document.createElement('div');
-      wrapper.className = 'horizon-steam-user-pill';
-      wrapper.style.cssText = `
-        display: inline-flex;
-        align-items: center;
-        gap: 9px;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        padding: 4px 10px 4px 5px;
-        border-radius: 9999px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-        transition: all 0.2s ease;
-      `;
-
+      const isMobile = btn.classList.contains('horizon-mobile-steam-login') || btn.closest('.horizon-mobile-auth-slot');
       const avatarSrc = (user.avatar || 'https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg').replace(/\\\//g, '/');
       const isAdm = user.isAdmin || user.steamId === '76561198737554294' || user.steamid === '76561198737554294';
 
-      wrapper.innerHTML = `
-        <div style="position: relative; display: flex; align-items: center; justify-content: center;">
-          <img src="${avatarSrc}" alt="${user.name}" style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 1.5px solid ${isAdm ? '#D7573B' : '#6C978E'}; display: block;" onerror="this.onerror=null;this.src='https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg';">
-          <span style="position: absolute; bottom: -1px; right: -1px; width: 8px; height: 8px; background: #22c55e; border-radius: 50%; border: 1.5px solid #13100F;"></span>
-        </div>
-        <span style="color: #EDE8E5; font-weight: 700; font-size: 0.8rem; letter-spacing: 0.02em; max-width: 130px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-          ${user.name}
-        </span>
-        ${isAdm ? `<span style="background: rgba(215, 87, 59, 0.35); border: 1px solid #D7573B; color: #ff8b70; font-size: 0.65rem; padding: 1px 5px; border-radius: 4px; font-weight: 800; letter-spacing: 0.05em;">ADM</span>` : ''}
-        <a href="/auth/logout" onclick="try{localStorage.removeItem('horizon_steam_user');}catch(e){}" title="Sair da conta Steam" style="color: #71717a; display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; text-decoration: none; transition: all 0.2s ease; margin-left: 2px;" onmouseover="this.style.color='#ef4444';this.style.background='rgba(239,68,68,0.15)'" onmouseout="this.style.color='#71717a';this.style.background='transparent'">
-          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-        </a>
-      `;
+      if (isMobile) {
+        const card = document.createElement('div');
+        card.className = 'horizon-mobile-user-card';
+        card.innerHTML = `
+          <div class="horizon-mobile-user-top">
+            <div class="horizon-mobile-avatar-wrap">
+              <img src="${avatarSrc}" alt="${user.name}" class="horizon-mobile-avatar" onerror="this.onerror=null;this.src='https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg';">
+              <span class="horizon-mobile-status-dot"></span>
+            </div>
+            <div class="horizon-mobile-user-info">
+              <div class="horizon-mobile-user-name-row">
+                <span class="horizon-mobile-user-name">${user.name}</span>
+                ${isAdm ? `<span class="horizon-adm-badge">ADM</span>` : ''}
+              </div>
+              <span class="horizon-mobile-user-status">Conectado via Steam</span>
+            </div>
+          </div>
+          <a href="/auth/logout" class="horizon-mobile-logout-btn" onclick="try{localStorage.removeItem('horizon_steam_user');}catch(e){}" title="Sair da conta Steam">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+            <span>Desconectar</span>
+          </a>
+        `;
+        btn.replaceWith(card);
+      } else {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'horizon-steam-user-pill horizon-auth-desktop';
+        wrapper.style.cssText = `
+          display: inline-flex;
+          align-items: center;
+          gap: 9px;
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          padding: 4px 10px 4px 5px;
+          border-radius: 9999px;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+          transition: all 0.2s ease;
+        `;
 
-      btn.replaceWith(wrapper);
+        wrapper.innerHTML = `
+          <div style="position: relative; display: flex; align-items: center; justify-content: center;">
+            <img src="${avatarSrc}" alt="${user.name}" style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 1.5px solid ${isAdm ? '#D7573B' : '#6C978E'}; display: block;" onerror="this.onerror=null;this.src='https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg';">
+            <span style="position: absolute; bottom: -1px; right: -1px; width: 8px; height: 8px; background: #22c55e; border-radius: 50%; border: 1.5px solid #13100F;"></span>
+          </div>
+          <span style="color: #EDE8E5; font-weight: 700; font-size: 0.8rem; letter-spacing: 0.02em; max-width: 130px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+            ${user.name}
+          </span>
+          ${isAdm ? `<span style="background: rgba(215, 87, 59, 0.35); border: 1px solid #D7573B; color: #ff8b70; font-size: 0.65rem; padding: 1px 5px; border-radius: 4px; font-weight: 800; letter-spacing: 0.05em;">ADM</span>` : ''}
+          <a href="/auth/logout" onclick="try{localStorage.removeItem('horizon_steam_user');}catch(e){}" title="Sair da conta Steam" style="color: #71717a; display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; text-decoration: none; transition: all 0.2s ease; margin-left: 2px;" onmouseover="this.style.color='#ef4444';this.style.background='rgba(239,68,68,0.15)'" onmouseout="this.style.color='#71717a';this.style.background='transparent'">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+          </a>
+        `;
+
+        btn.replaceWith(wrapper);
+      }
     });
   }
 
