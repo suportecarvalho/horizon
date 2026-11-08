@@ -1,0 +1,30 @@
+{
+  "ApiBaseUrl": "https://lojahorizon.vercel.app",
+  "IntervaloSincronizacaoSegundos": 30,
+  "CriarGruposOxideAutomaticamente": true,
+  "GruposVip": {
+    "bronze": "vip_bronze",
+    "prata": "vip_prata",
+    "ouro": "vip_ouro"
+  },
+  "PermissoesPorTier": {
+    "bronze": [
+      "kits.vipbronze",
+      "skippriority.vip"
+    ],
+    "prata": [
+      "kits.vipprata",
+      "skippriority.vip"
+    ],
+    "ouro": [
+      "kits.vipouro",
+      "skippriority.vip"
+    ]
+  },
+  "ComandosAoAtivar": {
+    "bronze": [],
+    "prata": [],
+    "ouro": []
+  },
+  "PrefixoChat": "<color=#D7573B>[HORIZON VIP]</color>"
+}
