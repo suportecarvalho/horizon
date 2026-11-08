@@ -67,7 +67,6 @@
       activeNav = 'loja';
     } else if (path.startsWith('/leaderboards')) {
       activeNav = 'ranking';
-      activeDropdown = 'servidores';
     } else if (path.startsWith('/equipe')) {
       activeNav = 'equipe';
       activeDropdown = 'comunidade';
