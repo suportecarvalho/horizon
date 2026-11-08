@@ -1,0 +1,41 @@
+Comandos Servidor Horizon
+---------------------------------------------------------
+Tornar Dono ou remover
+
+ownerid 76561198737554294  Lucas
+ownerid 76561199127717531  Althoff
+
+removemoderator 
+
+Tornar ADM ou Remover ADM
+
+moderatorid ID
+oxide.usergroup remove ID admin
+---------------------------------------------------------
+Dar vip
+
+oxide.grant user ID kits.vipprata
+oxide.grant user ID kits.vipbronze
+oxide.grant user ID kits.vipouro
+---------------------------------------------------------
+Salvar alterações do servidor
+
+server.writecfg
+---------------------------------------------------------
+Comando para Mudar o horário do servidor para as 9h da manhã
+
+env.time 9
+---------------------------------------------------------
+Comando para dropar caixas
+
+spawn codelockedhackablecrate / hackablelockedcrate.requiredhackseconds 900 seg  Mudar tempo - Dropa caixa hackeavel
+spawn supply_drop - Dropa Airdrop
+
+spawn crocodile
+---------------------------------------------------------
+Senhas 
+
+1CUR4RKCC2aD#3lt File zila
+r8+cy%eChoh2CfW# painel AMP
+
+

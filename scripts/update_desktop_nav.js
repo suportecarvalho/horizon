@@ -79,3 +79,4 @@ files.forEach(file => {
     console.log('Regex not matched in:', file);
   }
 });
+
