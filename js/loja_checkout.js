@@ -39,17 +39,17 @@
       name: 'Kit Farmer',
       price: 'R$ 10,00',
       numericPrice: 10.00,
-      img: '/images/kits-farmer.png',
+      img: '/images/kits-farmer.jpg',
       badgeColor: '#10B981',
       badgeBorder: '#059669',
       badgeBg: 'rgba(16, 185, 129, 0.15)',
-      perks: '2x Jackhammers • 2x Motosserras • 8x Caldeirões Especiais • 10x Buffs de Farm'
+      perks: '2x Jackhammers • 2x Motosserras • 5x Caldeirões • 100x Chá • 3x Tortas'
     },
     airdrop: {
       name: 'Kit Airdrop',
       price: 'R$ 10,00',
       numericPrice: 10.00,
-      img: '/images/kits-airdrop.png',
+      img: '/images/kits-airdrop.jpg',
       badgeColor: '#EF4444',
       badgeBorder: '#DC2626',
       badgeBg: 'rgba(239, 68, 68, 0.15)',
@@ -59,21 +59,21 @@
       name: 'Kit Cartões & Puzzles',
       price: 'R$ 10,00',
       numericPrice: 10.00,
-      img: '/images/kits-cartao.png',
+      img: '/images/kits-cartao.jpg',
       badgeColor: '#3B82F6',
       badgeBorder: '#2563EB',
       badgeBg: 'rgba(59, 130, 246, 0.15)',
-      perks: '3x Cartões Verdes • 3x Azuis • 2x Vermelhos • 10x Fusíveis Elétricos'
+      perks: '3x Cartões Verdes • 3x Azuis • 3x Vermelhos • 10x Fusíveis Elétricos'
     },
     eletrica: {
       name: 'Kit Elétrica & Automação',
       price: 'R$ 10,00',
       numericPrice: 10.00,
-      img: '/images/kits-eletrica.png',
+      img: '/images/kits-eletrica.jpg',
       badgeColor: '#F59E0B',
       badgeBorder: '#D97706',
       badgeBg: 'rgba(245, 158, 11, 0.15)',
-      perks: 'Turbina Eólica • 4x Painéis Solares • 2x Baterias Grandes • Auto Turret'
+      perks: 'Turbina Eólica • Painel Solar • Bateria • Caixas Seletoras & Ferramentas'
     }
   };
 
