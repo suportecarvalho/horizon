@@ -53,27 +53,68 @@ module.exports = async (req, res) => {
       console.warn('[VIP Pending MP Search Warning]:', e.message);
     }
 
-    const formatted = pending.map(order => {
-      const tier = (order.vip_tier || 'bronze').toLowerCase();
-      const kit = (config.kits && config.kits[tier]) || {
-        name: `VIP ${tier.toUpperCase()}`,
-        group: `vip_${tier}`,
-        kitPermission: `kits.vip${tier}`
-      };
+    const formatted = [];
+    for (const order of pending) {
+      const rawData = (typeof order.raw_data === 'string')
+        ? (() => { try { return JSON.parse(order.raw_data); } catch (e) { return {}; } })()
+        : (order.raw_data || {});
+      const items = Array.isArray(rawData.items) && rawData.items.length > 0
+        ? rawData.items
+        : (Array.isArray(order.items) && order.items.length > 0
+            ? order.items
+            : (order.vip_tier && order.vip_tier.includes(',') ? order.vip_tier.split(',') : [order.vip_tier || 'bronze']));
 
-      return {
-        orderId: order.id,
-        paymentId: order.payment_id,
-        steamId: String(order.steam_id),
-        playerName: order.player_name || 'Jogador',
-        vipTier: tier,
-        groupName: kit.group || `vip_${tier}`,
-        kitPermission: kit.kitPermission || `kits.vip${tier}`,
-        approvedAt: order.approved_at,
-        expiresAt: order.expires_at,
-        durationDays: 30
-      };
-    });
+      const grantedItems = Array.isArray(order.granted_items) ? order.granted_items : [];
+
+      if (items.length > 1) {
+        items.forEach((it, idx) => {
+          const tier = String(it).toLowerCase().trim();
+          const subKey = `${tier}_${idx}`;
+          if (grantedItems.includes(subKey) || (grantedItems.includes(tier) && items.filter(x => x === tier).length === 1)) {
+            return;
+          }
+
+          const kit = (config.kits && config.kits[tier]) || {
+            name: `VIP ${tier.toUpperCase()}`,
+            group: `vip_${tier}`,
+            kitPermission: `kits.vip${tier}`
+          };
+
+          formatted.push({
+            orderId: `${order.id}__${subKey}`,
+            paymentId: order.payment_id,
+            steamId: String(order.steam_id),
+            playerName: order.player_name || 'Jogador',
+            vipTier: tier,
+            groupName: kit.group || `vip_${tier}`,
+            kitPermission: kit.kitPermission || `kits.vip${tier}`,
+            approvedAt: order.approved_at,
+            expiresAt: order.expires_at,
+            durationDays: 30
+          });
+        });
+      } else {
+        const tier = (items[0] || 'bronze').toLowerCase().trim();
+        const kit = (config.kits && config.kits[tier]) || {
+          name: `VIP ${tier.toUpperCase()}`,
+          group: `vip_${tier}`,
+          kitPermission: `kits.vip${tier}`
+        };
+
+        formatted.push({
+          orderId: order.id,
+          paymentId: order.payment_id,
+          steamId: String(order.steam_id),
+          playerName: order.player_name || 'Jogador',
+          vipTier: tier,
+          groupName: kit.group || `vip_${tier}`,
+          kitPermission: kit.kitPermission || `kits.vip${tier}`,
+          approvedAt: order.approved_at,
+          expiresAt: order.expires_at,
+          durationDays: 30
+        });
+      }
+    }
 
     return res.status(200).json({
       success: true,

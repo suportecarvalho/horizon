@@ -81,16 +81,54 @@ module.exports = async (req, res) => {
     }
 
     const config = getMPConfig();
-    let tier = (vipTier || 'bronze').toLowerCase().trim();
-    if (tier === 'kit-farmer' || tier === 'kit_farmer') tier = 'farmer';
-    if (tier === 'kit-airdrop' || tier === 'kit_airdrop' || tier === 'drop' || tier === 'kit-drop') tier = 'airdrop';
-    if (tier === 'kit-cartao' || tier === 'kit_cartao' || tier === 'cards' || tier === 'cartoes') tier = 'cartao';
-    if (tier === 'kit-eletrica' || tier === 'kit_eletrica' || tier === 'eletrico') tier = 'eletrica';
-    const kit = config.kits[tier];
 
-    if (!kit) {
-      return res.status(400).json({ error: `Plano ou Kit inválido: ${vipTier}. Escolha bronze, prata, ouro, farmer, airdrop, cartao ou eletrica.` });
+    // Normalização dos itens recebidos (suporta item único via vipTier ou múltiplos itens via items/cart)
+    function normalizeTier(t) {
+      let tier = String(t || '').toLowerCase().trim();
+      if (tier === 'kit-farmer' || tier === 'kit_farmer') tier = 'farmer';
+      if (tier === 'kit-airdrop' || tier === 'kit_airdrop' || tier === 'drop' || tier === 'kit-drop') tier = 'airdrop';
+      if (tier === 'kit-cartao' || tier === 'kit_cartao' || tier === 'cards' || tier === 'cartoes') tier = 'cartao';
+      if (tier === 'kit-eletrica' || tier === 'kit_eletrica' || tier === 'eletrico') tier = 'eletrica';
+      return tier;
     }
+
+    let rawItems = [];
+    if (Array.isArray(body.items) && body.items.length > 0) {
+      rawItems = body.items;
+    } else if (Array.isArray(body.cart) && body.cart.length > 0) {
+      rawItems = body.cart;
+    } else if (body.vipTier) {
+      rawItems = [body.vipTier];
+    } else {
+      rawItems = ['bronze'];
+    }
+
+    const validItems = [];
+    for (const item of rawItems) {
+      const tierKey = normalizeTier(typeof item === 'object' ? (item.tier || item.id) : item);
+      const kitDef = config.kits[tierKey];
+      if (!kitDef) {
+        return res.status(400).json({ error: `Plano ou Kit inválido: ${tierKey}. Escolha bronze, prata, ouro, farmer, airdrop, cartao ou eletrica.` });
+      }
+      validItems.push({
+        tier: tierKey,
+        name: kitDef.name,
+        price: Number(kitDef.price),
+        group: kitDef.group,
+        kitPermission: kitDef.kitPermission
+      });
+    }
+
+    if (validItems.length === 0) {
+      return res.status(400).json({ error: 'Nenhum item selecionado para compra.' });
+    }
+
+    const totalAmount = validItems.reduce((acc, it) => acc + it.price, 0);
+    const isCart = validItems.length > 1;
+    const tier = isCart ? 'carrinho' : validItems[0].tier;
+    const vipName = isCart
+      ? `Carrinho Horizon (${validItems.map(it => it.name.replace(' (30 Dias)', '')).join(' + ')})`
+      : validItems[0].name;
 
     // Busca detalhes do jogador no Steam se não vier da sessão
     let playerName = sessionUser ? sessionUser.name : (payerName || '');
@@ -102,7 +140,8 @@ module.exports = async (req, res) => {
       if (!playerAvatar) playerAvatar = steamInfo.avatar;
     }
 
-    const orderId = `HORIZON-${tier.toUpperCase()}-${Date.now().toString(36).toUpperCase()}-${Math.floor(100 + Math.random() * 900)}`;
+    const orderPrefix = isCart ? 'HORIZON-CART' : `HORIZON-${validItems[0].tier.toUpperCase()}`;
+    const orderId = `${orderPrefix}-${Date.now().toString(36).toUpperCase()}-${Math.floor(100 + Math.random() * 900)}`;
     const baseUrl = getBaseUrl(req);
 
     // Cria cobrança PIX no Mercado Pago
@@ -113,12 +152,12 @@ module.exports = async (req, res) => {
     try {
       pixData = await createPixPayment({
         orderId,
-        amount: kit.price,
-        description: `${kit.name} - Rust Horizon (30 Dias)`,
+        amount: totalAmount,
+        description: `${vipName} - Rust Horizon (30 Dias)`,
         payerEmail: email || `jogador_${steamId}@rusthorizon.com`,
         payerName: playerName,
         steamId,
-        vipTier: tier,
+        vipTier: validItems.map(it => it.tier).join(','),
         baseUrl
       });
       mpPaymentId = pixData ? pixData.id : null;
@@ -134,11 +173,11 @@ module.exports = async (req, res) => {
     try {
       preferenceData = await createPreference({
         orderId,
-        amount: kit.price,
-        description: `${kit.name} - Rust Horizon (30 Dias)`,
+        amount: totalAmount,
+        description: `${vipName} - Rust Horizon (30 Dias)`,
         payerEmail: email || `jogador_${steamId}@rusthorizon.com`,
         steamId,
-        vipTier: tier,
+        vipTier: validItems.map(it => it.tier).join(','),
         baseUrl
       });
     } catch (e) {}
@@ -150,13 +189,17 @@ module.exports = async (req, res) => {
       steam_id: String(steamId),
       player_name: playerName,
       player_avatar: playerAvatar,
-      vip_tier: tier,
-      amount: kit.price,
+      vip_tier: validItems.map(it => it.tier).join(','),
+      vip_name: vipName,
+      items: validItems.map(it => it.tier),
+      amount: totalAmount,
       status: 'pending',
       granted: false,
+      granted_items: [],
       created_at: new Date().toISOString(),
       expires_at: null, // Será preenchido ao aprovar (+30 dias)
       raw_data: {
+        items: validItems.map(it => it.tier),
         pix_copia_e_cola: pixData?.point_of_interaction?.transaction_data?.qr_code || '',
         ticket_url: pixData?.point_of_interaction?.transaction_data?.ticket_url || '',
         preference_url: preferenceData?.init_point || ''
@@ -169,9 +212,11 @@ module.exports = async (req, res) => {
       success: true,
       orderId,
       paymentId: mpPaymentId,
-      amount: kit.price,
+      amount: totalAmount,
       vipTier: tier,
-      vipName: kit.name,
+      vipName: vipName,
+      items: validItems,
+      isCart,
       player: {
         steamId,
         name: playerName,

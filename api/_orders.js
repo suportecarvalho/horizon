@@ -214,9 +214,44 @@ async function getPendingDeliveries() {
  */
 async function markOrderGranted(orderId) {
   if (!orderId) return false;
-  let order = await getOrder(orderId);
   const now = new Date().toISOString();
 
+  // Tratamento para entregas de itens individuais do carrinho
+  if (orderId.includes('__')) {
+    const [parentOrderId, subKey] = orderId.split('__');
+    let parentOrder = await getOrder(parentOrderId);
+    if (parentOrder) {
+      parentOrder.granted_items = Array.isArray(parentOrder.granted_items) ? parentOrder.granted_items : [];
+      if (!parentOrder.granted_items.includes(subKey)) {
+        parentOrder.granted_items.push(subKey);
+      }
+      const rawData = (typeof parentOrder.raw_data === 'string') 
+        ? (() => { try { return JSON.parse(parentOrder.raw_data); } catch (e) { return {}; } })() 
+        : (parentOrder.raw_data || {});
+      const itemsList = Array.isArray(rawData.items) 
+        ? rawData.items 
+        : (parentOrder.vip_tier && parentOrder.vip_tier.includes(',') 
+            ? parentOrder.vip_tier.split(',') 
+            : (Array.isArray(parentOrder.items) ? parentOrder.items : [parentOrder.vip_tier || 'bronze']));
+      const totalItems = itemsList.length;
+      if (parentOrder.granted_items.length >= totalItems) {
+        parentOrder.granted = true;
+        parentOrder.granted_at = now;
+      }
+      await saveOrder(parentOrder);
+    }
+    // Salva o registro da sub-entrega para idempotência
+    await saveOrder({
+      id: String(orderId),
+      parent_order_id: parentOrderId,
+      status: 'approved',
+      granted: true,
+      granted_at: now
+    });
+    return true;
+  }
+
+  let order = await getOrder(orderId);
   if (!order) {
     order = {
       id: String(orderId),
