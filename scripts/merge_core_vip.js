@@ -350,7 +350,7 @@ namespace Oxide.Plugins
             {
                 if (string.IsNullOrEmpty(kv.Value.Avatar))
                 {
-                    FetchSteamAvatar(kv.Key);
+                    FetchSteamAvatar(kv.Key, kv.Value);
                 }
             }
         }
@@ -700,3 +700,4 @@ const finalCode = unified + coreRest + vipMethods + "\n    }\n}\n";
 
 fs.writeFileSync('HorizonCore.cs', finalCode, 'utf8');
 console.log('Successfully wrote unified HorizonCore.cs (v3.0.0)! Total lines:', finalCode.split('\n').length);
+

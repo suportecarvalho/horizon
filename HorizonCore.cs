@@ -344,7 +344,7 @@ namespace Oxide.Plugins
             {
                 if (string.IsNullOrEmpty(kv.Value.Avatar))
                 {
-                    FetchSteamAvatar(kv.Key);
+                    FetchSteamAvatar(kv.Key, kv.Value);
                 }
             }
         }
@@ -439,6 +439,15 @@ private void OnNewSave(string filename)
         // -------------------------------------------------------------
         // AVATAR DO STEAM (Via miniprofile, sem expor chaves sensíveis)
         // -------------------------------------------------------------
+        private void FetchSteamAvatar(string steamId)
+        {
+            if (string.IsNullOrEmpty(steamId)) return;
+            if (data.Players.TryGetValue(steamId, out var stats))
+            {
+                FetchSteamAvatar(steamId, stats);
+            }
+        }
+
         private void FetchSteamAvatar(string steamId, PlayerStats stats)
         {
             if (string.IsNullOrEmpty(steamId)) return;
@@ -1361,7 +1370,11 @@ private void OnNewSave(string filename)
 
             SyncServerStatus("Comando Admin horizon.syncall");
             SendLeaderboardToWeb();
-            arg.ReplyWith("[HorizonCore] Sincronização total (Status + Leaderboards) solicitada!");
+            if (config.VipEnabled)
+            {
+                CheckPendingDeliveries();
+            }
+            arg.ReplyWith("[HorizonCore] Sincronização total (Status + Leaderboards + VIPs) solicitada!");
         }
 
         [ConsoleCommand("horizon.reset")]
