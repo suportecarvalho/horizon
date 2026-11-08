@@ -14,9 +14,9 @@ oxide.usergroup remove ID admin
 ---------------------------------------------------------
 Dar vip
 
-oxide.grant user 76561199127717531 kits.prata        
+oxide.grant user 76561198411523793 kits.prata        
 oxide.grant user 76561199127717531 kits.bronze
-oxide.grant user 76561199127717531 kits.ouro
+oxide.grant user 76561198411523793 kits.ouro
 oxide.grant user 76561199127717531 kits.cartao
 oxide.grant user 76561199127717531 kits.farmer
 oxide.grant user 76561199127717531 kits.eletrica

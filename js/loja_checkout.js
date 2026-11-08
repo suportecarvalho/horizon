@@ -58,6 +58,15 @@
       badgeBorder: '#2563eb',
       badgeBg: 'rgba(59, 130, 246, 0.15)',
       perks: '3x Cartões Verdes • 3x Azuis • 2x Vermelhos • 10x Fusíveis Elétricos'
+    },
+    eletrica: {
+      name: 'Kit Elétrica & Automação',
+      price: 'R$ 10,00',
+      numericPrice: 10.00,
+      badgeColor: '#f59e0b',
+      badgeBorder: '#d97706',
+      badgeBg: 'rgba(245, 158, 11, 0.15)',
+      perks: 'Turbina Eólica • 4x Painéis Solares • 2x Baterias Grandes • Auto Turret'
     }
   };
 
