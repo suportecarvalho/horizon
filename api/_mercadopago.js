@@ -16,7 +16,7 @@ function getMPConfig() {
     kits: {
       bronze: { name: "VIP Bronze (30 Dias)", price: 20.00, group: "vip_bronze", kitPermission: "kits.vipbronze" },
       prata: { name: "VIP Prata (30 Dias)", price: 40.00, group: "vip_prata", kitPermission: "kits.vipprata" },
-      ouro: { name: "VIP Ouro (30 Dias)", price: 62.00, group: "vip_ouro", kitPermission: "kits.vipouro" }
+      ouro: { name: "VIP Ouro (30 Dias)", price: 60.00, group: "vip_ouro", kitPermission: "kits.vipouro" }
     }
   };
 

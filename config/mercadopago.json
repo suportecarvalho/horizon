@@ -21,10 +21,10 @@
     },
     "ouro": {
       "name": "VIP Ouro (30 Dias)",
-      "price": 62.00,
+      "price": 60.00,
       "group": "vip_ouro",
       "kitPermission": "kits.vipouro",
-      "itemsCount": 29
+      "itemsCount": 30
     }
   }
 }

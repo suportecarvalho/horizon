@@ -25,12 +25,12 @@
     },
     ouro: {
       name: 'VIP Ouro',
-      price: 'R$ 62,00',
-      numericPrice: 62.00,
+      price: 'R$ 60,00',
+      numericPrice: 60.00,
       badgeColor: '#fbbf24',
       badgeBorder: '#f59e0b',
       badgeBg: 'rgba(245, 158, 11, 0.15)',
-      perks: '29 Itens no Inventário • Workbench T3 • Porta Blindada • Mini Refinarias • Skip Fila'
+      perks: '30 Itens no Inventário • 2x Portas Blindadas • 2x Garagens • 2x Airdrops • Skip Fila'
     }
   };
 
