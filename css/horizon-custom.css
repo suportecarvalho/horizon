@@ -1,41 +1,56 @@
 
 /* ==============================================================
-   TEMA RUST HORIZON - PALETA EXTRAÍDA DO BANNER
-   - Rust Orange / Terracota: #D7573B / #E8684A
-   - Retro Sky Teal / Pátina: #6C978E / #82ADA4 / #37534E
-   - Mountain Sand / Ocre:   #C48D66 / #DEAC86
-   - Dark Umber / Carvão:     #13100F / #1A1513 / #221B19
+   TEMA TERRA HOSTIL (100% FIDELIDADE)
+   - Background: #191A1E com radial gradients
+   - Cards e Superfícies: #202127 (var(--bg2))
+   - Cards Secundários / Muted: #26272E (var(--bg3))
+   - Header / Barra: #0A0A0A (var(--bg-barra))
+   - Cor Marca: #CE422B / #E34834
+   - Bordas: rgba(255, 255, 255, 0.08) (#FFFFFF14)
+   - Textos: #FFFFFFEB / #FFFFFF99 / #FFFFFF66
    ============================================================== */
 
 :root {
-  --marca: #D7573B !important;
-  --marca-hover: #E8684A !important;
-  --marca-glow: rgba(215, 87, 59, 0.35) !important;
+  --bg: #191a1e !important;
+  --bg2: #202127 !important;
+  --bg3: #26272e !important;
+  --bg-barra: #0a0a0a !important;
+  --marca: #ce422b !important;
+  --marca-hover: #e34834 !important;
+  --marca-glow: rgba(206, 66, 43, 0.35) !important;
   
-  --teal-horizon: #6C978E !important;
-  --teal-horizon-hover: #82ADA4 !important;
-  --teal-horizon-bg: rgba(108, 151, 142, 0.12) !important;
-  --teal-horizon-border: rgba(108, 151, 142, 0.3) !important;
-
-  --sand-horizon: #C48D66 !important;
-  --sand-horizon-bg: rgba(196, 141, 102, 0.15) !important;
-
-  --primary: #D7573B !important;
-  --primary-foreground: #FFFFFF !important;
-  --background: #13100F !important;
-  --foreground: #EDE8E5 !important;
-  --card: #1C1615 !important;
-  --card-foreground: #EDE8E5 !important;
-  --border: rgba(108, 151, 142, 0.22) !important;
-  --text: rgba(255, 255, 255, 0.92) !important;
+  --green: #2ecc71 !important;
+  --border: rgba(255, 255, 255, 0.08) !important;
+  --border-subtle: rgba(255, 255, 255, 0.05) !important;
+  --text: #ffffffeb !important;
   --text-muted: rgba(255, 255, 255, 0.6) !important;
   --text-dim: rgba(255, 255, 255, 0.4) !important;
-  --bg-alt: #11100f !important;
+  --console: #0e0f13 !important;
+
+  --primary: var(--marca) !important;
+  --primary-foreground: #FFFFFF !important;
+  --background: var(--bg) !important;
+  --foreground: var(--text) !important;
+  --card: var(--bg2) !important;
+  --card-foreground: var(--text) !important;
+  --popover: var(--bg2) !important;
+  --popover-foreground: var(--text) !important;
+  --secondary: var(--bg3) !important;
+  --secondary-foreground: var(--text) !important;
+  --muted: var(--bg3) !important;
+  --muted-foreground: var(--text-muted) !important;
+  --accent: var(--bg3) !important;
+  --accent-foreground: var(--text) !important;
+  --input: rgba(255, 255, 255, 0.12) !important;
+  --ring: var(--marca) !important;
+  --bg-alt: #16171b !important;
 }
 
 html, body {
-  background-color: #13100F !important;
-  color: #EDE8E5 !important;
+  background-color: var(--bg) !important;
+  color: var(--text) !important;
+  background-image: radial-gradient(1100px 520px at 50% -180px, rgba(206, 66, 43, 0.07), transparent 72%), radial-gradient(900px 900px at 100% 8%, rgba(196, 120, 80, 0.03), transparent 70%) !important;
+  background-attachment: fixed !important;
   overflow-x: hidden !important;
   width: 100% !important;
 }
@@ -45,9 +60,9 @@ html, body {
    AJUSTES DO CABEÇALHO E LOGO RUST HORIZON
    ============================================================== */
 .site-header {
-  background: rgba(19, 16, 15, 0.94) !important;
+  background: var(--bg-barra) !important;
   backdrop-filter: blur(14px) !important;
-  border-bottom: 1px solid rgba(108, 151, 142, 0.22) !important;
+  border-bottom: 1px solid var(--border) !important;
   min-height: 85px !important;
   width: 100% !important;
   position: relative !important;
@@ -477,38 +492,46 @@ video.hero-midia {
   transform: translateY(-2px) !important;
 }
 
-/* Cards de Loja e VIP */
-[data-slot="card"] {
-  background: #1C1615 !important;
-  border: 1px solid rgba(108, 151, 142, 0.22) !important;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
-  transition: all 0.2s ease;
+/* Cards de Loja e VIP (Padrão Terra Hostil) */
+[data-slot="card"],
+.loja-cartao {
+  background: var(--bg2) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+  transition: all 0.2s ease !important;
 }
 
-[data-slot="card"]:hover {
-  border-color: rgba(215, 87, 59, 0.5) !important;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6), 0 0 20px rgba(215, 87, 59, 0.15) !important;
+[data-slot="card"]:hover,
+.loja-cartao:hover {
+  border-color: rgba(255, 255, 255, 0.16) !important;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6) !important;
 }
 
 .vip-nome {
-  color: #EDE8E5 !important;
+  color: var(--text) !important;
   font-weight: 800 !important;
 }
 
 .preco-valor {
-  color: #D7573B !important;
-  font-weight: 800 !important;
-  text-shadow: 0 0 15px rgba(215, 87, 59, 0.3);
+  color: var(--text) !important;
+  font-weight: 700 !important;
+  font-family: var(--font-mono) !important;
 }
 
 .perk::before {
-  color: #6C978E !important;
+  content: "" !important;
+  background: var(--marca) !important;
+  flex: none !important;
+  width: 5px !important;
+  height: 5px !important;
+  margin-top: .55em !important;
 }
 
 /* Rodapé */
-footer {
-  background: #0E0C0B !important;
-  border-top: 1px solid rgba(108, 151, 142, 0.2) !important;
+footer,
+.site-footer {
+  background: var(--bg-barra) !important;
+  border-top: 1px solid var(--border) !important;
 }
 
 /* Ajustes de Links e Navegação */
@@ -788,33 +811,33 @@ footer.site-footer {
    ========================================================= */
 body:has(.ranking),
 .ranking {
-  --bg: #13100F !important;
-  --bg2: #161312 !important;
-  --bg3: #1C1615 !important;
-  --border: rgba(108, 151, 142, 0.22) !important;
-  --border-subtle: rgba(255, 255, 255, 0.06) !important;
+  --bg: #191a1e !important;
+  --bg2: #202127 !important;
+  --bg3: #26272e !important;
+  --border: rgba(255, 255, 255, 0.08) !important;
+  --border-subtle: rgba(255, 255, 255, 0.05) !important;
 }
 
 .ranking {
-  background-color: #13100F !important;
+  background-color: var(--bg) !important;
 }
 
 .ranking .olho {
-  color: #82ADA4 !important;
+  color: var(--marca) !important;
   font-weight: 700 !important;
   letter-spacing: 0.08em !important;
   text-transform: uppercase !important;
 }
 
 .ranking-servidores {
-  background: #181514 !important;
-  border-color: rgba(108, 151, 142, 0.25) !important;
+  background: var(--bg2) !important;
+  border-color: var(--border) !important;
 }
 
 .ranking-servidor-atual {
-  background: rgba(108, 151, 142, 0.18) !important;
-  border-color: rgba(108, 151, 142, 0.45) !important;
-  color: #82ADA4 !important;
+  background: var(--bg3) !important;
+  border-color: var(--marca) !important;
+  color: #FFFFFF !important;
 }
 
 .ranking-controles {
