@@ -435,7 +435,7 @@
             const res = await fetch('/api/leaderboard?t=' + Date.now());
             if (res.ok) {
               const json = await res.json();
-              if ((json.pvp && json.pvp.length > 0) || (json.raid && json.raid.length > 0)) {
+              if (json && (Array.isArray(json.pvp) || json.server)) {
                 data = json;
               }
             }

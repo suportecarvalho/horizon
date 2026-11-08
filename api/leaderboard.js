@@ -32,7 +32,7 @@ module.exports = async (req, res) => {
   const dataFile = path.join(process.cwd(), 'data', 'leaderboard.json');
 
   if (req.method === 'GET') {
-    const isCacheValid = memoryData && (Date.now() - lastMemoryTime < CACHE_TTL_MS) && ((memoryData.pvp && memoryData.pvp.length > 0) || (memoryData.raid && memoryData.raid.length > 0));
+    const isCacheValid = memoryData && (Date.now() - lastMemoryTime < CACHE_TTL_MS);
     if (isCacheValid) {
       return res.status(200).json(memoryData);
     }
@@ -99,6 +99,7 @@ module.exports = async (req, res) => {
       }
 
       memoryData = data;
+      lastMemoryTime = Date.now();
 
       // Persistir no Supabase para acesso global no Vercel
       if (supabase) {

@@ -307,6 +307,7 @@ namespace Oxide.Plugins
             // === 2. MÓDULO LEADERBOARD ===
             int lbInterval = Math.Max(1, config.LeaderboardSyncIntervalMinutes);
             leaderboardTimer = timer.Every(lbInterval * 60f, SendLeaderboardToWeb);
+            timer.Once(6f, SendLeaderboardToWeb);
 
             // === 3. MÓDULO VIP ===
             if (config.VipEnabled)
@@ -372,20 +373,20 @@ namespace Oxide.Plugins
 
             SaveData();
         }
-private void OnNewSave(string filename)
+        private void OnNewSave(string filename)
         {
-            Puts($"[HorizonCore] Novo wipe detectado (Save: {filename})! Arquivando ranking do wipe anterior e reiniciando...");
+            Puts($"[HorizonCore] Novo wipe detectado (Save: {filename})! Arquivando ranking do wipe anterior e reiniciando ranking...");
             try
             {
                 string archiveName = $"HorizonLeaderboards_Wipe_{DateTime.UtcNow:yyyyMMdd_HHmmss}";
-                Interface.Oxide.DataFileSystem.WriteObject(archiveName, data);
+                Interface.Oxide.DataFileSystem.WriteObject(archiveName, new { Players = data.Players });
             }
             catch (Exception ex)
             {
                 PrintError($"[HorizonCore] Erro ao arquivar wipe anterior: {ex.Message}");
             }
 
-            data = new StoredData();
+            data.Players.Clear();
             SaveData();
 
             // Notifica novo wipe imediatamente ao site (Status + Leaderboard limpo)
@@ -996,10 +997,7 @@ private void OnNewSave(string filename)
             {
                 if (code == 200)
                 {
-                    if (config.LogToConsole)
-                    {
-                        Puts($"[HorizonCore] Leaderboards enviados com sucesso! ({data.Players.Count} jogadores sincronizados)");
-                    }
+                    Puts($"[HorizonCore] Leaderboards enviados com sucesso para o site! ({data.Players.Count} jogadores sincronizados)");
                 }
                 else
                 {
@@ -1386,10 +1384,10 @@ private void OnNewSave(string filename)
                 return;
             }
 
-            data = new StoredData();
+            data.Players.Clear();
             SaveData();
             SendLeaderboardToWeb();
-            arg.ReplyWith("[HorizonCore] Todos os dados do ranking foram reiniciados!");
+            arg.ReplyWith("[HorizonCore] Todos os dados do ranking deste wipe foram reiniciados e sincronizados com o site!");
         }
 
         [ConsoleCommand("wipe.leaderboard")]

@@ -313,6 +313,7 @@ namespace Oxide.Plugins
             // === 2. MÓDULO LEADERBOARD ===
             int lbInterval = Math.Max(1, config.LeaderboardSyncIntervalMinutes);
             leaderboardTimer = timer.Every(lbInterval * 60f, SendLeaderboardToWeb);
+            timer.Once(6f, SendLeaderboardToWeb);
 
             // === 3. MÓDULO VIP ===
             if (config.VipEnabled)
