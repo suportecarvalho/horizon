@@ -1854,9 +1854,9 @@ namespace Oxide.Plugins
             foreach (var kv in data.ActiveVips)
             {
                 var v = kv.Value;
+                if (v == null) continue;
                 var rest = v.ExpiresAt - DateTime.UtcNow;
-                string expStr = v.ExpiresAt.ToLocalTime().ToString("dd/MM/yyyy HH:mm");
-                arg.ReplyWith($"• {v.PlayerName} ({v.SteamId}) | {v.Tier.ToUpper()} | Restam: {rest.Days}d {rest.Hours}h (Expira: {expStr})");
+                arg.ReplyWith($"[VIP] {v.PlayerName} ({v.SteamId}) | {v.Tier.ToUpper()} | Restam: {rest.Days}d {rest.Hours}h (Expira: {v.ExpiresAt.ToLocalTime():dd/MM/yyyy HH:mm})");
             }
         }
 
