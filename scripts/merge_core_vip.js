@@ -644,7 +644,7 @@ const vipMethods = `
         [ConsoleCommand("vip.grant")]
         private void CmdVipGrant(ConsoleSystem.Arg arg)
         {
-            if (arg.Player() != null && !arg.Player().IsAdmin) return;
+            if (!arg.IsAdmin) return;
             if (arg.Args == null || arg.Args.Length < 2)
             {
                 arg.ReplyWith("Uso: vip.grant <steamid> <bronze|prata|ouro> [dias]");
@@ -670,7 +670,7 @@ const vipMethods = `
         [ConsoleCommand("vip.revoke")]
         private void CmdVipRevoke(ConsoleSystem.Arg arg)
         {
-            if (arg.Player() != null && !arg.Player().IsAdmin) return;
+            if (!arg.IsAdmin) return;
             if (arg.Args == null || arg.Args.Length < 1)
             {
                 arg.ReplyWith("Uso: vip.revoke <steamid>");
@@ -685,13 +685,14 @@ const vipMethods = `
         [ConsoleCommand("vip.list")]
         private void CmdVipList(ConsoleSystem.Arg arg)
         {
-            if (arg.Player() != null && !arg.Player().IsAdmin) return;
+            if (!arg.IsAdmin) return;
             arg.ReplyWith($"=== VIPs ATIVOS NO HORIZON ({data.ActiveVips.Count}) ===");
             foreach (var kv in data.ActiveVips)
             {
                 var v = kv.Value;
                 var rest = v.ExpiresAt - DateTime.UtcNow;
-                arg.ReplyWith($"• {v.PlayerName} ({v.SteamId}) | {v.Tier.ToUpper()} | Restam: {rest.Days}d {rest.Hours}h (Expira: {v.ExpiresAt.ToLocalTime():dd/MM/yyyy HH:mm})");
+                string expStr = v.ExpiresAt.ToLocalTime().ToString("dd/MM/yyyy HH:mm");
+                arg.ReplyWith($"• {v.PlayerName} ({v.SteamId}) | {v.Tier.ToUpper()} | Restam: {rest.Days}d {rest.Hours}h (Expira: {expStr})");
             }
         }
 `;

@@ -1336,7 +1336,7 @@ private void OnNewSave(string filename)
         [ConsoleCommand("horizon.status")]
         private void CmdStatus(ConsoleSystem.Arg arg)
         {
-            if (arg.Player() != null && !arg.Player().IsAdmin)
+            if (!arg.IsAdmin)
             {
                 arg.ReplyWith("Apenas administradores podem executar este comando.");
                 return;
@@ -1349,7 +1349,7 @@ private void OnNewSave(string filename)
         [ConsoleCommand("horizon.sync")]
         private void CmdSync(ConsoleSystem.Arg arg)
         {
-            if (arg.Player() != null && !arg.Player().IsAdmin)
+            if (!arg.IsAdmin)
             {
                 arg.ReplyWith("Apenas administradores podem executar este comando.");
                 return;
@@ -1362,7 +1362,7 @@ private void OnNewSave(string filename)
         [ConsoleCommand("horizon.syncall")]
         private void CmdSyncAll(ConsoleSystem.Arg arg)
         {
-            if (arg.Player() != null && !arg.Player().IsAdmin)
+            if (!arg.IsAdmin)
             {
                 arg.ReplyWith("Apenas administradores podem executar este comando.");
                 return;
@@ -1380,7 +1380,7 @@ private void OnNewSave(string filename)
         [ConsoleCommand("horizon.reset")]
         private void CmdReset(ConsoleSystem.Arg arg)
         {
-            if (arg.Player() != null && !arg.Player().IsAdmin)
+            if (!arg.IsAdmin)
             {
                 arg.ReplyWith("Apenas administradores podem executar este comando.");
                 return;
@@ -1407,7 +1407,7 @@ private void OnNewSave(string filename)
         [ConsoleCommand("horizon.addkills")]
         private void CmdConsoleAddKills(ConsoleSystem.Arg arg)
         {
-            if (arg.Player() != null && !arg.Player().IsAdmin)
+            if (!arg.IsAdmin)
             {
                 arg.ReplyWith("Apenas administradores podem executar este comando.");
                 return;
@@ -1450,7 +1450,7 @@ private void OnNewSave(string filename)
         [ConsoleCommand("horizon.setkills")]
         private void CmdConsoleSetKills(ConsoleSystem.Arg arg)
         {
-            if (arg.Player() != null && !arg.Player().IsAdmin)
+            if (!arg.IsAdmin)
             {
                 arg.ReplyWith("Apenas administradores podem executar este comando.");
                 return;
@@ -1740,7 +1740,7 @@ private void OnNewSave(string filename)
         [ConsoleCommand("vip.grant")]
         private void CmdVipGrant(ConsoleSystem.Arg arg)
         {
-            if (arg.Player() != null && !arg.Player().IsAdmin) return;
+            if (!arg.IsAdmin) return;
             if (arg.Args == null || arg.Args.Length < 2)
             {
                 arg.ReplyWith("Uso: vip.grant <steamid> <bronze|prata|ouro> [dias]");
@@ -1766,7 +1766,7 @@ private void OnNewSave(string filename)
         [ConsoleCommand("vip.revoke")]
         private void CmdVipRevoke(ConsoleSystem.Arg arg)
         {
-            if (arg.Player() != null && !arg.Player().IsAdmin) return;
+            if (!arg.IsAdmin) return;
             if (arg.Args == null || arg.Args.Length < 1)
             {
                 arg.ReplyWith("Uso: vip.revoke <steamid>");
@@ -1781,13 +1781,14 @@ private void OnNewSave(string filename)
         [ConsoleCommand("vip.list")]
         private void CmdVipList(ConsoleSystem.Arg arg)
         {
-            if (arg.Player() != null && !arg.Player().IsAdmin) return;
+            if (!arg.IsAdmin) return;
             arg.ReplyWith($"=== VIPs ATIVOS NO HORIZON ({data.ActiveVips.Count}) ===");
             foreach (var kv in data.ActiveVips)
             {
                 var v = kv.Value;
                 var rest = v.ExpiresAt - DateTime.UtcNow;
-                arg.ReplyWith($"• {v.PlayerName} ({v.SteamId}) | {v.Tier.ToUpper()} | Restam: {rest.Days}d {rest.Hours}h (Expira: {v.ExpiresAt.ToLocalTime():dd/MM/yyyy HH:mm})");
+                string expStr = v.ExpiresAt.ToLocalTime().ToString("dd/MM/yyyy HH:mm");
+                arg.ReplyWith($"• {v.PlayerName} ({v.SteamId}) | {v.Tier.ToUpper()} | Restam: {rest.Days}d {rest.Hours}h (Expira: {expStr})");
             }
         }
 
