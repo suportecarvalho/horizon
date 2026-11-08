@@ -122,21 +122,7 @@
 </div>
 
 <!-- ==================== SEÇÃO 2: KITS INDIVIDUAIS (R$ 10 CADA) ==================== -->
-<div id="secao-kits-header" style="margin: 64px 0 28px 0; text-align: center; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 50px;">
-  <div style="display:inline-flex; align-items:center; gap:8px; background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.35); padding:7px 20px; border-radius:999px; margin-bottom:14px;">
-    <span style="font-size:1.1rem;">🎒</span>
-    <span style="color:#34D399; font-weight:800; font-size:0.82rem; letter-spacing:0.08em; text-transform:uppercase;">Kits Individuais Avulsos</span>
-    <span style="background:#10B981; color:#000; font-weight:900; font-size:0.7rem; padding:2px 8px; border-radius:4px;">R$ 10,00 CADA</span>
-  </div>
-  <h2 class="titulo titulo-secao" style="font-size:1.8rem; margin:0 0 10px 0; color:#FFFFFF;">
-    Kits Especializados para o seu Wipe
-  </h2>
-  <p style="color:#94A3B8; font-size:0.92rem; margin:0 auto; max-width:620px; line-height:1.5;">
-    Kits avulsos com resgate recorrente para acelerar seu farm, convocar airdrops militares, ativar puzzles de monumentos e automatizar defesas elétricas.
-  </p>
-</div>
-
-<div id="secao-kits" class="vip-grade">
+<div id="secao-kits" class="vip-grade" style="margin-top:24px;">
   <!-- ==================== KIT FARMER ==================== -->
   <div data-slot="card" data-size="default" class="group/card flex flex-col rounded-xl bg-card text-sm text-card-foreground ring-1 ring-[#10B981]/40 has-data-[slot=card-footer]:pb-0 has-[>div:first-child]:pt-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[div:first-child]:rounded-t-xl *:[div:last-child]:rounded-b-xl relative [--card-spacing:1.5rem] gap-4 overflow-hidden transition-all duration-300 hover:ring-2 hover:ring-[#10B981] hover:shadow-[0_10px_35px_rgba(16,185,129,0.22)]">
     <div class="relative overflow-hidden cursor-pointer group/img" onclick="openKitModal('farmer')" title="Clique para ver o inventário completo do Kit Farmer" style="background: #0c0a09; width: 100%;">
@@ -526,7 +512,7 @@ function scrollToLojaSection(id) {
 
 function switchLojaTab(tab) {
   if (tab === 'kits') {
-    scrollToLojaSection('secao-kits-header');
+    scrollToLojaSection('secao-kits');
     try { history.replaceState(null, null, '#kits'); } catch (e) {}
   } else {
     scrollToLojaSection('secao-vips');
@@ -536,7 +522,7 @@ function switchLojaTab(tab) {
 
 // Auto-rola suavemente se tiver #kits na URL
 if (window.location.hash === '#kits' || window.location.search.includes('tab=kits')) {
-  setTimeout(() => scrollToLojaSection('secao-kits-header'), 200);
+  setTimeout(() => scrollToLojaSection('secao-kits'), 200);
 }
 
 function closeKitModal(e) {
