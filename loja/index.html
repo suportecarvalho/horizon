@@ -59,12 +59,13 @@
       </div>
       <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded text-[0.7rem] font-bold tracking-wider uppercase bg-[#CD7F32] text-white shadow-md">VIP BRONZE</span>
     </div>
-    <div data-slot="card-content" class="px-(--card-spacing) relative flex flex-1 flex-col gap-3">
+    <div data-slot="card-content" onclick="openKitModal('bronze')" class="px-(--card-spacing) relative flex flex-1 flex-col gap-3 cursor-pointer">
       <div class="flex items-center justify-between gap-2">
         <h3 class="vip-nome" style="color: #E6A15C; font-size: 1.35rem; font-weight: 800; letter-spacing: 0.02em; margin: 0;">VIP Bronze</h3>
         <span data-slot="badge" class="inline-flex h-5 items-center justify-center rounded border border-[var(--border)] px-2 text-xs font-semibold text-[var(--text-muted)]" style="background: rgba(255,255,255,0.04);">30 dias</span>
       </div>
       <div data-orientation="horizontal" role="none" data-slot="separator" class="shrink-0 data-horizontal:h-px data-horizontal:w-full bg-[var(--border)]"></div>
+      <button type="button" onclick="event.stopPropagation(); openKitModal('bronze')" style="background:rgba(205,127,50,0.12); border:1px solid rgba(205,127,50,0.35); color:#E6A15C; padding:7px 12px; border-radius:6px; font-size:0.75rem; font-weight:700; text-transform:uppercase; cursor:pointer; width:100%; display:flex; align-items:center; justify-content:center; gap:6px;">🔍 Ver Itens & Benefícios</button>
       <div class="mt-auto flex flex-col gap-1 pt-1">
         <span class="preco-valor" style="color: #E6A15C; font-weight: 900; font-size: 1.65rem;">R$ 20,00</span>
       </div>
@@ -84,12 +85,13 @@
       </div>
       <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded text-[0.7rem] font-bold tracking-wider uppercase bg-[#94A3B8] text-black shadow-md font-extrabold">VIP PRATA</span>
     </div>
-    <div data-slot="card-content" class="px-(--card-spacing) relative flex flex-1 flex-col gap-3">
+    <div data-slot="card-content" onclick="openKitModal('prata')" class="px-(--card-spacing) relative flex flex-1 flex-col gap-3 cursor-pointer">
       <div class="flex items-center justify-between gap-2">
         <h3 class="vip-nome" style="color: #E2E8F0; font-size: 1.35rem; font-weight: 800; letter-spacing: 0.02em; margin: 0;">VIP Prata</h3>
         <span data-slot="badge" class="inline-flex h-5 items-center justify-center rounded border border-[var(--border)] px-2 text-xs font-semibold text-[var(--text-muted)]" style="background: rgba(255,255,255,0.04);">30 dias</span>
       </div>
       <div data-orientation="horizontal" role="none" data-slot="separator" class="shrink-0 data-horizontal:h-px data-horizontal:w-full bg-[var(--border)]"></div>
+      <button type="button" onclick="event.stopPropagation(); openKitModal('prata')" style="background:rgba(226,232,240,0.1); border:1px solid rgba(226,232,240,0.3); color:#E2E8F0; padding:7px 12px; border-radius:6px; font-size:0.75rem; font-weight:700; text-transform:uppercase; cursor:pointer; width:100%; display:flex; align-items:center; justify-content:center; gap:6px;">🔍 Ver Itens & Benefícios</button>
       <div class="mt-auto flex flex-col gap-1 pt-1">
         <span class="preco-valor" style="color: #E2E8F0; font-weight: 900; font-size: 1.65rem;">R$ 40,00</span>
       </div>
@@ -109,12 +111,13 @@
       </div>
       <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded text-[0.7rem] font-bold tracking-wider uppercase bg-gradient-to-r from-amber-500 to-yellow-400 text-black shadow-md font-extrabold">👑 MAIS COMPLETO • VIP OURO</span>
     </div>
-    <div data-slot="card-content" class="px-(--card-spacing) relative flex flex-1 flex-col gap-3">
+    <div data-slot="card-content" onclick="openKitModal('ouro')" class="px-(--card-spacing) relative flex flex-1 flex-col gap-3 cursor-pointer">
       <div class="flex items-center justify-between gap-2">
         <h3 class="vip-nome" style="color: #FBBF24; font-size: 1.35rem; font-weight: 800; letter-spacing: 0.02em; margin: 0;">VIP Ouro</h3>
         <span data-slot="badge" class="inline-flex h-5 items-center justify-center rounded border border-[var(--border)] px-2 text-xs font-semibold text-[var(--text-muted)]" style="background: rgba(255,255,255,0.04);">30 dias</span>
       </div>
       <div data-orientation="horizontal" role="none" data-slot="separator" class="shrink-0 data-horizontal:h-px data-horizontal:w-full bg-[var(--border)]"></div>
+      <button type="button" onclick="event.stopPropagation(); openKitModal('ouro')" style="background:rgba(245,158,11,0.12); border:1px solid rgba(245,158,11,0.35); color:#FBBF24; padding:7px 12px; border-radius:6px; font-size:0.75rem; font-weight:700; text-transform:uppercase; cursor:pointer; width:100%; display:flex; align-items:center; justify-content:center; gap:6px;">🔍 Ver Itens & Benefícios</button>
       <div class="mt-auto flex flex-col gap-1 pt-1">
         <span class="preco-valor" style="color: #FBBF24; font-weight: 900; font-size: 1.65rem;">R$ 60,00</span>
       </div>
@@ -138,13 +141,14 @@
       <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded text-[0.7rem] font-bold tracking-wider uppercase bg-[#10B981] text-black shadow-md font-extrabold">KIT FARMER</span>
       <span class="absolute top-2.5 right-2.5 px-2 py-0.5 rounded text-[0.65rem] font-bold tracking-wider uppercase bg-black/70 text-emerald-300 border border-emerald-500/30">CD 8H</span>
     </div>
-    <div data-slot="card-content" class="px-(--card-spacing) relative flex flex-1 flex-col gap-3">
+    <div data-slot="card-content" onclick="openKitModal('farmer')" class="px-(--card-spacing) relative flex flex-1 flex-col gap-3 cursor-pointer">
       <div class="flex items-center justify-between gap-2">
         <h3 class="vip-nome" style="color: #34D399; font-size: 1.35rem; font-weight: 800; letter-spacing: 0.02em; margin: 0;">Kit Farmer</h3>
         <span data-slot="badge" class="inline-flex h-5 items-center justify-center rounded border border-[var(--border)] px-2 text-xs font-semibold text-[var(--text-muted)]" style="background: rgba(255,255,255,0.04);">30 dias</span>
       </div>
       <p style="color:#94A3B8; font-size:0.8rem; margin:0; line-height:1.4;">2x Jackhammer, 2x Motosserra, 8x Caldeirões especiais e 10x Buffs de Farm.</p>
       <div data-orientation="horizontal" role="none" data-slot="separator" class="shrink-0 data-horizontal:h-px data-horizontal:w-full bg-[var(--border)]"></div>
+      <button type="button" onclick="event.stopPropagation(); openKitModal('farmer')" style="background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.35); color:#34D399; padding:7px 12px; border-radius:6px; font-size:0.75rem; font-weight:700; text-transform:uppercase; cursor:pointer; width:100%; display:flex; align-items:center; justify-content:center; gap:6px;">🔍 Ver Itens do Kit</button>
       <div class="mt-auto flex flex-col gap-1 pt-1">
         <span class="preco-valor" style="color: #34D399; font-weight: 900; font-size: 1.65rem;">R$ 10,00</span>
       </div>
@@ -165,13 +169,14 @@
       <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded text-[0.7rem] font-bold tracking-wider uppercase bg-[#EF4444] text-white shadow-md font-extrabold">KIT AIRDROP</span>
       <span class="absolute top-2.5 right-2.5 px-2 py-0.5 rounded text-[0.65rem] font-bold tracking-wider uppercase bg-black/70 text-red-300 border border-red-500/30">CD 12H</span>
     </div>
-    <div data-slot="card-content" class="px-(--card-spacing) relative flex flex-1 flex-col gap-3">
+    <div data-slot="card-content" onclick="openKitModal('airdrop')" class="px-(--card-spacing) relative flex flex-1 flex-col gap-3 cursor-pointer">
       <div class="flex items-center justify-between gap-2">
         <h3 class="vip-nome" style="color: #F87171; font-size: 1.35rem; font-weight: 800; letter-spacing: 0.02em; margin: 0;">Kit Airdrop</h3>
         <span data-slot="badge" class="inline-flex h-5 items-center justify-center rounded border border-[var(--border)] px-2 text-xs font-semibold text-[var(--text-muted)]" style="background: rgba(255,255,255,0.04);">30 dias</span>
       </div>
       <p style="color:#94A3B8; font-size:0.8rem; margin:0; line-height:1.4;">2x Supply Signals (Granadas para chamar Avião de Carga militar com loot de Airdrop).</p>
       <div data-orientation="horizontal" role="none" data-slot="separator" class="shrink-0 data-horizontal:h-px data-horizontal:w-full bg-[var(--border)]"></div>
+      <button type="button" onclick="event.stopPropagation(); openKitModal('airdrop')" style="background:rgba(239,68,68,0.12); border:1px solid rgba(239,68,68,0.35); color:#F87171; padding:7px 12px; border-radius:6px; font-size:0.75rem; font-weight:700; text-transform:uppercase; cursor:pointer; width:100%; display:flex; align-items:center; justify-content:center; gap:6px;">🔍 Ver Itens do Kit</button>
       <div class="mt-auto flex flex-col gap-1 pt-1">
         <span class="preco-valor" style="color: #F87171; font-weight: 900; font-size: 1.65rem;">R$ 10,00</span>
       </div>
@@ -192,13 +197,14 @@
       <span class="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded text-[0.7rem] font-bold tracking-wider uppercase bg-[#3B82F6] text-white shadow-md font-extrabold">KIT CARTÕES</span>
       <span class="absolute top-2.5 right-2.5 px-2 py-0.5 rounded text-[0.65rem] font-bold tracking-wider uppercase bg-black/70 text-blue-300 border border-blue-500/30">CD 8H</span>
     </div>
-    <div data-slot="card-content" class="px-(--card-spacing) relative flex flex-1 flex-col gap-3">
+    <div data-slot="card-content" onclick="openKitModal('cartao')" class="px-(--card-spacing) relative flex flex-1 flex-col gap-3 cursor-pointer">
       <div class="flex items-center justify-between gap-2">
         <h3 class="vip-nome" style="color: #60A5FA; font-size: 1.35rem; font-weight: 800; letter-spacing: 0.02em; margin: 0;">Kit Cartões</h3>
         <span data-slot="badge" class="inline-flex h-5 items-center justify-center rounded border border-[var(--border)] px-2 text-xs font-semibold text-[var(--text-muted)]" style="background: rgba(255,255,255,0.04);">30 dias</span>
       </div>
       <p style="color:#94A3B8; font-size:0.8rem; margin:0; line-height:1.4;">3x Cartões Verdes, 3x Azuis, 2x Vermelhos e 10x Fusíveis Elétricos de Puzzle.</p>
       <div data-orientation="horizontal" role="none" data-slot="separator" class="shrink-0 data-horizontal:h-px data-horizontal:w-full bg-[var(--border)]"></div>
+      <button type="button" onclick="event.stopPropagation(); openKitModal('cartao')" style="background:rgba(59,130,246,0.12); border:1px solid rgba(59,130,246,0.35); color:#60A5FA; padding:7px 12px; border-radius:6px; font-size:0.75rem; font-weight:700; text-transform:uppercase; cursor:pointer; width:100%; display:flex; align-items:center; justify-content:center; gap:6px;">🔍 Ver Itens do Kit</button>
       <div class="mt-auto flex flex-col gap-1 pt-1">
         <span class="preco-valor" style="color: #60A5FA; font-weight: 900; font-size: 1.65rem;">R$ 10,00</span>
       </div>
@@ -262,10 +268,10 @@ const KITS_DATA = {
       </div>
       <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(108,151,142,0.2); border-radius:8px; padding:14px;">
         <strong style="color:#CD7F32; text-transform:uppercase; font-size:0.78rem; letter-spacing:0.06em; display:block; margin-bottom:6px;">Ferramentas & Especiais:</strong>
-        • 1x Picareta de Metal Recuperada<br>
-        • 1x Machado de Metal Recuperado<br>
-        • 1x Fornalha Especial Abóbora (Caldeirão)<br>
-        • 1x Fornalha Especial Festiva (Caldeirão)<br>
+        • 1x Picareta de Metal Recuperada (Salvaged Icepick)<br>
+        • 1x Machado de Metal Recuperado (Salvaged Axe)<br>
+        • 1x Chá Puro de Madeira (Pure Wood Tea - Buff de Farm)<br>
+        • 1x Chá Puro de Minério (Pure Ore Tea - Buff de Farm)<br>
         • Skip fila com Prioridade Máxima no Servidor
       </div>
     `
@@ -295,9 +301,9 @@ const KITS_DATA = {
         <strong style="color:#E2E8F0; text-transform:uppercase; font-size:0.78rem; letter-spacing:0.06em; display:block; margin-bottom:6px;">Ferramentas, Cartões & Especiais:</strong>
         • 1x Martelo Demolidor (Jackhammer)<br>
         • 1x Motosserra (Chainsaw)<br>
-        • 1x Supply Signal (Airdrop com avião)<br>
+        • 1x Supply Signal (Airdrop com avião militar)<br>
         • 1x Cartão de Acesso Azul • 1x Cartão de Acesso Vermelho<br>
-        • 1x Fornalha Especial Abóbora • 1x Fornalha Especial Festiva<br>
+        • 1x Chá Puro de Madeira & 1x Chá Puro de Minério (Buffs Puros)<br>
         • Skip fila com Prioridade Máxima no Servidor
       </div>
     `
@@ -324,18 +330,18 @@ const KITS_DATA = {
         • 10x Corpos Semi-Automáticos • 10x Corpos de SMG • 10x Corpos de Rifle
       </div>
       <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(108,151,142,0.2); border-radius:8px; padding:14px; margin-bottom:12px;">
-        <strong style="color:#F59E0B; text-transform:uppercase; font-size:0.78rem; letter-spacing:0.06em; display:block; margin-bottom:6px;">Construção & Proteção:</strong>
-        • 2x Portas Blindadas (Armored Door)<br>
-        • 2x Portas de Garagem (Garage Door)<br>
-        • 2x Caixas Grandes de Madeira (Large Box)
+        <strong style="color:#F59E0B; text-transform:uppercase; font-size:0.78rem; letter-spacing:0.06em; display:block; margin-bottom:6px;">Construção & Armazenamento:</strong>
+        • 2x Portas Blindadas Simples (Armored Single Door)<br>
+        • 2x Portas Blindadas Duplas (Armored Double Door)<br>
+        • 2x Caixões de Armazenamento Grandes (Coffin Storage)
       </div>
       <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(108,151,142,0.2); border-radius:8px; padding:14px;">
         <strong style="color:#F59E0B; text-transform:uppercase; font-size:0.78rem; letter-spacing:0.06em; display:block; margin-bottom:6px;">Ferramentas, Cartões & Especiais:</strong>
         • 2x Martelos Demolidores (Jackhammer)<br>
         • 2x Motosserras (Chainsaw)<br>
-        • 2x Supply Signals (Airdrops com avião)<br>
+        • 2x Supply Signals (Airdrops com avião militar)<br>
         • 3x Cartões Verdes • 3x Cartões Azuis • 3x Cartões Vermelhos<br>
-        • 1x Fornalha Especial Abóbora • 1x Fornalha Especial Festiva<br>
+        • 1x Chá Puro de Madeira & 1x Chá Puro de Minério (Buffs Puros)<br>
         • Skip fila com Prioridade Máxima no Servidor
       </div>
     `
@@ -482,13 +488,6 @@ function switchLojaTab(tab) {
 // Auto-seleciona se tiver #kits na URL
 if (window.location.hash === '#kits' || window.location.search.includes('tab=kits')) {
   setTimeout(() => switchLojaTab('kits'), 50);
-}
-  document.getElementById('modal-kit-details').innerHTML = data.html;
-  document.getElementById('modal-kit-buy-btn').href = data.buyUrl;
-  
-  const overlay = document.getElementById('kit-modal-overlay');
-  overlay.style.display = 'flex';
-  document.body.style.overflow = 'hidden';
 }
 
 function closeKitModal(e) {
