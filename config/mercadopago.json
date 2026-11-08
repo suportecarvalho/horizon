@@ -25,6 +25,34 @@
       "group": "vip_ouro",
       "kitPermission": "kits.vipouro",
       "itemsCount": 30
+    },
+    "farmer": {
+      "name": "Kit Farmer",
+      "price": 10.00,
+      "group": "kit_farmer",
+      "kitPermission": "kits.farmer",
+      "itemsCount": 20
+    },
+    "airdrop": {
+      "name": "Kit Airdrop",
+      "price": 10.00,
+      "group": "kit_drop",
+      "kitPermission": "kits.drop",
+      "itemsCount": 2
+    },
+    "cartao": {
+      "name": "Kit Cartões",
+      "price": 10.00,
+      "group": "kit_cartao",
+      "kitPermission": "kits.cartao",
+      "itemsCount": 18
+    },
+    "eletrica": {
+      "name": "Kit Elétrica",
+      "price": 10.00,
+      "group": "kit_eletrica",
+      "kitPermission": "kits.eletrica",
+      "itemsCount": 15
     }
   }
 }

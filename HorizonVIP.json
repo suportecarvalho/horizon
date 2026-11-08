@@ -5,7 +5,11 @@
   "GruposVip": {
     "bronze": "vip_bronze",
     "prata": "vip_prata",
-    "ouro": "vip_ouro"
+    "ouro": "vip_ouro",
+    "farmer": "kit_farmer",
+    "airdrop": "kit_drop",
+    "cartao": "kit_cartao",
+    "eletrica": "kit_eletrica"
   },
   "PermissoesPorTier": {
     "bronze": [
@@ -19,12 +23,28 @@
     "ouro": [
       "kits.vipouro",
       "skippriority.vip"
+    ],
+    "farmer": [
+      "kits.farmer"
+    ],
+    "airdrop": [
+      "kits.drop"
+    ],
+    "cartao": [
+      "kits.cartao"
+    ],
+    "eletrica": [
+      "kits.eletrica"
     ]
   },
   "ComandosAoAtivar": {
     "bronze": [],
     "prata": [],
-    "ouro": []
+    "ouro": [],
+    "farmer": [],
+    "airdrop": [],
+    "cartao": [],
+    "eletrica": []
   },
   "PrefixoChat": "<color=#D7573B>[HORIZON VIP]</color>"
 }

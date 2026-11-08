@@ -14,9 +14,13 @@ oxide.usergroup remove ID admin
 ---------------------------------------------------------
 Dar vip
 
-oxide.grant user ID kits.vipprata
-oxide.grant user ID kits.vipbronze
-oxide.grant user ID kits.vipouro
+oxide.grant user 76561199127717531 kits.prata        
+oxide.grant user 76561199127717531 kits.bronze
+oxide.grant user 76561199127717531 kits.ouro
+oxide.grant user 76561199127717531 kits.cartao
+oxide.grant user 76561199127717531 kits.farmer
+oxide.grant user 76561199127717531 kits.eletrica
+oxide.grant user 76561199127717531 kits.drop
 ---------------------------------------------------------
 Salvar alterações do servidor
 

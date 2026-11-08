@@ -81,11 +81,15 @@ module.exports = async (req, res) => {
     }
 
     const config = getMPConfig();
-    const tier = (vipTier || 'bronze').toLowerCase();
+    let tier = (vipTier || 'bronze').toLowerCase().trim();
+    if (tier === 'kit-farmer' || tier === 'kit_farmer') tier = 'farmer';
+    if (tier === 'kit-airdrop' || tier === 'kit_airdrop' || tier === 'drop' || tier === 'kit-drop') tier = 'airdrop';
+    if (tier === 'kit-cartao' || tier === 'kit_cartao' || tier === 'cards' || tier === 'cartoes') tier = 'cartao';
+    if (tier === 'kit-eletrica' || tier === 'kit_eletrica' || tier === 'eletrico') tier = 'eletrica';
     const kit = config.kits[tier];
 
     if (!kit) {
-      return res.status(400).json({ error: `Plano VIP inválido: ${vipTier}. Escolha bronze, prata ou ouro.` });
+      return res.status(400).json({ error: `Plano ou Kit inválido: ${vipTier}. Escolha bronze, prata, ouro, farmer, airdrop, cartao ou eletrica.` });
     }
 
     // Busca detalhes do jogador no Steam se não vier da sessão

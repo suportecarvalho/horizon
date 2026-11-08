@@ -16,7 +16,10 @@ function getMPConfig() {
     kits: {
       bronze: { name: "VIP Bronze (30 Dias)", price: 20.00, group: "vip_bronze", kitPermission: "kits.vipbronze" },
       prata: { name: "VIP Prata (30 Dias)", price: 40.00, group: "vip_prata", kitPermission: "kits.vipprata" },
-      ouro: { name: "VIP Ouro (30 Dias)", price: 60.00, group: "vip_ouro", kitPermission: "kits.vipouro" }
+      ouro: { name: "VIP Ouro (30 Dias)", price: 60.00, group: "vip_ouro", kitPermission: "kits.vipouro" },
+      farmer: { name: "Kit Farmer", price: 10.00, group: "kit_farmer", kitPermission: "kits.farmer" },
+      airdrop: { name: "Kit Airdrop", price: 10.00, group: "kit_drop", kitPermission: "kits.drop" },
+      cartao: { name: "Kit Cartões", price: 10.00, group: "kit_cartao", kitPermission: "kits.cartao" }
     }
   };
 

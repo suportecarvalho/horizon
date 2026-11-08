@@ -31,6 +31,33 @@
       badgeBorder: '#f59e0b',
       badgeBg: 'rgba(245, 158, 11, 0.15)',
       perks: '30 Itens no Inventário • 2x Portas Blindadas • 2x Garagens • 2x Airdrops • Skip Fila'
+    },
+    farmer: {
+      name: 'Kit Farmer',
+      price: 'R$ 10,00',
+      numericPrice: 10.00,
+      badgeColor: '#10b981',
+      badgeBorder: '#059669',
+      badgeBg: 'rgba(16, 185, 129, 0.15)',
+      perks: '2x Jackhammers • 2x Motosserras • 8x Caldeirões Especiais • 10x Buffs de Farm'
+    },
+    airdrop: {
+      name: 'Kit Airdrop',
+      price: 'R$ 10,00',
+      numericPrice: 10.00,
+      badgeColor: '#ef4444',
+      badgeBorder: '#dc2626',
+      badgeBg: 'rgba(239, 68, 68, 0.15)',
+      perks: '2x Supply Signals (Sinalizador para chamar Avião de Airdrop)'
+    },
+    cartao: {
+      name: 'Kit Cartões & Puzzles',
+      price: 'R$ 10,00',
+      numericPrice: 10.00,
+      badgeColor: '#3b82f6',
+      badgeBorder: '#2563eb',
+      badgeBg: 'rgba(59, 130, 246, 0.15)',
+      perks: '3x Cartões Verdes • 3x Azuis • 2x Vermelhos • 10x Fusíveis Elétricos'
     }
   };
 
@@ -149,7 +176,11 @@
       clearInterval(pollInterval);
       pollInterval = null;
     }
-    currentTier = (tier || 'ouro').toLowerCase();
+    let t = (tier || 'ouro').toLowerCase().trim();
+    if (t === 'kit-farmer' || t === 'kit_farmer') t = 'farmer';
+    if (t === 'kit-airdrop' || t === 'kit_airdrop' || t === 'drop' || t === 'kit-drop') t = 'airdrop';
+    if (t === 'kit-cartao' || t === 'kit_cartao' || t === 'cards' || t === 'cartoes') t = 'cartao';
+    currentTier = t;
     await loadUser();
     renderStep1();
 
