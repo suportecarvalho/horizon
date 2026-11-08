@@ -637,13 +637,19 @@ namespace Oxide.Plugins
         {
             if (victim == null) return null;
 
+            // Ignorar suicídios, comando /kill ou console 'kill'
+            if (info != null && (info.damageTypes.Has(Rust.DamageType.Suicide) || info.InitiatorPlayer == victim))
+            {
+                return null;
+            }
+
             // 1. Atacante direto no HitInfo
             if (info?.InitiatorPlayer != null && !info.InitiatorPlayer.IsNpc && info.InitiatorPlayer != victim)
             {
                 return info.InitiatorPlayer;
             }
 
-            // 2. Iniciador como entidade (foguete, C4, flecha de fogo, granada, torreta, armadilha)
+            // 2. Iniciador como entidade disparada por outro jogador (foguete, C4, flecha, granada, torreta, armadilha)
             if (info?.Initiator != null)
             {
                 var p = info.Initiator as BasePlayer 
@@ -655,22 +661,12 @@ namespace Oxide.Plugins
                 }
             }
 
-            // 3. Fallback para lastAttacker mantido nativamente no BaseCombatEntity pelo Rust
+            // 3. Fallback para lastAttacker caso seja outro jogador
             if (victim.lastAttacker != null)
             {
                 var p = victim.lastAttacker as BasePlayer 
                         ?? victim.lastAttacker.ToPlayer() 
                         ?? (victim.lastAttacker as BaseEntity)?.creatorEntity as BasePlayer;
-                if (p != null && !p.IsNpc && p != victim)
-                {
-                    return p;
-                }
-            }
-
-            // 4. Se a vítima caiu ferida e sangrou até a morte ou deu F1 kill, credita a quem derrubou
-            if (lastWoundAttacker.TryGetValue(victim.userID, out ulong woundAttackerId))
-            {
-                var p = BasePlayer.FindByID(woundAttackerId) ?? BasePlayer.FindSleeping(woundAttackerId);
                 if (p != null && !p.IsNpc && p != victim)
                 {
                     return p;
@@ -685,16 +681,24 @@ namespace Oxide.Plugins
             var victim = entity as BasePlayer;
             if (victim == null || victim.IsNpc) return;
 
-            BasePlayer killer = ResolveAttacker(victim, info);
-
-            var victimStats = GetOrCreate(victim);
-            if (victimStats != null)
+            // REGRA: Mortes por /kill, console kill ou suicídio NÃO contam no PvP
+            if (info != null && (info.damageTypes.Has(Rust.DamageType.Suicide) || info.InitiatorPlayer == victim))
             {
-                victimStats.Deaths++;
+                lastWoundAttacker.Remove(victim.userID);
+                return;
             }
 
+            BasePlayer killer = ResolveAttacker(victim, info);
+
+            // REGRA: Apenas conta MORTE em PvP e KILL se a vítima foi FINALIZADA por outro jogador real
             if (killer != null && !killer.IsNpc && killer != victim)
             {
+                var victimStats = GetOrCreate(victim);
+                if (victimStats != null)
+                {
+                    victimStats.Deaths++;
+                }
+
                 var killerStats = GetOrCreate(killer);
                 if (killerStats != null)
                 {
@@ -709,7 +713,7 @@ namespace Oxide.Plugins
 
                     if (config.LogToConsole)
                     {
-                        Puts($"[HorizonCore PVP] Kill registrado: {killer.displayName} matou {victim.displayName} (Total de Kills: {killerStats.Kills})");
+                        Puts($"[HorizonCore PVP] Finalização registrada: {killer.displayName} matou {victim.displayName} (Kills: {killerStats.Kills} | Mortes da Vítima: {victimStats?.Deaths})");
                     }
                 }
             }
@@ -1485,6 +1489,48 @@ namespace Oxide.Plugins
             SaveData();
             SendLeaderboardToWeb();
             arg.ReplyWith($"[HorizonCore] Definido: {stats.Name} agora possui {stats.Kills} kills no ranking!");
+        }
+
+        [ConsoleCommand("horizon.setdeaths")]
+        private void CmdConsoleSetDeaths(ConsoleSystem.Arg arg)
+        {
+            if (!arg.IsAdmin)
+            {
+                arg.ReplyWith("Apenas administradores podem executar este comando.");
+                return;
+            }
+            if (!arg.HasArgs(2))
+            {
+                arg.ReplyWith("Uso: horizon.setdeaths <steamid ou nome> <quantidade>");
+                return;
+            }
+
+            string target = arg.GetString(0);
+            int amount = arg.GetInt(1, 0);
+
+            PlayerStats stats = null;
+            if (!data.Players.TryGetValue(target, out stats))
+            {
+                foreach (var p in data.Players.Values)
+                {
+                    if (p.Name != null && p.Name.IndexOf(target, StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        stats = p;
+                        break;
+                    }
+                }
+            }
+
+            if (stats == null)
+            {
+                arg.ReplyWith($"[HorizonCore] Jogador '{target}' não encontrado nos dados deste wipe.");
+                return;
+            }
+
+            stats.Deaths = Math.Max(0, amount);
+            SaveData();
+            SendLeaderboardToWeb();
+            arg.ReplyWith($"[HorizonCore] Definido: {stats.Name} agora possui {stats.Deaths} mortes em PvP no ranking!");
         }
     
         // =========================================================================
