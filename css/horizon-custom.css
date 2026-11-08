@@ -1707,13 +1707,13 @@ body.horizon-menu-locked {
   touch-action: none !important;
 }
 
-/* Menu Desktop (Estilo Referência - Limpo, Direto e sem Doca) */
+/* Menu Desktop (Estilo Referência Rust Server - Limpo, Direto e com Dropdowns) */
 .horizon-header-nav {
   display: flex !important;
   align-items: center !important;
-  gap: 28px !important;
+  gap: 32px !important;
   margin-left: 36px !important;
-  position: static !important;
+  position: relative !important;
   transform: none !important;
   background: transparent !important;
   border: none !important;
@@ -1722,31 +1722,34 @@ body.horizon-menu-locked {
   border-radius: 0 !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
-  z-index: 10 !important;
+  z-index: 100 !important;
 }
 
 .horizon-nav-link {
   display: inline-flex !important;
   align-items: center !important;
-  font-family: var(--font-display, var(--fonte-archivo), "Inter", -apple-system, BlinkMacSystemFont, sans-serif) !important;
-  font-size: 0.84rem !important;
+  gap: 6px !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", "Helvetica Neue", Arial, sans-serif !important;
+  font-size: 0.8125rem !important;
   font-weight: 700 !important;
-  letter-spacing: 0.08em !important;
+  letter-spacing: 0.07em !important;
   text-transform: uppercase !important;
-  color: #968F8A !important;
+  color: #9DA3AF !important;
   text-decoration: none !important;
   background: transparent !important;
   border: none !important;
   border-radius: 0 !important;
-  padding: 4px 0 !important;
+  padding: 8px 0 !important;
   box-shadow: none !important;
-  transition: color 0.16s ease !important;
+  transition: color 0.18s ease !important;
   user-select: none !important;
   white-space: nowrap !important;
-  position: static !important;
+  position: relative !important;
+  cursor: pointer !important;
 }
 
-.horizon-nav-link:hover {
+.horizon-nav-link:hover,
+.horizon-nav-dropdown-wrapper:hover .horizon-nav-dropdown-trigger {
   color: #FFFFFF !important;
   background: transparent !important;
   border: none !important;
@@ -1754,11 +1757,102 @@ body.horizon-menu-locked {
 }
 
 .horizon-nav-link.active {
-  color: #EDE8E5 !important;
+  color: #52B4FF !important;
   font-weight: 800 !important;
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
+}
+
+.horizon-nav-chevron {
+  display: inline-block !important;
+  width: 10px !important;
+  height: 10px !important;
+  stroke: currentColor !important;
+  stroke-width: 2.5 !important;
+  opacity: 0.7 !important;
+  transition: transform 0.2s ease, opacity 0.2s ease !important;
+  pointer-events: none !important;
+}
+
+.horizon-nav-dropdown-wrapper {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+.horizon-nav-dropdown-wrapper:hover .horizon-nav-chevron,
+.horizon-nav-dropdown-wrapper:focus-within .horizon-nav-chevron {
+  transform: rotate(180deg) !important;
+  opacity: 1 !important;
+}
+
+.horizon-nav-dropdown-menu {
+  position: absolute !important;
+  top: 100% !important;
+  left: 50% !important;
+  transform: translateX(-50%) translateY(8px) !important;
+  min-width: 240px !important;
+  background: rgba(13, 14, 18, 0.98) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 8px !important;
+  padding: 8px !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(0, 0, 0, 0.5) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s !important;
+  z-index: 1000 !important;
+}
+
+/* Ponte invisível para evitar que o mouse saia do menu ao passar para o dropdown */
+.horizon-nav-dropdown-menu::before {
+  content: "" !important;
+  position: absolute !important;
+  top: -12px !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 12px !important;
+}
+
+.horizon-nav-dropdown-wrapper:hover .horizon-nav-dropdown-menu,
+.horizon-nav-dropdown-wrapper:focus-within .horizon-nav-dropdown-menu {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  transform: translateX(-50%) translateY(4px) !important;
+}
+
+.horizon-dropdown-item {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
+  padding: 10px 12px !important;
+  border-radius: 6px !important;
+  text-decoration: none !important;
+  transition: background 0.15s ease, transform 0.15s ease !important;
+}
+
+.horizon-dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.06) !important;
+  transform: translateX(2px) !important;
+}
+
+.horizon-dropdown-title {
+  font-size: 0.78rem !important;
+  font-weight: 700 !important;
+  color: #EDE8E5 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+}
+
+.horizon-dropdown-desc {
+  font-size: 0.68rem !important;
+  color: #8E9297 !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
 }
 
 .horizon-nav-link::after,

@@ -9,6 +9,34 @@
   "Leaderboard_UrlDaApiDoSite": "https://lojahorizon.vercel.app/api/leaderboard",
   "Leaderboard_IntervaloMinutos": 5,
   "Leaderboard_LimiteJogadoresPorAba": 100,
+  "Vip_Habilitado": true,
+  "Vip_ApiBaseUrl": "https://lojahorizon.vercel.app",
+  "Vip_IntervaloSegundos": 30,
+  "Vip_CriarGruposAutomaticamente": true,
+  "Vip_Grupos": {
+    "bronze": "vip_bronze",
+    "prata": "vip_prata",
+    "ouro": "vip_ouro"
+  },
+  "Vip_PermissoesPorTier": {
+    "bronze": [
+      "kits.vipbronze",
+      "skippriority.vip"
+    ],
+    "prata": [
+      "kits.vipprata",
+      "skippriority.vip"
+    ],
+    "ouro": [
+      "kits.vipouro",
+      "skippriority.vip"
+    ]
+  },
+  "Vip_ComandosAoAtivar": {
+    "bronze": [],
+    "prata": [],
+    "ouro": []
+  },
+  "Vip_PrefixoChat": "<color=#D7573B>[HORIZON VIP]</color>",
   "LogarNoConsole": false
 }
-

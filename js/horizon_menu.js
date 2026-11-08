@@ -59,27 +59,35 @@
     // Detecta e ativa a aba correspondente à página atual
     var path = window.location.pathname.toLowerCase().replace(/\/$/, '') || '/';
     var activeNav = 'inicio';
-    if (path.startsWith('/equipe')) {
-      activeNav = 'equipe';
+    var activeDropdown = '';
+
+    if (path.startsWith('/noticias')) {
+      activeNav = 'noticias';
     } else if (path.startsWith('/loja')) {
       activeNav = 'loja';
     } else if (path.startsWith('/leaderboards')) {
       activeNav = 'ranking';
+      activeDropdown = 'servidores';
+    } else if (path.startsWith('/equipe')) {
+      activeNav = 'equipe';
+      activeDropdown = 'comunidade';
+    } else if (path.startsWith('/feed') || path.startsWith('/regras')) {
+      activeNav = 'comunidade';
+      activeDropdown = 'comunidade';
     } else if (path === '' || path === '/' || path.endsWith('/index.html') || path === '/index.html') {
       activeNav = 'inicio';
     } else {
       activeNav = '';
     }
 
-    if (activeNav) {
-      document.querySelectorAll('.horizon-nav-link, .horizon-mobile-link').forEach(function(link) {
-        if (link.getAttribute('data-nav') === activeNav) {
-          link.classList.add('active');
-        } else {
-          link.classList.remove('active');
-        }
-      });
-    }
+    document.querySelectorAll('.horizon-nav-link, .horizon-mobile-link').forEach(function(link) {
+      var navKey = link.getAttribute('data-nav');
+      if (navKey && (navKey === activeNav || (activeDropdown && navKey === activeDropdown))) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
+      }
+    });
   }
 
   if (document.readyState === 'loading') {
