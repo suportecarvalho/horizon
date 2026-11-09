@@ -240,8 +240,11 @@
         </div>
       </div>
     </div>
-    <div data-slot="card-footer" class="flex items-center rounded-b-xl border-t bg-muted/50 p-(--card-spacing) relative">
-      <button type="button" onclick="buyNow('bronze')" data-slot="button" data-variant="default" data-size="acao" class="group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding whitespace-nowrap transition-all outline-none select-none btn-corte [--corte:10px] h-10 gap-2.5 px-5 font-heading text-[0.82rem] font-bold tracking-[0.06em] uppercase flex-1 bg-primary text-primary-foreground hover:brightness-110 cursor-pointer w-full">COMPRAR</button>
+    <div data-slot="card-footer" class="flex items-center gap-2 rounded-b-xl border-t bg-muted/50 p-(--card-spacing) relative">
+      <button type="button" onclick="addToCart('bronze', true)" title="Adicionar ao carrinho" aria-label="Adicionar ao carrinho" class="shrink-0 inline-flex items-center justify-center rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-white h-10 w-11 transition-all cursor-pointer">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+      </button>
+      <button type="button" onclick="buyNow('bronze')" data-slot="button" data-variant="default" data-size="acao" class="group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding whitespace-nowrap transition-all outline-none select-none btn-corte [--corte:10px] h-10 gap-2.5 px-5 font-heading text-[0.82rem] font-bold tracking-[0.06em] uppercase flex-1 bg-primary text-primary-foreground hover:brightness-110 cursor-pointer">COMPRAR</button>
     </div>
   </div>
 
@@ -269,8 +272,11 @@
         </div>
       </div>
     </div>
-    <div data-slot="card-footer" class="flex items-center rounded-b-xl border-t bg-muted/50 p-(--card-spacing) relative">
-      <button type="button" onclick="buyNow('prata')" data-slot="button" data-variant="default" data-size="acao" class="group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding whitespace-nowrap transition-all outline-none select-none btn-corte [--corte:10px] h-10 gap-2.5 px-5 font-heading text-[0.82rem] font-bold tracking-[0.06em] uppercase flex-1 bg-primary text-primary-foreground hover:brightness-110 cursor-pointer w-full">COMPRAR</button>
+    <div data-slot="card-footer" class="flex items-center gap-2 rounded-b-xl border-t bg-muted/50 p-(--card-spacing) relative">
+      <button type="button" onclick="addToCart('prata', true)" title="Adicionar ao carrinho" aria-label="Adicionar ao carrinho" class="shrink-0 inline-flex items-center justify-center rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-white h-10 w-11 transition-all cursor-pointer">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+      </button>
+      <button type="button" onclick="buyNow('prata')" data-slot="button" data-variant="default" data-size="acao" class="group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding whitespace-nowrap transition-all outline-none select-none btn-corte [--corte:10px] h-10 gap-2.5 px-5 font-heading text-[0.82rem] font-bold tracking-[0.06em] uppercase flex-1 bg-primary text-primary-foreground hover:brightness-110 cursor-pointer">COMPRAR</button>
     </div>
   </div>
 
@@ -298,8 +304,11 @@
         </div>
       </div>
     </div>
-    <div data-slot="card-footer" class="flex items-center rounded-b-xl border-t bg-muted/50 p-(--card-spacing) relative">
-      <button type="button" onclick="buyNow('ouro')" data-slot="button" data-variant="default" data-size="acao" class="group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding whitespace-nowrap transition-all outline-none select-none btn-corte [--corte:10px] h-10 gap-2.5 px-5 font-heading text-[0.82rem] font-bold tracking-[0.06em] uppercase flex-1 bg-primary text-primary-foreground hover:brightness-110 cursor-pointer w-full">COMPRAR</button>
+    <div data-slot="card-footer" class="flex items-center gap-2 rounded-b-xl border-t bg-muted/50 p-(--card-spacing) relative">
+      <button type="button" onclick="addToCart('ouro', true)" title="Adicionar ao carrinho" aria-label="Adicionar ao carrinho" class="shrink-0 inline-flex items-center justify-center rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-white h-10 w-11 transition-all cursor-pointer">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+      </button>
+      <button type="button" onclick="buyNow('ouro')" data-slot="button" data-variant="default" data-size="acao" class="group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding whitespace-nowrap transition-all outline-none select-none btn-corte [--corte:10px] h-10 gap-2.5 px-5 font-heading text-[0.82rem] font-bold tracking-[0.06em] uppercase flex-1 bg-primary text-primary-foreground hover:brightness-110 cursor-pointer">COMPRAR</button>
     </div>
   </div>
 </div><!-- ==================== SEÇÃO 2: KITS INDIVIDUAIS (R$ 10 CADA) ==================== -->
@@ -338,8 +347,11 @@
         </div>
       </div>
     </div>
-    <div data-slot="card-footer" class="flex items-center rounded-b-xl border-t bg-muted/50 p-(--card-spacing) relative">
-      <button type="button" onclick="buyNow('farmer')" data-slot="button" data-variant="default" data-size="acao" class="group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding whitespace-nowrap transition-all outline-none select-none btn-corte [--corte:10px] h-10 gap-2.5 px-5 font-heading text-[0.82rem] font-bold tracking-[0.06em] uppercase flex-1 bg-primary text-primary-foreground hover:brightness-110 cursor-pointer w-full">COMPRAR</button>
+    <div data-slot="card-footer" class="flex items-center gap-2 rounded-b-xl border-t bg-muted/50 p-(--card-spacing) relative">
+      <button type="button" onclick="addToCart('farmer', true)" title="Adicionar ao carrinho" aria-label="Adicionar ao carrinho" class="shrink-0 inline-flex items-center justify-center rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-white h-10 w-11 transition-all cursor-pointer">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+      </button>
+      <button type="button" onclick="buyNow('farmer')" data-slot="button" data-variant="default" data-size="acao" class="group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding whitespace-nowrap transition-all outline-none select-none btn-corte [--corte:10px] h-10 gap-2.5 px-5 font-heading text-[0.82rem] font-bold tracking-[0.06em] uppercase flex-1 bg-primary text-primary-foreground hover:brightness-110 cursor-pointer">COMPRAR</button>
     </div>
   </div>
 
@@ -372,8 +384,11 @@
         </div>
       </div>
     </div>
-    <div data-slot="card-footer" class="flex items-center rounded-b-xl border-t bg-muted/50 p-(--card-spacing) relative">
-      <button type="button" onclick="buyNow('airdrop')" data-slot="button" data-variant="default" data-size="acao" class="group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding whitespace-nowrap transition-all outline-none select-none btn-corte [--corte:10px] h-10 gap-2.5 px-5 font-heading text-[0.82rem] font-bold tracking-[0.06em] uppercase flex-1 bg-primary text-primary-foreground hover:brightness-110 cursor-pointer w-full">COMPRAR</button>
+    <div data-slot="card-footer" class="flex items-center gap-2 rounded-b-xl border-t bg-muted/50 p-(--card-spacing) relative">
+      <button type="button" onclick="addToCart('airdrop', true)" title="Adicionar ao carrinho" aria-label="Adicionar ao carrinho" class="shrink-0 inline-flex items-center justify-center rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-white h-10 w-11 transition-all cursor-pointer">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+      </button>
+      <button type="button" onclick="buyNow('airdrop')" data-slot="button" data-variant="default" data-size="acao" class="group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding whitespace-nowrap transition-all outline-none select-none btn-corte [--corte:10px] h-10 gap-2.5 px-5 font-heading text-[0.82rem] font-bold tracking-[0.06em] uppercase flex-1 bg-primary text-primary-foreground hover:brightness-110 cursor-pointer">COMPRAR</button>
     </div>
   </div>
 
@@ -406,8 +421,11 @@
         </div>
       </div>
     </div>
-    <div data-slot="card-footer" class="flex items-center rounded-b-xl border-t bg-muted/50 p-(--card-spacing) relative">
-      <button type="button" onclick="buyNow('cartao')" data-slot="button" data-variant="default" data-size="acao" class="group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding whitespace-nowrap transition-all outline-none select-none btn-corte [--corte:10px] h-10 gap-2.5 px-5 font-heading text-[0.82rem] font-bold tracking-[0.06em] uppercase flex-1 bg-primary text-primary-foreground hover:brightness-110 cursor-pointer w-full">COMPRAR</button>
+    <div data-slot="card-footer" class="flex items-center gap-2 rounded-b-xl border-t bg-muted/50 p-(--card-spacing) relative">
+      <button type="button" onclick="addToCart('cartao', true)" title="Adicionar ao carrinho" aria-label="Adicionar ao carrinho" class="shrink-0 inline-flex items-center justify-center rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-white h-10 w-11 transition-all cursor-pointer">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+      </button>
+      <button type="button" onclick="buyNow('cartao')" data-slot="button" data-variant="default" data-size="acao" class="group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding whitespace-nowrap transition-all outline-none select-none btn-corte [--corte:10px] h-10 gap-2.5 px-5 font-heading text-[0.82rem] font-bold tracking-[0.06em] uppercase flex-1 bg-primary text-primary-foreground hover:brightness-110 cursor-pointer">COMPRAR</button>
     </div>
   </div>
 
@@ -440,8 +458,11 @@
         </div>
       </div>
     </div>
-    <div data-slot="card-footer" class="flex items-center rounded-b-xl border-t bg-muted/50 p-(--card-spacing) relative">
-      <button type="button" onclick="buyNow('eletrica')" data-slot="button" data-variant="default" data-size="acao" class="group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding whitespace-nowrap transition-all outline-none select-none btn-corte [--corte:10px] h-10 gap-2.5 px-5 font-heading text-[0.82rem] font-bold tracking-[0.06em] uppercase flex-1 bg-primary text-primary-foreground hover:brightness-110 cursor-pointer w-full">COMPRAR</button>
+    <div data-slot="card-footer" class="flex items-center gap-2 rounded-b-xl border-t bg-muted/50 p-(--card-spacing) relative">
+      <button type="button" onclick="addToCart('eletrica', true)" title="Adicionar ao carrinho" aria-label="Adicionar ao carrinho" class="shrink-0 inline-flex items-center justify-center rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-white h-10 w-11 transition-all cursor-pointer">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+      </button>
+      <button type="button" onclick="buyNow('eletrica')" data-slot="button" data-variant="default" data-size="acao" class="group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding whitespace-nowrap transition-all outline-none select-none btn-corte [--corte:10px] h-10 gap-2.5 px-5 font-heading text-[0.82rem] font-bold tracking-[0.06em] uppercase flex-1 bg-primary text-primary-foreground hover:brightness-110 cursor-pointer">COMPRAR</button>
     </div>
   </div>
 </div>

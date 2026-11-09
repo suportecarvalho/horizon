@@ -349,11 +349,22 @@
         ${userHtml}
 
         <div style="background:#1b1d24; border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:18px 20px; margin-bottom:28px;">
-          <div style="font-size:0.76rem; font-weight:800; color:#8a8e99; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px;">Resumo dos Itens Selecionados</div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:10px;">
+            <div style="font-size:0.76rem; font-weight:800; color:#8a8e99; text-transform:uppercase; letter-spacing:0.06em;">
+              Resumo dos Itens Selecionados (${cart.length})
+            </div>
+            <a href="/loja" style="color:#CE422B; font-size:0.74rem; font-weight:800; text-decoration:none; text-transform:uppercase; letter-spacing:0.04em; display:inline-flex; align-items:center; gap:4px; transition:color 0.2s;" onmouseover="this.style.color='#ff6b52'" onmouseout="this.style.color='#CE422B'">
+              <span>+ Adicionar Outro Produto</span>
+            </a>
+          </div>
+
           <div style="display:flex; flex-direction:column; gap:8px;">
             ${cart.map(it => `
-              <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.85rem;">
-                <span style="color:#FFF; font-weight:700;">• ${it.name} (30 dias)</span>
+              <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.85rem; padding:4px 0;">
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <button type="button" onclick="removerItemCheckout('${it.tier}')" title="Remover este item" style="background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.25); color:#f87171; border-radius:4px; width:22px; height:22px; cursor:pointer; font-size:0.75rem; display:flex; align-items:center; justify-content:center; line-height:1; transition:all 0.2s;" onmouseover="this.style.background='rgba(239,68,68,0.25)';this.style.color='#fff'" onmouseout="this.style.background='rgba(239,68,68,0.1)';this.style.color='#f87171'">✕</button>
+                  <span style="color:#FFF; font-weight:700;">• ${it.name} (30 dias)</span>
+                </div>
                 <span style="font-family:var(--font-mono, monospace); font-weight:800; color:#22c55e;">${it.priceFormatted || 'R$ ' + Number(it.price).toFixed(2).replace('.', ',')}</span>
               </div>
             `).join('')}
@@ -364,7 +375,10 @@
           </div>
         </div>
 
-        <div style="display:flex; justify-content:flex-end;">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap;">
+          <a href="/loja" style="background:transparent; border:1px solid rgba(255,255,255,0.15); color:#EDE8E5; padding:12px 20px; border-radius:8px; font-weight:800; font-size:0.82rem; text-transform:uppercase; text-decoration:none; display:inline-flex; align-items:center; gap:8px; transition:all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.06)';this.style.borderColor='rgba(255,255,255,0.25)'" onmouseout="this.style.background='transparent';this.style.borderColor='rgba(255,255,255,0.15)'">
+            <span>← Continuar Comprando (Loja)</span>
+          </a>
           <button type="button" onclick="avancarParaPasso2()" class="btn-corte-chamfer" style="background:#CE422B; color:#FFF; border:none; padding:14px 28px; border-radius:8px; font-weight:900; font-size:0.88rem; text-transform:uppercase; cursor:pointer; letter-spacing:0.05em; display:flex; align-items:center; gap:8px; box-shadow:0 6px 20px rgba(206,66,43,0.4);">
             <span>Avançar para Método de Pagamento →</span>
           </button>
@@ -431,15 +445,32 @@
           </div>
         </div>
 
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-          <button type="button" onclick="renderStep1Page()" style="background:transparent; border:1px solid rgba(255,255,255,0.12); color:#8a8e99; padding:12px 20px; border-radius:8px; font-weight:700; font-size:0.8rem; text-transform:uppercase; cursor:pointer;">
-            ← Voltar
-          </button>
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap;">
+          <div style="display:flex; gap:10px;">
+            <button type="button" onclick="renderStep1Page()" style="background:transparent; border:1px solid rgba(255,255,255,0.12); color:#8a8e99; padding:12px 20px; border-radius:8px; font-weight:700; font-size:0.8rem; text-transform:uppercase; cursor:pointer;">
+              ← Voltar
+            </button>
+            <a href="/loja" style="background:transparent; border:1px solid rgba(255,255,255,0.12); color:#8a8e99; padding:12px 20px; border-radius:8px; font-weight:700; font-size:0.8rem; text-transform:uppercase; text-decoration:none; display:inline-flex; align-items:center; gap:6px;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#8a8e99'">
+              + Adicionar Produtos
+            </a>
+          </div>
           <button type="button" onclick="gerarPagamentoPix()" class="btn-corte-chamfer" style="background:#22c55e; color:#000; border:none; padding:14px 28px; border-radius:8px; font-weight:900; font-size:0.88rem; text-transform:uppercase; cursor:pointer; letter-spacing:0.05em; display:flex; align-items:center; gap:8px; box-shadow:0 6px 20px rgba(34,197,94,0.35);">
             <span>Gerar QR Code PIX ⚡</span>
           </button>
         </div>
       `;
+    }
+
+    function removerItemCheckout(tier) {
+      if (typeof window.removeFromCart === 'function') {
+        window.removeFromCart(tier);
+      } else {
+        let cart = [];
+        try { cart = JSON.parse(localStorage.getItem('horizon_cart')) || []; } catch(e) {}
+        cart = cart.filter(it => it.tier !== tier);
+        localStorage.setItem('horizon_cart', JSON.stringify(cart));
+      }
+      initCheckoutPage();
     }
 
     // PASSO 3: GERAÇÃO E PAGAMENTO PIX
