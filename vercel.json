@@ -28,28 +28,20 @@
       "destination": "/api/vip?action=:action"
     },
     {
-      "source": "/auth/steam",
-      "destination": "/api/auth/steam"
-    },
-    {
       "source": "/auth/steam/return",
-      "destination": "/api/auth/return"
+      "destination": "/api/auth?action=return"
     },
     {
       "source": "/api/auth/steam/return",
-      "destination": "/api/auth/return"
+      "destination": "/api/auth?action=return"
     },
     {
-      "source": "/auth/logout",
-      "destination": "/api/auth/logout"
+      "source": "/auth/:action",
+      "destination": "/api/auth?action=:action"
     },
     {
-      "source": "/auth/demo-admin",
-      "destination": "/api/auth/demo-admin"
-    },
-    {
-      "source": "/auth/demo-login",
-      "destination": "/api/auth/demo-login"
+      "source": "/api/auth/:action",
+      "destination": "/api/auth?action=:action"
     },
     {
       "source": "/_next/static/css/:file*",
