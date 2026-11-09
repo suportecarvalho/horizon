@@ -10,7 +10,7 @@
     "spa": "node clonar.js --spa"
   },
   "engines": {
-    "node": "22.x"
+    "node": ">=20.0.0"
   },
   "keywords": [],
   "author": "",

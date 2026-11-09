@@ -8,10 +8,6 @@
       "destination": "/admin/index.html"
     },
     {
-      "source": "/api/admin/:action*",
-      "destination": "/api/admin"
-    },
-    {
       "source": "/leaderboards/:steamid",
       "destination": "/leaderboards/player"
     },
@@ -30,10 +26,6 @@
     {
       "source": "/api/vip/:action",
       "destination": "/api/vip?action=:action"
-    },
-    {
-      "source": "/api/feed",
-      "destination": "/api/feed"
     },
     {
       "source": "/auth/steam",
