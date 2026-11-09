@@ -5,6 +5,7 @@ const SESSION_SECRET = process.env.SESSION_SECRET || 'horizon-rust-session-secre
 const DEFAULT_AVATAR = 'https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg';
 
 const ADMIN_STEAM_IDS = [
+  '76561198750662826', // ADM Lucas / Dono Horizon
   '76561198737554294', // ADM configurado pelo usuário
   '76561199127717531'  // ADM oficial Horizon
 ];

@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Painel Administrativo - Histórico de Compras VIP | Horizon Rust</title>
+  <link rel="icon" href="/images/logo_horizon.png">
+  <link rel="stylesheet" href="/css/23ce076cdea000ef.css">
+  <link rel="stylesheet" href="/css/e04fa727d9156e4b.css">
+  <link rel="stylesheet" href="/css/horizon-custom.css">
+
+  <style>
+    :root {
+      --bg-dark: #0f1013;
+      --bg-card: #191a1e;
+      --bg-card-hover: #202127;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --marca: #ce422b;
+      --marca-hover: #e34834;
+      --green: #10b981;
+      --yellow: #f59e0b;
+      --blue: #3b82f6;
+      --gold: #fbbf24;
+      --text: #ede8e5;
+      --text-muted: #9ca3af;
+    }
+
+    body {
+      background: var(--bg-dark);
+      color: var(--text);
+      font-family: var(--font-body, system-ui, -apple-system, sans-serif);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+    }
+
+    .admin-container {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 24px 20px 80px 20px;
+    }
+
+    /* Cabeçalho do Painel */
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .admin-brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .admin-brand img {
+      height: 38px;
+      width: auto;
+    }
+
+    .admin-title-wrap h1 {
+      margin: 0;
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #FFFFFF;
+    }
+
+    .admin-badge-crown {
+      background: rgba(206, 66, 43, 0.18);
+      border: 1px solid rgba(206, 66, 43, 0.45);
+      color: var(--marca);
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+
+    .admin-title-wrap p {
+      margin: 4px 0 0 0;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .admin-top-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .admin-user-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      padding: 6px 14px 6px 6px;
+      border-radius: 30px;
+    }
+
+    .admin-user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1.5px solid var(--marca);
+      object-fit: cover;
+    }
+
+    .admin-user-name {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+
+    .btn-nav-link {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 8px 14px;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-nav-link:hover {
+      background: rgba(255, 255, 255, 0.09);
+      color: #FFFFFF;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Cards de Métricas (KPIs) */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+
+    @media (max-width: 1024px) {
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 640px) {
+      .kpi-grid { grid-template-columns: 1fr; }
+    }
+
+    .kpi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .kpi-card:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .kpi-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .kpi-card-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+    }
+
+    .kpi-card-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .kpi-card-val {
+      font-size: 1.85rem;
+      font-weight: 800;
+      line-height: 1;
+      font-family: var(--font-mono, monospace);
+    }
+
+    .kpi-card-desc {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+
+    .kpi-alert {
+      border-color: rgba(245, 158, 11, 0.4);
+      background: linear-gradient(145deg, rgba(245, 158, 11, 0.08) 0%, var(--bg-card) 60%);
+    }
+
+    .kpi-alert .kpi-card-val {
+      color: #FBBF24;
+    }
+
+    /* Barra de Ações & Filtros */
+    .admin-controls {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .filter-pills {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .filter-pill {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .filter-pill:hover {
+      color: #FFFFFF;
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .filter-pill.active {
+      background: var(--marca);
+      border-color: var(--marca);
+      color: #FFFFFF;
+    }
+
+    .filter-pill.alert-active {
+      background: #D97706;
+      border-color: #D97706;
+      color: #FFFFFF;
+    }
+
+    .search-and-btns {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .admin-search-input {
+      background: #111215;
+      border: 1px solid var(--border-color);
+      color: #FFFFFF;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      outline: none;
+      min-width: 250px;
+      transition: border-color 0.2s;
+    }
+
+    .admin-search-input:focus {
+      border-color: var(--marca);
+    }
+
+    .btn-action-primary {
+      background: var(--marca);
+      color: #FFFFFF;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s;
+    }
+
+    .btn-action-primary:hover {
+      background: var(--marca-hover);
+    }
+
+    .btn-refresh {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      color: var(--text);
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      transition: all 0.2s;
+    }
+
+    .btn-refresh:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #FFFFFF;
+    }
+
+    /* Tabela de Pedidos */
+    .admin-table-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .admin-table-wrap {
+      overflow-x: auto;
+    }
+
+    table.admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.82rem;
+    }
+
+    table.admin-table thead tr {
+      background: #141518;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    table.admin-table th {
+      padding: 14px 16px;
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    table.admin-table tbody tr {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      transition: background 0.15s;
+    }
+
+    table.admin-table tbody tr:hover {
+      background: var(--bg-card-hover);
+    }
+
+    table.admin-table td {
+      padding: 14px 16px;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+
+    /* Badges */
+    .badge-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 9px;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .badge-approved {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #10B981;
+    }
+
+    .badge-pending {
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      color: #FBBF24;
+    }
+
+    .badge-cancelled {
+      background: rgba(107, 114, 128, 0.15);
+      border: 1px solid rgba(107, 114, 128, 0.4);
+      color: #9CA3AF;
+    }
+
+    .badge-delivery-ok {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #10B981;
+    }
+
+    .badge-delivery-pending {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.45);
+      color: #EF4444;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    .badge-tier {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      border-radius: 4px;
+      font-weight: 800;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .badge-tier-ouro {
+      background: rgba(251, 191, 36, 0.15);
+      border: 1px solid rgba(251, 191, 36, 0.4);
+      color: #FBBF24;
+    }
+
+    .badge-tier-prata {
+      background: rgba(226, 232, 240, 0.15);
+      border: 1px solid rgba(226, 232, 240, 0.4);
+      color: #E2E8F0;
+    }
+
+    .badge-tier-bronze {
+      background: rgba(205, 127, 50, 0.15);
+      border: 1px solid rgba(205, 127, 50, 0.4);
+      color: #CD7F32;
+    }
+
+    .badge-tier-kit {
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid rgba(59, 130, 246, 0.4);
+      color: #60A5FA;
+    }
+
+    /* Botões de Ação na Tabela */
+    .btn-tbl {
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      border: 1px solid transparent;
+      transition: all 0.15s ease;
+      text-decoration: none;
+    }
+
+    .btn-tbl-retry {
+      background: rgba(245, 158, 11, 0.15);
+      border-color: rgba(245, 158, 11, 0.4);
+      color: #FBBF24;
+    }
+    .btn-tbl-retry:hover {
+      background: #D97706;
+      color: #FFFFFF;
+    }
+
+    .btn-tbl-approve {
+      background: rgba(16, 185, 129, 0.15);
+      border-color: rgba(16, 185, 129, 0.4);
+      color: #10B981;
+    }
+    .btn-tbl-approve:hover {
+      background: #059669;
+      color: #FFFFFF;
+    }
+
+    .btn-tbl-cmd {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: var(--border-color);
+      color: var(--text);
+    }
+    .btn-tbl-cmd:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #FFFFFF;
+    }
+
+    .btn-tbl-steam {
+      background: rgba(59, 130, 246, 0.1);
+      border-color: rgba(59, 130, 246, 0.3);
+      color: #93C5FD;
+    }
+    .btn-tbl-steam:hover {
+      background: #2563EB;
+      color: #FFFFFF;
+    }
+
+    /* Modal */
+    .admin-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .admin-modal-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      width: 100%;
+      max-width: 520px;
+      padding: 24px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    }
+
+    .admin-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .admin-modal-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin: 0;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .form-input, .form-select {
+      width: 100%;
+      background: #111215;
+      border: 1px solid var(--border-color);
+      color: #FFFFFF;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      outline: none;
+      box-sizing: border-box;
+    }
+
+    .form-input:focus, .form-select:focus {
+      border-color: var(--marca);
+    }
+
+    /* Toast Notification */
+    .admin-toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #191A1E;
+      border: 1px solid var(--marca);
+      color: #FFFFFF;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Tela de Bloqueio (Não Autorizado) */
+    .admin-lock-screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 70vh;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .lock-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 40px;
+      max-width: 460px;
+      width: 100%;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="admin-container">
+    <!-- Cabeçalho -->
+    <header class="admin-header">
+      <div class="admin-brand">
+        <a href="/">
+          <img src="/images/logo_horizon.png" alt="Horizon Rust">
+        </a>
+        <div class="admin-title-wrap">
+          <h1>
+            Histórico de Compras VIP
+            <span class="admin-badge-crown">Área Restrita</span>
+          </h1>
+          <p>Painel de auditoria, resolução de falhas de entrega e controle financeiro</p>
+        </div>
+      </div>
+
+      <div class="admin-top-actions">
+        <div id="admin-user-info" class="admin-user-pill" style="display: none;">
+          <img id="admin-user-avatar" src="" alt="Avatar" class="admin-user-avatar">
+          <span id="admin-user-name" class="admin-user-name">Admin</span>
+        </div>
+        <a href="/loja" class="btn-nav-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          Loja
+        </a>
+        <a href="/" class="btn-nav-link">
+          Início
+        </a>
+      </div>
+    </header>
+
+    <!-- Tela de Bloqueio (Exibida se não for admin) -->
+    <div id="admin-lock-screen" class="admin-lock-screen">
+      <div class="lock-box">
+        <div style="width: 60px; height: 60px; border-radius: 50%; background: rgba(206,66,43,0.15); border: 1px solid rgba(206,66,43,0.4); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; color: var(--marca);">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        </div>
+        <h2 style="margin: 0 0 8px 0; font-size: 1.3rem; font-weight: 800; text-transform: uppercase;">Acesso Restrito</h2>
+        <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.5; margin-bottom: 24px;">
+          Esta página é restrita aos administradores do servidor Horizon para auditoria e suporte a compras de VIP.
+        </p>
+
+        <a href="/auth/steam" style="background: #171A21; border: 1px solid rgba(255,255,255,0.15); color: #FFF; padding: 12px 20px; border-radius: 8px; font-weight: 700; font-size: 0.82rem; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; box-sizing: border-box; margin-bottom: 12px; transition: background 0.2s;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.005.105.005.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 14.819C1.903 20.089 6.55 24 12.021 24c6.627 0 12-5.373 12-12s-5.373-12-12-12z"/></svg>
+          Entrar com Steam Admin
+        </a>
+
+        <div style="position: relative; margin: 20px 0; text-align: center;">
+          <div style="border-top: 1px solid var(--border-color);"></div>
+          <span style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: var(--bg-card); padding: 0 10px; font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase;">ou chave mestra</span>
+        </div>
+
+        <form id="key-auth-form" onsubmit="authWithMasterKey(event)" style="display: flex; flex-direction: column; gap: 10px;">
+          <input type="password" id="admin-key-input" placeholder="Digite a chave mestra de segurança..." class="form-input" style="text-align: center;">
+          <button type="submit" class="btn-action-primary" style="justify-content: center; width: 100%; padding: 10px;">
+            Desbloquear Painel
+          </button>
+        </form>
+
+        <div style="margin-top: 18px;">
+          <a href="/auth/demo-admin" style="font-size: 0.72rem; color: var(--marca); text-decoration: none; font-weight: 700;">
+            Acesso Rápido de Teste (Demo Admin) &rarr;
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Conteúdo Principal do Painel -->
+    <main id="admin-main-content" style="display: none;">
+      <!-- KPIs -->
+      <section class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <span class="kpi-card-title">Total de Pedidos</span>
+            <div class="kpi-card-icon" style="background: rgba(59, 130, 246, 0.15); color: #60A5FA;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+            </div>
+          </div>
+          <div class="kpi-card-val" id="kpi-total-orders">-</div>
+          <div class="kpi-card-desc">Histórico completo de compras geradas</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <span class="kpi-card-title">Faturamento Aprovado</span>
+            <div class="kpi-card-icon" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+          </div>
+          <div class="kpi-card-val" id="kpi-total-revenue" style="color: #10B981;">R$ 0,00</div>
+          <div class="kpi-card-desc">Receita recebida via PIX Mercado Pago</div>
+        </div>
+
+        <div class="kpi-card kpi-alert" id="kpi-card-pending-delivery">
+          <div class="kpi-card-header">
+            <span class="kpi-card-title" style="color: #FBBF24;">⚠️ Entregas Pendentes</span>
+            <div class="kpi-card-icon" style="background: rgba(245, 158, 11, 0.2); color: #FBBF24;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            </div>
+          </div>
+          <div class="kpi-card-val" id="kpi-pending-delivery">0</div>
+          <div class="kpi-card-desc" id="kpi-pending-delivery-desc">Aprovados aguardando entrega no Rust</div>
+        </div>
+
+        <div class="kpi-card">
+          <div class="kpi-card-header">
+            <span class="kpi-card-title">Aguardando Pagamento</span>
+            <div class="kpi-card-icon" style="background: rgba(107, 114, 128, 0.15); color: #9CA3AF;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+          </div>
+          <div class="kpi-card-val" id="kpi-pending-payment">-</div>
+          <div class="kpi-card-desc">PIX gerados pendentes de quitação</div>
+        </div>
+      </section>
+
+      <!-- Barra de Filtros e Busca -->
+      <section class="admin-controls">
+        <div class="filter-pills">
+          <button type="button" class="filter-pill active" data-filter="all" onclick="setFilter('all')">
+            Todos (<span id="count-all">0</span>)
+          </button>
+          <button type="button" class="filter-pill" data-filter="pending_delivery" onclick="setFilter('pending_delivery')" id="pill-pending-delivery" style="color: #FBBF24;">
+            ⚠️ Pendentes no Jogo (<span id="count-pending-delivery">0</span>)
+          </button>
+          <button type="button" class="filter-pill" data-filter="approved" onclick="setFilter('approved')">
+            ✅ Aprovados (<span id="count-approved">0</span>)
+          </button>
+          <button type="button" class="filter-pill" data-filter="pending_payment" onclick="setFilter('pending_payment')">
+            ⏳ Aguardando PIX (<span id="count-pending-payment">0</span>)
+          </button>
+        </div>
+
+        <div class="search-and-btns">
+          <input type="text" id="admin-search-box" placeholder="Buscar por Nick, SteamID ou Pedido..." class="admin-search-input" oninput="handleSearch()">
+          <button type="button" class="btn-action-primary" onclick="openManualModal()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            Nova Entrega Manual
+          </button>
+          <button type="button" class="btn-refresh" onclick="loadAdminOrders(true)" title="Recarregar dados">
+            <svg id="refresh-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+            Atualizar
+          </button>
+        </div>
+      </section>
+
+      <!-- Tabela de Pedidos -->
+      <section class="admin-table-card">
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>ID / Data</th>
+                <th>Jogador</th>
+                <th>Pacote VIP</th>
+                <th>Valor</th>
+                <th>Pagamento</th>
+                <th>Entrega no Rust</th>
+                <th>Expiração (30d)</th>
+                <th style="text-align: right; padding-right: 20px;">Ações de Resolução</th>
+              </tr>
+            </thead>
+            <tbody id="admin-orders-tbody">
+              <tr>
+                <td colspan="8" style="text-align: center; padding: 40px; color: var(--text-muted);">
+                  Carregando compras...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal de Entrega Manual -->
+  <div id="manual-modal" class="admin-modal-overlay" onclick="closeManualModal(event)">
+    <div class="admin-modal-card" onclick="event.stopPropagation()">
+      <div class="admin-modal-header">
+        <h3 class="admin-modal-title">Nova Entrega Manual de VIP</h3>
+        <button type="button" onclick="closeManualModal()" style="background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.2rem;">&times;</button>
+      </div>
+
+      <form onsubmit="submitManualOrder(event)">
+        <div class="form-group">
+          <label>SteamID 64 do Jogador *</label>
+          <input type="text" id="manual-steamid" class="form-input" placeholder="76561198..." required maxlength="20">
+          <small style="color: var(--text-muted); font-size: 0.72rem; display: block; margin-top: 4px;">O ID de 17 dígitos do perfil Steam do jogador.</small>
+        </div>
+
+        <div class="form-group">
+          <label>Nome do Jogador (Opcional)</label>
+          <input type="text" id="manual-player-name" class="form-input" placeholder="Ex: Memes">
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div class="form-group">
+            <label>Pacote VIP / Kit *</label>
+            <select id="manual-tier" class="form-select">
+              <option value="ouro">VIP Ouro (T3 / Tudo)</option>
+              <option value="prata">VIP Prata (Avançado)</option>
+              <option value="bronze">VIP Sobrevivente (R$ 20,00)</option>
+              <option value="farmer">Kit Farmer (R$ 10)</option>
+              <option value="airdrop">Kit Airdrop (R$ 10)</option>
+              <option value="cartao">Kit Cartões (R$ 10)</option>
+              <option value="eletrica">Kit Elétrica (R$ 10)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Duração (Dias)</label>
+            <input type="number" id="manual-duration" class="form-input" value="30" min="1" max="365">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Motivo / Observações do Administrador</label>
+          <input type="text" id="manual-notes" class="form-input" placeholder="Ex: Compensação de Wipe / PIX Direto / Sorteio">
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px;">
+          <button type="button" onclick="closeManualModal()" class="btn-nav-link" style="cursor: pointer;">Cancelar</button>
+          <button type="submit" class="btn-action-primary" id="btn-submit-manual">Criar e Entregar no Jogo</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="admin-toast" class="admin-toast">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+    <span id="admin-toast-msg">Operação realizada com sucesso!</span>
+  </div>
+
+  <script>
+    let allOrders = [];
+    let currentFilter = 'all';
+    let currentSearch = '';
+    let masterKeyHeader = localStorage.getItem('horizon_admin_master_key') || '';
+
+    // Inicialização
+    document.addEventListener('DOMContentLoaded', () => {
+      checkAdminAndLoad();
+    });
+
+    async function checkAdminAndLoad() {
+      // 1. Tenta verificar se o usuário já é Admin via /api/me
+      try {
+        const res = await fetch('/api/me');
+        const data = await res.json();
+
+        if (data.authenticated && data.user && data.user.isAdmin) {
+          showAdminPanel(data.user);
+          loadAdminOrders();
+          return;
+        }
+      } catch (e) {}
+
+      // 2. Se tem chave mestra guardada no LocalStorage, tenta usá-la
+      if (masterKeyHeader) {
+        const ok = await loadAdminOrdersWithKey(masterKeyHeader);
+        if (ok) return;
+      }
+
+      // 3. Caso contrário, exibe a tela de bloqueio
+      document.getElementById('admin-lock-screen').style.display = 'flex';
+      document.getElementById('admin-main-content').style.display = 'none';
+    }
+
+    async function authWithMasterKey(e) {
+      if (e) e.preventDefault();
+      const input = document.getElementById('admin-key-input').value.trim();
+      if (!input) return;
+
+      const ok = await loadAdminOrdersWithKey(input);
+      if (ok) {
+        masterKeyHeader = input;
+        localStorage.setItem('horizon_admin_master_key', input);
+      } else {
+        showToast('Chave mestra inválida ou incorreta!', true);
+      }
+    }
+
+    async function loadAdminOrdersWithKey(key) {
+      try {
+        const res = await fetch('/api/admin', {
+          headers: { 'x-admin-key': key }
+        });
+        if (res.ok) {
+          const data = await res.json();
+          showAdminPanel(data.admin || { name: 'Admin Mestre', avatar: '' });
+          renderOrders(data);
+          return true;
+        }
+      } catch (e) {}
+      return false;
+    }
+
+    function showAdminPanel(adminUser) {
+      document.getElementById('admin-lock-screen').style.display = 'none';
+      document.getElementById('admin-main-content').style.display = 'block';
+
+      if (adminUser) {
+        const pill = document.getElementById('admin-user-info');
+        const nameEl = document.getElementById('admin-user-name');
+        const avEl = document.getElementById('admin-user-avatar');
+        nameEl.innerText = adminUser.name || 'Admin';
+        if (adminUser.avatar) avEl.src = adminUser.avatar;
+        else avEl.style.display = 'none';
+        pill.style.display = 'flex';
+      }
+    }
+
+    async function loadAdminOrders(animate = false) {
+      const refreshIcon = document.getElementById('refresh-icon');
+      if (animate && refreshIcon) refreshIcon.style.animation = 'spin 1s linear infinite';
+
+      try {
+        const headers = {};
+        if (masterKeyHeader) headers['x-admin-key'] = masterKeyHeader;
+
+        const res = await fetch('/api/admin', { headers });
+        if (res.status === 401) {
+          document.getElementById('admin-lock-screen').style.display = 'flex';
+          document.getElementById('admin-main-content').style.display = 'none';
+          return;
+        }
+
+        const data = await res.json();
+        renderOrders(data);
+        if (animate) showToast('Dados atualizados com sucesso!');
+      } catch (err) {
+        console.error('Erro ao carregar pedidos:', err);
+        showToast('Erro ao carregar pedidos do servidor', true);
+      } finally {
+        if (refreshIcon) refreshIcon.style.animation = '';
+      }
+    }
+
+    function renderOrders(data) {
+      allOrders = data.orders || [];
+      const m = data.metrics || {};
+
+      // Atualiza KPIs
+      document.getElementById('kpi-total-orders').innerText = m.totalOrders || allOrders.length;
+      document.getElementById('kpi-total-revenue').innerText = m.totalRevenueFormatted || 'R$ 0,00';
+      document.getElementById('kpi-pending-delivery').innerText = m.pendingDeliveryCount || 0;
+      document.getElementById('kpi-pending-payment').innerText = m.pendingPaymentCount || 0;
+
+      // Alerta de entrega pendente no card
+      const kpiPendCard = document.getElementById('kpi-card-pending-delivery');
+      if (m.pendingDeliveryCount > 0) {
+        kpiPendCard.style.borderColor = '#EF4444';
+        kpiPendCard.style.background = 'linear-gradient(145deg, rgba(239, 68, 68, 0.15) 0%, var(--bg-card) 70%)';
+        document.getElementById('kpi-pending-delivery-desc').innerHTML = `<strong style="color: #EF4444;">${m.pendingDeliveryCount} jogador(es) precisando de entrega!</strong>`;
+      } else {
+        kpiPendCard.style.borderColor = 'var(--border-color)';
+        kpiPendCard.style.background = 'var(--bg-card)';
+        document.getElementById('kpi-pending-delivery-desc').innerText = 'Todas as compras aprovadas já foram entregues!';
+      }
+
+      // Contagens dos filtros
+      const cPendingDelivery = allOrders.filter(o => o.status === 'approved' && !o.granted).length;
+      const cApproved = allOrders.filter(o => o.status === 'approved').length;
+      const cPendingPayment = allOrders.filter(o => o.status === 'pending').length;
+
+      document.getElementById('count-all').innerText = allOrders.length;
+      document.getElementById('count-pending-delivery').innerText = cPendingDelivery;
+      document.getElementById('count-approved').innerText = cApproved;
+      document.getElementById('count-pending-payment').innerText = cPendingPayment;
+
+      applyFilterAndRenderTable();
+    }
+
+    function setFilter(filter) {
+      currentFilter = filter;
+      document.querySelectorAll('.filter-pill').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-filter') === filter);
+      });
+      applyFilterAndRenderTable();
+    }
+
+    function handleSearch() {
+      currentSearch = (document.getElementById('admin-search-box').value || '').toLowerCase().trim();
+      applyFilterAndRenderTable();
+    }
+
+    function applyFilterAndRenderTable() {
+      let filtered = allOrders;
+
+      // Filtro por status
+      if (currentFilter === 'pending_delivery') {
+        filtered = filtered.filter(o => o.status === 'approved' && !o.granted);
+      } else if (currentFilter === 'approved') {
+        filtered = filtered.filter(o => o.status === 'approved');
+      } else if (currentFilter === 'pending_payment') {
+        filtered = filtered.filter(o => o.status === 'pending');
+      }
+
+      // Filtro por busca
+      if (currentSearch) {
+        filtered = filtered.filter(o => {
+          return (o.id && o.id.toLowerCase().includes(currentSearch)) ||
+                 (o.paymentId && String(o.paymentId).toLowerCase().includes(currentSearch)) ||
+                 (o.playerName && o.playerName.toLowerCase().includes(currentSearch)) ||
+                 (o.steamId && o.steamId.includes(currentSearch)) ||
+                 (o.vipTier && o.vipTier.toLowerCase().includes(currentSearch));
+        });
+      }
+
+      renderTableRows(filtered);
+    }
+
+    function renderTableRows(orders) {
+      const tbody = document.getElementById('admin-orders-tbody');
+      if (!tbody) return;
+
+      if (orders.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="8" style="text-align: center; padding: 48px; color: var(--text-muted);">
+              Nenhum pedido encontrado para os filtros selecionados.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = orders.map(o => {
+        // Badges
+        const isApproved = o.status === 'approved';
+        const isGranted = !!o.granted;
+
+        let statusBadge = '';
+        if (isApproved) statusBadge = '<span class="badge-status badge-approved">● Aprovado</span>';
+        else if (o.status === 'pending') statusBadge = '<span class="badge-status badge-pending">⏳ Aguardando PIX</span>';
+        else statusBadge = '<span class="badge-status badge-cancelled">Cancelado</span>';
+
+        let deliveryBadge = '';
+        if (isApproved) {
+          if (isGranted) {
+            deliveryBadge = `<span class="badge-status badge-delivery-ok" title="Entregue em ${o.grantedAt || ''}">✅ Entregue no Rust</span>`;
+          } else {
+            deliveryBadge = '<span class="badge-status badge-delivery-pending" title="Aguardando HorizonCore puxar">⚠️ Entrega Pendente</span>';
+          }
+        } else {
+          deliveryBadge = '<span style="color: var(--text-muted); font-size: 0.75rem;">Aguardando Pagamento</span>';
+        }
+
+        // Tier Badge
+        let tierClass = 'badge-tier-bronze';
+        if (o.vipTier.includes('ouro')) tierClass = 'badge-tier-ouro';
+        else if (o.vipTier.includes('prata')) tierClass = 'badge-tier-prata';
+        else if (o.vipTier.includes('kit') || ['farmer','airdrop','cartao','eletrica'].includes(o.vipTier)) tierClass = 'badge-tier-kit';
+
+        // Botões de ação
+        let actionsHtml = '';
+        if (isApproved) {
+          if (!isGranted) {
+            actionsHtml += `
+              <button type="button" class="btn-tbl btn-tbl-retry" onclick="triggerAction('retry_delivery', '${o.id}')" title="Dispara entrega automática imediata no servidor de Rust">
+                🚀 Entregar Agora
+              </button>
+            `;
+          } else {
+            actionsHtml += `
+              <button type="button" class="btn-tbl btn-tbl-retry" onclick="triggerAction('retry_delivery', '${o.id}')" title="Reativa a entrega caso o jogador tenha tido problema">
+                🔄 Reentregar
+              </button>
+            `;
+          }
+        } else if (o.status === 'pending') {
+          actionsHtml += `
+            <button type="button" class="btn-tbl btn-tbl-approve" onclick="triggerAction('manual_approve', '${o.id}')" title="Aprova manualmente caso o jogador tenha pago por fora">
+              ⚡ Aprovar Manual
+            </button>
+          `;
+        }
+
+        actionsHtml += `
+          <button type="button" class="btn-tbl btn-tbl-cmd" onclick="copyConsoleCmd('${o.deliveryCommand}')" title="Copiar comando de console do Rust">
+            📋 Comando F1
+          </button>
+        `;
+
+        if (o.steamProfileUrl) {
+          actionsHtml += `
+            <a href="${o.steamProfileUrl}" target="_blank" rel="noreferrer" class="btn-tbl btn-tbl-steam" title="Abrir Perfil Steam">
+              Steam
+            </a>
+          `;
+        }
+
+        return `
+          <tr>
+            <td>
+              <div style="font-family: monospace; font-weight: 700; color: #FFF; font-size: 0.8rem; display: flex; align-items: center; gap: 6px;">
+                <span>${o.id}</span>
+                <button type="button" onclick="copyText('${o.id}')" style="background:none; border:none; color:var(--text-muted); cursor:pointer; padding:2px;" title="Copiar ID do Pedido">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                </button>
+              </div>
+              <div style="color: var(--text-muted); font-size: 0.72rem; margin-top: 2px;">
+                ${o.createdAt || '-'}
+                ${o.paymentId && o.paymentId !== '-' ? ` &bull; MP: ${o.paymentId}` : ''}
+              </div>
+            </td>
+            <td>
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <img src="${o.playerAvatar}" alt="" style="width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid var(--border-color); object-fit: cover;" onerror="this.src='https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg'">
+                <div>
+                  <div style="font-weight: 700; color: #EDE8E5;">${o.playerName}</div>
+                  <div style="font-family: monospace; font-size: 0.7rem; color: var(--text-muted); display: flex; align-items: center; gap: 4px;">
+                    ${o.steamId}
+                    <button type="button" onclick="copyText('${o.steamId}')" style="background:none; border:none; color:var(--text-muted); cursor:pointer; padding:0 2px;" title="Copiar SteamID">
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <span class="badge-tier ${tierClass}">${o.vipTierFormatted}</span>
+            </td>
+            <td>
+              <strong style="font-family: monospace; font-size: 0.88rem; color: #FFF;">${o.amountFormatted}</strong>
+            </td>
+            <td>
+              ${statusBadge}
+            </td>
+            <td>
+              ${deliveryBadge}
+            </td>
+            <td style="color: var(--text-muted); font-size: 0.75rem;">
+              ${o.expiresAt ? `Expira: ${o.expiresAt}` : '-'}
+            </td>
+            <td style="text-align: right; padding-right: 20px;">
+              <div style="display: inline-flex; gap: 6px; align-items: center;">
+                ${actionsHtml}
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // Ações de resolução
+    async function triggerAction(action, orderId) {
+      let confirmMsg = 'Deseja prosseguir com esta ação?';
+      if (action === 'retry_delivery') confirmMsg = `Reenviar entrega do pedido ${orderId} para o servidor de Rust?`;
+      if (action === 'manual_approve') confirmMsg = `Aprovar MANUALMENTE o pedido ${orderId}? O VIP será entregue ao jogador imediatamente.`;
+
+      if (!confirm(confirmMsg)) return;
+
+      try {
+        const headers = { 'Content-Type': 'application/json' };
+        if (masterKeyHeader) headers['x-admin-key'] = masterKeyHeader;
+
+        const res = await fetch('/api/admin', {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({ action, orderId })
+        });
+
+        const data = await res.json();
+        if (data.success) {
+          showToast(data.message || 'Ação concluída com sucesso!');
+          loadAdminOrders();
+        } else {
+          showToast(data.error || 'Erro ao executar ação', true);
+        }
+      } catch (err) {
+        showToast('Erro de comunicação com o servidor', true);
+      }
+    }
+
+    // Modal de Entrega Manual
+    function openManualModal() {
+      document.getElementById('manual-modal').style.display = 'flex';
+      document.getElementById('manual-steamid').focus();
+    }
+
+    function closeManualModal(e) {
+      if (e && e.target !== e.currentTarget && e.currentTarget.id !== 'manual-modal') return;
+      document.getElementById('manual-modal').style.display = 'none';
+    }
+
+    async function submitManualOrder(e) {
+      e.preventDefault();
+      const steamId = document.getElementById('manual-steamid').value.trim();
+      const playerName = document.getElementById('manual-player-name').value.trim();
+      const vipTier = document.getElementById('manual-tier').value;
+      const durationDays = parseInt(document.getElementById('manual-duration').value, 10) || 30;
+      const adminNotes = document.getElementById('manual-notes').value.trim();
+
+      if (!steamId || steamId.length < 10) {
+        alert('Informe um SteamID 64 válido!');
+        return;
+      }
+
+      const btn = document.getElementById('btn-submit-manual');
+      btn.innerText = 'Criando...';
+      btn.disabled = true;
+
+      try {
+        const headers = { 'Content-Type': 'application/json' };
+        if (masterKeyHeader) headers['x-admin-key'] = masterKeyHeader;
+
+        const res = await fetch('/api/admin', {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({
+            action: 'create_manual',
+            steamId,
+            playerName,
+            vipTier,
+            durationDays,
+            adminNotes
+          })
+        });
+
+        const data = await res.json();
+        if (data.success) {
+          showToast(data.message);
+          closeManualModal();
+          loadAdminOrders();
+        } else {
+          showToast(data.error || 'Erro ao criar pedido', true);
+        }
+      } catch (err) {
+        showToast('Erro de comunicação com o servidor', true);
+      } finally {
+        btn.innerText = 'Criar e Entregar no Jogo';
+        btn.disabled = false;
+      }
+    }
+
+    // Utilitários de cópia e toast
+    function copyText(txt) {
+      navigator.clipboard.writeText(txt);
+      showToast(`Copiado: ${txt}`);
+    }
+
+    function copyConsoleCmd(cmd) {
+      navigator.clipboard.writeText(cmd);
+      showToast(`Comando copiado! Cole no console F1 do Rust.`);
+    }
+
+    function showToast(msg, isError = false) {
+      const toast = document.getElementById('admin-toast');
+      const msgEl = document.getElementById('admin-toast-msg');
+      msgEl.innerText = msg;
+      toast.style.borderColor = isError ? '#EF4444' : 'var(--marca)';
+      toast.style.display = 'flex';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 3500);
+    }
+  </script>
+</body>
+</html>

@@ -929,7 +929,7 @@
 
     async function loadAdminOrdersWithKey(key) {
       try {
-        const res = await fetch('/api/admin/orders', {
+        const res = await fetch('/api/admin', {
           headers: { 'x-admin-key': key }
         });
         if (res.ok) {
@@ -965,7 +965,7 @@
         const headers = {};
         if (masterKeyHeader) headers['x-admin-key'] = masterKeyHeader;
 
-        const res = await fetch('/api/admin/orders', { headers });
+        const res = await fetch('/api/admin', { headers });
         if (res.status === 401) {
           document.getElementById('admin-lock-screen').style.display = 'flex';
           document.getElementById('admin-main-content').style.display = 'none';
@@ -1202,7 +1202,7 @@
         const headers = { 'Content-Type': 'application/json' };
         if (masterKeyHeader) headers['x-admin-key'] = masterKeyHeader;
 
-        const res = await fetch('/api/admin/action', {
+        const res = await fetch('/api/admin', {
           method: 'POST',
           headers,
           body: JSON.stringify({ action, orderId })
@@ -1252,7 +1252,7 @@
         const headers = { 'Content-Type': 'application/json' };
         if (masterKeyHeader) headers['x-admin-key'] = masterKeyHeader;
 
-        const res = await fetch('/api/admin/action', {
+        const res = await fetch('/api/admin', {
           method: 'POST',
           headers,
           body: JSON.stringify({

@@ -4,6 +4,14 @@
   "trailingSlash": false,
   "rewrites": [
     {
+      "source": "/admin",
+      "destination": "/admin/index.html"
+    },
+    {
+      "source": "/api/admin/:action*",
+      "destination": "/api/admin"
+    },
+    {
       "source": "/leaderboards/:steamid",
       "destination": "/leaderboards/player"
     },

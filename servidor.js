@@ -513,6 +513,7 @@ function parseCookies(req) {
 }
 
 const ADMIN_STEAM_IDS = [
+  '76561198750662826', // ADM Lucas / Dono Horizon
   '76561198737554294', // ADM configurado pelo usuário
   '76561199127717531'  // ADM oficial Horizon
 ];
