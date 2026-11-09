@@ -2,7 +2,7 @@
  * Horizon Rust - Menu Superior & Mobile Sanduíche
  * Gerencia a navegação desktop, o menu gaveta no mobile e o destaque da página ativa.
  */
-(function() {
+(function () {
   'use strict';
 
   function initHorizonMenu() {
@@ -31,7 +31,7 @@
     }
 
     if (toggleBtn) {
-      toggleBtn.addEventListener('click', function(e) {
+      toggleBtn.addEventListener('click', function (e) {
         e.stopPropagation();
         if (drawer && drawer.classList.contains('is-open')) {
           closeMenu();
@@ -44,13 +44,13 @@
     if (closeBtn) closeBtn.addEventListener('click', closeMenu);
     if (backdrop) backdrop.addEventListener('click', closeMenu);
 
-    mobileLinks.forEach(function(link) {
-      link.addEventListener('click', function() {
+    mobileLinks.forEach(function (link) {
+      link.addEventListener('click', function () {
         closeMenu();
       });
     });
 
-    document.addEventListener('keydown', function(e) {
+    document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && drawer && drawer.classList.contains('is-open')) {
         closeMenu();
       }
@@ -79,7 +79,7 @@
       activeNav = '';
     }
 
-    document.querySelectorAll('.horizon-nav-link, .horizon-mobile-link').forEach(function(link) {
+    document.querySelectorAll('.horizon-nav-link, .horizon-mobile-link').forEach(function (link) {
       var navKey = link.getAttribute('data-nav');
       if (navKey && (navKey === activeNav || (activeDropdown && navKey === activeDropdown))) {
         link.classList.add('active');

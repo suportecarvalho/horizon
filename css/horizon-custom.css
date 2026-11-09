@@ -1780,7 +1780,7 @@ body.horizon-menu-locked {
 }
 
 .horizon-nav-link.active {
-  color: var(--marca, #CE422B) !important;
+  color: #52B4FF !important;
   font-weight: 800 !important;
   background: transparent !important;
   border: none !important;
@@ -2063,9 +2063,9 @@ body.horizon-menu-locked {
 }
 
 .horizon-mobile-link.active {
-  background: rgba(206, 66, 43, 0.16);
-  border-color: rgba(206, 66, 43, 0.45);
-  box-shadow: 0 0 16px rgba(206, 66, 43, 0.15);
+  background: rgba(108, 151, 142, 0.16);
+  border-color: rgba(108, 151, 142, 0.45);
+  box-shadow: 0 0 16px rgba(108, 151, 142, 0.15);
 }
 
 .horizon-mobile-link-icon {
