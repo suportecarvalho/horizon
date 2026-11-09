@@ -87,6 +87,7 @@ namespace Oxide.Plugins
             public Dictionary<string, string> VipGroups { get; set; } = new Dictionary<string, string>
             {
                 { "bronze", "vip_bronze" },
+                { "sobrevivente", "vip_bronze" },
                 { "prata", "vip_prata" },
                 { "ouro", "vip_ouro" },
                 { "farmer", "kit_farmer" },
@@ -99,6 +100,7 @@ namespace Oxide.Plugins
             public Dictionary<string, List<string>> VipTierPermissions { get; set; } = new Dictionary<string, List<string>>
             {
                 { "bronze", new List<string> { "kits.vipbronze", "skippriority.vip" } },
+                { "sobrevivente", new List<string> { "kits.vipbronze", "skippriority.vip" } },
                 { "prata", new List<string> { "kits.vipprata", "skippriority.vip" } },
                 { "ouro", new List<string> { "kits.vipouro", "skippriority.vip" } },
                 { "farmer", new List<string> { "kits.farmer" } },
@@ -111,6 +113,7 @@ namespace Oxide.Plugins
             public Dictionary<string, List<string>> VipActivationCommands { get; set; } = new Dictionary<string, List<string>>
             {
                 { "bronze", new List<string>() },
+                { "sobrevivente", new List<string>() },
                 { "prata", new List<string>() },
                 { "ouro", new List<string>() },
                 { "farmer", new List<string>() },

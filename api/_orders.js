@@ -297,6 +297,138 @@ async function getActiveVipForPlayer(steamId) {
   return active[0] || null;
 }
 
+
+/**
+ * Retorna todos os pedidos para o painel administrativo (ordenados do mais recente ao mais antigo)
+ */
+async function getAllOrders() {
+  let orders = [];
+
+  if (supabase) {
+    try {
+      const { data, error } = await supabase
+        .from('vip_orders')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (data && data.length > 0) {
+        orders = data;
+      }
+    } catch (e) {}
+
+    if (orders.length === 0) {
+      try {
+        const sys = await getSystemOrdersFromSupabase();
+        if (Array.isArray(sys) && sys.length > 0) {
+          orders = sys;
+        }
+      } catch (e) {}
+    }
+  }
+
+  const local = loadLocalOrders();
+  if (orders.length === 0) {
+    orders = local;
+  } else if (local.length > 0) {
+    const map = new Map();
+    orders.forEach(o => { if (o && o.id) map.set(o.id, o); });
+    local.forEach(o => {
+      if (o && o.id && !map.has(o.id)) map.set(o.id, o);
+    });
+    orders = Array.from(map.values());
+  }
+
+  // Filtra sub-entregas duplicadas que não são pedidos principais
+  orders = orders.filter(o => o && o.id && !o.id.includes('__'));
+
+  orders.sort((a, b) => new Date(b.created_at || b.approved_at || 0) - new Date(a.created_at || a.approved_at || 0));
+  return orders;
+}
+
+/**
+ * Força re-entrega no jogo (marca como não entregue para o servidor Rust puxar via /api/vip/pending)
+ */
+async function retryDelivery(orderId) {
+  const order = await getOrder(orderId);
+  if (!order) return null;
+
+  order.granted = false;
+  order.granted_items = [];
+  delete order.granted_at;
+
+  await saveOrder(order);
+  return order;
+}
+
+/**
+ * Aprova manualmente um pedido (ex: pagamento confirmado por fora ou falha no webhook)
+ */
+async function manualApproveOrder(orderId) {
+  let order = await getOrder(orderId);
+  const now = new Date().toISOString();
+  const expiresAt = new Date(Date.now() + (30 * 24 * 60 * 60 * 1000)).toISOString();
+
+  if (!order) {
+    order = {
+      id: orderId,
+      status: 'approved',
+      granted: false,
+      approved_at: now,
+      expires_at: expiresAt
+    };
+  } else {
+    order.status = 'approved';
+    order.granted = false;
+    order.approved_at = now;
+    order.expires_at = expiresAt;
+  }
+
+  await saveOrder(order);
+  return order;
+}
+
+/**
+ * Cancela um pedido
+ */
+async function cancelOrder(orderId) {
+  const order = await getOrder(orderId);
+  if (!order) return null;
+
+  order.status = 'cancelled';
+  await saveOrder(order);
+  return order;
+}
+
+/**
+ * Cria um pedido manual de entrega VIP
+ */
+async function createManualOrder({ steamId, playerName, playerAvatar, vipTier, durationDays = 30, amount = 0, adminNotes = '' }) {
+  const now = new Date().toISOString();
+  const days = Number(durationDays) || 30;
+  const expiresAt = new Date(Date.now() + (days * 24 * 60 * 60 * 1000)).toISOString();
+  const id = `HORIZON-MANUAL-${Date.now().toString(36).toUpperCase()}-${Math.floor(100 + Math.random() * 900)}`;
+
+  const order = {
+    id,
+    payment_id: `MANUAL-${Date.now()}`,
+    steam_id: String(steamId).trim(),
+    player_name: playerName || 'Jogador',
+    player_avatar: playerAvatar || '',
+    vip_tier: String(vipTier || 'bronze').toLowerCase().trim(),
+    amount: Number(amount) || 0,
+    status: 'approved',
+    granted: false,
+    created_at: now,
+    approved_at: now,
+    expires_at: expiresAt,
+    payment_method: 'manual_admin',
+    admin_notes: adminNotes
+  };
+
+  await saveOrder(order);
+  return order;
+}
+
 module.exports = {
   saveOrder,
   getOrder,
@@ -304,5 +436,10 @@ module.exports = {
   getPendingDeliveries,
   markOrderGranted,
   getActiveVipForPlayer,
-  loadLocalOrders
+  loadLocalOrders,
+  getAllOrders,
+  retryDelivery,
+  manualApproveOrder,
+  cancelOrder,
+  createManualOrder
 };

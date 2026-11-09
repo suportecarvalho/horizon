@@ -5,8 +5,18 @@
   'use strict';
 
   const KITS_INFO = {
+    sobrevivente: {
+      name: 'VIP SOBREVIVENTE',
+      price: 'R$ 20,00',
+      numericPrice: 20.00,
+      img: '/images/vip_bronze.jpg',
+      badgeColor: '#CD7F32',
+      badgeBorder: '#B87333',
+      badgeBg: 'rgba(205, 127, 50, 0.15)',
+      perks: '18 Itens no Inventário • Chás de Farm Puros • Skip Fila com Prioridade'
+    },
     bronze: {
-      name: 'VIP Bronze',
+      name: 'VIP SOBREVIVENTE',
       price: 'R$ 20,00',
       numericPrice: 20.00,
       img: '/images/vip_bronze.jpg',
@@ -86,6 +96,7 @@
   // Normaliza o nome do tier
   function normalizeTierKey(tier) {
     let t = (tier || 'ouro').toLowerCase().trim();
+    if (t === 'sobrevivente' || t === 'vip-sobrevivente' || t === 'vipsobrevivente') t = 'bronze';
     if (t === 'kit-farmer' || t === 'kit_farmer') t = 'farmer';
     if (t === 'kit-airdrop' || t === 'kit_airdrop' || t === 'drop' || t === 'kit-drop') t = 'airdrop';
     if (t === 'kit-cartao' || t === 'kit_cartao' || t === 'cards' || t === 'cartoes') t = 'cartao';

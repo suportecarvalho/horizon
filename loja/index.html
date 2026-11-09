@@ -16,27 +16,134 @@
   .vip-arte-vazia {
     aspect-ratio: 16 / 9;
     width: 100%;
-    background: linear-gradient(160deg, rgba(206, 66, 43, 0.26), transparent 62%), var(--bg3, #26272e);
+    background: linear-gradient(145deg, rgba(206, 66, 43, 0.22) 0%, rgba(20, 21, 26, 0.95) 55%, #15161a 100%), #15161a;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 0 16px;
     user-select: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     transition: background 0.3s ease;
   }
   .vip-arte-vazia:hover {
-    background: linear-gradient(160deg, rgba(206, 66, 43, 0.38), transparent 62%), #2c2e36;
+    background: linear-gradient(145deg, rgba(206, 66, 43, 0.32) 0%, rgba(25, 26, 32, 0.95) 55%, #1a1b20 100%), #1a1b20;
   }
   .vip-arte-vazia span {
     font-family: var(--font-display, "Space Grotesk", sans-serif);
     text-transform: uppercase;
     text-align: center;
-    color: rgba(255, 255, 255, 0.14);
-    font-size: 1.55rem;
+    color: rgba(255, 255, 255, 0.16);
+    font-size: 1.45rem;
     font-weight: 800;
     letter-spacing: 0.04em;
     line-height: 1.1;
     pointer-events: none;
+  }
+
+  /* Cards e Conteúdo */
+  [data-slot="card"] {
+    background: #17181c !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+  }
+  [data-slot="card-footer"] {
+    background: #131417 !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
+  }
+
+  .vip-nome {
+    font-family: var(--font-display, "Space Grotesk", sans-serif) !important;
+    text-transform: uppercase !important;
+    color: #FFFFFF !important;
+    font-size: 1.2rem !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.01em !important;
+    margin: 0 !important;
+    line-height: 1.2 !important;
+  }
+
+  .vip-duracao {
+    letter-spacing: .14em !important;
+    color: #8a8e99 !important;
+    font-size: .62rem !important;
+    font-family: var(--font-mono, monospace) !important;
+    text-transform: uppercase !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    background: rgba(255, 255, 255, 0.03) !important;
+    border-radius: 9999px !important;
+    padding: 2px 8px !important;
+  }
+
+  .perks {
+    color: #9fa3af !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: .88rem !important;
+    list-style: none !important;
+    display: flex !important;
+  }
+  .perk {
+    gap: 10px !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    line-height: 1.4 !important;
+  }
+  .perk::before {
+    content: "" !important;
+    background: #CE422B !important;
+    flex: none !important;
+    width: 5px !important;
+    height: 5px !important;
+    margin-top: .48em !important;
+    border-radius: 0 !important;
+  }
+
+  .vip-ver-mais {
+    font-family: var(--font-mono, monospace) !important;
+    text-transform: uppercase !important;
+    letter-spacing: .1em !important;
+    color: #717682 !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18) !important;
+    align-self: flex-start !important;
+    font-size: .68rem !important;
+    text-decoration: none !important;
+    font-weight: 600 !important;
+    transition: color .15s, border-color .15s !important;
+  }
+  .vip-ver-mais:hover {
+    color: #FFFFFF !important;
+    border-bottom-color: #FFFFFF !important;
+  }
+
+  .preco-valor {
+    font-family: var(--font-mono, monospace) !important;
+    font-variant-numeric: tabular-nums !important;
+    color: #FFFFFF !important;
+    letter-spacing: -.035em !important;
+    font-size: 1.95rem !important;
+    font-weight: 800 !important;
+    line-height: 1 !important;
+  }
+
+  [data-slot="button"][data-size="acao"] {
+    background: #CE422B !important;
+    color: #FFFFFF !important;
+    font-family: var(--font-heading, "Space Grotesk", sans-serif) !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.05em !important;
+    text-transform: uppercase !important;
+    font-size: 0.82rem !important;
+    border-radius: 6px !important;
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%) !important;
+    height: 40px !important;
+    transition: all 0.2s ease !important;
+  }
+  [data-slot="button"][data-size="acao"]:hover {
+    background: #E04E35 !important;
+    filter: brightness(1.1) !important;
   }
 
   #secao-kits {
@@ -109,14 +216,14 @@
 
 <!-- ==================== SEÇÃO 1: PACOTES VIP ==================== -->
 <div id="secao-vips" class="vip-grade">
-    <!-- ==================== VIP BRONZE ==================== -->
+    <!-- ==================== VIP SOBREVIVENTE ==================== -->
   <div data-slot="card" data-size="default" class="group/card flex flex-col rounded-xl bg-card py-(--card-spacing) text-sm text-card-foreground ring-1 ring-foreground/10 has-data-[slot=card-footer]:pb-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 relative [--card-spacing:1.5rem] gap-4 overflow-hidden transition-all duration-200 hover:ring-white/15 pt-0 has-[>.vip-arte-vazia]:pt-0">
-    <div class="vip-arte-vazia" aria-hidden="true" onclick="openKitModal('bronze')" style="cursor: pointer;" title="Clique para ver todos os detalhes do VIP Bronze">
-      <span>VIP BRONZE</span>
+    <div class="vip-arte-vazia" aria-hidden="true" onclick="openKitModal('bronze')" style="cursor: pointer;" title="Clique para ver todos os detalhes do VIP Sobrevivente">
+      <span>VIP SOBREVIVENTE</span>
     </div>
     <div data-slot="card-content" class="px-(--card-spacing) relative flex flex-1 flex-col gap-4">
       <div class="flex flex-col items-start gap-2">
-        <h3 class="vip-nome">VIP Bronze</h3>
+        <h3 class="vip-nome">VIP SOBREVIVENTE</h3>
         <span data-slot="badge" data-variant="outline" class="group/badge inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-4xl border border-border px-2 py-0.5 text-xs font-medium whitespace-nowrap vip-duracao text-[var(--text-muted)] bg-transparent">30 DIAS</span>
       </div>
       <div data-orientation="horizontal" role="none" data-slot="separator" class="shrink-0 data-horizontal:h-px data-horizontal:w-full bg-[var(--border)]"></div>
@@ -125,7 +232,7 @@
         <li class="perk">Solicite a remoção de até 5 estruturas por wipe diretamente com a equipe.</li>
         <li class="perk">Organizador Automático: Baús organizados de forma inteligente.</li>
       </ul>
-      <a href="javascript:void(0)" onclick="openKitModal('bronze')" class="vip-ver-mais">Ver todos os 8 benefícios</a>
+      <a href="javascript:void(0)" onclick="openKitModal('bronze')" class="vip-ver-mais">VER TODOS OS 8 BENEFÍCIOS</a>
       <div class="mt-auto flex flex-col gap-4 pt-1">
         <div data-orientation="horizontal" role="none" data-slot="separator" class="shrink-0 data-horizontal:h-px data-horizontal:w-full bg-[var(--border)]"></div>
         <div class="flex flex-col gap-1">
@@ -145,7 +252,7 @@
     </div>
     <div data-slot="card-content" class="px-(--card-spacing) relative flex flex-1 flex-col gap-4">
       <div class="flex flex-col items-start gap-2">
-        <h3 class="vip-nome">VIP Prata</h3>
+        <h3 class="vip-nome">VIP PRATA</h3>
         <span data-slot="badge" data-variant="outline" class="group/badge inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-4xl border border-border px-2 py-0.5 text-xs font-medium whitespace-nowrap vip-duracao text-[var(--text-muted)] bg-transparent">30 DIAS</span>
       </div>
       <div data-orientation="horizontal" role="none" data-slot="separator" class="shrink-0 data-horizontal:h-px data-horizontal:w-full bg-[var(--border)]"></div>
@@ -154,7 +261,7 @@
         <li class="perk">Kit VIP Prata avançado (armas T2/T3, recursos e munição) a cada 8h</li>
         <li class="perk">Solicite a remoção de até 5 estruturas por wipe diretamente com a equipe.</li>
       </ul>
-      <a href="javascript:void(0)" onclick="openKitModal('prata')" class="vip-ver-mais">Ver todos os 10 benefícios</a>
+      <a href="javascript:void(0)" onclick="openKitModal('prata')" class="vip-ver-mais">VER TODOS OS 10 BENEFÍCIOS</a>
       <div class="mt-auto flex flex-col gap-4 pt-1">
         <div data-orientation="horizontal" role="none" data-slot="separator" class="shrink-0 data-horizontal:h-px data-horizontal:w-full bg-[var(--border)]"></div>
         <div class="flex flex-col gap-1">
@@ -174,7 +281,7 @@
     </div>
     <div data-slot="card-content" class="px-(--card-spacing) relative flex flex-1 flex-col gap-4">
       <div class="flex flex-col items-start gap-2">
-        <h3 class="vip-nome">VIP Ouro</h3>
+        <h3 class="vip-nome">VIP OURO</h3>
         <span data-slot="badge" data-variant="outline" class="group/badge inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-4xl border border-border px-2 py-0.5 text-xs font-medium whitespace-nowrap vip-duracao text-[var(--text-muted)] bg-transparent">30 DIAS</span>
       </div>
       <div data-orientation="horizontal" role="none" data-slot="separator" class="shrink-0 data-horizontal:h-px data-horizontal:w-full bg-[var(--border)]"></div>
@@ -183,7 +290,7 @@
         <li class="perk">Kit VIP Ouro mais completo (armas T3, explosivos e recursos em massa)</li>
         <li class="perk">Solicite a remoção de até 10 estruturas por wipe diretamente com a equipe.</li>
       </ul>
-      <a href="javascript:void(0)" onclick="openKitModal('ouro')" class="vip-ver-mais">Ver todos os 12 benefícios</a>
+      <a href="javascript:void(0)" onclick="openKitModal('ouro')" class="vip-ver-mais">VER TODOS OS 12 BENEFÍCIOS</a>
       <div class="mt-auto flex flex-col gap-4 pt-1">
         <div data-orientation="horizontal" role="none" data-slot="separator" class="shrink-0 data-horizontal:h-px data-horizontal:w-full bg-[var(--border)]"></div>
         <div class="flex flex-col gap-1">
@@ -213,7 +320,7 @@
     </div>
     <div data-slot="card-content" class="px-(--card-spacing) relative flex flex-1 flex-col gap-4">
       <div class="flex flex-col items-start gap-2">
-        <h3 class="vip-nome">Kit Farmer</h3>
+        <h3 class="vip-nome">KIT FARMER</h3>
         <span data-slot="badge" data-variant="outline" class="group/badge inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-4xl border border-border px-2 py-0.5 text-xs font-medium whitespace-nowrap vip-duracao text-[var(--text-muted)] bg-transparent">30 DIAS</span>
       </div>
       <div data-orientation="horizontal" role="none" data-slot="separator" class="shrink-0 data-horizontal:h-px data-horizontal:w-full bg-[var(--border)]"></div>
@@ -223,7 +330,7 @@
         <li class="perk">5x Fornalhas Especiais Rápidas (Caldeirões)</li>
         <li class="perk">100x Chá de Farm &amp; 3x Tortas de Regeneração</li>
       </ul>
-      <a href="javascript:void(0)" onclick="openKitModal('farmer')" class="vip-ver-mais">Ver inventário completo</a>
+      <a href="javascript:void(0)" onclick="openKitModal('farmer')" class="vip-ver-mais">VER INVENTÁRIO COMPLETO</a>
       <div class="mt-auto flex flex-col gap-4 pt-1">
         <div data-orientation="horizontal" role="none" data-slot="separator" class="shrink-0 data-horizontal:h-px data-horizontal:w-full bg-[var(--border)]"></div>
         <div class="flex flex-col gap-1">
@@ -247,7 +354,7 @@
     </div>
     <div data-slot="card-content" class="px-(--card-spacing) relative flex flex-1 flex-col gap-4">
       <div class="flex flex-col items-start gap-2">
-        <h3 class="vip-nome">Kit Airdrop</h3>
+        <h3 class="vip-nome">KIT AIRDROP</h3>
         <span data-slot="badge" data-variant="outline" class="group/badge inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-4xl border border-border px-2 py-0.5 text-xs font-medium whitespace-nowrap vip-duracao text-[var(--text-muted)] bg-transparent">30 DIAS</span>
       </div>
       <div data-orientation="horizontal" role="none" data-slot="separator" class="shrink-0 data-horizontal:h-px data-horizontal:w-full bg-[var(--border)]"></div>
@@ -257,7 +364,7 @@
         <li class="perk">Chame avião C-130 na sua coordenada</li>
         <li class="perk">Armas e equipamentos de alta patente</li>
       </ul>
-      <a href="javascript:void(0)" onclick="openKitModal('airdrop')" class="vip-ver-mais">Ver inventário completo</a>
+      <a href="javascript:void(0)" onclick="openKitModal('airdrop')" class="vip-ver-mais">VER INVENTÁRIO COMPLETO</a>
       <div class="mt-auto flex flex-col gap-4 pt-1">
         <div data-orientation="horizontal" role="none" data-slot="separator" class="shrink-0 data-horizontal:h-px data-horizontal:w-full bg-[var(--border)]"></div>
         <div class="flex flex-col gap-1">
@@ -281,7 +388,7 @@
     </div>
     <div data-slot="card-content" class="px-(--card-spacing) relative flex flex-1 flex-col gap-4">
       <div class="flex flex-col items-start gap-2">
-        <h3 class="vip-nome">Kit Cartões</h3>
+        <h3 class="vip-nome">KIT CARTÕES</h3>
         <span data-slot="badge" data-variant="outline" class="group/badge inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-4xl border border-border px-2 py-0.5 text-xs font-medium whitespace-nowrap vip-duracao text-[var(--text-muted)] bg-transparent">30 DIAS</span>
       </div>
       <div data-orientation="horizontal" role="none" data-slot="separator" class="shrink-0 data-horizontal:h-px data-horizontal:w-full bg-[var(--border)]"></div>
@@ -291,7 +398,7 @@
         <li class="perk">10x Fusíveis Elétricos (Electric Fuse)</li>
         <li class="perk">Acesso liberado a todas as salas de monumentos</li>
       </ul>
-      <a href="javascript:void(0)" onclick="openKitModal('cartao')" class="vip-ver-mais">Ver inventário completo</a>
+      <a href="javascript:void(0)" onclick="openKitModal('cartao')" class="vip-ver-mais">VER INVENTÁRIO COMPLETO</a>
       <div class="mt-auto flex flex-col gap-4 pt-1">
         <div data-orientation="horizontal" role="none" data-slot="separator" class="shrink-0 data-horizontal:h-px data-horizontal:w-full bg-[var(--border)]"></div>
         <div class="flex flex-col gap-1">
@@ -315,7 +422,7 @@
     </div>
     <div data-slot="card-content" class="px-(--card-spacing) relative flex flex-1 flex-col gap-4">
       <div class="flex flex-col items-start gap-2">
-        <h3 class="vip-nome">Kit Elétrica</h3>
+        <h3 class="vip-nome">KIT ELÉTRICA</h3>
         <span data-slot="badge" data-variant="outline" class="group/badge inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-4xl border border-border px-2 py-0.5 text-xs font-medium whitespace-nowrap vip-duracao text-[var(--text-muted)] bg-transparent">30 DIAS</span>
       </div>
       <div data-orientation="horizontal" role="none" data-slot="separator" class="shrink-0 data-horizontal:h-px data-horizontal:w-full bg-[var(--border)]"></div>
@@ -325,7 +432,7 @@
         <li class="perk">Switches, Branches, Timers e Adaptadores</li>
         <li class="perk">Wire Tool, Hose Tool &amp; Automação completa</li>
       </ul>
-      <a href="javascript:void(0)" onclick="openKitModal('eletrica')" class="vip-ver-mais">Ver inventário completo</a>
+      <a href="javascript:void(0)" onclick="openKitModal('eletrica')" class="vip-ver-mais">VER INVENTÁRIO COMPLETO</a>
       <div class="mt-auto flex flex-col gap-4 pt-1">
         <div data-orientation="horizontal" role="none" data-slot="separator" class="shrink-0 data-horizontal:h-px data-horizontal:w-full bg-[var(--border)]"></div>
         <div class="flex flex-col gap-1">
@@ -371,11 +478,41 @@
 
 <script>
 const KITS_DATA = {
-  bronze: {
-    title: 'VIP Bronze',
+  sobrevivente: {
+    title: 'VIP SOBREVIVENTE',
     subtitle: '18 Itens no Inventário • R$ 20,00',
     img: '/images/vip_bronze.jpg',
-    buyUrl: '/comprar/vip-bronze',
+    buyUrl: '/comprar/vip-sobrevivente',
+    html: `
+      <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(108,151,142,0.2); border-radius:8px; padding:14px; margin-bottom:12px;">
+        <strong style="color:#CD7F32; text-transform:uppercase; font-size:0.78rem; letter-spacing:0.06em; display:block; margin-bottom:6px;">Recursos Básicos:</strong>
+        • 5.000x Madeira<br>
+        • 5.000x Pedra<br>
+        • 3.000x Fragmentos de Metal<br>
+        • 50x Metal de Alta Qualidade (HQM)<br>
+        • 100x Gordura Animal & 100x Pano & 100x Couro<br>
+        • 100x Sucata (Scrap)
+      </div>
+      <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(108,151,142,0.2); border-radius:8px; padding:14px; margin-bottom:12px;">
+        <strong style="color:#CD7F32; text-transform:uppercase; font-size:0.78rem; letter-spacing:0.06em; display:block; margin-bottom:6px;">Componentes:</strong>
+        • 5x Molas • 5x Tubos de Metal • 5x Kits de Costura<br>
+        • 5x Cordas (5ft) • 5x Chapas de Sinalização • 5x Engrenagens
+      </div>
+      <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(108,151,142,0.2); border-radius:8px; padding:14px;">
+        <strong style="color:#CD7F32; text-transform:uppercase; font-size:0.78rem; letter-spacing:0.06em; display:block; margin-bottom:6px;">Ferramentas & Especiais:</strong>
+        • 1x Picareta de Metal Recuperada (Salvaged Icepick)<br>
+        • 1x Machado de Metal Recuperado (Salvaged Axe)<br>
+        • 1x Caldeirão Abóbora (Fornalha Especial Halloween)<br>
+        • 1x Caldeirão Festivo (Fornalha Especial Natal)<br>
+        • Skip fila com Prioridade Máxima no Servidor
+      </div>
+    `
+  },
+  bronze: {
+    title: 'VIP SOBREVIVENTE',
+    subtitle: '18 Itens no Inventário • R$ 20,00',
+    img: '/images/vip_bronze.jpg',
+    buyUrl: '/comprar/vip-sobrevivente',
     html: `
       <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(108,151,142,0.2); border-radius:8px; padding:14px; margin-bottom:12px;">
         <strong style="color:#CD7F32; text-transform:uppercase; font-size:0.78rem; letter-spacing:0.06em; display:block; margin-bottom:6px;">Recursos Básicos:</strong>

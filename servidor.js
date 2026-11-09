@@ -986,6 +986,39 @@ const server = http.createServer((req, res) => {
   }
 
   // -------------------------------------------------------------
+  // API: ADMIN (HISTÓRICO E GESTÃO DE COMPRAS VIP)
+  // -------------------------------------------------------------
+  if (cleanUrl.startsWith('/api/admin') || cleanUrl.startsWith('/api/vip/admin')) {
+    const adminHandler = require('./api/admin');
+    if (req.method === 'POST') {
+      let body = '';
+      req.on('data', chunk => { body += chunk; });
+      req.on('end', async () => {
+        try {
+          req.body = body ? JSON.parse(body) : {};
+        } catch (e) {
+          req.body = {};
+        }
+        try {
+          await adminHandler(req, res);
+        } catch (e) {
+          console.error('[API Admin] Erro POST:', e);
+          res.writeHead(500, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: e.message }));
+        }
+      });
+      return;
+    }
+
+    Promise.resolve(adminHandler(req, res)).catch((e) => {
+      console.error('[API Admin] Erro GET:', e);
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: e.message }));
+    });
+    return;
+  }
+
+  // -------------------------------------------------------------
   // API: MERCADO PAGO CHECKOUT & VIP
   // -------------------------------------------------------------
   if (cleanUrl.startsWith('/api/checkout/') || cleanUrl.startsWith('/api/vip/')) {
