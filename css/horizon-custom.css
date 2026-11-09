@@ -1780,11 +1780,29 @@ body.horizon-menu-locked {
 }
 
 .horizon-nav-link.active {
-  color: #52B4FF !important;
+  color: #FFFFFF !important;
   font-weight: 800 !important;
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
+}
+
+.horizon-nav-link,
+.horizon-nav-link:hover,
+.horizon-nav-link:focus,
+.horizon-nav-link:focus-visible,
+.horizon-nav-link:active,
+.horizon-nav-link.active,
+[data-nav="inicio"],
+[data-nav="inicio"]:hover,
+[data-nav="inicio"].active {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+[data-nav="inicio"]:hover,
+[data-nav="inicio"].active {
+  color: #FFFFFF !important;
 }
 
 .horizon-nav-chevron {

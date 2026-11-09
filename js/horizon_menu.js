@@ -59,20 +59,13 @@
     // Detecta e ativa a aba correspondente à página atual
     var path = window.location.pathname.toLowerCase().replace(/\/$/, '') || '/';
     var activeNav = 'inicio';
-    var activeDropdown = '';
 
-    if (path.startsWith('/noticias')) {
-      activeNav = 'noticias';
-    } else if (path.startsWith('/loja')) {
+    if (path.startsWith('/loja')) {
       activeNav = 'loja';
-    } else if (path.startsWith('/leaderboards')) {
-      activeNav = 'ranking';
     } else if (path.startsWith('/equipe')) {
       activeNav = 'equipe';
-      activeDropdown = 'comunidade';
-    } else if (path.startsWith('/feed') || path.startsWith('/regras')) {
-      activeNav = 'comunidade';
-      activeDropdown = 'comunidade';
+    } else if (path.startsWith('/feed')) {
+      activeNav = 'feed';
     } else if (path === '' || path === '/' || path.endsWith('/index.html') || path === '/index.html') {
       activeNav = 'inicio';
     } else {
@@ -81,7 +74,7 @@
 
     document.querySelectorAll('.horizon-nav-link, .horizon-mobile-link').forEach(function (link) {
       var navKey = link.getAttribute('data-nav');
-      if (navKey && (navKey === activeNav || (activeDropdown && navKey === activeDropdown))) {
+      if (navKey && navKey === activeNav) {
         link.classList.add('active');
       } else {
         link.classList.remove('active');
