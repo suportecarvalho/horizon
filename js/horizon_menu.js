@@ -80,7 +80,40 @@
         link.classList.remove('active');
       }
     });
+
+    updateHeaderCartBadge();
   }
+
+  function updateHeaderCartBadge() {
+    try {
+      var raw = localStorage.getItem('horizon_cart');
+      if (!raw) return;
+      var cart = JSON.parse(raw);
+      if (!Array.isArray(cart)) return;
+      var modified = false;
+      cart.forEach(function (it) {
+        if (!it) return;
+        if (it.tier === 'sobrevivente' || it.tier === 'vip-sobrevivente' || (it.name && it.name.toUpperCase().indexOf('SOBREVIVENTE') !== -1)) {
+          it.tier = 'bronze';
+          it.name = 'VIP Bronze';
+          it.img = '/images/vip_bronze.jpg';
+          it.price = 20.00;
+          it.priceFormatted = 'R$ 20,00';
+          modified = true;
+        }
+      });
+      if (modified) {
+        try { localStorage.setItem('horizon_cart', JSON.stringify(cart)); } catch (e) {}
+      }
+      var count = cart.length;
+      document.querySelectorAll('#header-cart-badge, .header-cart-badge').forEach(function (el) {
+        el.innerText = count;
+        el.style.display = count > 0 ? 'inline-block' : 'none';
+      });
+    } catch (e) {}
+  }
+
+  window.addEventListener('storage', updateHeaderCartBadge);
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initHorizonMenu);

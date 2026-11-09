@@ -2330,3 +2330,62 @@ body.horizon-menu-locked {
   border-color: #ef4444;
   color: #ffffff;
 }
+
+/* ==============================================================
+   BOTÃO DO CARRINHO NO TOPO (TEMA HORIZON DARK)
+   ============================================================== */
+.header-cart-btn {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  color: #EDE8E5 !important;
+  height: 32px !important;
+  padding: 0 12px !important;
+  border-radius: 8px !important;
+  font-family: var(--font-heading, 'Space Grotesk', sans-serif) !important;
+  font-weight: 700 !important;
+  font-size: 0.72rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  text-decoration: none !important;
+  box-sizing: border-box !important;
+  user-select: none !important;
+  line-height: 1 !important;
+}
+
+.header-cart-btn:hover {
+  background: rgba(255, 255, 255, 0.10) !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
+  color: #FFFFFF !important;
+}
+
+.header-cart-btn svg {
+  color: #a0a4b0 !important;
+  transition: color 0.2s ease !important;
+  flex-shrink: 0 !important;
+}
+
+.header-cart-btn:hover svg {
+  color: #FFFFFF !important;
+}
+
+.header-cart-badge {
+  background: #CE422B !important;
+  color: #FFFFFF !important;
+  font-size: 0.65rem !important;
+  font-weight: 800 !important;
+  min-width: 17px !important;
+  height: 17px !important;
+  line-height: 17px !important;
+  text-align: center !important;
+  border-radius: 999px !important;
+  padding: 0 4px !important;
+  box-sizing: border-box !important;
+  display: inline-block !important;
+  transition: transform 0.2s ease !important;
+}
+

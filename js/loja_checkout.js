@@ -109,7 +109,23 @@
     try {
       const data = localStorage.getItem(CART_STORAGE_KEY);
       const parsed = data ? JSON.parse(data) : [];
-      return Array.isArray(parsed) ? parsed : [];
+      if (!Array.isArray(parsed)) return [];
+      let modified = false;
+      parsed.forEach(it => {
+        if (!it) return;
+        if (it.tier === 'sobrevivente' || it.tier === 'vip-sobrevivente' || (it.name && it.name.toUpperCase().includes('SOBREVIVENTE'))) {
+          it.tier = 'bronze';
+          it.name = 'VIP BRONZE';
+          it.img = '/images/vip_bronze.jpg';
+          it.price = 20.00;
+          it.priceFormatted = 'R$ 20,00';
+          modified = true;
+        }
+      });
+      if (modified) {
+        try { localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(parsed)); } catch(e) {}
+      }
+      return parsed;
     } catch (e) {
       return [];
     }
@@ -197,30 +213,23 @@
   function updateCartUI() {
     const cart = getCart();
     const count = cart.length;
-    const total = cart.reduce((acc, it) => acc + (it.price || 0), 0);
-    const totalFormatted = `R$ ${total.toFixed(2).replace('.', ',')}`;
 
-    // Atualiza botão flutuante
-    const floatCount = document.getElementById('floating-cart-count');
-    const floatTotal = document.getElementById('floating-cart-total');
-    const floatBtn = document.getElementById('floating-cart-btn');
+    // Remove qualquer botão flutuante residual
+    const oldFloat = document.getElementById('floating-cart-btn');
+    if (oldFloat) oldFloat.remove();
 
-    if (floatCount) floatCount.innerText = count;
-    if (floatTotal) floatTotal.innerText = totalFormatted;
-    if (floatBtn) {
-      if (count > 0) {
-        floatBtn.style.display = 'flex';
-      } else {
-        floatBtn.style.display = 'none';
-      }
-    }
+    // Atualiza badges do cabeçalho
+    const headerBadges = document.querySelectorAll('#header-cart-badge, .header-cart-badge');
+    headerBadges.forEach(badge => {
+      badge.innerText = count;
+      badge.style.display = count > 0 ? 'inline-block' : 'none';
+    });
 
-    // Atualiza badge do cabeçalho caso exista
-    const headerBadge = document.getElementById('header-cart-badge');
-    if (headerBadge) {
-      headerBadge.innerText = count;
-      headerBadge.style.display = count > 0 ? 'inline-block' : 'none';
-    }
+    // Atualiza contadores de páginas
+    const pageCounts = document.querySelectorAll('#page-cart-count, .page-cart-count');
+    pageCounts.forEach(el => {
+      el.innerText = count;
+    });
 
     // Se o drawer estiver aberto, re-renderiza o conteúdo
     const drawerOverlay = document.getElementById('cart-drawer-overlay');
@@ -230,12 +239,13 @@
   }
 
   function animateFloatingCart() {
-    const btn = document.getElementById('floating-cart-btn');
-    if (!btn) return;
-    btn.style.transform = 'scale(1.15)';
-    setTimeout(() => {
-      btn.style.transform = 'scale(1)';
-    }, 250);
+    const badges = document.querySelectorAll('#header-cart-badge, .header-cart-badge');
+    badges.forEach(badge => {
+      badge.style.transform = 'scale(1.35)';
+      setTimeout(() => {
+        badge.style.transform = 'scale(1)';
+      }, 200);
+    });
   }
 
   function showToast(message) {
@@ -343,46 +353,14 @@
     `;
     document.body.appendChild(overlay);
 
-    // Botão flutuante
-    ensureFloatingCartButton();
+    // Remove qualquer botão flutuante residual caso exista
+    const oldBtn = document.getElementById('floating-cart-btn');
+    if (oldBtn) oldBtn.remove();
   }
 
   function ensureFloatingCartButton() {
-    if (document.getElementById('floating-cart-btn')) return;
-
-    const btn = document.createElement('button');
-    btn.id = 'floating-cart-btn';
-    btn.type = 'button';
-    btn.onclick = window.openCartDrawer;
-    btn.style.cssText = `
-      display: none;
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      z-index: 99990;
-      background: linear-gradient(135deg, #D7573B, #B84329);
-      color: #FFFFFF;
-      border: 1px solid rgba(255,255,255,0.25);
-      border-radius: 50px;
-      padding: 12px 20px;
-      box-shadow: 0 10px 35px rgba(215, 87, 59, 0.45);
-      cursor: pointer;
-      align-items: center;
-      gap: 12px;
-      font-weight: 800;
-      font-size: 0.9rem;
-      transition: all 0.25s ease;
-    `;
-    btn.innerHTML = `
-      <div style="position: relative; display: flex; align-items: center;">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
-        <span id="floating-cart-count" style="position: absolute; top: -8px; right: -10px; background: #10B981; color: #000; font-size: 0.65rem; font-weight: 900; padding: 1px 6px; border-radius: 999px; box-shadow: 0 2px 6px rgba(0,0,0,0.5);">0</span>
-      </div>
-      <span style="letter-spacing: 0.04em;">CARRINHO</span>
-      <span style="opacity: 0.4;">|</span>
-      <span id="floating-cart-total" style="color: #FFE8E2; font-weight: 900;">R$ 0,00</span>
-    `;
-    document.body.appendChild(btn);
+    const oldBtn = document.getElementById('floating-cart-btn');
+    if (oldBtn) oldBtn.remove();
   }
 
   window.openCartDrawer = function() {
