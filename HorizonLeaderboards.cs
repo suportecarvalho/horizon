@@ -77,6 +77,7 @@ namespace Oxide.Plugins
             public int RocketsUsed { get; set; } = 0;
             public int C4Used { get; set; } = 0;
             public int SatchelsUsed { get; set; } = 0;
+            public int TcsDestroyed { get; set; } = 0;
             public int StructuresDestroyed { get; set; } = 0;
             public int DoorsDestroyed { get; set; } = 0;
         }
@@ -407,6 +408,39 @@ namespace Oxide.Plugins
             }
         }
 
+        private void OnEntityDeath(BaseCombatEntity entity, HitInfo info)
+        {
+            if (entity == null) return;
+
+            // REGISTRO DE RAID: DESTRUIÇÃO DE TOOL CUPBOARD (TC / Armário de Ferramentas)
+            if (entity is BuildingPrivlidge || (entity.ShortPrefabName != null && entity.ShortPrefabName.Contains("cupboard.tool")))
+            {
+                BasePlayer attacker = info?.InitiatorPlayer;
+                if (attacker == null && info?.Initiator != null)
+                {
+                    attacker = info.Initiator as BasePlayer;
+                }
+
+                if (attacker != null && !attacker.IsNpc)
+                {
+                    // Regra anti-exploit: não pontua se o jogador destruir seu próprio TC ou se o TC não tinha dono
+                    ulong ownerId = entity.OwnerID;
+                    if (ownerId != 0 && ownerId != attacker.userID)
+                    {
+                        var attackerStats = GetOrCreate(attacker);
+                        if (attackerStats != null)
+                        {
+                            attackerStats.TcsDestroyed++;
+                            if (config.LogToConsole)
+                            {
+                                Puts($"[HorizonLeaderboards RAID] TC destruído por {attacker.displayName}! Total TCs: {attackerStats.TcsDestroyed}");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         // -------------------------------------------------------------
         // COMANDOS DE CONSOLE (ADMIN)
         // -------------------------------------------------------------
@@ -547,14 +581,15 @@ namespace Oxide.Plugins
                     };
                 }).ToList();
 
-            // 4. RAID (Apenas Explosivos e Foguetes: Rockets, C4, Satchels)
+            // 4. RAID (Pontuação Oficial por TCs Destruídos, com materiais exibidos)
             var raidList = data.Players.Values
                 .Select(p => new {
                     Player = p,
                     TotalExplosives = p.RocketsUsed + p.C4Used + p.SatchelsUsed,
-                    TotalScore = (p.C4Used * 5) + (p.RocketsUsed * 4) + (p.SatchelsUsed * 2)
+                    Tcs = p.TcsDestroyed,
+                    TotalScore = p.TcsDestroyed
                 })
-                .Where(x => x.TotalExplosives > 0)
+                .Where(x => x.Tcs > 0 || x.TotalExplosives > 0)
                 .OrderByDescending(x => x.TotalScore)
                 .ThenByDescending(x => x.TotalExplosives)
                 .Take(limit)
@@ -570,6 +605,7 @@ namespace Oxide.Plugins
                         name = p.Name,
                         avatar = avatarUrl,
                         total_score = x.TotalScore.ToString("N0"),
+                        tcs = x.Tcs.ToString("N0"),
                         total_explosives = x.TotalExplosives.ToString("N0"),
                         rockets = p.RocketsUsed.ToString("N0"),
                         c4 = p.C4Used.ToString("N0"),

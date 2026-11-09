@@ -213,11 +213,11 @@
           <div style="margin-top: 14px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
             <div style="display: flex; align-items: center; gap: 8px;">
               <span style="display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 6px; background: rgba(239, 68, 68, 0.15); color: #EF4444;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="13" r="9"></circle><path d="m19.5 9.5 1.8-1.8a2.4 2.4 0 0 0 0-3.4l-1.6-1.6a2.4 2.4 0 0 0-3.4 0l-1.8 1.8"></path><path d="m17 7-2 2"></path></svg>
+                <img src="/images/items/cupboard.tool.png" alt="TCs" style="width: 18px; height: 18px; object-fit: contain;">
               </span>
-              <span style="font-size: 1.05rem; font-weight: 700; color: #EDE8E5;">Score de Raid</span>
+              <span style="font-size: 1.05rem; font-weight: 700; color: #EDE8E5;">TCs Destruídos</span>
             </div>
-            <span style="font-size: 1.75rem; font-weight: 800; color: #EF4444; line-height: 1;">${formatVal(item.total_score || 0)}</span>
+            <span style="font-size: 1.75rem; font-weight: 800; color: #EF4444; line-height: 1;" title="${item.tcs || item.total_score || 0} TCs Destruídos">${formatVal(item.tcs || item.total_score || 0)}</span>
           </div>
         `;
         const raidRows = [
@@ -351,11 +351,16 @@
         thead.innerHTML = `
           <tr class="ranking-cabecalho">
             <th class="ranking-cab ranking-cab-rank" style="width: 75px; text-align: center;">#</th>
-            <th class="ranking-cab ranking-cab-jogador" style="width: 35%; text-align: left; padding-left: 20px;">JOGADOR</th>
-            <th class="ranking-cab" style="width: 14%; text-align: center;" title="Score Total de Raid">SCORE</th>
-            <th class="ranking-cab" style="width: 14%; text-align: center;" title="Foguetes Disparados"><img src="/images/items/ammo.rocket.basic.png" alt="Foguetes" class="hlb-item-icon"></th>
-            <th class="ranking-cab" style="width: 14%; text-align: center;" title="C4 Detonados"><img src="/images/items/explosive.timed.png" alt="C4" class="hlb-item-icon"></th>
-            <th class="ranking-cab" style="width: 14%; text-align: center;" title="Satchels Lançados"><img src="/images/items/explosive.satchel.png" alt="Satchels" class="hlb-item-icon"></th>
+            <th class="ranking-cab ranking-cab-jogador" style="width: 32%; text-align: left; padding-left: 20px;">JOGADOR</th>
+            <th class="ranking-cab" style="width: 17%; text-align: center;" title="TCs Destruídos (Pontuação Oficial de Raid)">
+              <span style="display: inline-flex; align-items: center; justify-content: center; gap: 6px;">
+                <img src="/images/items/cupboard.tool.png" alt="TCs" class="hlb-item-icon" style="width: 20px; height: 20px; object-fit: contain; vertical-align: middle;">
+                <span>TCS DESTRUÍDOS</span>
+              </span>
+            </th>
+            <th class="ranking-cab" style="width: 17%; text-align: center;" title="Foguetes Disparados"><img src="/images/items/ammo.rocket.basic.png" alt="Foguetes" class="hlb-item-icon"></th>
+            <th class="ranking-cab" style="width: 17%; text-align: center;" title="C4 Detonados"><img src="/images/items/explosive.timed.png" alt="C4" class="hlb-item-icon"></th>
+            <th class="ranking-cab" style="width: 17%; text-align: center;" title="Satchels Lançados"><img src="/images/items/explosive.satchel.png" alt="Satchels" class="hlb-item-icon"></th>
           </tr>
         `;
       }
@@ -421,7 +426,7 @@
           `;
         } else if (currentTab === 'raid') {
           extraCols = `
-            <td class="ranking-valor ranking-valor-destaque" style="color: #EF4444; font-weight: 800; text-align: center;">${formatVal(item.total_score || 0)}</td>
+            <td class="ranking-valor ranking-valor-destaque" style="color: #EF4444; font-weight: 800; text-align: center;" title="${item.tcs || item.total_score || 0} TCs Destruídos">${formatVal(item.tcs || item.total_score || 0)}</td>
             <td class="ranking-valor" style="text-align: center;">${formatVal(item.rockets)}</td>
             <td class="ranking-valor" style="text-align: center;">${formatVal(item.c4)}</td>
             <td class="ranking-valor" style="text-align: center;">${formatVal(item.satchels)}</td>

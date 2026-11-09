@@ -79,21 +79,28 @@ module.exports = async (req, res) => {
       const data = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
       data.updated_at = new Date().toISOString();
 
-      // Sanitizar aba de Raid: apenas jogadores com explosivos reais
+      // Sanitizar aba de Raid: pontuação oficial baseada em TCs Destruídos
       if (Array.isArray(data.raid)) {
         data.raid = data.raid.filter(r => {
+          const tcs = parseInt(String(r.tcs || r.tcs_destroyed || r.total_score || '0').replace(/\D/g, ''), 10) || 0;
           const ro = parseInt(String(r.rockets || '0').replace(/\D/g, ''), 10) || 0;
           const c = parseInt(String(r.c4 || '0').replace(/\D/g, ''), 10) || 0;
           const sa = parseInt(String(r.satchels || '0').replace(/\D/g, ''), 10) || 0;
-          return (ro + c + sa) > 0;
-        }).map(r => {
-          const ro = parseInt(String(r.rockets || '0').replace(/\D/g, ''), 10) || 0;
-          const c = parseInt(String(r.c4 || '0').replace(/\D/g, ''), 10) || 0;
-          const sa = parseInt(String(r.satchels || '0').replace(/\D/g, ''), 10) || 0;
-          const totalScore = (c * 5) + (ro * 4) + (sa * 2);
+          return (tcs + ro + c + sa) > 0;
+        }).sort((a, b) => {
+          const tcsA = parseInt(String(a.tcs || a.tcs_destroyed || a.total_score || '0').replace(/\D/g, ''), 10) || 0;
+          const tcsB = parseInt(String(b.tcs || b.tcs_destroyed || b.total_score || '0').replace(/\D/g, ''), 10) || 0;
+          if (tcsB !== tcsA) return tcsB - tcsA;
+          const expA = (parseInt(String(a.rockets || 0).replace(/\D/g, ''), 10) || 0) + (parseInt(String(a.c4 || 0).replace(/\D/g, ''), 10) || 0) + (parseInt(String(a.satchels || 0).replace(/\D/g, ''), 10) || 0);
+          const expB = (parseInt(String(b.rockets || 0).replace(/\D/g, ''), 10) || 0) + (parseInt(String(b.c4 || 0).replace(/\D/g, ''), 10) || 0) + (parseInt(String(b.satchels || 0).replace(/\D/g, ''), 10) || 0);
+          return expB - expA;
+        }).map((r, idx) => {
+          const tcs = parseInt(String(r.tcs || r.tcs_destroyed || r.total_score || '0').replace(/\D/g, ''), 10) || 0;
+          r.rank = idx + 1;
+          r.tcs = tcs.toLocaleString('pt-BR');
+          r.total_score = tcs.toLocaleString('pt-BR');
           delete r.structures;
           delete r.doors;
-          r.total_score = totalScore.toLocaleString('pt-BR');
           return r;
         });
       }

@@ -549,8 +549,8 @@
                 </div>
                 
                 <div class="stat-primary-banner">
-                  <span class="stat-primary-label">Score de Raid Total</span>
-                  <span class="stat-primary-val" style="color: #EF4444;">${raidEntry ? raidEntry.total_score : '0'}</span>
+                  <span class="stat-primary-label">TCs Destruídos (Score de Raid)</span>
+                  <span class="stat-primary-val" style="color: #EF4444;">${raidEntry ? (raidEntry.tcs || raidEntry.total_score || '0') : '0'}</span>
                 </div>
 
                 <div class="stat-items-grid">

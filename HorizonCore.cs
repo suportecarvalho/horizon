@@ -170,6 +170,7 @@ namespace Oxide.Plugins
             public int RocketsUsed { get; set; } = 0;
             public int C4Used { get; set; } = 0;
             public int SatchelsUsed { get; set; } = 0;
+            public int TcsDestroyed { get; set; } = 0;
             public int StructuresDestroyed { get; set; } = 0;
             public int DoorsDestroyed { get; set; } = 0;
         }
@@ -690,6 +691,38 @@ namespace Oxide.Plugins
 
         private void OnEntityDeath(BaseCombatEntity entity, HitInfo info)
         {
+            if (entity == null) return;
+
+            // 1. REGISTRO DE RAID: DESTRUIÇÃO DE TOOL CUPBOARD (TC / Armário de Ferramentas)
+            if (entity is BuildingPrivlidge || (entity.ShortPrefabName != null && entity.ShortPrefabName.Contains("cupboard.tool")))
+            {
+                BasePlayer attacker = info?.InitiatorPlayer;
+                if (attacker == null && info?.Initiator != null)
+                {
+                    attacker = info.Initiator as BasePlayer;
+                }
+
+                if (attacker != null && !attacker.IsNpc)
+                {
+                    // Regra anti-exploit: não pontua se o jogador destruir seu próprio TC ou se o TC não tinha dono
+                    ulong ownerId = entity.OwnerID;
+                    if (ownerId != 0 && ownerId != attacker.userID)
+                    {
+                        var attackerStats = GetOrCreate(attacker);
+                        if (attackerStats != null)
+                        {
+                            attackerStats.TcsDestroyed++;
+                            if (config.LogToConsole)
+                            {
+                                Puts($"[HorizonCore RAID] TC destruído por {attacker.displayName}! Total TCs: {attackerStats.TcsDestroyed}");
+                            }
+                        }
+                    }
+                }
+                return;
+            }
+
+            // 2. REGISTRO DE PVP (MORTES E KILLS ENTRE JOGADORES)
             var victim = entity as BasePlayer;
             if (victim == null || victim.IsNpc) return;
 
