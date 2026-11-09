@@ -171,7 +171,18 @@
   window.buyNow = function(tier) {
     const t = normalizeTierKey(tier);
     window.addToCart(t, false);
-    window.openCheckoutModal([t]);
+    window.location.href = '/checkout';
+  };
+
+  window.openCheckoutModal = function(target) {
+    if (target) {
+      if (Array.isArray(target) && target.length > 0) {
+        target.forEach(t => window.addToCart(t, false));
+      } else if (typeof target === 'string' && target !== 'cart') {
+        window.addToCart(target, false);
+      }
+    }
+    window.location.href = '/checkout';
   };
 
   function updateCartUI() {
@@ -517,6 +528,21 @@
       ">
         + Adicionar Mais Itens
       </button>
+
+      <a href="/carrinho" onclick="window.closeCartDrawer()" style="
+        display: block;
+        text-align: center;
+        color: #8a8e99;
+        font-size: 0.74rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        text-decoration: underline;
+        margin-top: 10px;
+        transition: color 0.2s;
+      " onmouseover="this.style.color='#FFFFFF'" onmouseout="this.style.color='#8a8e99'">
+        Ver Página Completa do Carrinho
+      </a>
     `;
   }
 
@@ -524,16 +550,8 @@
     const cart = getCart();
     if (cart.length === 0) return;
 
-    // Se o usuário digitou o SteamID no drawer, repassa para o checkout
-    if (!currentUser) {
-      const drawerInput = document.getElementById('drawer-steamid');
-      if (drawerInput && drawerInput.value) {
-        window._tempDrawerSteamId = drawerInput.value.trim();
-      }
-    }
-
     window.closeCartDrawer();
-    window.openCheckoutModal(cart.map(it => it.tier));
+    window.location.href = '/checkout';
   };
 
   // Carrega usuário da sessão

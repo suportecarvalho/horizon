@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark __variable_afd4a3 __variable_907a74" style="--marca:#CE422B">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Carrinho de Compras | Horizon Rust</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/css/23ce076cdea000ef.css" data-precedence="next">
+  <link rel="stylesheet" href="/css/e04fa727d9156e4b.css" data-precedence="next">
+  <link rel="stylesheet" href="/css/horizon-custom.css">
+  <link rel="preload" href="/fonts/9ae8a6594e58fd44-s.p.woff2" as="font" crossorigin="" type="font/woff2">
+  <link rel="preload" href="/fonts/c214ffb7f5362987-s.p.woff2" as="font" crossorigin="" type="font/woff2">
+
+  <style>
+    body {
+      background-color: #0b0c0e;
+      color: #ede8e5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .carrinho-shell {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 30px 20px 80px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .breadcrumbs-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #8a8e99;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 24px;
+    }
+    .breadcrumbs-wrap a {
+      color: #a0a4b0;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .breadcrumbs-wrap a:hover {
+      color: #CE422B;
+    }
+    .breadcrumbs-wrap span.sep {
+      opacity: 0.4;
+    }
+    .carrinho-header {
+      margin-bottom: 32px;
+    }
+    .carrinho-olho {
+      font-family: var(--font-mono, monospace);
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #CE422B;
+      font-weight: 800;
+      margin: 0 0 6px 0;
+    }
+    .carrinho-titulo {
+      font-family: var(--font-display, "Space Grotesk", sans-serif);
+      font-size: 2rem;
+      font-weight: 900;
+      color: #FFFFFF;
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+    }
+    .carrinho-grid {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 30px;
+      align-items: start;
+    }
+    @media (max-width: 960px) {
+      .carrinho-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .carrinho-card-box {
+      background: #14151a;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+    .carrinho-item-row {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 18px 22px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      transition: background 0.2s;
+    }
+    .carrinho-item-row:last-child {
+      border-bottom: none;
+    }
+    .carrinho-item-img {
+      width: 64px;
+      height: 64px;
+      border-radius: 10px;
+      object-fit: cover;
+      background: #0f1013;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      flex-shrink: 0;
+    }
+    .carrinho-item-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .carrinho-item-title {
+      font-family: var(--font-display, "Space Grotesk", sans-serif);
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #FFFFFF;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+      letter-spacing: 0.01em;
+    }
+    .carrinho-item-sub {
+      font-size: 0.72rem;
+      color: #8a8e99;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 700;
+    }
+    .carrinho-item-price {
+      font-family: var(--font-mono, monospace);
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: #22c55e;
+      text-align: right;
+      white-space: nowrap;
+    }
+    .carrinho-item-remove {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      color: #f87171;
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .carrinho-item-remove:hover {
+      background: rgba(239, 68, 68, 0.25);
+      color: #FFFFFF;
+      border-color: #ef4444;
+    }
+    .btn-corte-chamfer {
+      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+      transition: all 0.2s ease;
+    }
+    .btn-corte-chamfer:hover {
+      filter: brightness(1.15);
+      transform: translateY(-1px);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- CABEÇALHO HORIZON PADRONIZADO -->
+  <header class="site-header">
+    <div class="site-header-conteudo shell">
+      <a href="/" class="site-header-marca horizon-brand-logo" aria-label="Horizon">
+        <img src="/images/logo_horizon.png" alt="Horizon Logo" class="horizon-brand-img">
+      </a>
+      <nav class="horizon-header-nav" aria-label="Navegação Principal">
+        <a href="/" class="horizon-nav-link" data-nav="inicio">INÍCIO</a>
+        <a href="/loja" class="horizon-nav-link" data-nav="loja">LOJA</a>
+        <a href="/equipe" class="horizon-nav-link" data-nav="equipe">EQUIPE</a>
+        <a href="/feed" class="horizon-nav-link" data-nav="feed">FEED DA COMUNIDADE</a>
+      </nav>
+      <div class="site-header-direita">
+        <a href="/carrinho" class="header-cart-btn" aria-label="Abrir Carrinho" style="background:rgba(206,66,43,0.18); border:1px solid #CE422B; color:#EDE8E5; padding:6px 14px; border-radius:8px; font-weight:700; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.04em; display:inline-flex; align-items:center; gap:6px; cursor:pointer; text-decoration:none;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+          <span>Carrinho</span>
+          <span id="page-cart-count" style="background:#CE422B; color:#FFF; font-size:0.68rem; font-weight:900; min-width:18px; height:18px; line-height:18px; text-align:center; border-radius:9px; padding:0 5px;">0</span>
+        </a>
+        <a href="https://discord.gg/VTu3m2MYeX" class="cabecalho-icone" aria-label="Discord" target="_blank" rel="noreferrer noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" class="size-5"><path d="M20.317 4.3698a19.7913 19.7913 0 0 0-4.8851-1.5152.0741.0741 0 0 0-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 0 0-.0785-.037 19.7363 19.7363 0 0 0-4.8852 1.515.0699.0699 0 0 0-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 0 0 .0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 0 0 .0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 0 0-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 0 1-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 0 1 .0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 0 1 .0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 0 1-.0066.1276 12.2986 12.2986 0 0 1-1.873.8914.0766.0766 0 0 0-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 0 0 .0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 0 0 .0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 0 0-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"></path></svg>
+        </a>
+        <a href="/auth/steam" class="horizon-auth-desktop group/button inline-flex shrink-0 items-center justify-center rounded-lg border bg-clip-padding whitespace-nowrap transition-all outline-none select-none btn-corte [--corte:8px] h-8 gap-1.5 px-3.5 font-heading text-[0.7rem] font-bold tracking-[0.06em] uppercase border-border bg-background hover:bg-muted text-foreground">
+          Entrar com Steam
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTEÚDO PRINCIPAL DO CARRINHO -->
+  <main class="carrinho-shell">
+    <div class="breadcrumbs-wrap">
+      <a href="/">Início</a>
+      <span class="sep">/</span>
+      <a href="/loja">Loja</a>
+      <span class="sep">/</span>
+      <span style="color:#FFFFFF;">Seu Carrinho</span>
+    </div>
+
+    <div class="carrinho-header">
+      <p class="carrinho-olho">FLUXO DE COMPRAS HORIZON</p>
+      <h1 class="carrinho-titulo">Seu Carrinho de Compras</h1>
+    </div>
+
+    <div class="carrinho-grid" id="carrinho-grid-container">
+      <!-- Coluna da Esquerda: Lista de Itens -->
+      <div class="carrinho-col-itens">
+        <!-- Banner Informativo -->
+        <div style="background: rgba(34, 197, 94, 0.08); border: 1px solid rgba(34, 197, 94, 0.3); border-left: 3px solid #22c55e; border-radius: 10px; padding: 14px 18px; margin-bottom: 20px; font-size: 0.8rem; color: #d1d5db; display: flex; align-items: center; gap: 12px;">
+          <span style="font-size: 1.4rem;">🛡️</span>
+          <div>
+            <strong style="color: #22c55e; display: block; margin-bottom: 2px;">Pagamento Único e Protegido</strong>
+            Todos os pacotes selecionados serão cobrados em <strong>1 único PIX</strong> com aprovação imediata no Rust.
+          </div>
+        </div>
+
+        <div class="carrinho-card-box">
+          <div style="padding: 16px 22px; border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.2);">
+            <span style="font-size: 0.82rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: #8a8e99;">Itens Selecionados</span>
+            <button onclick="window.clearCart(); renderPageCart();" style="background: transparent; border: none; color: #8a8e99; font-size: 0.75rem; text-transform: uppercase; font-weight: 700; cursor: pointer; transition: color 0.2s;" onmouseover="this.style.color='#f87171'" onmouseout="this.style.color='#8a8e99'">Limpar Carrinho</button>
+          </div>
+
+          <div id="carrinho-itens-lista">
+            <!-- Injetado dinamicamente via JS -->
+          </div>
+        </div>
+
+        <div style="margin-top: 18px; display: flex; justify-content: space-between; align-items: center;">
+          <a href="/loja" style="color: #8a8e99; font-size: 0.82rem; font-weight: 700; text-decoration: none; text-transform: uppercase; letter-spacing: 0.04em; transition: color 0.2s;" onmouseover="this.style.color='#FFFFFF'" onmouseout="this.style.color='#8a8e99'">
+            ← Continuar Comprando na Loja
+          </a>
+        </div>
+      </div>
+
+      <!-- Coluna da Direita: Resumo do Pedido -->
+      <div class="carrinho-col-resumo">
+        <div class="carrinho-card-box" style="padding: 24px; position: sticky; top: 90px;">
+          <h2 style="font-family: var(--font-display, 'Space Grotesk', sans-serif); font-size: 1.15rem; font-weight: 900; color: #FFFFFF; text-transform: uppercase; letter-spacing: -0.01em; margin: 0 0 18px 0; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 12px;">
+            Resumo da sua compra
+          </h2>
+
+          <div style="display: flex; justify-content: space-between; font-size: 0.86rem; color: #8a8e99; margin-bottom: 10px;">
+            <span>Subtotal</span>
+            <span id="resumo-subtotal" style="font-family: var(--font-mono, monospace); font-weight: 800; color: #FFFFFF;">R$ 0,00</span>
+          </div>
+
+          <!-- Cupom de Desconto -->
+          <div style="margin: 18px 0; padding: 14px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px;">
+            <label style="display: block; font-size: 0.72rem; font-weight: 800; color: #8a8e99; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px;">
+              Cupom de Desconto
+            </label>
+            <div style="display: flex; gap: 8px;">
+              <input type="text" id="cupom-input" placeholder="Ex: HORIZON10" style="flex: 1; min-width: 0; background: #0c0d10; border: 1px solid rgba(255,255,255,0.12); color: #FFF; padding: 8px 12px; border-radius: 8px; font-size: 0.82rem; text-transform: uppercase; font-family: var(--font-mono, monospace); outline: none;">
+              <button type="button" onclick="aplicarCupom()" class="btn-corte-chamfer" style="background: #252830; border: 1px solid rgba(255,255,255,0.15); color: #FFFFFF; padding: 0 14px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; cursor: pointer; border-radius: 6px;">
+                Aplicar
+              </button>
+            </div>
+            <div id="cupom-msg" style="font-size: 0.72rem; margin-top: 6px; display: none;"></div>
+          </div>
+
+          <div id="resumo-desconto-row" style="display: none; justify-content: space-between; font-size: 0.86rem; color: #22c55e; margin-bottom: 10px;">
+            <span>Desconto do Cupom</span>
+            <span id="resumo-desconto" style="font-family: var(--font-mono, monospace); font-weight: 800;">- R$ 0,00</span>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: baseline; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 14px; margin-top: 14px;">
+            <span style="font-size: 0.95rem; font-weight: 800; color: #FFFFFF; text-transform: uppercase;">Total</span>
+            <span id="resumo-total" style="font-family: var(--font-mono, monospace); font-size: 1.65rem; font-weight: 900; color: #22c55e;">R$ 0,00</span>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 8px; margin: 18px 0; font-size: 0.74rem; color: #8a8e99;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span>Pagamento via <strong>PIX Oficial</strong> com aprovação imediata</span>
+          </div>
+
+          <button type="button" onclick="iniciarCheckoutDoCarrinho()" class="btn-corte-chamfer" style="width: 100%; background: #CE422B; color: #FFFFFF; border: none; border-radius: 8px; height: 46px; font-weight: 900; font-size: 0.88rem; text-transform: uppercase; letter-spacing: 0.06em; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 6px 20px rgba(206, 66, 43, 0.45);">
+            <span>CONTINUAR PARA O CHECKOUT →</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="/js/loja_checkout.js"></script>
+  <script>
+    let activeCouponPercent = 0;
+    let activeCouponCode = '';
+
+    function renderPageCart() {
+      const cart = window.getCart ? window.getCart() : [];
+      const container = document.getElementById('carrinho-itens-lista');
+      const badgeCount = document.getElementById('page-cart-count');
+      const subtotalEl = document.getElementById('resumo-subtotal');
+      const totalEl = document.getElementById('resumo-total');
+      const descontoRow = document.getElementById('resumo-desconto-row');
+      const descontoEl = document.getElementById('resumo-desconto');
+
+      if (badgeCount) badgeCount.innerText = cart.length;
+
+      if (!container) return;
+
+      if (cart.length === 0) {
+        container.innerHTML = `
+          <div style="text-align: center; padding: 60px 20px;">
+            <div style="font-size: 3.5rem; opacity: 0.25; margin-bottom: 14px;">🎒</div>
+            <h3 style="font-size: 1.25rem; font-weight: 800; color: #FFFFFF; text-transform: uppercase; margin: 0 0 8px;">Seu carrinho está vazio</h3>
+            <p style="font-size: 0.85rem; color: #8a8e99; margin: 0 0 24px;">Nenhum pacote VIP ou Kit selecionado no momento.</p>
+            <a href="/loja" class="btn-corte-chamfer" style="display: inline-block; background: #CE422B; color: #FFF; padding: 12px 24px; border-radius: 8px; font-weight: 800; font-size: 0.82rem; text-transform: uppercase; text-decoration: none;">
+              Explorar Loja Horizon
+            </a>
+          </div>
+        `;
+        subtotalEl.innerText = 'R$ 0,00';
+        totalEl.innerText = 'R$ 0,00';
+        if (descontoRow) descontoRow.style.display = 'none';
+        return;
+      }
+
+      const subtotal = cart.reduce((acc, it) => acc + (it.price || 0), 0);
+      let discount = 0;
+      if (activeCouponPercent > 0) {
+        discount = (subtotal * activeCouponPercent) / 100;
+      }
+      const total = Math.max(0, subtotal - discount);
+
+      subtotalEl.innerText = `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
+      totalEl.innerText = `R$ ${total.toFixed(2).replace('.', ',')}`;
+
+      if (discount > 0) {
+        descontoRow.style.display = 'flex';
+        descontoEl.innerText = `- R$ ${discount.toFixed(2).replace('.', ',')}`;
+      } else {
+        descontoRow.style.display = 'none';
+      }
+
+      let html = '';
+      cart.forEach(it => {
+        html += `
+          <div class="carrinho-item-row">
+            <img src="${it.img || '/images/vip_bronze.jpg'}" alt="${it.name}" class="carrinho-item-img">
+            <div class="carrinho-item-info">
+              <div class="carrinho-item-title">${it.name}</div>
+              <div class="carrinho-item-sub">30 Dias • Entrega Imediata no Rust</div>
+            </div>
+            <div class="carrinho-item-price">${it.priceFormatted || 'R$ ' + Number(it.price).toFixed(2).replace('.', ',')}</div>
+            <button type="button" class="carrinho-item-remove" onclick="window.removeFromCart('${it.tier}'); renderPageCart();">
+              ✕ Remover
+            </button>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    async function aplicarCupom() {
+      const input = document.getElementById('cupom-input');
+      const msg = document.getElementById('cupom-msg');
+      if (!input || !msg) return;
+
+      const code = input.value.trim().toUpperCase();
+      if (!code) {
+        msg.style.display = 'block';
+        msg.style.color = '#f87171';
+        msg.innerText = 'Informe um código de cupom.';
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/checkout?action=coupon&code=${encodeURIComponent(code)}`);
+        const data = await res.json();
+        if (res.ok && data.valid) {
+          activeCouponPercent = data.percent;
+          activeCouponCode = code;
+          window._appliedCoupon = code;
+          localStorage.setItem('horizon_coupon', code);
+          msg.style.display = 'block';
+          msg.style.color = '#22c55e';
+          msg.innerText = `Cupom ${code} aplicado: ${data.label}!`;
+          renderPageCart();
+        } else {
+          activeCouponPercent = 0;
+          activeCouponCode = '';
+          window._appliedCoupon = null;
+          localStorage.removeItem('horizon_coupon');
+          msg.style.display = 'block';
+          msg.style.color = '#f87171';
+          msg.innerText = data.error || 'Cupom inválido.';
+          renderPageCart();
+        }
+      } catch (e) {
+        msg.style.display = 'block';
+        msg.style.color = '#f87171';
+        msg.innerText = 'Erro ao validar cupom.';
+      }
+    }
+
+    function iniciarCheckoutDoCarrinho() {
+      const cart = window.getCart ? window.getCart() : [];
+      if (cart.length === 0) {
+        alert('Seu carrinho está vazio!');
+        return;
+      }
+      if (typeof window.openCheckoutModal === 'function') {
+        window.openCheckoutModal(cart.map(it => it.tier));
+      } else {
+        window.location.href = '/checkout';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const savedCoupon = localStorage.getItem('horizon_coupon');
+      if (savedCoupon) {
+        const input = document.getElementById('cupom-input');
+        if (input) input.value = savedCoupon;
+        await aplicarCupom();
+      } else {
+        renderPageCart();
+      }
+    });
+  </script>
+</body>
+</html>

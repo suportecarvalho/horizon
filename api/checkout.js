@@ -2,6 +2,7 @@ const { attachResHelpers } = require('./_res');
 const createHandler = require('./_checkout/create');
 const statusHandler = require('./_checkout/status');
 const webhookHandler = require('./_checkout/webhook');
+const couponHandler = require('./_checkout/coupon');
 
 module.exports = async (req, res) => {
   attachResHelpers(req, res);
@@ -19,6 +20,10 @@ module.exports = async (req, res) => {
 
   if (url.endsWith('/webhook') || action === 'webhook') {
     return await webhookHandler(req, res);
+  }
+
+  if (url.endsWith('/coupon') || action === 'coupon') {
+    return await couponHandler(req, res);
   }
 
   return res.status(404).json({ error: 'Endpoint de checkout não encontrado' });

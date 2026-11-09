@@ -124,6 +124,28 @@ module.exports = async (req, res) => {
     }
 
     const totalAmount = validItems.reduce((acc, it) => acc + it.price, 0);
+
+    // Validação de Cupom de Desconto
+    const VALID_COUPONS = {
+      'HORIZON10': { percent: 10, label: '10% de desconto' },
+      'HORIZON20': { percent: 20, label: '20% de desconto' },
+      'WIPE': { percent: 10, label: '10% de desconto Wipe Especial' },
+      'TERRAHOSTIL': { percent: 15, label: '15% de desconto Terra Hostil' }
+    };
+
+    let appliedCoupon = null;
+    let discountAmount = 0;
+    let finalAmount = totalAmount;
+
+    if (body.coupon && typeof body.coupon === 'string') {
+      const code = body.coupon.toUpperCase().trim();
+      if (VALID_COUPONS[code]) {
+        appliedCoupon = code;
+        discountAmount = Math.round(((totalAmount * VALID_COUPONS[code].percent) / 100) * 100) / 100;
+        finalAmount = Math.max(1, Math.round((totalAmount - discountAmount) * 100) / 100);
+      }
+    }
+
     const isCart = validItems.length > 1;
     const tier = isCart ? 'carrinho' : validItems[0].tier;
     const vipName = isCart
@@ -152,7 +174,7 @@ module.exports = async (req, res) => {
     try {
       pixData = await createPixPayment({
         orderId,
-        amount: totalAmount,
+        amount: finalAmount,
         description: `${vipName} - Rust Horizon (30 Dias)`,
         payerEmail: email || `jogador_${steamId}@rusthorizon.com`,
         payerName: playerName,
@@ -173,7 +195,7 @@ module.exports = async (req, res) => {
     try {
       preferenceData = await createPreference({
         orderId,
-        amount: totalAmount,
+        amount: finalAmount,
         description: `${vipName} - Rust Horizon (30 Dias)`,
         payerEmail: email || `jogador_${steamId}@rusthorizon.com`,
         steamId,
@@ -192,7 +214,10 @@ module.exports = async (req, res) => {
       vip_tier: validItems.map(it => it.tier).join(','),
       vip_name: vipName,
       items: validItems.map(it => it.tier),
-      amount: totalAmount,
+      amount: finalAmount,
+      original_amount: totalAmount,
+      discount_amount: discountAmount,
+      coupon: appliedCoupon,
       status: 'pending',
       granted: false,
       granted_items: [],

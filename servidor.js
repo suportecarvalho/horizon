@@ -432,6 +432,11 @@ function resolveFile(cleanUrl) {
     if (fs.existsSync(playerFile)) return playerFile;
   }
 
+  if (cleanUrl === '/cart') {
+    const cartFile = path.join(__dirname, 'carrinho', 'index.html');
+    if (fs.existsSync(cartFile)) return cartFile;
+  }
+
   // Priorizar arquivos da raiz (mesmo comportamento da Vercel)
   const rootIndex = path.join(__dirname, relPath, 'index.html');
   if (fs.existsSync(rootIndex) && fs.statSync(rootIndex).isFile()) {
@@ -1022,17 +1027,24 @@ const server = http.createServer((req, res) => {
   // -------------------------------------------------------------
   // API: MERCADO PAGO CHECKOUT & VIP
   // -------------------------------------------------------------
-  if (cleanUrl.startsWith('/api/checkout/') || cleanUrl.startsWith('/api/vip/')) {
+  if (cleanUrl === '/api/checkout' || cleanUrl.startsWith('/api/checkout/') || cleanUrl === '/api/vip' || cleanUrl.startsWith('/api/vip/')) {
     const routeMap = {
       '/api/checkout/create': './api/_checkout/create',
       '/api/checkout/status': './api/_checkout/status',
       '/api/checkout/webhook': './api/_checkout/webhook',
+      '/api/checkout/coupon': './api/_checkout/coupon',
       '/api/vip/pending': './api/_vip/pending',
       '/api/vip/confirm': './api/_vip/confirm',
       '/api/vip/player': './api/_vip/player'
     };
 
-    const handlerPath = routeMap[cleanUrl];
+    let handlerPath = routeMap[cleanUrl];
+    if (!handlerPath && (cleanUrl === '/api/checkout' || cleanUrl === '/api/vip')) {
+      const urlObj = new URL(req.url, 'http://localhost');
+      const action = urlObj.searchParams.get('action');
+      if (cleanUrl === '/api/checkout') handlerPath = routeMap[`/api/checkout/${action}`] || './api/checkout';
+      if (cleanUrl === '/api/vip') handlerPath = routeMap[`/api/vip/${action}`] || './api/vip';
+    }
     if (handlerPath) {
       const handler = require(handlerPath);
 

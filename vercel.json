@@ -8,6 +8,18 @@
       "destination": "/admin/index.html"
     },
     {
+      "source": "/carrinho",
+      "destination": "/carrinho/index.html"
+    },
+    {
+      "source": "/cart",
+      "destination": "/carrinho/index.html"
+    },
+    {
+      "source": "/checkout",
+      "destination": "/checkout/index.html"
+    },
+    {
       "source": "/leaderboards/:steamid",
       "destination": "/leaderboards/player"
     },

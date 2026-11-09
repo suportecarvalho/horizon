@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark __variable_afd4a3 __variable_907a74" style="--marca:#CE422B">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Checkout Seguro | Horizon Rust</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/css/23ce076cdea000ef.css" data-precedence="next">
+  <link rel="stylesheet" href="/css/e04fa727d9156e4b.css" data-precedence="next">
+  <link rel="stylesheet" href="/css/horizon-custom.css">
+  <link rel="preload" href="/fonts/9ae8a6594e58fd44-s.p.woff2" as="font" crossorigin="" type="font/woff2">
+  <link rel="preload" href="/fonts/c214ffb7f5362987-s.p.woff2" as="font" crossorigin="" type="font/woff2">
+
+  <style>
+    body {
+      background-color: #0b0c0e;
+      color: #ede8e5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .checkout-shell {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 30px 20px 80px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .breadcrumbs-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #8a8e99;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 24px;
+    }
+    .breadcrumbs-wrap a {
+      color: #a0a4b0;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .breadcrumbs-wrap a:hover {
+      color: #CE422B;
+    }
+    .breadcrumbs-wrap span.sep {
+      opacity: 0.4;
+    }
+
+    /* STEPPER BAR */
+    .stepper-nav {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    @media (max-width: 700px) {
+      .stepper-nav {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+      }
+    }
+    .step-item {
+      background: #14151a;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.2s ease;
+    }
+    .step-item.active {
+      background: rgba(206, 66, 43, 0.12);
+      border-color: #CE422B;
+    }
+    .step-item.completed {
+      background: rgba(34, 197, 94, 0.1);
+      border-color: #22c55e;
+    }
+    .step-num {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      color: #8a8e99;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+    .step-item.active .step-num {
+      background: #CE422B;
+      color: #FFFFFF;
+    }
+    .step-item.completed .step-num {
+      background: #22c55e;
+      color: #000000;
+    }
+    .step-label {
+      font-size: 0.74rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #8a8e99;
+    }
+    .step-item.active .step-label {
+      color: #FFFFFF;
+    }
+    .step-item.completed .step-label {
+      color: #22c55e;
+    }
+
+    .checkout-box {
+      background: #14151a;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+    }
+    @media (max-width: 600px) {
+      .checkout-box {
+        padding: 20px 16px;
+      }
+    }
+
+    .btn-corte-chamfer {
+      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+      transition: all 0.2s ease;
+    }
+    .btn-corte-chamfer:hover {
+      filter: brightness(1.15);
+      transform: translateY(-1px);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- CABEÇALHO HORIZON -->
+  <header class="site-header">
+    <div class="site-header-conteudo shell">
+      <a href="/" class="site-header-marca horizon-brand-logo" aria-label="Horizon">
+        <img src="/images/logo_horizon.png" alt="Horizon Logo" class="horizon-brand-img">
+      </a>
+      <nav class="horizon-header-nav" aria-label="Navegação Principal">
+        <a href="/" class="horizon-nav-link" data-nav="inicio">INÍCIO</a>
+        <a href="/loja" class="horizon-nav-link" data-nav="loja">LOJA</a>
+        <a href="/equipe" class="horizon-nav-link" data-nav="equipe">EQUIPE</a>
+        <a href="/feed" class="horizon-nav-link" data-nav="feed">FEED DA COMUNIDADE</a>
+      </nav>
+      <div class="site-header-direita">
+        <a href="/carrinho" class="header-cart-btn" aria-label="Abrir Carrinho" style="background:rgba(206,66,43,0.18); border:1px solid #CE422B; color:#EDE8E5; padding:6px 14px; border-radius:8px; font-weight:700; font-size:0.75rem; text-transform:uppercase; letter-spacing:0.04em; display:inline-flex; align-items:center; gap:6px; cursor:pointer; text-decoration:none;">
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+          <span>Carrinho</span>
+          <span id="page-cart-count" style="background:#CE422B; color:#FFF; font-size:0.68rem; font-weight:900; min-width:18px; height:18px; line-height:18px; text-align:center; border-radius:9px; padding:0 5px;">0</span>
+        </a>
+        <a href="https://discord.gg/VTu3m2MYeX" class="cabecalho-icone" aria-label="Discord" target="_blank" rel="noreferrer noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" class="size-5"><path d="M20.317 4.3698a19.7913 19.7913 0 0 0-4.8851-1.5152.0741.0741 0 0 0-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 0 0-.0785-.037 19.7363 19.7363 0 0 0-4.8852 1.515.0699.0699 0 0 0-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 0 0 .0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 0 0 .0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 0 0-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 0 1-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 0 1 .0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 0 1 .0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 0 1-.0066.1276 12.2986 12.2986 0 0 1-1.873.8914.0766.0766 0 0 0-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 0 0 .0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 0 0 .0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 0 0-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"></path></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- FLUXO DE CHECKOUT -->
+  <main class="checkout-shell">
+    <div class="breadcrumbs-wrap">
+      <a href="/">Início</a>
+      <span class="sep">/</span>
+      <a href="/loja">Loja</a>
+      <span class="sep">/</span>
+      <a href="/carrinho">Carrinho</a>
+      <span class="sep">/</span>
+      <span style="color:#FFFFFF;">Checkout</span>
+    </div>
+
+    <!-- Stepper de 4 Etapas -->
+    <div class="stepper-nav">
+      <div class="step-item active" id="step-nav-1">
+        <span class="step-num">1</span>
+        <span class="step-label">Sua Conta</span>
+      </div>
+      <div class="step-item" id="step-nav-2">
+        <span class="step-num">2</span>
+        <span class="step-label">Método</span>
+      </div>
+      <div class="step-item" id="step-nav-3">
+        <span class="step-num">3</span>
+        <span class="step-label">Pagamento</span>
+      </div>
+      <div class="step-item" id="step-nav-4">
+        <span class="step-num">4</span>
+        <span class="step-label">Concluído</span>
+      </div>
+    </div>
+
+    <!-- Caixa de Conteúdo Dinâmico -->
+    <div class="checkout-box" id="checkout-main-content">
+      <!-- Renderizado via script -->
+    </div>
+  </main>
+
+  <script src="/js/loja_checkout.js"></script>
+  <script>
+    let currentStep = 1;
+    let chkUser = null;
+    let pollTimer = null;
+
+    function setStep(step) {
+      currentStep = step;
+      for (let i = 1; i <= 4; i++) {
+        const el = document.getElementById(`step-nav-${i}`);
+        if (!el) continue;
+        el.classList.remove('active', 'completed');
+        if (i < step) el.classList.add('completed');
+        else if (i === step) el.classList.add('active');
+      }
+    }
+
+    async function initCheckoutPage() {
+      const cart = window.getCart ? window.getCart() : [];
+      const countEl = document.getElementById('page-cart-count');
+      if (countEl) countEl.innerText = cart.length;
+
+      if (cart.length === 0) {
+        document.getElementById('checkout-main-content').innerHTML = `
+          <div style="text-align:center; padding: 40px 10px;">
+            <div style="font-size: 3rem; margin-bottom: 12px; opacity: 0.3;">🎒</div>
+            <h2 style="font-size: 1.35rem; font-weight: 800; color: #FFF; text-transform: uppercase;">Nenhum item no checkout</h2>
+            <p style="color: #8a8e99; font-size: 0.85rem; margin-bottom: 24px;">Adicione um pacote VIP ou Kit ao seu carrinho primeiro.</p>
+            <a href="/loja" class="btn-corte-chamfer" style="display:inline-block; background:#CE422B; color:#FFF; padding:12px 24px; border-radius:8px; text-decoration:none; font-weight:800; text-transform:uppercase; font-size:0.85rem;">Ir para a Loja</a>
+          </div>
+        `;
+        return;
+      }
+
+      // Carrega usuário
+      try {
+        const res = await fetch('/api/me');
+        if (res.ok) {
+          const d = await res.json();
+          if (d && d.authenticated && d.user) chkUser = d.user;
+        }
+      } catch (e) {}
+
+      renderStep1Page();
+    }
+
+    // PASSO 1: SUA CONTA STEAM
+    function renderStep1Page() {
+      setStep(1);
+      const cart = window.getCart ? window.getCart() : [];
+      const subtotal = cart.reduce((acc, it) => acc + (it.price || 0), 0);
+      const savedCoupon = localStorage.getItem('horizon_coupon');
+      let discount = 0;
+      if (savedCoupon) {
+        if (savedCoupon.includes('20')) discount = (subtotal * 0.20);
+        else if (savedCoupon.includes('15')) discount = (subtotal * 0.15);
+        else discount = (subtotal * 0.10);
+      }
+      const total = Math.max(0, subtotal - discount);
+      const container = document.getElementById('checkout-main-content');
+
+      let userHtml = '';
+      if (chkUser) {
+        userHtml = `
+          <div style="display:flex; align-items:center; gap:16px; background:#1b1d24; border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:16px 20px; margin-bottom:24px;">
+            <img src="${chkUser.avatar || '/images/default_avatar.jpg'}" alt="Avatar" style="width:48px; height:48px; border-radius:50%; border:2px solid #22c55e;">
+            <div style="flex:1; min-width:0;">
+              <div style="font-size:1.05rem; font-weight:800; color:#FFF;">${chkUser.name || 'Jogador'}</div>
+              <div style="font-size:0.78rem; color:#8a8e99; font-family:var(--font-mono, monospace);">SteamID64: ${chkUser.steamId || chkUser.steamid}</div>
+            </div>
+            <span style="background:rgba(34,197,94,0.15); border:1px solid #22c55e; color:#22c55e; font-weight:800; font-size:0.75rem; padding:4px 10px; border-radius:6px; text-transform:uppercase;">Conectado</span>
+          </div>
+          <input type="hidden" id="page-steamid-input" value="${chkUser.steamId || chkUser.steamid}">
+        `;
+      } else {
+        userHtml = `
+          <div style="background:#1b1d24; border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:22px; margin-bottom:24px;">
+            <div style="margin-bottom:16px;">
+              <a href="/auth/steam?redirect=/checkout" style="background:#171a21; border:1px solid rgba(255,255,255,0.15); color:#FFF; text-decoration:none; padding:12px 20px; border-radius:8px; font-weight:800; font-size:0.86rem; display:flex; align-items:center; justify-content:center; gap:10px; transition:all 0.2s;" onmouseover="this.style.background='#222733'" onmouseout="this.style.background='#171a21'">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-10 10c0 4.8 3.4 8.8 8 9.8v-4.6a2.5 2.5 0 0 1-1.3-.9l-3.3 1.3a4.4 4.4 0 0 1-.4-2.8l2.6-1.1a2.5 2.5 0 0 1 2.4-.7l2.2-3.2A4.2 4.2 0 1 1 16.2 12l-3.2 2.2a2.5 2.5 0 0 1-.7 2.3v.1a2.5 2.5 0 0 1-2.3 2.5v.9c.7.1 1.3.1 2 .1a10 10 0 0 0 10-10A10 10 0 0 0 12 2zm4.2 7a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z"/></svg>
+                <span>Entrar com Steam (Mais Rápido & Recomendado)</span>
+              </a>
+            </div>
+            <div style="text-align:center; color:#8a8e99; font-size:0.75rem; font-weight:700; text-transform:uppercase; margin-bottom:14px;">ou digite seu SteamID64 manualmente</div>
+            <input type="text" id="page-steamid-input" placeholder="Ex: 76561198012345678" style="width:100%; background:#101115; border:1px solid rgba(255,255,255,0.12); color:#FFF; padding:12px 14px; border-radius:8px; font-size:0.86rem; box-sizing:border-box; outline:none; font-family:var(--font-mono, monospace);">
+            <div style="font-size:0.72rem; color:#8a8e99; margin-top:6px;">Seus privilégios serão ativados neste SteamID dentro do servidor de Rust.</div>
+          </div>
+        `;
+      }
+
+      container.innerHTML = `
+        <h2 style="font-family:var(--font-display, 'Space Grotesk', sans-serif); font-size:1.35rem; font-weight:900; color:#FFF; text-transform:uppercase; margin:0 0 6px 0;">1. Sua Conta Steam</h2>
+        <p style="color:#8a8e99; font-size:0.82rem; margin:0 0 20px 0;">Identifique a conta do jogador que receberá os kits/VIPs no servidor.</p>
+
+        ${userHtml}
+
+        <div style="background:#1b1d24; border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:18px 20px; margin-bottom:28px;">
+          <div style="font-size:0.76rem; font-weight:800; color:#8a8e99; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px;">Resumo dos Itens Selecionados</div>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            ${cart.map(it => `
+              <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.85rem;">
+                <span style="color:#FFF; font-weight:700;">• ${it.name} (30 dias)</span>
+                <span style="font-family:var(--font-mono, monospace); font-weight:800; color:#22c55e;">${it.priceFormatted || 'R$ ' + Number(it.price).toFixed(2).replace('.', ',')}</span>
+              </div>
+            `).join('')}
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:baseline; border-top:1px solid rgba(255,255,255,0.08); padding-top:12px; margin-top:12px;">
+            <span style="font-weight:800; color:#8a8e99; text-transform:uppercase; font-size:0.82rem;">Total do Pedido:</span>
+            <span style="font-family:var(--font-mono, monospace); font-size:1.45rem; font-weight:900; color:#22c55e;">R$ ${total.toFixed(2).replace('.', ',')}</span>
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:flex-end;">
+          <button type="button" onclick="avancarParaPasso2()" class="btn-corte-chamfer" style="background:#CE422B; color:#FFF; border:none; padding:14px 28px; border-radius:8px; font-weight:900; font-size:0.88rem; text-transform:uppercase; cursor:pointer; letter-spacing:0.05em; display:flex; align-items:center; gap:8px; box-shadow:0 6px 20px rgba(206,66,43,0.4);">
+            <span>Avançar para Método de Pagamento →</span>
+          </button>
+        </div>
+      `;
+    }
+
+    function avancarParaPasso2() {
+      const input = document.getElementById('page-steamid-input');
+      let val = input ? input.value.trim() : '';
+      if (!val && chkUser) val = chkUser.steamId || chkUser.steamid;
+
+      if (val && typeof val === 'string') {
+        const match = val.match(/7656119\d{10}/);
+        if (match) val = match[0];
+      }
+
+      if (!val || !/^\d{17}$/.test(val)) {
+        alert('Por favor, informe um SteamID64 válido com 17 dígitos (ex: 76561198012345678) ou faça login com a Steam!');
+        if (input) input.focus();
+        return;
+      }
+      window._selectedSteamId = val;
+      renderStep2Page();
+    }
+
+    // PASSO 2: MÉTODO DE PAGAMENTO
+    function renderStep2Page() {
+      setStep(2);
+      const cart = window.getCart ? window.getCart() : [];
+      const subtotal = cart.reduce((acc, it) => acc + (it.price || 0), 0);
+      const savedCoupon = localStorage.getItem('horizon_coupon');
+      let discount = 0;
+      if (savedCoupon) {
+        if (savedCoupon.includes('20')) discount = (subtotal * 0.20);
+        else if (savedCoupon.includes('15')) discount = (subtotal * 0.15);
+        else discount = (subtotal * 0.10);
+      }
+      const total = Math.max(0, subtotal - discount);
+      const container = document.getElementById('checkout-main-content');
+
+      container.innerHTML = `
+        <h2 style="font-family:var(--font-display, 'Space Grotesk', sans-serif); font-size:1.35rem; font-weight:900; color:#FFF; text-transform:uppercase; margin:0 0 6px 0;">2. Método de Pagamento</h2>
+        <p style="color:#8a8e99; font-size:0.82rem; margin:0 0 20px 0;">Selecione como deseja efetuar o pagamento seguro via Mercado Pago.</p>
+
+        <!-- Card Opção PIX -->
+        <div style="background:rgba(34,197,94,0.06); border:2px solid #22c55e; border-radius:14px; padding:20px; margin-bottom:24px; display:flex; align-items:center; gap:16px;">
+          <div style="width:48px; height:48px; border-radius:10px; background:rgba(34,197,94,0.15); display:flex; align-items:center; justify-content:center; color:#22c55e; font-size:1.5rem;">
+            ⚡
+          </div>
+          <div style="flex:1;">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size:1.05rem; font-weight:900; color:#FFF;">PIX Oficial (Recomendado)</span>
+              <span style="background:#22c55e; color:#000; font-size:0.68rem; font-weight:900; padding:2px 8px; border-radius:4px; text-transform:uppercase;">Instantâneo</span>
+            </div>
+            <div style="font-size:0.78rem; color:#8a8e99; margin-top:2px;">Aprovação em segundos com liberação automática de VIP no Rust. Sem taxas adicionais.</div>
+          </div>
+          <div style="font-family:var(--font-mono, monospace); font-size:1.35rem; font-weight:900; color:#22c55e;">
+            R$ ${total.toFixed(2).replace('.', ',')}
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <button type="button" onclick="renderStep1Page()" style="background:transparent; border:1px solid rgba(255,255,255,0.12); color:#8a8e99; padding:12px 20px; border-radius:8px; font-weight:700; font-size:0.8rem; text-transform:uppercase; cursor:pointer;">
+            ← Voltar
+          </button>
+          <button type="button" onclick="gerarPagamentoPix()" class="btn-corte-chamfer" style="background:#22c55e; color:#000; border:none; padding:14px 28px; border-radius:8px; font-weight:900; font-size:0.88rem; text-transform:uppercase; cursor:pointer; letter-spacing:0.05em; display:flex; align-items:center; gap:8px; box-shadow:0 6px 20px rgba(34,197,94,0.35);">
+            <span>Gerar QR Code PIX ⚡</span>
+          </button>
+        </div>
+      `;
+    }
+
+    // PASSO 3: GERAÇÃO E PAGAMENTO PIX
+    async function gerarPagamentoPix() {
+      const container = document.getElementById('checkout-main-content');
+      container.innerHTML = `
+        <div style="text-align:center; padding: 50px 10px;">
+          <div style="display:inline-block; width:44px; height:44px; border:3px solid rgba(206,66,43,0.3); border-top-color:#CE422B; border-radius:50%; animation:spinCheckout 0.8s linear infinite;"></div>
+          <h3 style="font-size:1.2rem; font-weight:800; color:#FFF; margin-top:18px;">Gerando Pagamento Seguro...</h3>
+          <p style="color:#8a8e99; font-size:0.82rem;">Registrando pedido e emitindo QR Code oficial no Mercado Pago.</p>
+        </div>
+        <style>@keyframes spinCheckout { to { transform: rotate(360deg); } }</style>
+      `;
+
+      const cart = window.getCart ? window.getCart() : [];
+      const coupon = window._appliedCoupon || localStorage.getItem('horizon_coupon') || null;
+
+      try {
+        const res = await fetch('/api/checkout/create', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            items: cart.map(it => it.tier),
+            steamId: window._selectedSteamId,
+            coupon: coupon
+          })
+        });
+
+        const data = await res.json();
+        if (!res.ok || !data.success) {
+          throw new Error(data.error || 'Erro ao processar pagamento');
+        }
+
+        renderStep3PixPage(data);
+        startPollingCheckoutPage(data.orderId, data.paymentId);
+
+      } catch (err) {
+        container.innerHTML = `
+          <div style="text-align:center; padding: 40px 10px;">
+            <div style="font-size:3rem; margin-bottom:12px;">⚠️</div>
+            <h3 style="color:#ef4444; font-size:1.2rem; font-weight:800; text-transform:uppercase;">Falha ao Gerar Pagamento</h3>
+            <p style="color:#8a8e99; font-size:0.85rem; margin-bottom:20px;">${err.message}</p>
+            <button onclick="renderStep2Page()" class="btn-corte-chamfer" style="background:#CE422B; color:#FFF; border:none; padding:12px 24px; border-radius:8px; font-weight:800; cursor:pointer;">Tentar Novamente</button>
+          </div>
+        `;
+      }
+    }
+
+    function renderStep3PixPage(data) {
+      setStep(3);
+      const container = document.getElementById('checkout-main-content');
+      const pixCode = data.pix ? data.pix.copiaECola : '';
+      const qrImg = data.pix && data.pix.qrCodeBase64
+        ? `data:image/png;base64,${data.pix.qrCodeBase64}`
+        : `https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(pixCode)}`;
+
+      container.innerHTML = `
+        <h2 style="font-family:var(--font-display, 'Space Grotesk', sans-serif); font-size:1.35rem; font-weight:900; color:#FFF; text-transform:uppercase; margin:0 0 6px 0; text-align:center;">3. Efetue o Pagamento via PIX</h2>
+        <p style="color:#8a8e99; font-size:0.82rem; margin:0 0 24px 0; text-align:center;">Abra o app do seu banco e pague escaneando o QR Code ou copiando o código.</p>
+
+        <div style="text-align:center; margin-bottom:22px;">
+          <div style="display:inline-block; background:#FFF; padding:16px; border-radius:14px; box-shadow:0 10px 30px rgba(0,0,0,0.6);">
+            <img src="${qrImg}" alt="QR Code PIX" style="width:200px; height:200px; display:block;">
+          </div>
+          <div style="font-size:0.78rem; color:#8a8e99; margin-top:12px; display:flex; align-items:center; justify-content:center; gap:8px;">
+            <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#22c55e; animation:pulsePix 1.5s infinite;"></span>
+            Aguardando aprovação... Verificando a cada 3 segundos
+          </div>
+          <style>@keyframes pulsePix { 0%, 100% { opacity:1; transform:scale(1); } 50% { opacity:0.4; transform:scale(0.85); } }</style>
+        </div>
+
+        <div style="margin-bottom:24px;">
+          <label style="display:block; font-size:0.75rem; font-weight:800; text-transform:uppercase; letter-spacing:0.06em; color:#8a8e99; margin-bottom:8px;">Código PIX Copia e Cola</label>
+          <div style="position:relative;">
+            <input type="text" id="page-pix-input" readonly value="${pixCode}" style="width:100%; background:#101115; border:1px solid rgba(255,255,255,0.12); color:#FFF; padding:12px 50px 12px 14px; border-radius:8px; font-size:0.78rem; font-family:var(--font-mono, monospace); box-sizing:border-box; outline:none;">
+            <button onclick="copiarPixPage()" id="page-copy-btn-icon" style="position:absolute; right:6px; top:50%; transform:translateY(-50%); background:#22c55e; color:#000; border:none; border-radius:6px; width:34px; height:34px; cursor:pointer; display:flex; align-items:center; justify-content:center;" title="Copiar Código">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <button type="button" onclick="copiarPixPage()" id="page-copy-btn-wide" class="btn-corte-chamfer" style="width:100%; background:#22c55e; color:#000; border:none; padding:14px; border-radius:8px; font-weight:900; font-size:0.9rem; text-transform:uppercase; cursor:pointer; letter-spacing:0.05em; display:flex; align-items:center; justify-content:center; gap:8px;">
+          <span>Copiar Código PIX</span>
+        </button>
+      `;
+    }
+
+    function copiarPixPage() {
+      const input = document.getElementById('page-pix-input');
+      if (!input) return;
+      input.select();
+      navigator.clipboard.writeText(input.value);
+
+      const btn = document.getElementById('page-copy-btn-wide');
+      if (btn) {
+        const orig = btn.innerHTML;
+        btn.innerHTML = '<span>✅ Código Copiado com Sucesso!</span>';
+        btn.style.background = '#15803d';
+        btn.style.color = '#FFF';
+        setTimeout(() => {
+          btn.innerHTML = orig;
+          btn.style.background = '#22c55e';
+          btn.style.color = '#000';
+        }, 2500);
+      }
+    }
+
+    function startPollingCheckoutPage(orderId, paymentId) {
+      if (pollTimer) clearInterval(pollTimer);
+      pollTimer = setInterval(async () => {
+        try {
+          const q = paymentId ? `paymentId=${paymentId}` : `orderId=${orderId}`;
+          const res = await fetch(`/api/checkout/status?${q}`);
+          if (!res.ok) return;
+          const data = await res.json();
+          if (data && (data.status === 'approved' || data.order?.status === 'approved')) {
+            clearInterval(pollTimer);
+            pollTimer = null;
+            if (window.clearCart) window.clearCart();
+            renderStep4SuccessPage(data.order || data);
+          }
+        } catch (e) {}
+      }, 2500);
+    }
+
+    // PASSO 4: PEDIDO CONCLUÍDO
+    function renderStep4SuccessPage(order) {
+      setStep(4);
+      const container = document.getElementById('checkout-main-content');
+      const items = Array.isArray(order.items) && order.items.length > 0 ? order.items : [order.vip_tier || 'bronze'];
+
+      container.innerHTML = `
+        <div style="text-align:center; padding:20px 10px;">
+          <div style="width:72px; height:72px; border-radius:50%; background:rgba(34,197,94,0.18); border:2px solid #22c55e; display:flex; align-items:center; justify-content:center; font-size:2.2rem; color:#22c55e; margin:0 auto 18px;">
+            ✓
+          </div>
+          <h2 style="font-family:var(--font-display, 'Space Grotesk', sans-serif); font-size:1.6rem; font-weight:900; color:#FFF; text-transform:uppercase; margin:0 0 6px 0;">
+            Pagamento Confirmado com Sucesso!
+          </h2>
+          <p style="color:#8a8e99; font-size:0.86rem; margin:0 0 24px 0;">
+            Seus privilégios foram liberados e enviados para o servidor Horizon Rust.
+          </p>
+
+          <div style="background:#1b1d24; border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:20px; margin-bottom:28px; text-align:left;">
+            <div style="font-size:0.75rem; color:#8a8e99; text-transform:uppercase; font-weight:800; letter-spacing:0.06em; margin-bottom:8px;">Itens Liberados no Servidor:</div>
+            <div style="display:flex; flex-direction:column; gap:6px;">
+              ${items.map(t => `<div style="color:#22c55e; font-weight:800; font-size:0.9rem;">✅ ${t.toUpperCase()} (30 Dias)</div>`).join('')}
+            </div>
+            <div style="margin-top:14px; padding-top:12px; border-top:1px solid rgba(255,255,255,0.08); font-size:0.76rem; color:#8a8e99;">
+              SteamID Beneficiário: <strong style="color:#FFF; font-family:var(--font-mono, monospace);">${order.steam_id || window._selectedSteamId}</strong>
+            </div>
+          </div>
+
+          <div style="background:rgba(206,66,43,0.1); border-left:3px solid #CE422B; border-radius:8px; padding:14px 18px; margin-bottom:28px; text-align:left; font-size:0.82rem; color:#d1d5db;">
+            <strong style="color:#FFF; display:block; margin-bottom:3px;">Como Resgatar no Jogo:</strong>
+            Conecte-se ao servidor <strong>Horizon 2x</strong> e digite no chat <code style="background:#0c0d10; padding:2px 6px; border-radius:4px; color:#22c55e;">/vip</code> ou <code style="background:#0c0d10; padding:2px 6px; border-radius:4px; color:#22c55e;">/kit</code> para equipar seus privilégios!
+          </div>
+
+          <div style="display:flex; gap:12px; justify-content:center;">
+            <a href="/loja" class="btn-corte-chamfer" style="background:#CE422B; color:#FFF; padding:12px 24px; border-radius:8px; font-weight:800; font-size:0.85rem; text-transform:uppercase; text-decoration:none;">
+              Voltar para a Loja
+            </a>
+            <a href="/" style="background:#252830; border:1px solid rgba(255,255,255,0.15); color:#FFF; padding:12px 24px; border-radius:8px; font-weight:800; font-size:0.85rem; text-transform:uppercase; text-decoration:none;">
+              Página Inicial
+            </a>
+          </div>
+        </div>
+      `;
+    }
+
+    document.addEventListener('DOMContentLoaded', initCheckoutPage);
+  </script>
+</body>
+</html>
