@@ -295,7 +295,11 @@
     let activeCouponCode = '';
 
     function renderPageCart() {
-      const cart = window.getCart ? window.getCart() : [];
+      let cart = [];
+      if (typeof window.getCart === 'function') cart = window.getCart();
+      else {
+        try { cart = JSON.parse(localStorage.getItem('horizon_cart')) || []; } catch(e) { cart = []; }
+      }
       const container = document.getElementById('carrinho-itens-lista');
       const badgeCount = document.getElementById('page-cart-count');
       const subtotalEl = document.getElementById('resumo-subtotal');
@@ -404,16 +408,16 @@
     }
 
     function iniciarCheckoutDoCarrinho() {
-      const cart = window.getCart ? window.getCart() : [];
+      let cart = [];
+      if (typeof window.getCart === 'function') cart = window.getCart();
+      else {
+        try { cart = JSON.parse(localStorage.getItem('horizon_cart')) || []; } catch(e) { cart = []; }
+      }
       if (cart.length === 0) {
         alert('Seu carrinho está vazio!');
         return;
       }
-      if (typeof window.openCheckoutModal === 'function') {
-        window.openCheckoutModal(cart.map(it => it.tier));
-      } else {
-        window.location.href = '/checkout';
-      }
+      window.location.href = '/checkout';
     }
 
     document.addEventListener('DOMContentLoaded', async () => {

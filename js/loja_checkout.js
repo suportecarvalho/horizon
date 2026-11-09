@@ -122,6 +122,11 @@
     updateCartUI();
   }
 
+  window.getCart = getCart;
+  window.saveCart = saveCart;
+  window.KITS_INFO = KITS_INFO;
+  window.normalizeTierKey = normalizeTierKey;
+
   window.addToCart = function(tier, openDrawer = true) {
     const t = normalizeTierKey(tier);
     const kit = KITS_INFO[t];
@@ -130,8 +135,10 @@
     const cart = getCart();
     const exists = cart.find(it => it.tier === t);
     if (exists) {
-      showToast(`⚠️ ${kit.name} já está no seu carrinho!`);
-      if (openDrawer) window.openCartDrawer();
+      if (openDrawer) {
+        showToast(`⚠️ ${kit.name} já está no seu carrinho!`);
+        window.openCartDrawer();
+      }
       return;
     }
 
@@ -148,10 +155,9 @@
     });
 
     saveCart(cart);
-    showToast(`✅ ${kit.name} adicionado ao carrinho!`);
-    animateFloatingCart();
-
     if (openDrawer) {
+      showToast(`✅ ${kit.name} adicionado ao carrinho!`);
+      animateFloatingCart();
       window.openCartDrawer();
     }
   };
@@ -171,18 +177,21 @@
   window.buyNow = function(tier) {
     const t = normalizeTierKey(tier);
     window.addToCart(t, false);
-    window.location.href = '/checkout';
+    window.location.href = '/checkout?tier=' + encodeURIComponent(t);
   };
 
   window.openCheckoutModal = function(target) {
+    let t = 'ouro';
     if (target) {
       if (Array.isArray(target) && target.length > 0) {
-        target.forEach(t => window.addToCart(t, false));
+        target.forEach(it => window.addToCart(it, false));
+        t = target[0];
       } else if (typeof target === 'string' && target !== 'cart') {
         window.addToCart(target, false);
+        t = target;
       }
     }
-    window.location.href = '/checkout';
+    window.location.href = '/checkout?tier=' + encodeURIComponent(normalizeTierKey(t));
   };
 
   function updateCartUI() {

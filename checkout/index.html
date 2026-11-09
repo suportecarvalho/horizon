@@ -221,7 +221,52 @@
     }
 
     async function initCheckoutPage() {
-      const cart = window.getCart ? window.getCart() : [];
+      // 1. Suporte a parâmetro de URL ?tier=bronze ou ?plan=ouro ou ?item=...
+      const urlParams = new URLSearchParams(window.location.search);
+      const paramTier = urlParams.get('tier') || urlParams.get('plan') || urlParams.get('vip') || urlParams.get('item');
+      if (paramTier && window.addToCart) {
+        window.addToCart(paramTier, false);
+      }
+
+      let cart = [];
+      if (typeof window.getCart === 'function') {
+        cart = window.getCart();
+      } else {
+        try {
+          const raw = localStorage.getItem('horizon_cart');
+          cart = raw ? JSON.parse(raw) : [];
+        } catch (e) {
+          cart = [];
+        }
+      }
+
+      // Se ainda estiver vazio mas veio paramTier, cria o item na hora como garantia
+      if (cart.length === 0 && paramTier) {
+        const norm = paramTier.toLowerCase().replace('sobrevivente', 'bronze');
+        const fallbackKits = {
+          bronze: { name: 'VIP SOBREVIVENTE', price: 'R$ 20,00', numericPrice: 20, img: '/images/vip_bronze.jpg' },
+          prata: { name: 'VIP Prata', price: 'R$ 40,00', numericPrice: 40, img: '/images/vip_prata.jpg' },
+          ouro: { name: 'VIP Ouro', price: 'R$ 60,00', numericPrice: 60, img: '/images/vip_ouro.jpg' },
+          farmer: { name: 'Kit Farmer', price: 'R$ 10,00', numericPrice: 10, img: '/images/kits-farmer.jpg' },
+          airdrop: { name: 'Kit Airdrop', price: 'R$ 10,00', numericPrice: 10, img: '/images/kits-airdrop.jpg' },
+          cartao: { name: 'Kit Cartões & Puzzles', price: 'R$ 10,00', numericPrice: 10, img: '/images/kits-cartao.jpg' },
+          eletrica: { name: 'Kit Elétrica & Automação', price: 'R$ 10,00', numericPrice: 10, img: '/images/kits-eletrica.jpg' }
+        };
+        const kitInfo = (window.KITS_INFO && window.KITS_INFO[norm]) || fallbackKits[norm] || fallbackKits.bronze;
+        if (kitInfo) {
+          cart = [{
+            tier: norm,
+            name: kitInfo.name,
+            price: kitInfo.numericPrice || 20,
+            priceFormatted: kitInfo.price || 'R$ 20,00',
+            img: kitInfo.img
+          }];
+          try {
+            localStorage.setItem('horizon_cart', JSON.stringify(cart));
+          } catch (e) {}
+        }
+      }
+
       const countEl = document.getElementById('page-cart-count');
       if (countEl) countEl.innerText = cart.length;
 
@@ -230,8 +275,8 @@
           <div style="text-align:center; padding: 40px 10px;">
             <div style="font-size: 3rem; margin-bottom: 12px; opacity: 0.3;">🎒</div>
             <h2 style="font-size: 1.35rem; font-weight: 800; color: #FFF; text-transform: uppercase;">Nenhum item no checkout</h2>
-            <p style="color: #8a8e99; font-size: 0.85rem; margin-bottom: 24px;">Adicione um pacote VIP ou Kit ao seu carrinho primeiro.</p>
-            <a href="/loja" class="btn-corte-chamfer" style="display:inline-block; background:#CE422B; color:#FFF; padding:12px 24px; border-radius:8px; text-decoration:none; font-weight:800; text-transform:uppercase; font-size:0.85rem;">Ir para a Loja</a>
+            <p style="color: #8a8e99; font-size: 0.85rem; margin-bottom: 24px;">Adicione um pacote VIP ou Kit ao seu carrinho na loja.</p>
+            <a href="/loja" class="btn-corte-chamfer" style="display:inline-block; background:#CE422B; color:#FFF; padding:12px 24px; border-radius:8px; text-decoration:none; font-weight:800; text-transform:uppercase; font-size:0.85rem;">Ir para a Loja Horizon</a>
           </div>
         `;
         return;
@@ -252,7 +297,11 @@
     // PASSO 1: SUA CONTA STEAM
     function renderStep1Page() {
       setStep(1);
-      const cart = window.getCart ? window.getCart() : [];
+      let cart = [];
+      if (typeof window.getCart === 'function') cart = window.getCart();
+      else {
+        try { cart = JSON.parse(localStorage.getItem('horizon_cart')) || []; } catch(e) { cart = []; }
+      }
       const subtotal = cart.reduce((acc, it) => acc + (it.price || 0), 0);
       const savedCoupon = localStorage.getItem('horizon_coupon');
       let discount = 0;
@@ -345,7 +394,11 @@
     // PASSO 2: MÉTODO DE PAGAMENTO
     function renderStep2Page() {
       setStep(2);
-      const cart = window.getCart ? window.getCart() : [];
+      let cart = [];
+      if (typeof window.getCart === 'function') cart = window.getCart();
+      else {
+        try { cart = JSON.parse(localStorage.getItem('horizon_cart')) || []; } catch(e) { cart = []; }
+      }
       const subtotal = cart.reduce((acc, it) => acc + (it.price || 0), 0);
       const savedCoupon = localStorage.getItem('horizon_coupon');
       let discount = 0;
@@ -401,7 +454,11 @@
         <style>@keyframes spinCheckout { to { transform: rotate(360deg); } }</style>
       `;
 
-      const cart = window.getCart ? window.getCart() : [];
+      let cart = [];
+      if (typeof window.getCart === 'function') cart = window.getCart();
+      else {
+        try { cart = JSON.parse(localStorage.getItem('horizon_cart')) || []; } catch(e) { cart = []; }
+      }
       const coupon = window._appliedCoupon || localStorage.getItem('horizon_coupon') || null;
 
       try {
