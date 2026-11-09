@@ -65,11 +65,11 @@ function formatPtBrDate(isoString) {
 }
 
 function formatTierName(tier) {
-  if (!tier) return 'VIP Sobrevivente';
+  if (!tier) return 'VIP Bronze';
   const t = String(tier).toLowerCase().trim();
   const map = {
-    'sobrevivente': 'VIP Sobrevivente',
-    'bronze': 'VIP Sobrevivente',
+    'sobrevivente': 'VIP Bronze',
+    'bronze': 'VIP Bronze',
     'prata': 'VIP Prata',
     'ouro': 'VIP Ouro',
     'farmer': 'Kit Farmer',

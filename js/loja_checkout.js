@@ -6,7 +6,7 @@
 
   const KITS_INFO = {
     sobrevivente: {
-      name: 'VIP SOBREVIVENTE',
+      name: 'VIP BRONZE',
       price: 'R$ 20,00',
       numericPrice: 20.00,
       img: '/images/vip_bronze.jpg',
@@ -16,7 +16,7 @@
       perks: '18 Itens no Inventário • Chás de Farm Puros • Skip Fila com Prioridade'
     },
     bronze: {
-      name: 'VIP SOBREVIVENTE',
+      name: 'VIP BRONZE',
       price: 'R$ 20,00',
       numericPrice: 20.00,
       img: '/images/vip_bronze.jpg',

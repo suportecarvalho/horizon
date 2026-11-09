@@ -216,14 +216,14 @@
 
 <!-- ==================== SEÇÃO 1: PACOTES VIP ==================== -->
 <div id="secao-vips" class="vip-grade">
-    <!-- ==================== VIP SOBREVIVENTE ==================== -->
+    <!-- ==================== VIP BRONZE ==================== -->
   <div data-slot="card" data-size="default" class="group/card flex flex-col rounded-xl bg-card py-(--card-spacing) text-sm text-card-foreground ring-1 ring-foreground/10 has-data-[slot=card-footer]:pb-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 relative [--card-spacing:1.5rem] gap-4 overflow-hidden transition-all duration-200 hover:ring-white/15 pt-0 has-[>.vip-arte-vazia]:pt-0">
-    <div class="vip-arte-vazia" aria-hidden="true" onclick="openKitModal('bronze')" style="cursor: pointer;" title="Clique para ver todos os detalhes do VIP Sobrevivente">
-      <span>VIP SOBREVIVENTE</span>
+    <div class="vip-arte-vazia" aria-hidden="true" onclick="openKitModal('bronze')" style="cursor: pointer;" title="Clique para ver todos os detalhes do VIP Bronze">
+      <span>VIP BRONZE</span>
     </div>
     <div data-slot="card-content" class="px-(--card-spacing) relative flex flex-1 flex-col gap-4">
       <div class="flex flex-col items-start gap-2">
-        <h3 class="vip-nome">VIP SOBREVIVENTE</h3>
+        <h3 class="vip-nome">VIP BRONZE</h3>
         <span data-slot="badge" data-variant="outline" class="group/badge inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-4xl border border-border px-2 py-0.5 text-xs font-medium whitespace-nowrap vip-duracao text-[var(--text-muted)] bg-transparent">30 DIAS</span>
       </div>
       <div data-orientation="horizontal" role="none" data-slot="separator" class="shrink-0 data-horizontal:h-px data-horizontal:w-full bg-[var(--border)]"></div>
@@ -500,10 +500,10 @@
 <script>
 const KITS_DATA = {
   sobrevivente: {
-    title: 'VIP SOBREVIVENTE',
+    title: 'VIP BRONZE',
     subtitle: '18 Itens no Inventário • R$ 20,00',
     img: '/images/vip_bronze.jpg',
-    buyUrl: '/comprar/vip-sobrevivente',
+    buyUrl: '/comprar/vip-bronze',
     html: `
       <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(108,151,142,0.2); border-radius:8px; padding:14px; margin-bottom:12px;">
         <strong style="color:#CD7F32; text-transform:uppercase; font-size:0.78rem; letter-spacing:0.06em; display:block; margin-bottom:6px;">Recursos Básicos:</strong>
@@ -530,10 +530,10 @@ const KITS_DATA = {
     `
   },
   bronze: {
-    title: 'VIP SOBREVIVENTE',
+    title: 'VIP BRONZE',
     subtitle: '18 Itens no Inventário • R$ 20,00',
     img: '/images/vip_bronze.jpg',
-    buyUrl: '/comprar/vip-sobrevivente',
+    buyUrl: '/comprar/vip-bronze',
     html: `
       <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(108,151,142,0.2); border-radius:8px; padding:14px; margin-bottom:12px;">
         <strong style="color:#CD7F32; text-transform:uppercase; font-size:0.78rem; letter-spacing:0.06em; display:block; margin-bottom:6px;">Recursos Básicos:</strong>
