@@ -1632,8 +1632,11 @@ namespace Oxide.Plugins
             if (tier == "kit-farmer" || tier == "kit_farmer") tier = "farmer";
             if (tier == "kit-airdrop" || tier == "kit_airdrop" || tier == "drop" || tier == "kit-drop") tier = "airdrop";
             if (tier == "kit-cartao" || tier == "kit_cartao" || tier == "cards" || tier == "cartoes") tier = "cartao";
+            if (tier == "kit-eletrica" || tier == "kit_eletrica" || tier == "eletrico") tier = "eletrica";
 
-            string groupName = config.VipGroups.ContainsKey(tier) ? config.VipGroups[tier] : $"vip_{tier}";
+            string groupName = !string.IsNullOrEmpty(delivery.groupName)
+                ? delivery.groupName
+                : (config.VipGroups.ContainsKey(tier) ? config.VipGroups[tier] : $"vip_{tier}");
 
             if (!permission.GroupExists(groupName))
             {

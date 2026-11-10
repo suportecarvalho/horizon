@@ -207,8 +207,15 @@ namespace Oxide.Plugins
             }
 
             string steamId = delivery.steamId;
-            string tier = (delivery.vipTier ?? "bronze").ToLower();
-            string groupName = config.VipGroups.ContainsKey(tier) ? config.VipGroups[tier] : $"vip_{tier}";
+            string tier = (delivery.vipTier ?? "bronze").ToLower().Trim();
+            if (tier == "kit-farmer" || tier == "kit_farmer") tier = "farmer";
+            if (tier == "kit-airdrop" || tier == "kit_airdrop" || tier == "drop" || tier == "kit-drop") tier = "airdrop";
+            if (tier == "kit-cartao" || tier == "kit_cartao" || tier == "cards" || tier == "cartoes") tier = "cartao";
+            if (tier == "kit-eletrica" || tier == "kit_eletrica" || tier == "eletrico") tier = "eletrica";
+
+            string groupName = !string.IsNullOrEmpty(delivery.groupName)
+                ? delivery.groupName
+                : (config.VipGroups.ContainsKey(tier) ? config.VipGroups[tier] : $"vip_{tier}");
 
             // Garante que o grupo existe
             if (!permission.GroupExists(groupName))
@@ -285,18 +292,26 @@ namespace Oxide.Plugins
             }
 
             // Avisa o servidor e o jogador
-            string tierFormatado = char.ToUpper(tier[0]) + tier.Substring(1);
-            PrintToChat($"{config.ChatPrefix} O jogador <color=#10B981>{record.PlayerName}</color> adquiriu o pacote <color=#F59E0B>VIP {tierFormatado}</color>! Agradecemos pelo apoio!");
+            bool isKit = tier == "farmer" || tier == "airdrop" || tier == "cartao" || tier == "eletrica";
+            string nomePacote;
+            if (tier == "farmer") nomePacote = "Kit Farmer";
+            else if (tier == "airdrop") nomePacote = "Kit Airdrop";
+            else if (tier == "cartao") nomePacote = "Kit Cartões";
+            else if (tier == "eletrica") nomePacote = "Kit Elétrica";
+            else nomePacote = $"VIP {char.ToUpper(tier[0]) + tier.Substring(1)}";
+
+            PrintToChat($"{config.ChatPrefix} O jogador <color=#10B981>{record.PlayerName}</color> adquiriu o pacote <color=#F59E0B>{nomePacote}</color>! Agradecemos pelo apoio!");
 
             BasePlayer player = BasePlayer.Find(steamId);
             if (player != null && player.IsConnected)
             {
-                PrintToChat(player, $"{config.ChatPrefix} <color=#10B981>Parabéns!</color> Seu <color=#F59E0B>VIP {tierFormatado}</color> foi ativado com sucesso!\n" +
+                string beneficio = isKit ? "seus kits exclusivos" : "seus itens e aproveite a fila prioritária";
+                PrintToChat(player, $"{config.ChatPrefix} <color=#10B981>Parabéns!</color> Seu <color=#F59E0B>{nomePacote}</color> foi ativado com sucesso!\n" +
                                    $"- Validade: <color=#38BDF8>30 dias</color> (Expira em: {expiresAt.ToLocalTime():dd/MM/yyyy HH:mm})\n" +
-                                   $"- Use <color=#F59E0B>/kit</color> para resgatar seus itens e aproveite a fila prioritária!");
+                                   $"- Use <color=#F59E0B>/kit</color> para resgatar {beneficio}!");
             }
 
-            Puts($"[HorizonVIP] ✔ VIP {tierFormatado} concedido com sucesso para {record.PlayerName} ({steamId}) por 30 dias (até {expiresAt:yyyy-MM-dd HH:mm}).");
+            Puts($"[HorizonVIP] ✔ {nomePacote} concedido com sucesso para {record.PlayerName} ({steamId}) por 30 dias (até {expiresAt:yyyy-MM-dd HH:mm}).");
 
             // Confirma entrega na API do site para finalizar o pedido
             ConfirmDelivery(delivery.orderId);
