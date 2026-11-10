@@ -102,6 +102,9 @@
     if (currentWipedAt) {
       var elapsedStr = formatTimeElapsed(currentWipedAt);
       if (elHeroWipeBadge) elHeroWipeBadge.textContent = elapsedStr;
+      document.querySelectorAll('#hero-wipe-badge-text, .header-wipe-val, .mobile-wipe-val').forEach(function (el) {
+        el.textContent = elapsedStr;
+      });
       if (elWipeElapsed) elWipeElapsed.textContent = 'Wipou há ' + elapsedStr.replace(' atrás', '');
 
       if (elWipeLastDate) {

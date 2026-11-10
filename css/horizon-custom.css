@@ -103,6 +103,180 @@ html, body {
   margin-left: auto !important;
 }
 
+/* ==============================================================
+   CAMPO IP E WIPE NA BARRA DO TOPO (ENTRE EQUIPE E PERFIL)
+   ============================================================== */
+.horizon-header-server-info {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin-right: 4px !important;
+  user-select: none !important;
+}
+
+.horizon-header-ip {
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  height: 32px !important;
+  padding: 0 11px !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid rgba(108, 151, 142, 0.35) !important;
+  border-radius: 6px !important;
+  font-family: 'Martian Mono', monospace !important;
+  font-size: 11.5px !important;
+  color: rgba(255, 255, 255, 0.78) !important;
+  transition: all 0.2s ease !important;
+  white-space: nowrap !important;
+  box-sizing: border-box !important;
+}
+
+.horizon-header-ip:hover {
+  background: rgba(108, 151, 142, 0.16) !important;
+  border-color: rgba(108, 151, 142, 0.65) !important;
+  color: #FFFFFF !important;
+  transform: translateY(-1px) !important;
+}
+
+.horizon-header-ip:active {
+  transform: translateY(0) !important;
+}
+
+.horizon-header-ip .header-ip-label {
+  color: #82ADA4 !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+}
+
+.horizon-header-ip .header-ip-val {
+  color: #EDE8E5 !important;
+  font-weight: 500 !important;
+}
+
+.horizon-header-ip .header-ip-icon {
+  width: 12px !important;
+  height: 12px !important;
+  opacity: 0.75 !important;
+  color: #82ADA4 !important;
+  transition: transform 0.15s ease, opacity 0.15s ease !important;
+  flex-shrink: 0 !important;
+}
+
+.horizon-header-ip:hover .header-ip-icon {
+  transform: scale(1.1) !important;
+  opacity: 1 !important;
+}
+
+.horizon-header-wipe {
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  height: 32px !important;
+  padding: 0 11px !important;
+  background: rgba(215, 87, 59, 0.1) !important;
+  border: 1px solid rgba(215, 87, 59, 0.45) !important;
+  border-radius: 6px !important;
+  font-family: 'Martian Mono', monospace !important;
+  font-size: 11.5px !important;
+  text-decoration: none !important;
+  transition: all 0.2s ease !important;
+  white-space: nowrap !important;
+  box-sizing: border-box !important;
+}
+
+.horizon-header-wipe:hover {
+  background: rgba(215, 87, 59, 0.22) !important;
+  border-color: rgba(215, 87, 59, 0.8) !important;
+  transform: translateY(-1px) !important;
+}
+
+.horizon-header-wipe:active {
+  transform: translateY(0) !important;
+}
+
+.horizon-header-wipe .header-wipe-label {
+  color: #D7573B !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em !important;
+}
+
+.horizon-header-wipe .header-wipe-val {
+  color: #FF8F73 !important;
+  font-weight: 600 !important;
+}
+
+@media (max-width: 860px) {
+  .horizon-header-server-info {
+    display: none !important;
+  }
+}
+
+/* Servidor IP e Wipe no Drawer Mobile */
+.horizon-mobile-server-info {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin-bottom: 16px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.horizon-mobile-ip-btn {
+  flex: 1 !important;
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  height: 36px !important;
+  padding: 0 10px !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid rgba(108, 151, 142, 0.35) !important;
+  border-radius: 6px !important;
+  font-family: 'Martian Mono', monospace !important;
+  font-size: 11.5px !important;
+  color: #EDE8E5 !important;
+  transition: all 0.2s ease !important;
+  white-space: nowrap !important;
+  user-select: none !important;
+}
+
+.horizon-mobile-ip-btn .mobile-ip-label {
+  color: #82ADA4 !important;
+  font-weight: 700 !important;
+}
+
+.horizon-mobile-wipe-btn {
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  height: 36px !important;
+  padding: 0 12px !important;
+  background: rgba(215, 87, 59, 0.12) !important;
+  border: 1px solid rgba(215, 87, 59, 0.45) !important;
+  border-radius: 6px !important;
+  font-family: 'Martian Mono', monospace !important;
+  font-size: 11.5px !important;
+  text-decoration: none !important;
+  transition: all 0.2s ease !important;
+  white-space: nowrap !important;
+  user-select: none !important;
+}
+
+.horizon-mobile-wipe-btn .mobile-wipe-label {
+  color: #D7573B !important;
+  font-weight: 700 !important;
+}
+
+.horizon-mobile-wipe-btn .mobile-wipe-val {
+  color: #FF8F73 !important;
+  font-weight: 600 !important;
+}
+
 .site-header-marca,
 .horizon-brand-logo {
   display: inline-flex !important;
