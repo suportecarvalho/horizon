@@ -200,9 +200,28 @@
     }
   }
 
+  // Fixa e suaviza a opacidade do cabeçalho ao rolar a página
+  function initHeaderScroll() {
+    var header = document.querySelector('.site-header');
+    if (!header) return;
+    function onScroll() {
+      if (window.scrollY > 15) {
+        header.classList.add('is-scrolled');
+      } else {
+        header.classList.remove('is-scrolled');
+      }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', checkSteamAuth);
+    document.addEventListener('DOMContentLoaded', () => {
+      checkSteamAuth();
+      initHeaderScroll();
+    });
   } else {
     checkSteamAuth();
+    initHeaderScroll();
   }
 })();

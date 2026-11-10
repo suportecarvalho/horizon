@@ -51,27 +51,44 @@ html, body {
   color: var(--text) !important;
   background-image: radial-gradient(1100px 520px at 50% -180px, rgba(206, 66, 43, 0.07), transparent 72%), radial-gradient(900px 900px at 100% 8%, rgba(196, 120, 80, 0.03), transparent 70%) !important;
   background-attachment: fixed !important;
-  overflow-x: hidden !important;
+  overflow-x: clip !important;
   width: 100% !important;
 }
 
 
 /* ==============================================================
-   AJUSTES DO CABEÇALHO E LOGO RUST HORIZON
+   AJUSTES DO CABEÇALHO E LOGO RUST HORIZON (TRANSPARENTE, FIXO E MAIS FINO)
    ============================================================== */
 .site-header {
-  background: var(--bg-barra) !important;
-  backdrop-filter: blur(14px) !important;
-  border-bottom: 1px solid var(--border) !important;
-  min-height: 85px !important;
+  position: sticky !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
   width: 100% !important;
-  position: relative !important;
-  z-index: 50 !important;
+  min-height: 58px !important;
+  height: 58px !important;
+  max-height: 58px !important;
+  background: rgba(15, 12, 11, 0.5) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07) !important;
+  z-index: 1000 !important;
+  transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease !important;
+}
+
+.site-header.is-scrolled {
+  background: rgba(13, 11, 10, 0.88) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45) !important;
 }
 
 .site-header-conteudo {
-  min-height: 85px !important;
-  padding: 14px 24px !important;
+  min-height: 58px !important;
+  height: 58px !important;
+  max-height: 58px !important;
+  padding: 0 24px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
@@ -104,8 +121,8 @@ html, body {
 
 .horizon-brand-logo .horizon-brand-img,
 .horizon-brand-img {
-  height: 30px !important;
-  max-height: 32px !important;
+  height: 25px !important;
+  max-height: 27px !important;
   width: auto !important;
   display: block !important;
   object-fit: contain !important;
@@ -121,17 +138,18 @@ html, body {
 
 @media (max-width: 640px) {
   .site-header {
-    min-height: 60px !important;
-    height: 60px !important;
-    max-height: 60px !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    background: rgba(19, 16, 15, 0.98) !important;
+    min-height: 52px !important;
+    height: 52px !important;
+    max-height: 52px !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    background: rgba(15, 12, 11, 0.75) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07) !important;
   }
   .site-header-conteudo {
-    min-height: 60px !important;
-    height: 60px !important;
-    max-height: 60px !important;
+    min-height: 52px !important;
+    height: 52px !important;
+    max-height: 52px !important;
     padding: 0 16px !important;
     flex-wrap: nowrap !important;
     gap: 10px !important;
@@ -142,8 +160,8 @@ html, body {
   }
   .horizon-brand-logo .horizon-brand-img,
   .horizon-brand-img {
-    height: 22px !important;
-    max-height: 24px !important;
+    height: 20px !important;
+    max-height: 22px !important;
     filter: none !important;
   }
 }
@@ -155,10 +173,10 @@ html, body {
   align-items: center !important;
   justify-content: flex-start !important;
   box-sizing: border-box !important;
-  height: calc(100vh - 85px) !important;
-  min-height: calc(100vh - 85px) !important;
-  height: calc(100dvh - 85px) !important;
-  min-height: calc(100dvh - 85px) !important;
+  height: calc(100vh - 58px) !important;
+  min-height: calc(100vh - 58px) !important;
+  height: calc(100dvh - 58px) !important;
+  min-height: calc(100dvh - 58px) !important;
   overflow: hidden !important;
   border-bottom: 1px solid rgba(108, 151, 142, 0.22) !important;
   background: #13100F !important;
@@ -168,7 +186,7 @@ html, body {
 @media (max-width: 640px) {
   .hero {
     height: auto !important;
-    min-height: calc(100dvh - 60px) !important;
+    min-height: calc(100dvh - 52px) !important;
     padding: 32px 0 44px 0 !important;
     overflow: visible !important;
   }
@@ -777,8 +795,9 @@ footer.site-footer {
   width: 100% !important;
   max-width: 100% !important;
   margin: 0 !important;
-  position: relative !important;
-  z-index: 50 !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 1000 !important;
 }
 
 .site-header-conteudo {
@@ -791,7 +810,8 @@ footer.site-footer {
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
-  min-height: 75px !important;
+  min-height: 58px !important;
+  height: 58px !important;
 }
 
 .site-header-marca,
