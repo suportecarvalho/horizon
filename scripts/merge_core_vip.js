@@ -58,7 +58,7 @@ namespace Oxide.Plugins
             public string MapWipeSchedule { get; set; } = "Toda Sexta às 18:00h";
 
             [JsonProperty("Status_CronogramaWipeFull")]
-            public string FullWipeSchedule { get; set; } = "1ª Quinta-feira do mês às 15:00h";
+            public string FullWipeSchedule { get; set; } = "1ª Quinta-feira do mês às 17:00h";
 
             [JsonProperty("Status_NomeDoServidor")]
             public string ServerName { get; set; } = "[BR/LATAM] HORIZON 2X | SOLO/DUO/TRIO/QUAD";

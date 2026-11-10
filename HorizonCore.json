@@ -3,7 +3,7 @@
   "Status_IntervaloSegundos": 30,
   "Status_ApiKey": "horizon_live_server_secret",
   "Status_CronogramaWipeMapa": "Toda Sexta às 18:00h",
-  "Status_CronogramaWipeFull": "1ª Quinta-feira do mês às 15:00h",
+  "Status_CronogramaWipeFull": "1ª Quinta-feira do mês às 17:00h",
   "Status_NomeDoServidor": "[BR/LATAM] HORIZON 2X | SOLO/DUO/TRIO/QUAD",
   "Status_LimitePorTime": "(Max 4)",
   "Leaderboard_UrlDaApiDoSite": "https://lojahorizon.vercel.app/api/leaderboard",

@@ -31,7 +31,7 @@ namespace Oxide.Plugins
             public string MapWipeSchedule { get; set; } = "Toda Sexta às 18:00h";
 
             [JsonProperty("CronogramaWipeFull")]
-            public string FullWipeSchedule { get; set; } = "1ª Quinta-feira do mês às 15:00h";
+            public string FullWipeSchedule { get; set; } = "1ª Quinta-feira do mês às 17:00h";
 
             [JsonProperty("LimitePorTime")]
             public string TeamLimit { get; set; } = "Horizon 2x (Max 4)";

@@ -39,7 +39,7 @@ let serverStatusCache = {
     nextWipe: calculateNextWipe(),
     schedule: {
       mapWipe: "Toda Sexta às 18:00h",
-      fullWipe: "1ª Quinta-feira do mês às 15:00h",
+      fullWipe: "1ª Quinta-feira do mês às 17:00h",
       teamLimit: "(Max 4)",
       serverName: "[BR/LATAM] HORIZON 2X | SOLO/DUO/TRIO/QUAD",
       type: "[BR/LATAM] HORIZON 2X | SOLO/DUO/TRIO/QUAD"
@@ -120,7 +120,7 @@ function parseA2SInfo(msg) {
     nextWipe: calculateNextWipe(),
     schedule: {
       mapWipe: "Toda Sexta às 18:00h",
-      fullWipe: "1ª Quinta-feira do mês às 15:00h",
+      fullWipe: "1ª Quinta-feira do mês às 17:00h",
       teamLimit: "(Max 4)",
       serverName: cleanServerName,
       type: cleanServerName
@@ -207,7 +207,7 @@ module.exports = async (req, res) => {
       if (body.schedule && body.schedule.mapWipe) {
         mapWipeStr = body.schedule.mapWipe;
       }
-      let fullWipeStr = "1ª Quinta-feira do mês às 15:00h";
+      let fullWipeStr = "1ª Quinta-feira do mês às 17:00h";
       if (body.schedule && body.schedule.fullWipe) {
         fullWipeStr = body.schedule.fullWipe;
       }

@@ -128,7 +128,7 @@ let serverStatusCache = {
     nextWipe: calculateNextWipe(),
     schedule: {
       mapWipe: "Todo Sábado às 12:00h",
-      fullWipe: "1ª Quinta-feira do mês às 15:00h",
+      fullWipe: "1ª Quinta-feira do mês às 17:00h",
       type: "Horizon 2x Solo/Duo/Trio"
     }
   },
@@ -200,7 +200,7 @@ function parseA2SInfo(msg) {
     nextWipe: calculateNextWipe(),
     schedule: {
       mapWipe: "Todo Sábado às 12:00h",
-      fullWipe: "1ª Quinta-feira do mês às 15:00h",
+      fullWipe: "1ª Quinta-feira do mês às 17:00h",
       type: "Horizon 2x Solo/Duo/Trio"
     },
     updatedAt: new Date().toISOString()
