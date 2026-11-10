@@ -1996,10 +1996,10 @@ body.horizon-menu-locked {
   right: 0;
   width: min(86%, 330px);
   height: 100%;
-  background: #141110;
-  background: linear-gradient(180deg, #181413 0%, #100E0D 100%);
-  border-left: 1px solid rgba(130, 173, 164, 0.25);
-  box-shadow: -10px 0 35px rgba(0, 0, 0, 0.75);
+  background: #101010 !important;
+  background: linear-gradient(180deg, #141414 0%, #0a0a0a 100%) !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: -10px 0 35px rgba(0, 0, 0, 0.75) !important;
   padding: 20px 18px 28px;
   display: flex;
   flex-direction: column;
@@ -2406,5 +2406,154 @@ body.horizon-menu-locked {
   background: none !important;
   pointer-events: none !important;
 }
+
+/* ==============================================================
+   BOTÃO DE PERFIL COM MENU SANDUÍCHE NO TOPO
+   ============================================================== */
+.horizon-user-menu-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  width: auto !important;
+  height: 38px !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  padding: 4px 12px 4px 5px !important;
+  border-radius: 9999px !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4) !important;
+  cursor: pointer !important;
+  color: #EDE8E5 !important;
+  transition: all 0.2s ease !important;
+  text-decoration: none !important;
+  outline: none !important;
+  position: relative !important;
+  z-index: 101 !important;
+  user-select: none !important;
+  font-family: inherit !important;
+  box-sizing: border-box !important;
+}
+
+.horizon-user-menu-btn:hover,
+.horizon-user-menu-btn:focus-visible {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.24) !important;
+  color: #FFFFFF !important;
+  transform: translateY(-1px) !important;
+}
+
+.horizon-user-menu-btn:active {
+  transform: translateY(0) !important;
+}
+
+.horizon-user-avatar-wrap {
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+}
+
+.horizon-user-avatar {
+  width: 28px !important;
+  height: 28px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  border: 1.5px solid #22c55e !important;
+  display: block !important;
+}
+
+.horizon-user-avatar.is-admin {
+  border-color: #D7573B !important;
+}
+
+.horizon-user-status-dot {
+  position: absolute !important;
+  bottom: -1px !important;
+  right: -1px !important;
+  width: 8px !important;
+  height: 8px !important;
+  background: #22c55e !important;
+  border-radius: 50% !important;
+  border: 1.5px solid #0a0a0a !important;
+}
+
+.horizon-user-name {
+  color: #EDE8E5 !important;
+  font-weight: 700 !important;
+  font-size: 0.8rem !important;
+  letter-spacing: 0.02em !important;
+  max-width: 120px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+.horizon-adm-badge {
+  background: rgba(215, 87, 59, 0.35) !important;
+  border: 1px solid #D7573B !important;
+  color: #ff8b70 !important;
+  font-size: 0.65rem !important;
+  padding: 1px 5px !important;
+  border-radius: 4px !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.05em !important;
+  flex-shrink: 0 !important;
+}
+
+.horizon-user-menu-btn .horizon-toggle-bars {
+  width: 16px !important;
+  height: 12px !important;
+  margin-left: 2px !important;
+  flex-shrink: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+}
+
+.horizon-user-menu-btn .horizon-toggle-bars span {
+  display: block !important;
+  width: 100% !important;
+  height: 2px !important;
+  background-color: #EDE8E5 !important;
+  border-radius: 2px !important;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease, background-color 0.2s ease !important;
+  transform-origin: center !important;
+}
+
+.horizon-user-menu-btn.is-open {
+  border-color: #CE422B !important;
+  background: rgba(206, 66, 43, 0.15) !important;
+}
+
+.horizon-user-menu-btn.is-open .horizon-toggle-bars span:nth-child(1) {
+  transform: translateY(5px) rotate(45deg) !important;
+  background-color: #CE422B !important;
+}
+
+.horizon-user-menu-btn.is-open .horizon-toggle-bars span:nth-child(2) {
+  opacity: 0 !important;
+  transform: scaleX(0) !important;
+}
+
+.horizon-user-menu-btn.is-open .horizon-toggle-bars span:nth-child(3) {
+  transform: translateY(-5px) rotate(-45deg) !important;
+  background-color: #CE422B !important;
+}
+
+/* Oculta botão sanduíche avulso caso o botão de perfil com sanduíche esteja presente */
+.site-header-direita:has(.horizon-user-menu-btn) > .horizon-mobile-toggle:not(.horizon-user-menu-btn) {
+  display: none !important;
+}
+
+@media (max-width: 640px) {
+  .horizon-user-name {
+    display: none !important;
+  }
+  .horizon-user-menu-btn {
+    padding: 4px 8px 4px 4px !important;
+    gap: 8px !important;
+  }
+}
+
 
 

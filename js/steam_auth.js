@@ -45,7 +45,7 @@
   }
 
   function resetUserHeader() {
-    const pills = document.querySelectorAll('.horizon-steam-user-pill, .horizon-mobile-user-card');
+    const pills = document.querySelectorAll('.horizon-steam-user-pill, .horizon-user-menu-btn, .horizon-mobile-user-card');
     pills.forEach(pill => {
       const isMobile = pill.classList.contains('horizon-mobile-user-card') || pill.closest('.horizon-mobile-auth-slot');
       if (isMobile) {
@@ -69,6 +69,10 @@
         btn.innerHTML = 'Entrar<span class="some-no-estreito">&nbsp;com Steam</span>';
         pill.replaceWith(btn);
       }
+    });
+
+    document.querySelectorAll('.site-header-direita .horizon-mobile-toggle:not(.horizon-user-menu-btn)').forEach(el => {
+      el.style.display = '';
     });
   }
 
@@ -104,35 +108,37 @@
         `;
         btn.replaceWith(card);
       } else {
-        const wrapper = document.createElement('div');
-        wrapper.className = 'horizon-steam-user-pill horizon-auth-desktop';
-        wrapper.style.cssText = `
-          display: inline-flex;
-          align-items: center;
-          gap: 9px;
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.12);
-          padding: 4px 10px 4px 5px;
-          border-radius: 9999px;
-          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-          transition: all 0.2s ease;
-        `;
+        const wrapper = document.createElement('button');
+        wrapper.type = 'button';
+        wrapper.className = 'horizon-user-menu-btn';
+        wrapper.setAttribute('aria-label', 'Menu da conta e navegação');
+        wrapper.setAttribute('aria-expanded', 'false');
+        wrapper.setAttribute('aria-controls', 'horizon-mobile-drawer');
 
         wrapper.innerHTML = `
-          <div style="position: relative; display: flex; align-items: center; justify-content: center;">
-            <img src="${avatarSrc}" alt="${user.name}" style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover; border: 1.5px solid ${isAdm ? '#D7573B' : '#6C978E'}; display: block;" onerror="this.onerror=null;this.src='https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg';">
-            <span style="position: absolute; bottom: -1px; right: -1px; width: 8px; height: 8px; background: #22c55e; border-radius: 50%; border: 1.5px solid #13100F;"></span>
+          <div class="horizon-user-avatar-wrap">
+            <img src="${avatarSrc}" alt="${user.name}" class="horizon-user-avatar ${isAdm ? 'is-admin' : ''}" onerror="this.onerror=null;this.src='https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg';">
+            <span class="horizon-user-status-dot"></span>
           </div>
-          <span style="color: #EDE8E5; font-weight: 700; font-size: 0.8rem; letter-spacing: 0.02em; max-width: 130px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-            ${user.name}
+          <span class="horizon-user-name">${user.name}</span>
+          ${isAdm ? `<span class="horizon-adm-badge">ADM</span>` : ''}
+          <span class="horizon-toggle-bars" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
           </span>
-          ${isAdm ? `<span style="background: rgba(215, 87, 59, 0.35); border: 1px solid #D7573B; color: #ff8b70; font-size: 0.65rem; padding: 1px 5px; border-radius: 4px; font-weight: 800; letter-spacing: 0.05em;">ADM</span>` : ''}
-          <a href="/auth/logout" onclick="try{localStorage.removeItem('horizon_steam_user');}catch(e){}" title="Sair da conta Steam" style="color: #71717a; display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; text-decoration: none; transition: all 0.2s ease; margin-left: 2px;" onmouseover="this.style.color='#ef4444';this.style.background='rgba(239,68,68,0.15)'" onmouseout="this.style.color='#71717a';this.style.background='transparent'">
-            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-          </a>
         `;
 
+        const parent = btn.parentElement;
         btn.replaceWith(wrapper);
+
+        // Oculta o toggle avulso do mesmo header se existir para não duplicar o menu sanduíche
+        if (parent) {
+          const siblingToggle = parent.querySelector('.horizon-mobile-toggle:not(.horizon-user-menu-btn)');
+          if (siblingToggle) {
+            siblingToggle.style.display = 'none';
+          }
+        }
       }
     });
   }

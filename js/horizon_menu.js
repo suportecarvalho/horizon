@@ -6,40 +6,52 @@
   'use strict';
 
   function initHorizonMenu() {
-    var toggleBtn = document.querySelector('.horizon-mobile-toggle');
     var drawer = document.getElementById('horizon-mobile-drawer');
     var closeBtn = document.querySelector('.horizon-mobile-close');
     var backdrop = document.querySelector('.horizon-mobile-backdrop');
     var mobileLinks = document.querySelectorAll('.horizon-mobile-link');
 
     function openMenu() {
-      if (!drawer || !toggleBtn) return;
+      if (!drawer) return;
       drawer.classList.add('is-open');
-      toggleBtn.classList.add('is-open');
-      toggleBtn.setAttribute('aria-expanded', 'true');
+      document.querySelectorAll('.horizon-mobile-toggle, .horizon-user-menu-btn').forEach(function (btn) {
+        btn.classList.add('is-open');
+        btn.setAttribute('aria-expanded', 'true');
+      });
       drawer.setAttribute('aria-hidden', 'false');
       document.body.classList.add('horizon-menu-locked');
     }
 
     function closeMenu() {
-      if (!drawer || !toggleBtn) return;
+      if (!drawer) return;
       drawer.classList.remove('is-open');
-      toggleBtn.classList.remove('is-open');
-      toggleBtn.setAttribute('aria-expanded', 'false');
+      document.querySelectorAll('.horizon-mobile-toggle, .horizon-user-menu-btn').forEach(function (btn) {
+        btn.classList.remove('is-open');
+        btn.setAttribute('aria-expanded', 'false');
+      });
       drawer.setAttribute('aria-hidden', 'true');
       document.body.classList.remove('horizon-menu-locked');
     }
 
-    if (toggleBtn) {
-      toggleBtn.addEventListener('click', function (e) {
+    window.openHorizonMenu = openMenu;
+    window.closeHorizonMenu = closeMenu;
+    window.toggleHorizonMenu = function (e) {
+      if (e && typeof e.stopPropagation === 'function') e.stopPropagation();
+      if (drawer && drawer.classList.contains('is-open')) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    };
+
+    document.addEventListener('click', function (e) {
+      var trigger = e.target.closest('.horizon-mobile-toggle, .horizon-user-menu-btn');
+      if (trigger) {
+        e.preventDefault();
         e.stopPropagation();
-        if (drawer && drawer.classList.contains('is-open')) {
-          closeMenu();
-        } else {
-          openMenu();
-        }
-      });
-    }
+        window.toggleHorizonMenu();
+      }
+    });
 
     if (closeBtn) closeBtn.addEventListener('click', closeMenu);
     if (backdrop) backdrop.addEventListener('click', closeMenu);
