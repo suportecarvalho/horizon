@@ -153,9 +153,9 @@
         <a href="/feed" class="horizon-nav-link" data-nav="feed">FEED DA COMUNIDADE</a>
       </nav>
       <div class="site-header-direita">
-        <a href="/carrinho" class="header-cart-btn" aria-label="Carrinho">
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
-          <span>Carrinho</span>
+        <a href="/checkout" class="header-cart-btn" aria-label="Checkout">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><line x1="3" x2="21" y1="6" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span>Checkout</span>
           <span id="page-cart-count" class="header-cart-badge">0</span>
         </a>
         <a href="https://discord.gg/VTu3m2MYeX" class="cabecalho-icone" aria-label="Discord" target="_blank" rel="noreferrer noopener">
@@ -171,8 +171,6 @@
       <a href="/">Início</a>
       <span class="sep">/</span>
       <a href="/loja">Loja</a>
-      <span class="sep">/</span>
-      <a href="/carrinho">Carrinho</a>
       <span class="sep">/</span>
       <span style="color:#FFFFFF;">Checkout</span>
     </div>
@@ -224,9 +222,6 @@
       // 1. Suporte a parâmetro de URL ?tier=bronze ou ?plan=ouro ou ?item=...
       const urlParams = new URLSearchParams(window.location.search);
       const paramTier = urlParams.get('tier') || urlParams.get('plan') || urlParams.get('vip') || urlParams.get('item');
-      if (paramTier && window.addToCart) {
-        window.addToCart(paramTier, false);
-      }
 
       let cart = [];
       if (typeof window.getCart === 'function') {
@@ -237,6 +232,38 @@
           cart = raw ? JSON.parse(raw) : [];
         } catch (e) {
           cart = [];
+        }
+      }
+
+      // Se veio parâmetro na URL, adiciona o item ao checkout (caso não esteja nele)
+      if (paramTier) {
+        const norm = paramTier.toLowerCase().replace('sobrevivente', 'bronze');
+        const exists = cart.find(it => it && it.tier === norm);
+        if (!exists) {
+          const fallbackKits = {
+            bronze: { name: 'VIP BRONZE', price: 'R$ 20,00', numericPrice: 20, img: '/images/vip_bronze.jpg' },
+            prata: { name: 'VIP Prata', price: 'R$ 40,00', numericPrice: 40, img: '/images/vip_prata.jpg' },
+            ouro: { name: 'VIP Ouro', price: 'R$ 60,00', numericPrice: 60, img: '/images/vip_ouro.jpg' },
+            farmer: { name: 'Kit Farmer', price: 'R$ 10,00', numericPrice: 10, img: '/images/kits-farmer.jpg' },
+            airdrop: { name: 'Kit Airdrop', price: 'R$ 10,00', numericPrice: 10, img: '/images/kits-airdrop.jpg' },
+            cartao: { name: 'Kit Cartões & Puzzles', price: 'R$ 10,00', numericPrice: 10, img: '/images/kits-cartao.jpg' },
+            eletrica: { name: 'Kit Elétrica & Automação', price: 'R$ 10,00', numericPrice: 10, img: '/images/kits-eletrica.jpg' }
+          };
+          const kitInfo = (window.KITS_INFO && window.KITS_INFO[norm]) || fallbackKits[norm] || fallbackKits.bronze;
+          if (kitInfo) {
+            cart.push({
+              tier: norm,
+              name: kitInfo.name,
+              price: kitInfo.numericPrice || 20,
+              priceFormatted: kitInfo.price || 'R$ 20,00',
+              img: kitInfo.img
+            });
+            try { localStorage.setItem('horizon_cart', JSON.stringify(cart)); } catch (e) {}
+          }
+        }
+        // Limpa a URL para que recargas ou exclusões posteriores não recoloquem o item
+        if (window.history && window.history.replaceState) {
+          window.history.replaceState({}, document.title, window.location.pathname);
         }
       }
 
@@ -257,43 +284,28 @@
         try { localStorage.setItem('horizon_cart', JSON.stringify(cart)); } catch (e) {}
       }
 
-      // Se ainda estiver vazio mas veio paramTier, cria o item na hora como garantia
-      if (cart.length === 0 && paramTier) {
-        const norm = paramTier.toLowerCase().replace('sobrevivente', 'bronze');
-        const fallbackKits = {
-          bronze: { name: 'VIP BRONZE', price: 'R$ 20,00', numericPrice: 20, img: '/images/vip_bronze.jpg' },
-          prata: { name: 'VIP Prata', price: 'R$ 40,00', numericPrice: 40, img: '/images/vip_prata.jpg' },
-          ouro: { name: 'VIP Ouro', price: 'R$ 60,00', numericPrice: 60, img: '/images/vip_ouro.jpg' },
-          farmer: { name: 'Kit Farmer', price: 'R$ 10,00', numericPrice: 10, img: '/images/kits-farmer.jpg' },
-          airdrop: { name: 'Kit Airdrop', price: 'R$ 10,00', numericPrice: 10, img: '/images/kits-airdrop.jpg' },
-          cartao: { name: 'Kit Cartões & Puzzles', price: 'R$ 10,00', numericPrice: 10, img: '/images/kits-cartao.jpg' },
-          eletrica: { name: 'Kit Elétrica & Automação', price: 'R$ 10,00', numericPrice: 10, img: '/images/kits-eletrica.jpg' }
-        };
-        const kitInfo = (window.KITS_INFO && window.KITS_INFO[norm]) || fallbackKits[norm] || fallbackKits.bronze;
-        if (kitInfo) {
-          cart = [{
-            tier: norm,
-            name: kitInfo.name,
-            price: kitInfo.numericPrice || 20,
-            priceFormatted: kitInfo.price || 'R$ 20,00',
-            img: kitInfo.img
-          }];
-          try {
-            localStorage.setItem('horizon_cart', JSON.stringify(cart));
-          } catch (e) {}
-        }
-      }
-
       const countEl = document.getElementById('page-cart-count');
-      if (countEl) countEl.innerText = cart.length;
+      if (countEl) {
+        countEl.innerText = cart.length;
+        countEl.style.display = cart.length > 0 ? 'inline-block' : 'none';
+      }
+      const headerBadge = document.getElementById('header-cart-badge');
+      if (headerBadge) {
+        headerBadge.innerText = cart.length;
+        headerBadge.style.display = cart.length > 0 ? 'inline-block' : 'none';
+      }
 
       if (cart.length === 0) {
         document.getElementById('checkout-main-content').innerHTML = `
-          <div style="text-align:center; padding: 40px 10px;">
-            <div style="font-size: 3rem; margin-bottom: 12px; opacity: 0.3;">🎒</div>
-            <h2 style="font-size: 1.35rem; font-weight: 800; color: #FFF; text-transform: uppercase;">Nenhum item no checkout</h2>
-            <p style="color: #8a8e99; font-size: 0.85rem; margin-bottom: 24px;">Adicione um pacote VIP ou Kit ao seu carrinho na loja.</p>
-            <a href="/loja" class="btn-corte-chamfer" style="display:inline-block; background:#CE422B; color:#FFF; padding:12px 24px; border-radius:8px; text-decoration:none; font-weight:800; text-transform:uppercase; font-size:0.85rem;">Ir para a Loja Horizon</a>
+          <div style="text-align:center; padding: 50px 10px;">
+            <div style="width:64px; height:64px; margin:0 auto 16px; border-radius:50%; background:rgba(255,255,255,0.05); display:flex; align-items:center; justify-content:center; color:#8a8e99;">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><line x1="3" x2="21" y1="6" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
+              </svg>
+            </div>
+            <h2 style="font-size: 1.35rem; font-weight: 800; color: #FFF; text-transform: uppercase;">Seu Checkout está Vazio</h2>
+            <p style="color: #8a8e99; font-size: 0.85rem; margin-bottom: 24px; max-width:420px; margin-left:auto; margin-right:auto;">Você removeu todos os produtos do pedido. Escolha um pacote VIP ou Kit na loja para prosseguir com o pagamento.</p>
+            <a href="/loja" class="btn-corte-chamfer" style="display:inline-block; background:#CE422B; color:#FFF; padding:12px 24px; border-radius:8px; text-decoration:none; font-weight:800; text-transform:uppercase; font-size:0.85rem; box-shadow:0 6px 20px rgba(206,66,43,0.35);">← Escolher Produtos na Loja</a>
           </div>
         `;
         return;
@@ -366,20 +378,39 @@
         ${userHtml}
 
         <div style="background:#1b1d24; border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:18px 20px; margin-bottom:28px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:10px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.06); padding-bottom:10px; flex-wrap:wrap; gap:10px;">
             <div style="font-size:0.76rem; font-weight:800; color:#8a8e99; text-transform:uppercase; letter-spacing:0.06em;">
               Resumo dos Itens Selecionados (${cart.length})
             </div>
-            <a href="/loja" style="color:#CE422B; font-size:0.74rem; font-weight:800; text-decoration:none; text-transform:uppercase; letter-spacing:0.04em; display:inline-flex; align-items:center; gap:4px; transition:color 0.2s;" onmouseover="this.style.color='#ff6b52'" onmouseout="this.style.color='#CE422B'">
-              <span>+ Adicionar Outro Produto</span>
-            </a>
+            <div style="display:flex; align-items:center; gap:12px;">
+              <a href="/loja" style="color:#CE422B; font-size:0.74rem; font-weight:800; text-decoration:none; text-transform:uppercase; letter-spacing:0.04em; display:inline-flex; align-items:center; gap:4px; transition:color 0.2s;" onmouseover="this.style.color='#ff6b52'" onmouseout="this.style.color='#CE422B'">
+                <span>+ Adicionar Outro Produto</span>
+              </a>
+              <span style="opacity:0.25; color:#8a8e99;">|</span>
+              <button type="button" onclick="limparTodosItensCheckout()" title="Remover todos os itens do pedido" style="background:transparent; border:none; color:#f87171; font-size:0.74rem; font-weight:800; cursor:pointer; text-transform:uppercase; letter-spacing:0.04em; display:inline-flex; align-items:center; gap:5px; padding:2px 6px; border-radius:4px; transition:all 0.2s;" onmouseover="this.style.background='rgba(239,68,68,0.15)';this.style.color='#fff'" onmouseout="this.style.background='transparent';this.style.color='#f87171'">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 6h18"/>
+                  <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+                  <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                </svg>
+                <span>Esvaziar Pedido</span>
+              </button>
+            </div>
           </div>
 
           <div style="display:flex; flex-direction:column; gap:8px;">
             ${cart.map(it => `
-              <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.85rem; padding:4px 0;">
-                <div style="display:flex; align-items:center; gap:8px;">
-                  <button type="button" onclick="removerItemCheckout('${it.tier}')" title="Remover este item" style="background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.25); color:#f87171; border-radius:4px; width:22px; height:22px; cursor:pointer; font-size:0.75rem; display:flex; align-items:center; justify-content:center; line-height:1; transition:all 0.2s;" onmouseover="this.style.background='rgba(239,68,68,0.25)';this.style.color='#fff'" onmouseout="this.style.background='rgba(239,68,68,0.1)';this.style.color='#f87171'">✕</button>
+              <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.85rem; padding:6px 0; border-bottom:1px dashed rgba(255,255,255,0.04);">
+                <div style="display:flex; align-items:center; gap:10px;">
+                  <button type="button" onclick="removerItemCheckout('${it.tier}')" title="Excluir este produto do pedido" aria-label="Excluir ${it.name}" style="background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.25); color:#f87171; border-radius:6px; width:28px; height:28px; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; transition:all 0.2s;" onmouseover="this.style.background='rgba(239,68,68,0.25)';this.style.borderColor='#ef4444';this.style.color='#fff'" onmouseout="this.style.background='rgba(239,68,68,0.1)';this.style.borderColor='rgba(239,68,68,0.25)';this.style.color='#f87171'">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M3 6h18"/>
+                      <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+                      <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                      <line x1="10" y1="11" x2="10" y2="17"/>
+                      <line x1="14" y1="11" x2="14" y2="17"/>
+                    </svg>
+                  </button>
                   <span style="color:#FFF; font-weight:700;">• ${it.name} (30 dias)</span>
                 </div>
                 <span style="font-family:var(--font-mono, monospace); font-weight:800; color:#22c55e;">${it.priceFormatted || 'R$ ' + Number(it.price).toFixed(2).replace('.', ',')}</span>
@@ -479,6 +510,9 @@
     }
 
     function removerItemCheckout(tier) {
+      if (window.history && window.history.replaceState) {
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
       if (typeof window.removeFromCart === 'function') {
         window.removeFromCart(tier);
       } else {
@@ -488,6 +522,20 @@
         localStorage.setItem('horizon_cart', JSON.stringify(cart));
       }
       initCheckoutPage();
+    }
+
+    function limparTodosItensCheckout() {
+      if (confirm('Deseja realmente remover todos os produtos do checkout?')) {
+        if (window.history && window.history.replaceState) {
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }
+        if (typeof window.clearCart === 'function') {
+          window.clearCart();
+        } else {
+          try { localStorage.setItem('horizon_cart', JSON.stringify([])); } catch(e) {}
+        }
+        initCheckoutPage();
+      }
     }
 
     // PASSO 3: GERAÇÃO E PAGAMENTO PIX

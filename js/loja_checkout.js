@@ -143,38 +143,30 @@
   window.KITS_INFO = KITS_INFO;
   window.normalizeTierKey = normalizeTierKey;
 
-  window.addToCart = function(tier, openDrawer = true) {
+  window.addToCart = function(tier, redirect = false) {
     const t = normalizeTierKey(tier);
     const kit = KITS_INFO[t];
     if (!kit) return;
 
     const cart = getCart();
     const exists = cart.find(it => it.tier === t);
-    if (exists) {
-      if (openDrawer) {
-        showToast(`⚠️ ${kit.name} já está no seu carrinho!`);
-        window.openCartDrawer();
-      }
-      return;
+    if (!exists) {
+      cart.push({
+        tier: t,
+        name: kit.name,
+        price: kit.numericPrice,
+        priceFormatted: kit.price,
+        img: kit.img,
+        badgeColor: kit.badgeColor,
+        badgeBorder: kit.badgeBorder,
+        badgeBg: kit.badgeBg,
+        perks: kit.perks
+      });
+      saveCart(cart);
     }
 
-    cart.push({
-      tier: t,
-      name: kit.name,
-      price: kit.numericPrice,
-      priceFormatted: kit.price,
-      img: kit.img,
-      badgeColor: kit.badgeColor,
-      badgeBorder: kit.badgeBorder,
-      badgeBg: kit.badgeBg,
-      perks: kit.perks
-    });
-
-    saveCart(cart);
-    if (openDrawer) {
-      showToast(`✅ ${kit.name} adicionado ao carrinho!`);
-      animateFloatingCart();
-      window.openCartDrawer();
+    if (redirect) {
+      window.location.href = '/checkout?tier=' + encodeURIComponent(t);
     }
   };
 
@@ -182,12 +174,10 @@
     let cart = getCart();
     cart = cart.filter(it => it.tier !== tier);
     saveCart(cart);
-    renderCartDrawerContent();
   };
 
   window.clearCart = function() {
     saveCart([]);
-    renderCartDrawerContent();
   };
 
   window.buyNow = function(tier) {
@@ -214,9 +204,11 @@
     const cart = getCart();
     const count = cart.length;
 
-    // Remove qualquer botão flutuante residual
+    // Remove qualquer botão flutuante ou drawer residual caso ainda existam
     const oldFloat = document.getElementById('floating-cart-btn');
     if (oldFloat) oldFloat.remove();
+    const oldDrawer = document.getElementById('cart-drawer-overlay');
+    if (oldDrawer) oldDrawer.remove();
 
     // Atualiza badges do cabeçalho
     const headerBadges = document.querySelectorAll('#header-cart-badge, .header-cart-badge');
@@ -229,13 +221,8 @@
     const pageCounts = document.querySelectorAll('#page-cart-count, .page-cart-count');
     pageCounts.forEach(el => {
       el.innerText = count;
+      el.style.display = count > 0 ? 'inline-block' : 'none';
     });
-
-    // Se o drawer estiver aberto, re-renderiza o conteúdo
-    const drawerOverlay = document.getElementById('cart-drawer-overlay');
-    if (drawerOverlay && drawerOverlay.style.display === 'flex') {
-      renderCartDrawerContent();
-    }
   }
 
   function animateFloatingCart() {
@@ -248,298 +235,18 @@
     });
   }
 
-  function showToast(message) {
-    let toast = document.getElementById('horizon-toast');
-    if (!toast) {
-      toast = document.createElement('div');
-      toast.id = 'horizon-toast';
-      toast.style.cssText = `
-        position: fixed;
-        bottom: 95px;
-        right: 24px;
-        z-index: 100001;
-        background: #181413;
-        color: #FFFFFF;
-        border: 1px solid #10B981;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.85);
-        padding: 12px 20px;
-        border-radius: 10px;
-        font-size: 0.86rem;
-        font-weight: 700;
-        display: none;
-        align-items: center;
-        gap: 10px;
-        transition: opacity 0.3s ease, transform 0.3s ease;
-        transform: translateY(15px);
-        opacity: 0;
-      `;
-      document.body.appendChild(toast);
-    }
-    toast.innerHTML = message;
-    toast.style.display = 'flex';
-    setTimeout(() => {
-      toast.style.opacity = '1';
-      toast.style.transform = 'translateY(0)';
-    }, 10);
-
-    setTimeout(() => {
-      toast.style.opacity = '0';
-      toast.style.transform = 'translateY(15px)';
-      setTimeout(() => { toast.style.display = 'none'; }, 300);
-    }, 2800);
-  }
-
-  // ==================== DRAWER LATERAL DO CARRINHO ====================
-  function ensureCartDrawer() {
-    if (document.getElementById('cart-drawer-overlay')) return;
-
-    // Overlay
-    const overlay = document.createElement('div');
-    overlay.id = 'cart-drawer-overlay';
-    overlay.style.cssText = `
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 99999;
-      background: rgba(0, 0, 0, 0.75);
-      backdrop-filter: blur(6px);
-      align-items: stretch;
-      justify-content: flex-end;
-      transition: opacity 0.3s ease;
-    `;
-    overlay.onclick = function(e) {
-      if (e.target === overlay) window.closeCartDrawer();
-    };
-
-    // Drawer container
-    overlay.innerHTML = `
-      <div id="cart-drawer" style="
-        background: #151312;
-        border-left: 1px solid rgba(215, 87, 59, 0.3);
-        width: 100%;
-        max-width: 440px;
-        height: 100%;
-        box-shadow: -15px 0 50px rgba(0,0,0,0.9);
-        display: flex;
-        flex-direction: column;
-        color: #EDE8E5;
-        box-sizing: border-box;
-        overflow: hidden;
-        animation: slideCartIn 0.28s ease-out;
-      " onclick="event.stopPropagation()">
-        
-        <!-- Topo do Drawer -->
-        <div style="padding: 20px 22px; border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: space-between; background: rgba(0,0,0,0.25);">
-          <div style="display: flex; align-items: center; gap: 10px;">
-            <span style="font-size: 1.3rem;">🛒</span>
-            <h3 style="margin: 0; font-size: 1.15rem; font-weight: 800; color: #FFFFFF;">Seu Carrinho</h3>
-            <span id="cart-drawer-badge" style="background: rgba(215,87,59,0.2); border: 1px solid #D7573B; color: #D7573B; font-size: 0.75rem; font-weight: 800; padding: 2px 8px; border-radius: 999px;">0</span>
-          </div>
-          <button onclick="window.closeCartDrawer()" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: #9CA3AF; width: 34px; height: 34px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: all 0.2s;">✕</button>
-        </div>
-
-        <!-- Conteúdo Scrollável -->
-        <div id="cart-drawer-body" style="flex: 1; overflow-y: auto; padding: 20px 22px;"></div>
-
-        <!-- Rodapé com Total e Checkout -->
-        <div id="cart-drawer-footer" style="padding: 20px 22px; border-top: 1px solid rgba(255,255,255,0.08); background: rgba(0,0,0,0.3);"></div>
-      </div>
-      <style>
-        @keyframes slideCartIn {
-          from { transform: translateX(100%); }
-          to { transform: translateX(0); }
-        }
-      </style>
-    `;
-    document.body.appendChild(overlay);
-
-    // Remove qualquer botão flutuante residual caso exista
-    const oldBtn = document.getElementById('floating-cart-btn');
-    if (oldBtn) oldBtn.remove();
-  }
-
-  function ensureFloatingCartButton() {
-    const oldBtn = document.getElementById('floating-cart-btn');
-    if (oldBtn) oldBtn.remove();
-  }
-
   window.openCartDrawer = function() {
-    ensureCartDrawer();
-    renderCartDrawerContent();
-    const overlay = document.getElementById('cart-drawer-overlay');
-    if (overlay) {
-      overlay.style.display = 'flex';
-      document.body.style.overflow = 'hidden';
-    }
+    window.location.href = '/checkout';
   };
 
   window.closeCartDrawer = function() {
     const overlay = document.getElementById('cart-drawer-overlay');
-    if (overlay) {
-      overlay.style.display = 'none';
-      document.body.style.overflow = '';
-    }
+    if (overlay) overlay.remove();
   };
 
-  function renderCartDrawerContent() {
-    const cart = getCart();
-    const badge = document.getElementById('cart-drawer-badge');
-    const body = document.getElementById('cart-drawer-body');
-    const footer = document.getElementById('cart-drawer-footer');
-
-    if (badge) badge.innerText = cart.length;
-
-    if (!body || !footer) return;
-
-    if (cart.length === 0) {
-      body.innerHTML = `
-        <div style="text-align: center; padding: 60px 20px;">
-          <div style="font-size: 3.5rem; opacity: 0.3; margin-bottom: 16px;">🎒</div>
-          <h4 style="font-size: 1.15rem; color: #FFFFFF; font-weight: 800; margin: 0 0 8px 0;">Seu carrinho está vazio</h4>
-          <p style="font-size: 0.82rem; color: #9CA3AF; line-height: 1.5; margin: 0 0 24px 0;">Adicione pacotes VIP ou kits individuais de R$ 10 para realizar o pagamento único!</p>
-          <button onclick="window.closeCartDrawer()" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #EDE8E5; padding: 10px 20px; border-radius: 8px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; cursor: pointer;">Explorar Loja</button>
-        </div>
-      `;
-      footer.innerHTML = '';
-      return;
-    }
-
-    const total = cart.reduce((acc, it) => acc + (it.price || 0), 0);
-    const totalFormatted = `R$ ${total.toFixed(2).replace('.', ',')}`;
-
-    // Lista de itens no carrinho
-    let itemsHtml = `
-      <!-- Alerta Anti-Fraude Bancária -->
-      <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.35); border-left: 3px solid #10B981; border-radius: 8px; padding: 12px 14px; margin-bottom: 18px; font-size: 0.76rem; color: #D1D5DB; line-height: 1.45;">
-        <strong style="color: #34D399; display: flex; align-items: center; gap: 6px; margin-bottom: 2px;">
-          <span>🛡️</span> Pagamento Único no Banco
-        </strong>
-        Seus itens são cobrados juntos em <strong>1 único PIX</strong>, evitando que o seu banco recuse ou bloqueie compras seguidas de mesmo valor!
-      </div>
-
-      <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px;">
-    `;
-
-    cart.forEach(it => {
-      itemsHtml += `
-        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 12px 14px; display: flex; align-items: center; gap: 12px; position: relative;">
-          <img src="${it.img}" alt="${it.name}" style="width: 52px; height: 52px; object-fit: cover; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); background: #000;">
-          <div style="flex: 1; min-width: 0;">
-            <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 3px;">
-              <span style="font-size: 0.88rem; font-weight: 800; color: #FFFFFF; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${it.name}</span>
-            </div>
-            <div style="font-size: 0.72rem; color: #9CA3AF; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">30 dias • Entrega imediata</div>
-            <div style="font-size: 0.95rem; font-weight: 900; color: ${it.badgeColor || '#34D399'}; margin-top: 3px;">${it.priceFormatted}</div>
-          </div>
-          <button onclick="window.removeFromCart('${it.tier}')" title="Remover item" style="background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.25); color: #F87171; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; transition: all 0.2s;">✕</button>
-        </div>
-      `;
-    });
-
-    itemsHtml += `</div>`;
-
-    // Identificação do Jogador no Drawer
-    itemsHtml += `
-      <div style="background: rgba(0,0,0,0.35); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 14px; margin-bottom: 16px;">
-        <label style="display: block; font-size: 0.72rem; font-weight: 800; color: #9CA3AF; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px;">Steam do Comprador</label>
-        ${currentUser ? `
-          <div style="display: flex; align-items: center; gap: 10px;">
-            ${currentUser.avatar ? `<img src="${currentUser.avatar}" alt="${currentUser.name}" style="width: 32px; height: 32px; border-radius: 50%; border: 1px solid #10B981;">` : ''}
-            <div style="flex: 1; min-width: 0;">
-              <div style="font-size: 0.82rem; font-weight: 800; color: #FFFFFF;">${currentUser.name || 'Jogador'}</div>
-              <div style="font-size: 0.7rem; color: #82ADA4; font-family: monospace;">${currentUser.steamId || currentUser.steamid}</div>
-            </div>
-            <span style="font-size: 0.68rem; font-weight: 800; color: #10B981; background: rgba(16,185,129,0.1); padding: 3px 8px; border-radius: 4px;">Logado</span>
-          </div>
-        ` : `
-          <input type="text" id="drawer-steamid" placeholder="Informe seu SteamID64 (ex: 7656119...)" style="width: 100%; background: #0F0E0D; border: 1px solid rgba(255,255,255,0.15); color: #FFF; padding: 10px 12px; border-radius: 8px; font-size: 0.8rem; box-sizing: border-box; outline: none; font-family: monospace;">
-          <div style="margin-top: 6px; font-size: 0.68rem; color: #82ADA4;">Dica: você também pode <a href="/auth/steam" style="color: #D7573B; text-decoration: underline;">entrar com a Steam</a> para autocompletar.</div>
-        `}
-      </div>
-    `;
-
-    body.innerHTML = itemsHtml;
-
-    // Sincroniza o valor do input se já digitado
-    if (!currentUser) {
-      const modalSteamInput = document.getElementById('chk-steamid');
-      const drawerInput = document.getElementById('drawer-steamid');
-      if (modalSteamInput && drawerInput && modalSteamInput.value) {
-        drawerInput.value = modalSteamInput.value;
-      }
-    }
-
-    footer.innerHTML = `
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-        <span style="font-size: 0.82rem; color: #9CA3AF;">Quantidade:</span>
-        <span style="font-size: 0.85rem; font-weight: 700; color: #FFFFFF;">${cart.length} item(ns)</span>
-      </div>
-      <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px;">
-        <span style="font-size: 0.95rem; font-weight: 800; color: #FFFFFF;">TOTAL A PAGAR:</span>
-        <span style="font-size: 1.65rem; font-weight: 900; color: #34D399; letter-spacing: -0.02em;">${totalFormatted}</span>
-      </div>
-
-      <button type="button" onclick="checkoutFromDrawer()" style="
-        width: 100%;
-        background: linear-gradient(135deg, #10B981, #059669);
-        color: #FFFFFF;
-        border: none;
-        border-radius: 12px;
-        padding: 14px 20px;
-        font-size: 0.96rem;
-        font-weight: 800;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
-        margin-bottom: 10px;
-      ">
-        <span>⚡ Finalizar Compra via PIX</span>
-      </button>
-
-      <button type="button" onclick="window.closeCartDrawer()" style="
-        width: 100%;
-        background: transparent;
-        color: #9CA3AF;
-        border: 1px solid rgba(255,255,255,0.08);
-        border-radius: 8px;
-        padding: 9px;
-        font-size: 0.78rem;
-        font-weight: 700;
-        cursor: pointer;
-        text-transform: uppercase;
-      ">
-        + Adicionar Mais Itens
-      </button>
-
-      <a href="/carrinho" onclick="window.closeCartDrawer()" style="
-        display: block;
-        text-align: center;
-        color: #8a8e99;
-        font-size: 0.74rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        text-decoration: underline;
-        margin-top: 10px;
-        transition: color 0.2s;
-      " onmouseover="this.style.color='#FFFFFF'" onmouseout="this.style.color='#8a8e99'">
-        Ver Página Completa do Carrinho
-      </a>
-    `;
-  }
-
-  window.checkoutFromDrawer = function() {
-    const cart = getCart();
-    if (cart.length === 0) return;
-
-    window.closeCartDrawer();
-    window.location.href = '/checkout';
-  };
+  function ensureCartDrawer() {}
+  function ensureFloatingCartButton() {}
+  function renderCartDrawerContent() {}
 
   // Carrega usuário da sessão
   async function loadUser() {

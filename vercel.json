@@ -9,11 +9,11 @@
     },
     {
       "source": "/carrinho",
-      "destination": "/carrinho/index.html"
+      "destination": "/checkout/index.html"
     },
     {
       "source": "/cart",
-      "destination": "/carrinho/index.html"
+      "destination": "/checkout/index.html"
     },
     {
       "source": "/checkout",
