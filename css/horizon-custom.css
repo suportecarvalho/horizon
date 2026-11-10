@@ -2794,12 +2794,14 @@ body.horizon-menu-locked {
 }
 
 /* ==============================================================
-   RODAPÉ OFICIAL (ESTILO EXATO DA REFERÊNCIA)
+   RODAPÉ OFICIAL (COR SÓLIDA ESCURA SEM IMAGEM DE FUNDO)
    ============================================================== */
 footer.site-footer,
 .site-footer {
   position: relative !important;
-  background: #0D0B0A url('/images/footer_bg.jpg') no-repeat right 30% / cover !important;
+  background-color: #0D0B0A !important;
+  background-image: none !important;
+  background: #0D0B0A !important;
   border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
   padding: 56px 0 32px 0 !important;
   overflow: hidden !important;
@@ -2807,16 +2809,11 @@ footer.site-footer,
   box-sizing: border-box !important;
 }
 
-/* Overlay suave: escurece a imagem sem a luz laranja artificial */
+/* Sem overlay ou reflexos */
 footer.site-footer::before,
 .site-footer::before {
-  content: "" !important;
-  position: absolute !important;
-  inset: 0 !important;
-  background: linear-gradient(90deg, #0D0B0A 0%, rgba(13, 11, 10, 0.92) 42%, rgba(13, 11, 10, 0.72) 100%),
-              linear-gradient(180deg, rgba(13, 11, 10, 0.94) 0%, rgba(13, 11, 10, 0.65) 50%, #0D0B0A 100%) !important;
-  pointer-events: none !important;
-  z-index: 1 !important;
+  display: none !important;
+  content: none !important;
 }
 
 .site-footer > .shell,
