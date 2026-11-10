@@ -2555,5 +2555,50 @@ body.horizon-menu-locked {
   }
 }
 
+/* ==================== ESTILO DE TÍTULO COM BARRA LARANJA (ESTILO WIPE E CRONOGRAMA) ==================== */
+.horizon-section-header {
+  display: flex !important;
+  align-items: stretch !important;
+  gap: 14px !important;
+  margin-bottom: 24px !important;
+}
+
+.horizon-section-bar {
+  display: block !important;
+  width: 4px !important;
+  min-width: 4px !important;
+  background: linear-gradient(180deg, #ff6b3d 0%, #e75d18 100%) !important;
+  border-radius: 3px !important;
+  flex-shrink: 0 !important;
+  box-shadow: 0 0 10px rgba(231, 93, 24, 0.4) !important;
+}
+
+.horizon-section-title-wrap {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  gap: 4px !important;
+}
+
+.horizon-section-title {
+  font-family: var(--font-heading, 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif) !important;
+  font-size: clamp(1.45rem, 2.5vw, 2.1rem) !important;
+  font-weight: 900 !important;
+  color: #FFFFFF !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.02em !important;
+  line-height: 1.15 !important;
+  margin: 0 !important;
+}
+
+.horizon-section-subtitle {
+  color: #59b6a6 !important;
+  font-size: clamp(0.85rem, 1.1vw, 0.96rem) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.01em !important;
+  margin: 0 !important;
+  line-height: 1.35 !important;
+}
+
 
 
