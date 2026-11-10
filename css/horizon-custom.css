@@ -1788,12 +1788,12 @@ body.horizon-menu-locked {
   display: inline-flex !important;
   align-items: center !important;
   gap: 6px !important;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", "Helvetica Neue", Arial, sans-serif !important;
-  font-size: 0.8125rem !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.07em !important;
+  font-family: var(--font-heading, 'Space Grotesk', -apple-system, sans-serif) !important;
+  font-size: 0.88rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.08em !important;
   text-transform: uppercase !important;
-  color: #9DA3AF !important;
+  color: #A1A1AA !important;
   text-decoration: none !important;
   background: transparent !important;
   border: none !important;
@@ -1918,18 +1918,18 @@ body.horizon-menu-locked {
 }
 
 .horizon-dropdown-title {
-  font-size: 0.78rem !important;
-  font-weight: 700 !important;
+  font-size: 0.8rem !important;
+  font-weight: 800 !important;
   color: #EDE8E5 !important;
   text-transform: uppercase !important;
-  letter-spacing: 0.05em !important;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  letter-spacing: 0.06em !important;
+  font-family: var(--font-heading, 'Space Grotesk', -apple-system, sans-serif) !important;
 }
 
 .horizon-dropdown-desc {
-  font-size: 0.68rem !important;
+  font-size: 0.72rem !important;
   color: #8E9297 !important;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  font-family: var(--font-heading, 'Space Grotesk', -apple-system, sans-serif) !important;
 }
 
 .horizon-nav-link::after,
@@ -2448,6 +2448,9 @@ body.horizon-menu-locked {
    BOTÃO ENTRAR COM STEAM (DESKTOP E MOBILE) - VERMELHO SÓLIDO
    ============================================================== */
 .horizon-auth-desktop {
+  font-family: var(--font-heading, 'Space Grotesk', -apple-system, sans-serif) !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
   background: #D7573B !important;
   color: #FFFFFF !important;
   border: 1px solid rgba(255, 255, 255, 0.22) !important;
