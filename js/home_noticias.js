@@ -349,14 +349,6 @@
         prevSlide();
         resetAutoPlay();
       });
-      prevBtn.addEventListener('mouseenter', function() {
-        this.style.background = '#e86447';
-        this.style.borderColor = 'rgba(255, 255, 255, 0.3)';
-      });
-      prevBtn.addEventListener('mouseleave', function() {
-        this.style.background = '#D7573B';
-        this.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-      });
     }
 
     var nextBtn = document.getElementById('fn-next-btn');
@@ -364,14 +356,6 @@
       nextBtn.addEventListener('click', function() {
         nextSlide();
         resetAutoPlay();
-      });
-      nextBtn.addEventListener('mouseenter', function() {
-        this.style.background = '#e86447';
-        this.style.borderColor = 'rgba(255, 255, 255, 0.3)';
-      });
-      nextBtn.addEventListener('mouseleave', function() {
-        this.style.background = '#D7573B';
-        this.style.borderColor = 'rgba(255, 255, 255, 0.2)';
       });
     }
 
