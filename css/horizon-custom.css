@@ -11,9 +11,9 @@
    ============================================================== */
 
 :root {
-  --bg: #191a1e !important;
-  --bg2: #202127 !important;
-  --bg3: #26272e !important;
+  --bg: #0a0a0a !important;
+  --bg2: #121212 !important;
+  --bg3: #181818 !important;
   --bg-barra: #0a0a0a !important;
   --marca: #ce422b !important;
   --marca-hover: #e34834 !important;
@@ -43,7 +43,7 @@
   --accent-foreground: var(--text) !important;
   --input: rgba(255, 255, 255, 0.12) !important;
   --ring: var(--marca) !important;
-  --bg-alt: #16171b !important;
+  --bg-alt: #0e0e0e !important;
 }
 
 html, body {
@@ -811,9 +811,9 @@ footer.site-footer {
    ========================================================= */
 body:has(.ranking),
 .ranking {
-  --bg: #191a1e !important;
-  --bg2: #202127 !important;
-  --bg3: #26272e !important;
+  --bg: #0a0a0a !important;
+  --bg2: #121212 !important;
+  --bg3: #181818 !important;
   --border: rgba(255, 255, 255, 0.08) !important;
   --border-subtle: rgba(255, 255, 255, 0.05) !important;
 }
@@ -2388,4 +2388,23 @@ body.horizon-menu-locked {
   display: inline-block !important;
   transition: transform 0.2s ease !important;
 }
+
+/* ==============================================================
+   SEÇÃO COMUNIDADE / JUNTE-SE A NÓS: REMOVER LUZ AVERMELHADA & FUNDO
+   ============================================================== */
+.convite {
+  background: var(--bg) !important;
+  border-top: 1px solid var(--border) !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.convite-brilho {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  background: none !important;
+  pointer-events: none !important;
+}
+
 
