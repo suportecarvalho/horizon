@@ -350,12 +350,12 @@
         resetAutoPlay();
       });
       prevBtn.addEventListener('mouseenter', function() {
-        this.style.background = '#D7573B';
-        this.style.borderColor = '#D7573B';
+        this.style.background = '#e86447';
+        this.style.borderColor = 'rgba(255, 255, 255, 0.3)';
       });
       prevBtn.addEventListener('mouseleave', function() {
-        this.style.background = '#1C1615';
-        this.style.borderColor = 'rgba(108, 151, 142, 0.35)';
+        this.style.background = '#D7573B';
+        this.style.borderColor = 'rgba(255, 255, 255, 0.2)';
       });
     }
 
@@ -366,12 +366,12 @@
         resetAutoPlay();
       });
       nextBtn.addEventListener('mouseenter', function() {
-        this.style.background = '#D7573B';
-        this.style.borderColor = '#D7573B';
+        this.style.background = '#e86447';
+        this.style.borderColor = 'rgba(255, 255, 255, 0.3)';
       });
       nextBtn.addEventListener('mouseleave', function() {
-        this.style.background = '#1C1615';
-        this.style.borderColor = 'rgba(108, 151, 142, 0.35)';
+        this.style.background = '#D7573B';
+        this.style.borderColor = 'rgba(255, 255, 255, 0.2)';
       });
     }
 

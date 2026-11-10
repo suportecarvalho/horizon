@@ -2799,5 +2799,74 @@ body.horizon-menu-locked {
   }
 }
 
+/* ==================== BOTÕES DA SEÇÃO O QUE ESTÁ ACONTECENDO ==================== */
+.horizon-news-nav-btn,
+#fn-prev-btn,
+#fn-next-btn {
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 8px !important;
+  background: #D7573B !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: #FFFFFF !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 14px rgba(215, 87, 59, 0.4) !important;
+  transition: all 0.2s ease !important;
+}
+
+.horizon-news-nav-btn:hover,
+#fn-prev-btn:hover,
+#fn-next-btn:hover {
+  background: #e86447 !important;
+  filter: brightness(1.15) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 20px rgba(215, 87, 59, 0.6) !important;
+  color: #FFFFFF !important;
+}
+
+.horizon-news-nav-btn:active,
+#fn-prev-btn:active,
+#fn-next-btn:active {
+  transform: translateY(0) !important;
+  filter: brightness(0.95) !important;
+}
+
+.horizon-news-all-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  padding: 10px 18px !important;
+  height: 40px !important;
+  box-sizing: border-box !important;
+  border-radius: 8px !important;
+  background: #D7573B !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: #FFFFFF !important;
+  font-family: var(--font-heading, 'Space Grotesk', -apple-system, sans-serif) !important;
+  font-size: 0.8rem !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  text-decoration: none !important;
+  box-shadow: 0 4px 14px rgba(215, 87, 59, 0.4) !important;
+  transition: all 0.2s ease !important;
+}
+
+.horizon-news-all-btn:hover {
+  background: #e86447 !important;
+  filter: brightness(1.15) !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 20px rgba(215, 87, 59, 0.6) !important;
+  color: #FFFFFF !important;
+}
+
+.horizon-news-all-btn:active {
+  transform: translateY(0) !important;
+  filter: brightness(0.95) !important;
+}
+
 
 
