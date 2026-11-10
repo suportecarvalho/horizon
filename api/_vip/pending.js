@@ -1,4 +1,4 @@
-const { getPendingDeliveries, getOrder } = require('../_orders');
+const { getPendingDeliveries, getOrder, isOrderDeleted } = require('../_orders');
 const { getMPConfig, searchRecentPayments } = require('../_mercadopago');
 const { attachResHelpers } = require('../_res');
 
@@ -24,6 +24,9 @@ module.exports = async (req, res) => {
         if (p && p.status === 'approved' && p.metadata && p.metadata.steam_id) {
           const meta = p.metadata;
           const orderId = meta.order_id || `MP-${p.id}`;
+
+          const isDeleted = (await isOrderDeleted(orderId)) || (await isOrderDeleted(String(p.id)));
+          if (isDeleted) continue;
 
           // Se já está na lista pendente, pula
           const alreadyPending = pending.some(o => o.id === orderId || String(o.payment_id) === String(p.id));
@@ -55,6 +58,9 @@ module.exports = async (req, res) => {
 
     const formatted = [];
     for (const order of pending) {
+      if ((await isOrderDeleted(order.id)) || (await isOrderDeleted(order.payment_id))) {
+        continue;
+      }
       const rawData = (typeof order.raw_data === 'string')
         ? (() => { try { return JSON.parse(order.raw_data); } catch (e) { return {}; } })()
         : (order.raw_data || {});

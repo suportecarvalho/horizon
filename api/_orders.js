@@ -45,6 +45,87 @@ function saveLocalOrders(orders) {
   } catch (e) {}
 }
 
+const DELETED_FILE = path.join(process.cwd(), 'data', 'deleted_orders.json');
+const TMP_DELETED_FILE = '/tmp/deleted_orders.json';
+let memoryDeletedIds = null;
+
+function loadLocalDeletedIds() {
+  if (memoryDeletedIds) return memoryDeletedIds;
+  try {
+    if (fs.existsSync(TMP_DELETED_FILE)) {
+      return (memoryDeletedIds = JSON.parse(fs.readFileSync(TMP_DELETED_FILE, 'utf-8')));
+    }
+  } catch (e) {}
+  try {
+    if (fs.existsSync(DELETED_FILE)) {
+      return (memoryDeletedIds = JSON.parse(fs.readFileSync(DELETED_FILE, 'utf-8')));
+    }
+  } catch (e) {}
+  memoryDeletedIds = [];
+  return memoryDeletedIds;
+}
+
+function saveLocalDeletedIds(ids) {
+  memoryDeletedIds = Array.from(new Set(ids));
+  try {
+    fs.mkdirSync(path.dirname(DELETED_FILE), { recursive: true });
+    fs.writeFileSync(DELETED_FILE, JSON.stringify(memoryDeletedIds, null, 2), 'utf-8');
+  } catch (e) {}
+  try {
+    fs.writeFileSync(TMP_DELETED_FILE, JSON.stringify(memoryDeletedIds, null, 2), 'utf-8');
+  } catch (e) {}
+}
+
+async function getDeletedOrderIds() {
+  let ids = [];
+  if (supabase) {
+    try {
+      const { data } = await supabase
+        .from('feed_posts')
+        .select('caption')
+        .eq('id', '__horizon_deleted_orders_db__')
+        .maybeSingle();
+      if (data && data.caption) {
+        const parsed = JSON.parse(data.caption);
+        if (Array.isArray(parsed)) ids = parsed;
+      }
+    } catch (e) {}
+  }
+  const local = loadLocalDeletedIds();
+  const set = new Set([...ids, ...local]);
+  return Array.from(set);
+}
+
+async function markOrdersAsDeleted(idsArray) {
+  if (!Array.isArray(idsArray) || idsArray.length === 0) return;
+  const current = await getDeletedOrderIds();
+  const set = new Set([...current, ...idsArray.map(String)]);
+  const updated = Array.from(set);
+
+  saveLocalDeletedIds(updated);
+
+  if (supabase) {
+    try {
+      await supabase.from('feed_posts').upsert([{
+        id: '__horizon_deleted_orders_db__',
+        author_steamid: '0',
+        author_name: 'System Deleted Orders DB',
+        author_avatar: '',
+        image_url: 'https://files.facepunch.com/rust/item/vip.png',
+        caption: JSON.stringify(updated),
+        tag: '__system__'
+      }], { onConflict: 'id' });
+    } catch (e) {}
+  }
+}
+
+async function isOrderDeleted(idOrPaymentId) {
+  if (!idOrPaymentId) return false;
+  const q = String(idOrPaymentId);
+  const deleted = await getDeletedOrderIds();
+  return deleted.includes(q);
+}
+
 async function getSystemOrdersFromSupabase() {
   if (!supabase) return [];
   try {
@@ -338,8 +419,9 @@ async function getAllOrders() {
     orders = Array.from(map.values());
   }
 
-  // Filtra sub-entregas duplicadas que não são pedidos principais
-  orders = orders.filter(o => o && o.id && !o.id.includes('__'));
+  // Filtra sub-entregas duplicadas e pedidos deletados
+  const deletedSet = new Set(await getDeletedOrderIds());
+  orders = orders.filter(o => o && o.id && !o.id.includes('__') && !deletedSet.has(String(o.id)) && !deletedSet.has(String(o.payment_id)));
 
   orders.sort((a, b) => new Date(b.created_at || b.approved_at || 0) - new Date(a.created_at || a.approved_at || 0));
   return orders;
@@ -436,6 +518,15 @@ async function deleteOrder(orderId) {
   if (!orderId) return false;
   const qId = String(orderId).trim();
 
+  const existing = await getOrder(qId);
+  const toDelete = [qId];
+  if (existing) {
+    if (existing.id) toDelete.push(String(existing.id));
+    if (existing.payment_id) toDelete.push(String(existing.payment_id));
+  }
+
+  await markOrdersAsDeleted(toDelete);
+
   if (supabase) {
     try {
       await supabase
@@ -448,7 +539,7 @@ async function deleteOrder(orderId) {
 
     try {
       const sysOrders = await getSystemOrdersFromSupabase();
-      const filtered = sysOrders.filter(o => String(o.id) !== qId && String(o.payment_id) !== qId);
+      const filtered = sysOrders.filter(o => !toDelete.includes(String(o.id)) && !toDelete.includes(String(o.payment_id)));
       await saveSystemOrdersToSupabase(filtered);
     } catch (e) {
       console.error('[deleteOrder Supabase feed_posts error]:', e);
@@ -456,7 +547,7 @@ async function deleteOrder(orderId) {
   }
 
   const orders = loadLocalOrders();
-  const filtered = orders.filter(o => String(o.id) !== qId && String(o.payment_id) !== qId);
+  const filtered = orders.filter(o => !toDelete.includes(String(o.id)) && !toDelete.includes(String(o.payment_id)));
   saveLocalOrders(filtered);
   return true;
 }
@@ -468,9 +559,15 @@ async function clearAllOrders(filter = 'all') {
   if (supabase) {
     try {
       if (filter === 'all') {
+        const currentOrders = await getAllOrders();
+        const ids = currentOrders.flatMap(o => [String(o.id), String(o.payment_id)].filter(Boolean));
+        await markOrdersAsDeleted(ids);
         await supabase.from('vip_orders').delete().neq('id', '___empty___');
         await saveSystemOrdersToSupabase([]);
       } else if (filter === 'pending') {
+        const currentOrders = await getAllOrders();
+        const pendingIds = currentOrders.filter(o => o.status === 'pending').flatMap(o => [String(o.id), String(o.payment_id)].filter(Boolean));
+        await markOrdersAsDeleted(pendingIds);
         await supabase.from('vip_orders').delete().eq('status', 'pending');
         const sysOrders = await getSystemOrdersFromSupabase();
         const remaining = sysOrders.filter(o => o.status !== 'pending');
@@ -505,5 +602,8 @@ module.exports = {
   cancelOrder,
   createManualOrder,
   deleteOrder,
-  clearAllOrders
+  clearAllOrders,
+  isOrderDeleted,
+  markOrdersAsDeleted,
+  getDeletedOrderIds
 };

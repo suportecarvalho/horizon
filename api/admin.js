@@ -9,7 +9,8 @@ const {
   cancelOrder,
   createManualOrder,
   deleteOrder,
-  clearAllOrders
+  clearAllOrders,
+  isOrderDeleted
 } = require('./_orders');
 const { searchRecentPayments } = require('./_mercadopago');
 const { attachResHelpers } = require('./_res');
@@ -117,6 +118,10 @@ module.exports = async (req, res) => {
             if (p && p.status === 'approved' && p.metadata && p.metadata.steam_id) {
               const meta = p.metadata;
               const orderId = meta.order_id || `MP-${p.id}`;
+
+              const isDeleted = (await isOrderDeleted(orderId)) || (await isOrderDeleted(String(p.id)));
+              if (isDeleted) continue;
+
               const exists = orders.find(o => o.id === orderId || String(o.payment_id) === String(p.id));
               if (!exists) {
                 const approvedAt = p.date_approved || new Date().toISOString();
