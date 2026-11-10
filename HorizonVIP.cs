@@ -209,10 +209,26 @@ namespace Oxide.Plugins
 
             string steamId = delivery.steamId;
             string tier = (delivery.vipTier ?? "bronze").ToLower().Trim();
+            if (tier == "sobrevivente" || tier == "vip_sobrevivente" || tier == "vip-sobrevivente" || tier == "vip_bronze" || tier == "vip-bronze" || tier == "vipbronze") tier = "bronze";
+            if (tier == "vip_prata" || tier == "vip-prata" || tier == "vipprata") tier = "prata";
+            if (tier == "vip_ouro" || tier == "vip-ouro" || tier == "vipouro") tier = "ouro";
             if (tier == "kit-farmer" || tier == "kit_farmer") tier = "farmer";
             if (tier == "kit-airdrop" || tier == "kit_airdrop" || tier == "drop" || tier == "kit-drop") tier = "airdrop";
             if (tier == "kit-cartao" || tier == "kit_cartao" || tier == "cards" || tier == "cartoes") tier = "cartao";
             if (tier == "kit-eletrica" || tier == "kit_eletrica" || tier == "eletrico") tier = "eletrica";
+
+            // Localiza jogador para obter o nome real no jogo
+            BasePlayer player = null;
+            if (ulong.TryParse(steamId, out ulong parsedUserId))
+            {
+                player = BasePlayer.FindByID(parsedUserId);
+                if (player == null) player = BasePlayer.FindSleeping(parsedUserId);
+            }
+            if (player == null) player = BasePlayer.Find(steamId);
+
+            string finalPlayerName = (player != null && !string.IsNullOrEmpty(player.displayName))
+                ? player.displayName
+                : (!string.IsNullOrEmpty(delivery.playerName) && delivery.playerName != "Jogador" ? delivery.playerName : "Jogador");
 
             string groupName = !string.IsNullOrEmpty(delivery.groupName)
                 ? delivery.groupName
@@ -265,7 +281,7 @@ namespace Oxide.Plugins
             var record = new VipRecord
             {
                 SteamId = steamId,
-                PlayerName = delivery.playerName ?? "Jogador",
+                PlayerName = finalPlayerName,
                 Tier = tier,
                 OrderId = delivery.orderId ?? "",
                 ActivatedAt = DateTime.UtcNow,
@@ -287,7 +303,7 @@ namespace Oxide.Plugins
                 {
                     if (!string.IsNullOrEmpty(cmd))
                     {
-                        ConsoleSystem.Run(ConsoleSystem.Option.Server, cmd.Replace("{steamid}", steamId).Replace("{player}", delivery.playerName ?? ""));
+                        ConsoleSystem.Run(ConsoleSystem.Option.Server, cmd.Replace("{steamid}", steamId).Replace("{player}", finalPlayerName));
                     }
                 }
             }
@@ -299,11 +315,13 @@ namespace Oxide.Plugins
             else if (tier == "airdrop") nomePacote = "Kit Airdrop";
             else if (tier == "cartao") nomePacote = "Kit Cartões";
             else if (tier == "eletrica") nomePacote = "Kit Elétrica";
+            else if (tier == "bronze") nomePacote = "VIP Bronze";
+            else if (tier == "prata") nomePacote = "VIP Prata";
+            else if (tier == "ouro") nomePacote = "VIP Ouro";
             else nomePacote = $"VIP {char.ToUpper(tier[0]) + tier.Substring(1)}";
 
             PrintToChat($"{config.ChatPrefix} O jogador <color=#10B981>{record.PlayerName}</color> adquiriu o pacote <color=#F59E0B>{nomePacote}</color>! Agradecemos pelo apoio!");
 
-            BasePlayer player = BasePlayer.Find(steamId);
             if (player != null && player.IsConnected)
             {
                 string beneficio = isKit ? "seus kits exclusivos" : "seus itens e aproveite a fila prioritária";
