@@ -64,8 +64,6 @@
       activeNav = 'loja';
     } else if (path.startsWith('/equipe')) {
       activeNav = 'equipe';
-    } else if (path.startsWith('/feed')) {
-      activeNav = 'feed';
     } else if (path === '' || path === '/' || path.endsWith('/index.html') || path === '/index.html') {
       activeNav = 'inicio';
     } else {

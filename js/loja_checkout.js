@@ -1,7 +1,7 @@
 /**
  * Horizon Rust - Sistema de Checkout Mercado Pago com Carrinho de Compras e Entrega Automática VIP / Kits (30 Dias)
  */
-(function() {
+(function () {
   'use strict';
 
   const KITS_INFO = {
@@ -123,7 +123,7 @@
         }
       });
       if (modified) {
-        try { localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(parsed)); } catch(e) {}
+        try { localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(parsed)); } catch (e) { }
       }
       return parsed;
     } catch (e) {
@@ -134,7 +134,7 @@
   function saveCart(cart) {
     try {
       localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
-    } catch (e) {}
+    } catch (e) { }
     updateCartUI();
   }
 
@@ -143,7 +143,7 @@
   window.KITS_INFO = KITS_INFO;
   window.normalizeTierKey = normalizeTierKey;
 
-  window.addToCart = function(tier, redirect = false) {
+  window.addToCart = function (tier, redirect = false) {
     const t = normalizeTierKey(tier);
     const kit = KITS_INFO[t];
     if (!kit) return;
@@ -170,23 +170,23 @@
     }
   };
 
-  window.removeFromCart = function(tier) {
+  window.removeFromCart = function (tier) {
     let cart = getCart();
     cart = cart.filter(it => it.tier !== tier);
     saveCart(cart);
   };
 
-  window.clearCart = function() {
+  window.clearCart = function () {
     saveCart([]);
   };
 
-  window.buyNow = function(tier) {
+  window.buyNow = function (tier) {
     const t = normalizeTierKey(tier);
     window.addToCart(t, false);
     window.location.href = '/checkout?tier=' + encodeURIComponent(t);
   };
 
-  window.openCheckoutModal = function(target) {
+  window.openCheckoutModal = function (target) {
     let t = 'ouro';
     if (target) {
       if (Array.isArray(target) && target.length > 0) {
@@ -235,18 +235,18 @@
     });
   }
 
-  window.openCartDrawer = function() {
+  window.openCartDrawer = function () {
     window.location.href = '/checkout';
   };
 
-  window.closeCartDrawer = function() {
+  window.closeCartDrawer = function () {
     const overlay = document.getElementById('cart-drawer-overlay');
     if (overlay) overlay.remove();
   };
 
-  function ensureCartDrawer() {}
-  function ensureFloatingCartButton() {}
-  function renderCartDrawerContent() {}
+  function ensureCartDrawer() { }
+  function ensureFloatingCartButton() { }
+  function renderCartDrawerContent() { }
 
   // Carrega usuário da sessão
   async function loadUser() {
@@ -258,7 +258,7 @@
           currentUser = u;
         }
       }
-    } catch (e) {}
+    } catch (e) { }
 
     try {
       const res = await fetch('/api/me');
@@ -268,15 +268,15 @@
           currentUser = data.user;
           try {
             localStorage.setItem('horizon_steam_user', JSON.stringify(currentUser));
-          } catch (e) {}
+          } catch (e) { }
         } else {
           currentUser = null;
           try {
             localStorage.removeItem('horizon_steam_user');
-          } catch (e) {}
+          } catch (e) { }
         }
       }
-    } catch (e) {}
+    } catch (e) { }
   }
 
   loadUser();
@@ -300,7 +300,7 @@
       font-family: inherit;
     `;
 
-    overlay.onclick = function(e) {
+    overlay.onclick = function (e) {
       if (e.target === overlay) window.closeCheckoutModal();
     };
 
@@ -348,7 +348,7 @@
   }
 
   // Abre o modal de checkout (aceita tier único ou array de tiers)
-  window.openCheckoutModal = async function(target) {
+  window.openCheckoutModal = async function (target) {
     ensureModal();
     if (pollInterval) {
       clearInterval(pollInterval);
@@ -373,7 +373,7 @@
   };
 
   // Fecha o modal
-  window.closeCheckoutModal = function() {
+  window.closeCheckoutModal = function () {
     const overlay = document.getElementById('checkout-modal-overlay');
     if (overlay) overlay.style.display = 'none';
     document.body.style.overflow = '';
@@ -557,7 +557,7 @@
   }
 
   // INICIA O CHECKOUT (Chama /api/checkout/create)
-  window.startCheckout = async function(method) {
+  window.startCheckout = async function (method) {
     const steamInput = document.getElementById('chk-steamid');
     let steamId = steamInput ? steamInput.value.trim() : '';
 
@@ -701,7 +701,7 @@
     `;
   }
 
-  window.copyPixCode = function() {
+  window.copyPixCode = function () {
     const input = document.getElementById('pix-copy-input');
     if (!input) return;
     input.select();
@@ -744,7 +744,7 @@
           window.clearCart();
           renderSuccessScreen(data.order || data);
         }
-      } catch (e) {}
+      } catch (e) { }
     }, 2800);
   }
 
@@ -773,9 +773,9 @@
           <div style="font-size: 0.72rem; color: #9CA3AF; text-transform: uppercase; font-weight: 800; margin-bottom: 6px;">Itens Liberados no Servidor:</div>
           <div style="display: flex; flex-direction: column; gap: 6px;">
             ${items.map(t => {
-              const kit = KITS_INFO[normalizeTierKey(t)] || KITS_INFO.bronze;
-              return `<div style="font-size: 0.85rem; font-weight: 800; color: #34D399; display: flex; align-items: center; gap: 6px;"><span>✅</span> ${kit.name} (30 dias)</div>`;
-            }).join('')}
+      const kit = KITS_INFO[normalizeTierKey(t)] || KITS_INFO.bronze;
+      return `<div style="font-size: 0.85rem; font-weight: 800; color: #34D399; display: flex; align-items: center; gap: 6px;"><span>✅</span> ${kit.name} (30 dias)</div>`;
+    }).join('')}
           </div>
           <div style="font-size: 0.7rem; color: #82ADA4; font-family: monospace; margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 8px;">
             Pedido: ${orderId}
@@ -804,7 +804,7 @@
 
       link.removeAttribute('href');
       link.style.cursor = 'pointer';
-      link.onclick = function(e) {
+      link.onclick = function (e) {
         e.preventDefault();
         window.buyNow(tier);
       };
