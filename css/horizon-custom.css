@@ -65,9 +65,9 @@ html, body {
   left: 0 !important;
   right: 0 !important;
   width: 100% !important;
-  min-height: 58px !important;
-  height: 58px !important;
-  max-height: 58px !important;
+  min-height: 68px !important;
+  height: 68px !important;
+  max-height: 68px !important;
   background: rgba(15, 12, 11, 0.5) !important;
   backdrop-filter: blur(14px) !important;
   -webkit-backdrop-filter: blur(14px) !important;
@@ -85,9 +85,9 @@ html, body {
 }
 
 .site-header-conteudo {
-  min-height: 58px !important;
-  height: 58px !important;
-  max-height: 58px !important;
+  min-height: 68px !important;
+  height: 68px !important;
+  max-height: 68px !important;
   padding: 0 24px !important;
   display: flex !important;
   align-items: center !important;
@@ -121,8 +121,8 @@ html, body {
 
 .horizon-brand-logo .horizon-brand-img,
 .horizon-brand-img {
-  height: 25px !important;
-  max-height: 27px !important;
+  height: 28px !important;
+  max-height: 30px !important;
   width: auto !important;
   display: block !important;
   object-fit: contain !important;
@@ -138,18 +138,18 @@ html, body {
 
 @media (max-width: 640px) {
   .site-header {
-    min-height: 52px !important;
-    height: 52px !important;
-    max-height: 52px !important;
+    min-height: 60px !important;
+    height: 60px !important;
+    max-height: 60px !important;
     backdrop-filter: blur(14px) !important;
     -webkit-backdrop-filter: blur(14px) !important;
     background: rgba(15, 12, 11, 0.75) !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.07) !important;
   }
   .site-header-conteudo {
-    min-height: 52px !important;
-    height: 52px !important;
-    max-height: 52px !important;
+    min-height: 60px !important;
+    height: 60px !important;
+    max-height: 60px !important;
     padding: 0 16px !important;
     flex-wrap: nowrap !important;
     gap: 10px !important;
@@ -160,8 +160,8 @@ html, body {
   }
   .horizon-brand-logo .horizon-brand-img,
   .horizon-brand-img {
-    height: 20px !important;
-    max-height: 22px !important;
+    height: 22px !important;
+    max-height: 24px !important;
     filter: none !important;
   }
 }
@@ -173,10 +173,10 @@ html, body {
   align-items: center !important;
   justify-content: flex-start !important;
   box-sizing: border-box !important;
-  height: calc(100vh - 58px) !important;
-  min-height: calc(100vh - 58px) !important;
-  height: calc(100dvh - 58px) !important;
-  min-height: calc(100dvh - 58px) !important;
+  height: calc(100vh - 68px) !important;
+  min-height: calc(100vh - 68px) !important;
+  height: calc(100dvh - 68px) !important;
+  min-height: calc(100dvh - 68px) !important;
   overflow: hidden !important;
   border-bottom: 1px solid rgba(108, 151, 142, 0.22) !important;
   background: #13100F !important;
@@ -186,7 +186,7 @@ html, body {
 @media (max-width: 640px) {
   .hero {
     height: auto !important;
-    min-height: calc(100dvh - 52px) !important;
+    min-height: calc(100dvh - 60px) !important;
     padding: 32px 0 44px 0 !important;
     overflow: visible !important;
   }
@@ -826,8 +826,8 @@ footer.site-footer {
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
-  min-height: 58px !important;
-  height: 58px !important;
+  min-height: 68px !important;
+  height: 68px !important;
 }
 
 .site-header-marca,
