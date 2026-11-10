@@ -17,6 +17,28 @@
     return clean;
   }
 
+  function getCrownSvgHtml(extraClass) {
+    return '<span class="horizon-crown-badge ' + (extraClass || '') + '" title="1º Lugar" aria-hidden="true">' +
+      '<svg class="horizon-crown-icon" viewBox="0 0 24 24" width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+        '<defs>' +
+          '<linearGradient id="crown-gold-grad" x1="0" y1="0" x2="0" y2="1">' +
+            '<stop offset="0%" stop-color="#FFF59D"/>' +
+            '<stop offset="35%" stop-color="#FBC02D"/>' +
+            '<stop offset="70%" stop-color="#F57F17"/>' +
+            '<stop offset="100%" stop-color="#E65100"/>' +
+          '</linearGradient>' +
+        '</defs>' +
+        '<path d="M2.5 19h19v2.2h-19z" fill="#BF360C"/>' +
+        '<path d="M3 17.8h18v1.4H3z" fill="#FFF176"/>' +
+        '<path d="M3.2 7.3a.8.8 0 0 1 1.3-.2l3.7 3.7 3-6.5a.8.8 0 0 1 1.5 0l3 6.5 3.7-3.7a.8.8 0 0 1 1.3.2l1.8 9.7a.8.8 0 0 1-.8 1H2.2a.8.8 0 0 1-.8-1l1.8-9.7z" fill="url(#crown-gold-grad)" stroke="#B45309" stroke-width="0.6"/>' +
+        '<circle cx="12" cy="3.8" r="1.6" fill="#FFFFFF"/>' +
+        '<circle cx="3.2" cy="7.2" r="1.3" fill="#FFFFFF"/>' +
+        '<circle cx="20.8" cy="7.2" r="1.3" fill="#FFFFFF"/>' +
+        '<polygon points="12,11.5 13.2,13.2 12,14.8 10.8,13.2" fill="#DC2626"/>' +
+      '</svg>' +
+    '</span>';
+  }
+
   function formatVal(val) {
     if (val === undefined || val === null || val === "0" || val === 0) {
       return '<span style="color: #52525b; font-weight: 500;">0</span>';
@@ -190,13 +212,16 @@
                 ${trophySvg}
                 <span style="font-size: 1.15rem; font-weight: 800; color: ${item.rank <= 3 ? '#FFFFFF' : '#A1A1AA'};">#${item.rank}</span>
               </div>
-              <div style="width: 44px; height: 44px; min-width: 44px; border-radius: 50%; border: 2px solid #D7573B; display: flex; align-items: center; justify-content: center; background: #22201E; overflow: hidden; margin: 0 12px 0 8px; flex-shrink: 0;">
-                ${avatarSrc && !avatarSrc.includes('fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb') ? `
-                  <img src="${avatarSrc}" alt="${item.name}" loading="lazy" decoding="async" style="width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1.15);" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                  <span style="display: none; font-size: 1.2rem; font-weight: 700; color: #D4D4D8;">${initial}</span>
-                ` : `
-                  <span style="font-size: 1.2rem; font-weight: 700; color: #D4D4D8;">${initial}</span>
-                `}
+              <div class="ranking-mobile-avatar-wrap ${item.rank === 1 ? 'has-crown' : ''}" style="width: 44px; height: 44px; min-width: 44px; border-radius: 50%; border: 2px solid ${item.rank === 1 ? '#FFB300' : '#D7573B'}; display: flex; align-items: center; justify-content: center; background: #22201E; overflow: visible; margin: 0 12px 0 8px; flex-shrink: 0; position: relative;">
+                ${item.rank === 1 ? getCrownSvgHtml('mobile-card-crown') : ''}
+                <div style="width: 100%; height: 100%; border-radius: 50%; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                  ${avatarSrc && !avatarSrc.includes('fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb') ? `
+                    <img src="${avatarSrc}" alt="${item.name}" loading="lazy" decoding="async" style="width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1.15);" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <span style="display: none; font-size: 1.2rem; font-weight: 700; color: #D4D4D8;">${initial}</span>
+                  ` : `
+                    <span style="font-size: 1.2rem; font-weight: 700; color: #D4D4D8;">${initial}</span>
+                  `}
+                </div>
               </div>
               <div style="overflow: hidden; flex: 1;">
                 <div style="color: #FFFFFF; font-weight: 800; font-size: 1.05rem; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${item.name}</div>
@@ -372,6 +397,7 @@
 
           <div class="podium-player-header">
             <div class="podium-avatar-wrap">
+              ${rankNum === 1 ? getCrownSvgHtml('podium-crown') : ''}
               <img src="${avatarSrc}" alt="${item.name}" loading="lazy" decoding="async" class="podium-avatar-img" onerror="this.onerror=null;this.src='https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg';">
               <span class="podium-avatar-num">${rankNum}</span>
             </div>
@@ -585,11 +611,14 @@
         const avatarSrc = cleanAvatarUrl(item.avatar);
 
         return `
-          <tr class="ranking-linha">
+          <tr class="ranking-linha ${item.rank === 1 ? 'ranking-linha-first' : ''}">
             <td class="ranking-celula-rank"><span class="ranking-rank">${medalHtml}</span></td>
             <td class="ranking-celula-jogador">
               <a href="/leaderboards/${item.steamid}" class="ranking-jogador" style="text-decoration: none; gap: 16px;">
-                <span class="ranking-avatar-caixa"><img src="${avatarSrc}" loading="lazy" decoding="async" class="ranking-avatar" alt="" onerror="this.onerror=null;this.src='https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg';"></span>
+                <span class="ranking-avatar-caixa ${item.rank === 1 ? 'has-crown' : ''}">
+                  ${item.rank === 1 ? getCrownSvgHtml('table-crown') : ''}
+                  <img src="${avatarSrc}" loading="lazy" decoding="async" class="ranking-avatar" alt="" onerror="this.onerror=null;this.src='https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg';">
+                </span>
                 <span class="ranking-nome-bloco">
                   <span class="ranking-nome" style="color: #EDE8E5; font-weight: 600;">${item.name}</span>
                   <span class="ranking-id">${item.steamid}</span>

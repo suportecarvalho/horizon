@@ -2527,6 +2527,105 @@ body.horizon-menu-locked {
   transform: translateX(1px) !important;
 }
 
+/* ==============================================================
+   COROA DO 1º LUGAR NAS ABAS DE RANKING (PVP, RECURSOS, FARMING, RAID)
+   ============================================================== */
+.horizon-crown-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  pointer-events: none !important;
+  user-select: none !important;
+}
+
+.horizon-crown-badge .horizon-crown-icon {
+  display: block !important;
+  filter: drop-shadow(0 2px 7px rgba(255, 179, 0, 0.8)) !important;
+}
+
+/* Coroa no Pódio da Home */
+.podium-avatar-wrap {
+  position: relative !important;
+  overflow: visible !important;
+  margin-top: 10px !important;
+}
+
+.podium-crown {
+  position: absolute !important;
+  top: -21px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  z-index: 15 !important;
+  animation: horizon-crown-float 2.8s ease-in-out infinite alternate !important;
+}
+
+.podium-crown .horizon-crown-icon {
+  width: 28px !important;
+  height: 28px !important;
+}
+
+@keyframes horizon-crown-float {
+  0% {
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+  100% {
+    transform: translateX(-50%) translateY(-3px) scale(1.06);
+  }
+}
+
+/* Coroa na Tabela de Rankings (Desktop) */
+.ranking-avatar-caixa {
+  position: relative !important;
+  overflow: visible !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.ranking-avatar-caixa.has-crown .ranking-avatar {
+  border: 2px solid #FFB300 !important;
+  box-shadow: 0 0 10px rgba(255, 179, 0, 0.5) !important;
+}
+
+.table-crown {
+  position: absolute !important;
+  top: -15px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  z-index: 15 !important;
+  animation: horizon-crown-float 2.8s ease-in-out infinite alternate !important;
+}
+
+.table-crown .horizon-crown-icon {
+  width: 20px !important;
+  height: 20px !important;
+}
+
+/* Coroa nos Cards Mobile */
+.ranking-mobile-avatar-wrap {
+  position: relative !important;
+  overflow: visible !important;
+}
+
+.ranking-mobile-avatar-wrap.has-crown {
+  border-color: #FFB300 !important;
+  box-shadow: 0 0 12px rgba(255, 179, 0, 0.5) !important;
+}
+
+.mobile-card-crown {
+  position: absolute !important;
+  top: -16px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  z-index: 15 !important;
+  animation: horizon-crown-float 2.8s ease-in-out infinite alternate !important;
+}
+
+.mobile-card-crown .horizon-crown-icon {
+  width: 22px !important;
+  height: 22px !important;
+}
+
 /* ==================== ESTILO DE TÍTULO COM BARRA LARANJA (ESTILO WIPE E CRONOGRAMA) ==================== */
 .horizon-section-header {
   display: flex !important;
