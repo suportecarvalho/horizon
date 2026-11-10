@@ -2626,6 +2626,153 @@ body.horizon-menu-locked {
   height: 22px !important;
 }
 
+/* ==============================================================
+   CARD CRONOGRAMA OFICIAL (ESTILO EXATO DA REFERÊNCIA)
+   ============================================================== */
+.horizon-schedule-card {
+  background: #141211 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 14px !important;
+  padding: 24px 26px !important;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  position: relative !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+
+.horizon-schedule-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-bottom: 22px !important;
+}
+
+.horizon-schedule-tag {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  font-family: var(--font-heading, 'Space Grotesk', -apple-system, sans-serif) !important;
+  font-size: 1.05rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.04em !important;
+  color: #FFFFFF !important;
+  text-transform: uppercase !important;
+}
+
+.horizon-schedule-cal-icon {
+  color: #D7573B !important;
+  flex-shrink: 0 !important;
+}
+
+.horizon-schedule-badge {
+  font-size: 0.7rem !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  color: #EDE8E5 !important;
+  padding: 4px 10px !important;
+  border-radius: 6px !important;
+}
+
+.horizon-schedule-list {
+  display: flex !important;
+  flex-direction: column !important;
+  flex-grow: 1 !important;
+  justify-content: space-around !important;
+}
+
+.horizon-schedule-row {
+  display: flex !important;
+  align-items: center !important;
+  padding: 12px 0 !important;
+}
+
+.horizon-schedule-row:first-child {
+  padding-top: 0 !important;
+}
+
+.horizon-schedule-row:last-child {
+  padding-bottom: 0 !important;
+}
+
+.horizon-schedule-icon-box {
+  width: 44px !important;
+  height: 44px !important;
+  min-width: 44px !important;
+  border-radius: 10px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+  margin-right: 14px !important;
+}
+
+.horizon-schedule-icon-box.is-orange {
+  background: rgba(215, 87, 59, 0.12) !important;
+  color: #D7573B !important;
+}
+
+.horizon-schedule-icon-box.is-cyan {
+  background: rgba(34, 211, 238, 0.12) !important;
+  color: #22D3EE !important;
+}
+
+.horizon-schedule-main {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 3px !important;
+  flex-grow: 1 !important;
+}
+
+.horizon-schedule-title {
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+  font-size: 1.05rem !important;
+  line-height: 1.25 !important;
+}
+
+.horizon-schedule-sub {
+  color: #9CA3AF !important;
+  font-size: 0.86rem !important;
+  font-weight: 500 !important;
+}
+
+.horizon-schedule-time-box {
+  display: flex !important;
+  align-items: center !important;
+  flex-shrink: 0 !important;
+}
+
+.horizon-schedule-sep {
+  width: 1px !important;
+  height: 38px !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  margin: 0 18px 0 14px !important;
+  flex-shrink: 0 !important;
+}
+
+.horizon-schedule-time {
+  color: #D7573B !important;
+  font-size: 1.35rem !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.01em !important;
+  font-family: inherit !important;
+  min-width: 75px !important;
+  text-align: right !important;
+}
+
+.horizon-schedule-divider {
+  border: none !important;
+  height: 1px !important;
+  background: rgba(255, 255, 255, 0.07) !important;
+  margin: 0 !important;
+}
+
 /* ==================== ESTILO DE TÍTULO COM BARRA LARANJA (ESTILO WIPE E CRONOGRAMA) ==================== */
 .horizon-section-header {
   display: flex !important;

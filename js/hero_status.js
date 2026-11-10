@@ -161,26 +161,28 @@
     }
 
     if (dados && dados.schedule) {
-      var elSchedMap = document.getElementById('wipe-sched-map');
-      var elSchedFull = document.getElementById('wipe-sched-full');
+      var elSchedMapTime = document.getElementById('wipe-sched-map-time');
+      var elSchedFullTime = document.getElementById('wipe-sched-full-time');
+      var elSchedMapSub = document.getElementById('wipe-sched-map-sub');
+      var elSchedFullSub = document.getElementById('wipe-sched-full-sub');
       var elSchedLimit = document.getElementById('wipe-sched-limit');
-      var elSchedType = document.getElementById('wipe-sched-type');
-      if (elSchedMap && dados.schedule.mapWipe) elSchedMap.textContent = dados.schedule.mapWipe;
-      if (elSchedFull && dados.schedule.fullWipe) elSchedFull.textContent = dados.schedule.fullWipe;
-      if (elSchedLimit) {
-        var limStr = dados.schedule.teamLimit || "(Max 4)";
-        elSchedLimit.textContent = limStr;
-      }
-      if (elSchedType) {
-        var sName = "[BR/LATAM] HORIZON 2X | SOLO/DUO/TRIO/QUAD";
-        if (dados.schedule && dados.schedule.serverName) {
-          sName = dados.schedule.serverName;
-        } else if (dados.serverName) {
-          sName = dados.serverName.replace(/\s*\|\s*(?:WIPE|FULL\s*WIPE|\d{2}\/\d{2}).*$/i, '').trim() || dados.serverName;
-        } else if (dados.schedule && dados.schedule.type && dados.schedule.type !== "(Max 4)" && dados.schedule.type !== "Max 4") {
-          sName = dados.schedule.type;
+      
+      if (dados.schedule.mapWipe) {
+        var mMatch = dados.schedule.mapWipe.match(/(\d{1,2}:\d{2}h?)/i);
+        if (mMatch && elSchedMapTime) {
+          elSchedMapTime.textContent = mMatch[1].toLowerCase().endsWith('h') ? mMatch[1] : mMatch[1] + 'h';
         }
-        elSchedType.textContent = sName;
+      }
+      if (dados.schedule.fullWipe) {
+        var fMatch = dados.schedule.fullWipe.match(/(\d{1,2}:\d{2}h?)/i);
+        if (fMatch && elSchedFullTime) {
+          elSchedFullTime.textContent = fMatch[1].toLowerCase().endsWith('h') ? fMatch[1] : fMatch[1] + 'h';
+        }
+      }
+      if (elSchedLimit) {
+        var limStr = dados.schedule.teamLimit || "4 jogadores";
+        if (limStr === "(Max 4)" || limStr === "Max 4") limStr = "4 jogadores";
+        elSchedLimit.textContent = limStr;
       }
     }
 
