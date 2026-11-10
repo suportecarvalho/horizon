@@ -651,8 +651,8 @@ footer.site-footer {
 }
 
 .site-footer-logo-img {
-  height: 28px !important;
-  max-height: 30px !important;
+  height: 38px !important;
+  max-height: 42px !important;
   width: auto !important;
   display: block !important;
   object-fit: contain !important;

@@ -586,11 +586,15 @@ function fetchSteamProfile(steamId64) {
 const server = http.createServer((req, res) => {
   const cleanUrl = req.url.split('?')[0];
 
-  // Silenciar requisições automáticas de favicon
-  if (cleanUrl === '/favicon.ico') {
-    res.writeHead(204);
-    res.end();
-    return;
+  // Servir favicon se solicitado
+  if (cleanUrl === '/favicon.ico' || cleanUrl === '/favicon.png') {
+    const icoPath = path.join(__dirname, cleanUrl);
+    if (fs.existsSync(icoPath)) {
+      const mime = cleanUrl.endsWith('.png') ? 'image/png' : 'image/x-icon';
+      res.writeHead(200, { 'Content-Type': mime, 'Cache-Control': 'public, max-age=86400' });
+      fs.createReadStream(icoPath).pipe(res);
+      return;
+    }
   }
 
   // -------------------------------------------------------------
