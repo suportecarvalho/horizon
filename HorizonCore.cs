@@ -122,6 +122,19 @@ namespace Oxide.Plugins
                 { "eletrica", new List<string>() }
             };
 
+            [JsonProperty("Vip_ComandosAoExpirar")]
+            public Dictionary<string, List<string>> VipRevocationCommands { get; set; } = new Dictionary<string, List<string>>
+            {
+                { "bronze", new List<string>() },
+                { "sobrevivente", new List<string>() },
+                { "prata", new List<string>() },
+                { "ouro", new List<string>() },
+                { "farmer", new List<string>() },
+                { "airdrop", new List<string>() },
+                { "cartao", new List<string>() },
+                { "eletrica", new List<string>() }
+            };
+
             [JsonProperty("Vip_PrefixoChat")]
             public string VipChatPrefix { get; set; } = "<color=#D7573B>[HORIZON VIP]</color>";
 
@@ -186,6 +199,8 @@ namespace Oxide.Plugins
             public string SteamId { get; set; } = "";
             public string PlayerName { get; set; } = "";
             public string Tier { get; set; } = "";
+            public string GroupName { get; set; } = "";
+            public string KitPermission { get; set; } = "";
             public string OrderId { get; set; } = "";
             public DateTime ActivatedAt { get; set; }
             public DateTime ExpiresAt { get; set; }
@@ -1715,6 +1730,8 @@ namespace Oxide.Plugins
                 SteamId = steamId,
                 PlayerName = finalPlayerName,
                 Tier = tier,
+                GroupName = groupName,
+                KitPermission = delivery.kitPermission ?? "",
                 OrderId = delivery.orderId ?? "",
                 ActivatedAt = DateTime.UtcNow,
                 ExpiresAt = expiresAt,
@@ -1813,7 +1830,9 @@ namespace Oxide.Plugins
         {
             if (!data.ActiveVips.TryGetValue(steamId, out var record)) return;
 
-            string groupName = config.VipGroups.ContainsKey(record.Tier) ? config.VipGroups[record.Tier] : $"vip_{record.Tier}";
+            string groupName = !string.IsNullOrEmpty(record.GroupName)
+                ? record.GroupName
+                : (config.VipGroups.ContainsKey(record.Tier) ? config.VipGroups[record.Tier] : $"vip_{record.Tier}");
 
             if (permission.GroupExists(groupName) && permission.UserHasGroup(steamId, groupName))
             {
@@ -1831,6 +1850,22 @@ namespace Oxide.Plugins
                 }
             }
 
+            if (!string.IsNullOrEmpty(record.KitPermission))
+            {
+                permission.RevokeUserPermission(steamId, record.KitPermission);
+            }
+
+            if (config.VipRevocationCommands != null && config.VipRevocationCommands.ContainsKey(record.Tier))
+            {
+                foreach (var cmd in config.VipRevocationCommands[record.Tier])
+                {
+                    if (!string.IsNullOrEmpty(cmd))
+                    {
+                        ConsoleSystem.Run(ConsoleSystem.Option.Server, cmd.Replace("{steamid}", steamId).Replace("{player}", record.PlayerName));
+                    }
+                }
+            }
+
             record.IsActive = false;
             data.ActiveVips.Remove(steamId);
             data.ExpiredHistory.Add(record);
@@ -1838,7 +1873,14 @@ namespace Oxide.Plugins
 
             Puts($"[HorizonVIP] VIP de {record.PlayerName} ({steamId}) foi removido. Motivo: {motivo}");
 
-            BasePlayer player = BasePlayer.Find(steamId);
+            BasePlayer player = null;
+            if (ulong.TryParse(steamId, out ulong parsedUserId))
+            {
+                player = BasePlayer.FindByID(parsedUserId);
+                if (player == null) player = BasePlayer.FindSleeping(parsedUserId);
+            }
+            if (player == null) player = BasePlayer.Find(steamId);
+
             if (player != null && player.IsConnected)
             {
                 PrintToChat(player, $"{config.VipChatPrefix} Seu plano <color=#F59E0B>VIP {record.Tier.ToUpper()}</color> expirou. Renove em: <color=#38BDF8>{config.VipApiBaseUrl}/loja</color>");

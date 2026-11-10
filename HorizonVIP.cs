@@ -51,6 +51,14 @@ namespace Oxide.Plugins
                 { "ouro", new List<string>() }
             };
 
+            [JsonProperty("ComandosAoExpirar")]
+            public Dictionary<string, List<string>> RevocationCommands { get; set; } = new Dictionary<string, List<string>>
+            {
+                { "bronze", new List<string>() },
+                { "prata", new List<string>() },
+                { "ouro", new List<string>() }
+            };
+
             [JsonProperty("PrefixoChat")]
             public string ChatPrefix { get; set; } = "<color=#D7573B>[HORIZON VIP]</color>";
         }
@@ -60,6 +68,8 @@ namespace Oxide.Plugins
             public string SteamId { get; set; } = "";
             public string PlayerName { get; set; } = "";
             public string Tier { get; set; } = "";
+            public string GroupName { get; set; } = "";
+            public string KitPermission { get; set; } = "";
             public string OrderId { get; set; } = "";
             public DateTime ActivatedAt { get; set; }
             public DateTime ExpiresAt { get; set; }
@@ -283,6 +293,8 @@ namespace Oxide.Plugins
                 SteamId = steamId,
                 PlayerName = finalPlayerName,
                 Tier = tier,
+                GroupName = groupName,
+                KitPermission = delivery.kitPermission ?? "",
                 OrderId = delivery.orderId ?? "",
                 ActivatedAt = DateTime.UtcNow,
                 ExpiresAt = expiresAt,
@@ -394,15 +406,17 @@ namespace Oxide.Plugins
             if (!data.ActiveVips.TryGetValue(steamId, out var record)) return;
 
             string tier = (record.Tier ?? "bronze").ToLower();
-            string groupName = config.VipGroups.ContainsKey(tier) ? config.VipGroups[tier] : $"vip_{tier}";
+            string groupName = !string.IsNullOrEmpty(record.GroupName)
+                ? record.GroupName
+                : (config.VipGroups.ContainsKey(tier) ? config.VipGroups[tier] : $"vip_{tier}");
 
             // Remove o grupo Oxide
-            if (permission.GroupExists(groupName))
+            if (permission.GroupExists(groupName) && permission.UserHasGroup(steamId, groupName))
             {
                 permission.RemoveUserGroup(steamId, groupName);
             }
 
-            // Revoga permissões
+            // Revoga permissões do plano
             if (config.TierPermissions.ContainsKey(tier))
             {
                 foreach (var perm in config.TierPermissions[tier])
@@ -414,15 +428,40 @@ namespace Oxide.Plugins
                 }
             }
 
+            // Revoga permissão avulsa de kit se houver
+            if (!string.IsNullOrEmpty(record.KitPermission))
+            {
+                permission.RevokeUserPermission(steamId, record.KitPermission);
+            }
+
+            // Executa comandos RCON customizados de remoção/expiração se configurados
+            if (config.RevocationCommands != null && config.RevocationCommands.ContainsKey(tier))
+            {
+                foreach (var cmd in config.RevocationCommands[tier])
+                {
+                    if (!string.IsNullOrEmpty(cmd))
+                    {
+                        ConsoleSystem.Run(ConsoleSystem.Option.Server, cmd.Replace("{steamid}", steamId).Replace("{player}", record.PlayerName));
+                    }
+                }
+            }
+
             record.IsActive = false;
             data.ActiveVips.Remove(steamId);
             data.ExpiredHistory.Add(record);
             SaveData();
 
-            string tierFormatado = char.ToUpper(tier[0]) + tier.Substring(1);
+            string tierFormatado = tier == "bronze" ? "Bronze" : (tier == "prata" ? "Prata" : (tier == "ouro" ? "Ouro" : char.ToUpper(tier[0]) + tier.Substring(1)));
             Puts($"[HorizonVIP] ⌛ VIP {tierFormatado} de {record.PlayerName} ({steamId}) foi REMOVIDO automaticamente. Motivo: {motivo}.");
 
-            BasePlayer player = BasePlayer.Find(steamId);
+            BasePlayer player = null;
+            if (ulong.TryParse(steamId, out ulong parsedUserId))
+            {
+                player = BasePlayer.FindByID(parsedUserId);
+                if (player == null) player = BasePlayer.FindSleeping(parsedUserId);
+            }
+            if (player == null) player = BasePlayer.Find(steamId);
+
             if (player != null && player.IsConnected)
             {
                 PrintToChat(player, $"{config.ChatPrefix} Seu período de <color=#F59E0B>VIP {tierFormatado} (30 dias)</color> encerrou.\n" +
