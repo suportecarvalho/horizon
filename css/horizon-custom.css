@@ -2773,6 +2773,257 @@ body.horizon-menu-locked {
   margin: 0 !important;
 }
 
+/* ==============================================================
+   RODAPÉ OFICIAL (ESTILO EXATO DA REFERÊNCIA)
+   ============================================================== */
+footer.site-footer,
+.site-footer {
+  position: relative !important;
+  background: #0D0B0A url('/images/footer_bg.jpg') no-repeat right 30% / cover !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+  padding: 56px 0 32px 0 !important;
+  overflow: hidden !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Overlay suave: escurece a imagem sem a luz laranja artificial */
+footer.site-footer::before,
+.site-footer::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background: linear-gradient(90deg, #0D0B0A 0%, rgba(13, 11, 10, 0.92) 42%, rgba(13, 11, 10, 0.72) 100%),
+              linear-gradient(180deg, rgba(13, 11, 10, 0.94) 0%, rgba(13, 11, 10, 0.65) 50%, #0D0B0A 100%) !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+
+.site-footer > .shell,
+.site-footer > .site-footer-conteudo {
+  position: relative !important;
+  z-index: 2 !important;
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 0 20px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Grade Principal */
+.horizon-footer-grid {
+  display: flex !important;
+  align-items: flex-start !important;
+  justify-content: space-between !important;
+  gap: 32px !important;
+  width: 100% !important;
+}
+
+/* Coluna 1: Logo H, Texto e Redes */
+.horizon-footer-brand-col {
+  flex: 0 0 320px !important;
+  max-width: 340px !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.horizon-footer-logo-link {
+  display: inline-block !important;
+  margin-bottom: 14px !important;
+  text-decoration: none !important;
+}
+
+.horizon-footer-logo-h {
+  height: 52px !important;
+  width: auto !important;
+  object-fit: contain !important;
+  display: block !important;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.6)) !important;
+}
+
+.horizon-footer-desc {
+  color: #A1A1AA !important;
+  font-size: 0.92rem !important;
+  line-height: 1.5 !important;
+  margin: 0 0 20px 0 !important;
+  font-weight: 500 !important;
+}
+
+.horizon-footer-socials {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+
+.horizon-footer-social-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 42px !important;
+  height: 42px !important;
+  border-radius: 10px !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #EDE8E5 !important;
+  text-decoration: none !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.horizon-footer-social-btn:hover {
+  background: rgba(215, 87, 59, 0.2) !important;
+  border-color: #D7573B !important;
+  color: #FFFFFF !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 4px 14px rgba(215, 87, 59, 0.35) !important;
+}
+
+.horizon-footer-social-btn svg {
+  width: 20px !important;
+  height: 20px !important;
+}
+
+/* Divisores Verticais */
+.horizon-footer-col-divider {
+  width: 1px !important;
+  align-self: stretch !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  margin: 0 10px !important;
+  flex-shrink: 0 !important;
+}
+
+/* Colunas de Navegação */
+.horizon-footer-nav-col {
+  flex: 1 1 200px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 16px !important;
+}
+
+.horizon-footer-col-title {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  font-family: var(--font-heading, 'Space Grotesk', -apple-system, sans-serif) !important;
+  font-size: 0.88rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  color: #FFFFFF !important;
+  margin: 0 !important;
+}
+
+.horizon-footer-title-bar {
+  width: 3px !important;
+  height: 16px !important;
+  background: #D7573B !important;
+  border-radius: 2px !important;
+  flex-shrink: 0 !important;
+}
+
+.horizon-footer-links-list {
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+}
+
+.horizon-footer-link {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  color: #A1A1AA !important;
+  text-decoration: none !important;
+  font-size: 0.92rem !important;
+  font-weight: 500 !important;
+  transition: all 0.2s ease !important;
+}
+
+.horizon-footer-link-chevron {
+  color: #D7573B !important;
+  font-size: 1.15rem !important;
+  line-height: 1 !important;
+  font-weight: 800 !important;
+  transition: transform 0.2s ease !important;
+}
+
+.horizon-footer-link:hover {
+  color: #FFFFFF !important;
+}
+
+.horizon-footer-link:hover .horizon-footer-link-chevron {
+  transform: translateX(3px) !important;
+}
+
+/* Linha Divisória Inferior */
+.horizon-footer-bottom-sep {
+  width: 100% !important;
+  height: 1px !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  margin: 40px 0 24px 0 !important;
+}
+
+/* Barra Inferior: Copyright + Status */
+.horizon-footer-bottom-bar {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  flex-wrap: wrap !important;
+  gap: 16px !important;
+  width: 100% !important;
+}
+
+.horizon-footer-copyright {
+  color: #71717A !important;
+  font-size: 0.85rem !important;
+  margin: 0 !important;
+}
+
+.horizon-footer-status-pill {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  background: rgba(34, 197, 94, 0.06) !important;
+  border: 1px solid rgba(34, 197, 94, 0.35) !important;
+  border-radius: 9999px !important;
+  padding: 5px 14px !important;
+}
+
+.horizon-footer-status-dot {
+  width: 8px !important;
+  height: 8px !important;
+  border-radius: 50% !important;
+  background: #22C55E !important;
+  box-shadow: 0 0 8px #22C55E !important;
+}
+
+.horizon-footer-status-text {
+  color: #4ADE80 !important;
+  font-size: 0.78rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.02em !important;
+}
+
+@media (max-width: 768px) {
+  .horizon-footer-grid {
+    flex-direction: column !important;
+    gap: 32px !important;
+  }
+  .horizon-footer-col-divider {
+    display: none !important;
+  }
+  .horizon-footer-brand-col {
+    max-width: 100% !important;
+    flex: 1 1 100% !important;
+  }
+  .horizon-footer-bottom-bar {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 14px !important;
+  }
+}
+
 /* ==================== ESTILO DE TÍTULO COM BARRA LARANJA (ESTILO WIPE E CRONOGRAMA) ==================== */
 .horizon-section-header {
   display: flex !important;
