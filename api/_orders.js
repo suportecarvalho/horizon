@@ -429,6 +429,68 @@ async function createManualOrder({ steamId, playerName, playerAvatar, vipTier, d
   return order;
 }
 
+/**
+ * Exclui um pedido individual do banco de dados e arquivos locais
+ */
+async function deleteOrder(orderId) {
+  if (!orderId) return false;
+  const qId = String(orderId).trim();
+
+  if (supabase) {
+    try {
+      await supabase
+        .from('vip_orders')
+        .delete()
+        .or(`id.eq.${qId},payment_id.eq.${qId}`);
+    } catch (e) {
+      console.error('[deleteOrder Supabase vip_orders error]:', e);
+    }
+
+    try {
+      const sysOrders = await getSystemOrdersFromSupabase();
+      const filtered = sysOrders.filter(o => String(o.id) !== qId && String(o.payment_id) !== qId);
+      await saveSystemOrdersToSupabase(filtered);
+    } catch (e) {
+      console.error('[deleteOrder Supabase feed_posts error]:', e);
+    }
+  }
+
+  const orders = loadLocalOrders();
+  const filtered = orders.filter(o => String(o.id) !== qId && String(o.payment_id) !== qId);
+  saveLocalOrders(filtered);
+  return true;
+}
+
+/**
+ * Exclui pagamentos em lote / geral (todos ou apenas pendentes)
+ */
+async function clearAllOrders(filter = 'all') {
+  if (supabase) {
+    try {
+      if (filter === 'all') {
+        await supabase.from('vip_orders').delete().neq('id', '___empty___');
+        await saveSystemOrdersToSupabase([]);
+      } else if (filter === 'pending') {
+        await supabase.from('vip_orders').delete().eq('status', 'pending');
+        const sysOrders = await getSystemOrdersFromSupabase();
+        const remaining = sysOrders.filter(o => o.status !== 'pending');
+        await saveSystemOrdersToSupabase(remaining);
+      }
+    } catch (e) {
+      console.error('[clearAllOrders Supabase error]:', e);
+    }
+  }
+
+  let orders = loadLocalOrders();
+  if (filter === 'all') {
+    orders = [];
+  } else if (filter === 'pending') {
+    orders = orders.filter(o => o.status !== 'pending');
+  }
+  saveLocalOrders(orders);
+  return true;
+}
+
 module.exports = {
   saveOrder,
   getOrder,
@@ -441,5 +503,7 @@ module.exports = {
   retryDelivery,
   manualApproveOrder,
   cancelOrder,
-  createManualOrder
+  createManualOrder,
+  deleteOrder,
+  clearAllOrders
 };

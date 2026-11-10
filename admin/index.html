@@ -320,6 +320,30 @@
       background: var(--marca-hover);
     }
 
+    .btn-action-danger {
+      background: rgba(220, 38, 38, 0.15);
+      border: 1px solid rgba(220, 38, 38, 0.45);
+      color: #EF4444;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-action-danger:hover {
+      background: #DC2626;
+      border-color: #DC2626;
+      color: #FFFFFF;
+      box-shadow: 0 4px 14px rgba(220, 38, 38, 0.35);
+    }
+
     .btn-refresh {
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid var(--border-color);
@@ -530,6 +554,18 @@
     .btn-tbl-steam:hover {
       background: #2563EB;
       color: #FFFFFF;
+    }
+
+    .btn-tbl-delete {
+      background: rgba(239, 68, 68, 0.12);
+      border-color: rgba(239, 68, 68, 0.35);
+      color: #F87171;
+    }
+    .btn-tbl-delete:hover {
+      background: #DC2626;
+      border-color: #DC2626;
+      color: #FFFFFF;
+      box-shadow: 0 2px 8px rgba(220, 38, 38, 0.4);
     }
 
     /* Modal */
@@ -784,6 +820,10 @@
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
             Nova Entrega Manual
           </button>
+          <button type="button" class="btn-action-danger" onclick="openDeleteModal()" title="Excluir pagamentos do banco de dados">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+            Excluir Pagamentos
+          </button>
           <button type="button" class="btn-refresh" onclick="loadAdminOrders(true)" title="Recarregar dados">
             <svg id="refresh-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
             Atualizar
@@ -869,6 +909,53 @@
           <button type="submit" class="btn-action-primary" id="btn-submit-manual">Criar e Entregar no Jogo</button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- Modal de Exclusão de Pagamentos -->
+  <div id="delete-modal" class="admin-modal-overlay" onclick="closeDeleteModal(event)">
+    <div class="admin-modal-card" onclick="event.stopPropagation()" style="max-width: 520px;">
+      <div class="admin-modal-header">
+        <h3 class="admin-modal-title" style="color: #EF4444; display: flex; align-items: center; gap: 8px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+          Excluir Pagamentos
+        </h3>
+        <button type="button" onclick="closeDeleteModal()" style="background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.2rem;">&times;</button>
+      </div>
+
+      <div style="font-size: 0.88rem; color: #D1D5DB; line-height: 1.5; margin-bottom: 20px;">
+        Selecione o tipo de exclusão que deseja realizar no histórico de pagamentos:
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 22px;">
+        <label style="display: flex; align-items: flex-start; gap: 12px; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); padding: 14px; border-radius: 8px; cursor: pointer;">
+          <input type="radio" name="delete_type" value="pending" checked style="margin-top: 3px;">
+          <div>
+            <strong style="color: #FBBF24; display: block; margin-bottom: 2px;">Excluir apenas Pagamentos Pendentes</strong>
+            <span style="font-size: 0.78rem; color: var(--text-muted);">Remove apenas pedidos PIX gerados que não foram pagos ou expiraram. Mantém intactos todos os VIPs ativos e aprovados.</span>
+          </div>
+        </label>
+
+        <label style="display: flex; align-items: flex-start; gap: 12px; background: rgba(239, 68, 68, 0.06); border: 1px solid rgba(239, 68, 68, 0.25); padding: 14px; border-radius: 8px; cursor: pointer;">
+          <input type="radio" name="delete_type" value="all" style="margin-top: 3px;">
+          <div>
+            <strong style="color: #EF4444; display: block; margin-bottom: 2px;">Excluir TODOS os Pagamentos (Geral)</strong>
+            <span style="font-size: 0.78rem; color: var(--text-muted);">Limpa e zera completamente o histórico de pagamentos do banco de dados (ideal para início de wipe limpo).</span>
+          </div>
+        </label>
+      </div>
+
+      <div id="delete-warning-box" style="display: none; background: rgba(220, 38, 38, 0.15); border: 1px solid #DC2626; border-radius: 8px; padding: 12px; margin-bottom: 18px; font-size: 0.78rem; color: #FECACA;">
+        ⚠️ <strong>Atenção:</strong> A exclusão geral é irreversível. Digite <strong>EXCLUIR</strong> abaixo para confirmar:
+        <input type="text" id="delete-confirm-text" class="form-input" placeholder="Digite EXCLUIR" style="margin-top: 8px; border-color: #EF4444;">
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button type="button" onclick="closeDeleteModal()" class="btn-nav-link" style="cursor: pointer;">Cancelar</button>
+        <button type="button" class="btn-action-danger" id="btn-confirm-delete" onclick="executeClearOrders()">
+          Confirmar Exclusão
+        </button>
+      </div>
     </div>
   </div>
 
@@ -1137,6 +1224,12 @@
           `;
         }
 
+        actionsHtml += `
+          <button type="button" class="btn-tbl btn-tbl-delete" onclick="triggerDeleteOrder('${o.id}')" title="Excluir este pagamento permanentemente">
+            🗑️ Excluir
+          </button>
+        `;
+
         return `
           <tr>
             <td>
@@ -1229,6 +1322,109 @@
     function closeManualModal(e) {
       if (e && e.target !== e.currentTarget && e.currentTarget.id !== 'manual-modal') return;
       document.getElementById('manual-modal').style.display = 'none';
+    }
+
+    // Modal de Exclusão de Pagamentos
+    function openDeleteModal() {
+      const modal = document.getElementById('delete-modal');
+      modal.style.display = 'flex';
+      const radios = document.querySelectorAll('input[name="delete_type"]');
+      const warnBox = document.getElementById('delete-warning-box');
+      const inputConfirm = document.getElementById('delete-confirm-text');
+      
+      radios.forEach(r => {
+        r.onchange = () => {
+          if (r.value === 'all' && r.checked) {
+            warnBox.style.display = 'block';
+            inputConfirm.value = '';
+            inputConfirm.focus();
+          } else {
+            warnBox.style.display = 'none';
+          }
+        };
+      });
+
+      // Padrão: pendentes
+      radios[0].checked = true;
+      warnBox.style.display = 'none';
+    }
+
+    function closeDeleteModal(e) {
+      if (e && e.target !== e.currentTarget && e.currentTarget.id !== 'delete-modal') return;
+      document.getElementById('delete-modal').style.display = 'none';
+    }
+
+    async function executeClearOrders() {
+      const selected = document.querySelector('input[name="delete_type"]:checked');
+      const filterType = selected ? selected.value : 'pending';
+
+      if (filterType === 'all') {
+        const confirmVal = (document.getElementById('delete-confirm-text').value || '').trim();
+        if (confirmVal !== 'EXCLUIR') {
+          alert('Por segurança, digite a palavra EXCLUIR em letras maiúsculas para confirmar a limpeza total do histórico.');
+          return;
+        }
+      } else {
+        if (!confirm('Deseja realmente excluir todos os pagamentos pendentes/não pagos?')) return;
+      }
+
+      const btn = document.getElementById('btn-confirm-delete');
+      const oldText = btn.innerText;
+      btn.innerText = 'Excluindo...';
+      btn.disabled = true;
+
+      try {
+        const headers = { 'Content-Type': 'application/json' };
+        if (masterKeyHeader) headers['x-admin-key'] = masterKeyHeader;
+
+        const res = await fetch('/api/admin', {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({ action: 'delete_all_orders', filter: filterType })
+        });
+
+        const data = await res.json();
+        if (data.success) {
+          showToast(data.message || 'Pagamentos excluídos com sucesso!');
+          closeDeleteModal();
+          loadAdminOrders();
+        } else {
+          showToast(data.error || 'Erro ao excluir pagamentos', true);
+        }
+      } catch (err) {
+        showToast('Erro de comunicação com o servidor', true);
+      } finally {
+        btn.innerText = oldText;
+        btn.disabled = false;
+      }
+    }
+
+    // Exclusão de pagamento individual
+    async function triggerDeleteOrder(orderId) {
+      if (!confirm(`Deseja realmente EXCLUIR o pagamento ${orderId} do banco de dados? Esta ação não pode ser desfeita.`)) {
+        return;
+      }
+
+      try {
+        const headers = { 'Content-Type': 'application/json' };
+        if (masterKeyHeader) headers['x-admin-key'] = masterKeyHeader;
+
+        const res = await fetch('/api/admin', {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({ action: 'delete_order', orderId })
+        });
+
+        const data = await res.json();
+        if (data.success) {
+          showToast(data.message || 'Pagamento excluído com sucesso!');
+          loadAdminOrders();
+        } else {
+          showToast(data.error || 'Erro ao excluir pagamento', true);
+        }
+      } catch (err) {
+        showToast('Erro de comunicação com o servidor', true);
+      }
     }
 
     async function submitManualOrder(e) {

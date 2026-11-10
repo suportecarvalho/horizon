@@ -7,7 +7,9 @@ const {
   manualApproveOrder,
   markOrderGranted,
   cancelOrder,
-  createManualOrder
+  createManualOrder,
+  deleteOrder,
+  clearAllOrders
 } = require('./_orders');
 const { searchRecentPayments } = require('./_mercadopago');
 const { attachResHelpers } = require('./_res');
@@ -292,6 +294,29 @@ module.exports = async (req, res) => {
           success: true,
           message: `VIP ${vipTier.toUpperCase()} criado com sucesso para o jogador ${steamId}! Entrega agendada no servidor.`,
           order: newOrder
+        });
+      }
+
+      // Ação 6: Excluir um pagamento individual
+      if (action === 'delete_order') {
+        if (!orderId) return res.status(400).json({ error: 'orderId obrigatório' });
+        await deleteOrder(orderId);
+        return res.status(200).json({
+          success: true,
+          message: `Pagamento ${orderId} foi excluído com sucesso do banco de dados.`
+        });
+      }
+
+      // Ação 7: Excluir pagamentos em lote / geral
+      if (action === 'delete_all_orders' || action === 'clear_all_orders') {
+        const filterType = body.filter || 'all'; // 'all' ou 'pending'
+        await clearAllOrders(filterType);
+        const msg = filterType === 'pending'
+          ? 'Todos os pagamentos pendentes/não pagos foram excluídos com sucesso!'
+          : 'Todos os pagamentos foram excluídos com sucesso do banco de dados!';
+        return res.status(200).json({
+          success: true,
+          message: msg
         });
       }
 
