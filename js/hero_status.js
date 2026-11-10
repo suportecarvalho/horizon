@@ -53,9 +53,9 @@
   }
 
   function formatCountdown(targetDate) {
-    if (!targetDate) return '--d --h --m';
+    if (!targetDate) return { str: '--d --h --m', days: '--', hours: '--', mins: '--', pct: 50 };
     var diffMs = targetDate.getTime() - Date.now();
-    if (diffMs <= 0) return 'Wipando agora!';
+    if (diffMs <= 0) return { str: 'Wipando agora!', days: '00', hours: '00', mins: '00', pct: 100 };
 
     var diffSec = Math.floor(diffMs / 1000);
     var diffMin = Math.floor(diffSec / 60);
@@ -66,20 +66,34 @@
     var remMin = diffMin % 60;
     var remSec = diffSec % 60;
 
-    if (diffDays > 0) {
-      return diffDays + 'd ' + remHours + 'h ' + remMin + 'm';
-    }
-    return remHours + 'h ' + remMin + 'm ' + (remSec < 10 ? '0' : '') + remSec + 's';
+    // Ciclo semanal padrão: 7 dias
+    var totalCycleMs = 7 * 24 * 60 * 60 * 1000;
+    var elapsedMs = Math.max(0, totalCycleMs - diffMs);
+    var pct = Math.max(6, Math.min(100, Math.round((elapsedMs / totalCycleMs) * 100)));
+
+    var dStr = String(diffDays).padStart(2, '0');
+    var hStr = String(remHours).padStart(2, '0');
+    var mStr = String(remMin).padStart(2, '0');
+
+    return {
+      str: diffDays + 'd ' + remHours + 'h ' + remMin + 'm',
+      days: dStr,
+      hours: hStr,
+      mins: mStr,
+      pct: pct
+    };
   }
 
   function getCalculatedNextWipe() {
     var d = new Date();
+    // Wipe semanal ocorre toda Sexta-feira às 18:00h BRT (21:00 UTC)
     var currentDay = d.getUTCDay();
-    var daysUntilSaturday = (6 - currentDay + 7) % 7;
-    if (daysUntilSaturday === 0 && d.getUTCHours() >= 15) {
-      daysUntilSaturday = 7;
+    var currentHour = d.getUTCHours();
+    var daysUntilFriday = (5 - currentDay + 7) % 7;
+    if (daysUntilFriday === 0 && currentHour >= 21) {
+      daysUntilFriday = 7;
     }
-    return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() + daysUntilSaturday, 15, 0, 0, 0));
+    return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() + daysUntilFriday, 21, 0, 0, 0));
   }
 
   function tickWipeDisplay() {
@@ -99,8 +113,20 @@
     }
 
     var nextWipeDate = currentNextWipe ? new Date(currentNextWipe) : getCalculatedNextWipe();
+    var cd = formatCountdown(nextWipeDate);
+
+    var elValDays = document.getElementById('wipe-val-days');
+    var elValHours = document.getElementById('wipe-val-hours');
+    var elValMins = document.getElementById('wipe-val-mins');
+    var elProgressBar = document.getElementById('wipe-progress-bar');
+
+    if (elValDays) elValDays.textContent = cd.days;
+    if (elValHours) elValHours.textContent = cd.hours;
+    if (elValMins) elValMins.textContent = cd.mins;
+    if (elProgressBar) elProgressBar.style.width = cd.pct + '%';
+
     if (elWipeCountdown) {
-      elWipeCountdown.textContent = formatCountdown(nextWipeDate);
+      elWipeCountdown.textContent = cd.str;
     }
 
     if (elWipeNextDate) {

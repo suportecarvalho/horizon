@@ -2600,5 +2600,204 @@ body.horizon-menu-locked {
   line-height: 1.35 !important;
 }
 
+/* ==================== CARD PRÓXIMO WIPE (ESTILO DEDICADO) ==================== */
+.horizon-wipe-next-card {
+  background: radial-gradient(ellipse 70% 60% at 85% 15%, rgba(231, 93, 24, 0.12) 0%, transparent 65%),
+              radial-gradient(ellipse 50% 50% at 15% 85%, rgba(69, 216, 184, 0.04) 0%, transparent 60%),
+              #121418 !important;
+  border: 1px solid rgba(255, 255, 255, 0.09) !important;
+  border-radius: 14px !important;
+  padding: 24px 26px !important;
+  position: relative !important;
+  overflow: hidden !important;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.horizon-wipe-next-card:hover {
+  border-color: rgba(231, 93, 24, 0.35) !important;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.65), 0 0 20px rgba(231, 93, 24, 0.1) !important;
+}
+
+/* Topo do Card */
+.horizon-wipe-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  margin-bottom: 16px !important;
+}
+
+.horizon-wipe-tag {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 9px !important;
+  color: #c5ccd3 !important;
+  font-family: var(--font-heading, 'Space Grotesk', -apple-system, sans-serif) !important;
+  font-size: 0.95rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.04em !important;
+  text-transform: uppercase !important;
+}
+
+.horizon-wipe-clock-icon {
+  color: #45d8b8 !important;
+  flex-shrink: 0 !important;
+}
+
+/* Bloco dos Números da Contagem */
+.horizon-wipe-countdown {
+  display: flex !important;
+  align-items: baseline !important;
+  justify-content: flex-start !important;
+  gap: 0 !important;
+  margin-bottom: 4px !important;
+}
+
+.horizon-wipe-digit-group {
+  display: inline-flex !important;
+  align-items: baseline !important;
+}
+
+.horizon-wipe-number {
+  font-family: var(--font-heading, 'Space Grotesk', -apple-system, sans-serif) !important;
+  font-size: clamp(2.4rem, 4.4vw, 3.4rem) !important;
+  font-weight: 900 !important;
+  color: #FFFFFF !important;
+  letter-spacing: -0.02em !important;
+  line-height: 1 !important;
+}
+
+.horizon-wipe-unit {
+  font-family: var(--font-heading, 'Space Grotesk', -apple-system, sans-serif) !important;
+  font-size: clamp(1.4rem, 2.4vw, 1.95rem) !important;
+  font-weight: 700 !important;
+  color: #FFFFFF !important;
+  line-height: 1 !important;
+  margin-left: 2px !important;
+}
+
+.horizon-wipe-sep {
+  display: inline-block !important;
+  width: 2px !important;
+  min-width: 2px !important;
+  height: clamp(32px, 4vw, 42px) !important;
+  background: #e75d18 !important;
+  border-radius: 2px !important;
+  margin: 0 clamp(10px, 1.6vw, 20px) !important;
+  align-self: center !important;
+  flex-shrink: 0 !important;
+  opacity: 0.95 !important;
+  box-shadow: 0 0 8px rgba(231, 93, 24, 0.45) !important;
+}
+
+/* Rótulo "CONTAGEM REGRESSIVA" */
+.horizon-wipe-label {
+  font-family: var(--font-heading, 'Space Grotesk', -apple-system, sans-serif) !important;
+  font-size: 0.72rem !important;
+  font-weight: 800 !important;
+  color: #7b8590 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.28em !important;
+  margin-top: 4px !important;
+  margin-bottom: 14px !important;
+}
+
+/* Barra de Progresso */
+.horizon-wipe-progress-track {
+  width: 100% !important;
+  height: 8px !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-radius: 9999px !important;
+  overflow: hidden !important;
+  margin-bottom: 22px !important;
+}
+
+.horizon-wipe-progress-fill {
+  height: 100% !important;
+  border-radius: 9999px !important;
+  background: linear-gradient(90deg, #ff6b3d 0%, #e75d18 100%) !important;
+  box-shadow: 0 0 10px rgba(231, 93, 24, 0.5) !important;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Divisor Horizontal */
+.horizon-wipe-divider {
+  border: 0 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.07) !important;
+  margin: 0 0 18px 0 !important;
+  width: 100% !important;
+}
+
+/* Grid de Informações Inferiores */
+.horizon-wipe-meta-grid {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 16px !important;
+}
+
+.horizon-wipe-meta-col {
+  display: flex !important;
+  align-items: center !important;
+  gap: 13px !important;
+  flex: 1 !important;
+}
+
+.horizon-wipe-meta-icon {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+}
+
+.horizon-wipe-meta-icon.horizon-wipe-icon-orange {
+  color: #e75d18 !important;
+}
+
+.horizon-wipe-meta-icon.horizon-wipe-icon-teal {
+  color: #45d8b8 !important;
+}
+
+.horizon-wipe-meta-text {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
+}
+
+.horizon-wipe-meta-title {
+  font-family: var(--font-heading, 'Space Grotesk', -apple-system, sans-serif) !important;
+  font-size: clamp(0.92rem, 1.2vw, 1.02rem) !important;
+  font-weight: 700 !important;
+  color: #FFFFFF !important;
+  line-height: 1.25 !important;
+}
+
+.horizon-wipe-meta-sub {
+  font-size: clamp(0.76rem, 1vw, 0.82rem) !important;
+  color: #8e9b98 !important;
+  line-height: 1.35 !important;
+}
+
+.horizon-wipe-meta-sep {
+  width: 1px !important;
+  height: 38px !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  flex-shrink: 0 !important;
+}
+
+@media (max-width: 520px) {
+  .horizon-wipe-meta-grid {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 14px !important;
+  }
+  .horizon-wipe-meta-sep {
+    display: none !important;
+  }
+}
+
 
 
