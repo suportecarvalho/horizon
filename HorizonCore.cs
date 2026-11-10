@@ -204,17 +204,20 @@ namespace Oxide.Plugins
         public class PendingDelivery
         {
             public string orderId { get; set; }
+            public string paymentId { get; set; }
             public string steamId { get; set; }
             public string playerName { get; set; }
             public string vipTier { get; set; }
-            public int durationDays { get; set; }
+            public string groupName { get; set; }
             public string kitPermission { get; set; }
             public string expiresAt { get; set; }
+            public int durationDays { get; set; }
         }
 
         public class PendingResponse
         {
             public bool success { get; set; }
+            public int count { get; set; }
             public List<PendingDelivery> deliveries { get; set; }
         }
 

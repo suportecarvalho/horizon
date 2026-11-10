@@ -76,6 +76,7 @@ namespace Oxide.Plugins
         public class PendingDelivery
         {
             public string orderId { get; set; }
+            public string paymentId { get; set; }
             public string steamId { get; set; }
             public string playerName { get; set; }
             public string vipTier { get; set; }
