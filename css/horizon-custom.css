@@ -3000,7 +3000,7 @@ footer.site-footer::before,
   margin: 40px 0 24px 0 !important;
 }
 
-/* Barra Inferior: Copyright + Status */
+/* Barra Inferior: Copyright + Desenvolvedor */
 .horizon-footer-bottom-bar {
   display: flex !important;
   align-items: center !important;
@@ -3010,10 +3010,16 @@ footer.site-footer::before,
   width: 100% !important;
 }
 
-.horizon-footer-copyright {
+.horizon-footer-copyright,
+.horizon-footer-dev {
   color: #71717A !important;
   font-size: 0.85rem !important;
   margin: 0 !important;
+}
+
+.horizon-footer-dev-name {
+  color: #EDE8E5 !important;
+  font-weight: 700 !important;
 }
 
 .horizon-footer-status-pill {
