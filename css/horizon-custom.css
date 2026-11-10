@@ -472,10 +472,22 @@ video.hero-midia {
 }
 
 .btn-horizon-primary svg,
-.btn-horizon-discord svg {
+.btn-horizon-discord svg,
+.btn-horizon-primary:hover svg,
+.btn-horizon-discord:hover svg,
+.btn-horizon-primary:hover > svg:last-child,
+.btn-horizon-discord:hover > svg:last-child,
+.btn-horizon-primary:active svg,
+.btn-horizon-discord:active svg,
+.btn-horizon-primary:focus svg,
+.btn-horizon-discord:focus svg {
   width: 24px !important;
   height: 24px !important;
   flex-shrink: 0 !important;
+  transform: none !important;
+  -webkit-transform: none !important;
+  transition: none !important;
+  animation: none !important;
 }
 
 .btn-horizon-primary {
