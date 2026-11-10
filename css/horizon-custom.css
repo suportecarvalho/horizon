@@ -2178,7 +2178,8 @@ body.horizon-menu-locked {
     display: inline-flex !important;
   }
   .horizon-auth-desktop,
-  .site-header-direita .horizon-steam-user-pill {
+  .site-header-direita .horizon-steam-user-pill,
+  .site-header-direita .horizon-header-user-slot {
     display: none !important;
   }
 }
@@ -2408,151 +2409,122 @@ body.horizon-menu-locked {
 }
 
 /* ==============================================================
-   BOTÃO DE PERFIL COM MENU SANDUÍCHE NO TOPO
+   BOTÃO ENTRAR COM STEAM (DESKTOP E MOBILE) - VERMELHO SÓLIDO
    ============================================================== */
-.horizon-user-menu-btn {
-  display: inline-flex !important;
-  align-items: center !important;
-  gap: 10px !important;
-  width: auto !important;
-  height: 38px !important;
-  background: rgba(255, 255, 255, 0.05) !important;
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
-  padding: 4px 12px 4px 5px !important;
-  border-radius: 9999px !important;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4) !important;
-  cursor: pointer !important;
-  color: #EDE8E5 !important;
-  transition: all 0.2s ease !important;
-  text-decoration: none !important;
-  outline: none !important;
-  position: relative !important;
-  z-index: 101 !important;
-  user-select: none !important;
-  font-family: inherit !important;
-  box-sizing: border-box !important;
+.horizon-auth-desktop {
+  background: #D7573B !important;
+  color: #FFFFFF !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  box-shadow: 0 4px 14px rgba(215, 87, 59, 0.4) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35) !important;
+  font-weight: 800 !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
-.horizon-user-menu-btn:hover,
-.horizon-user-menu-btn:focus-visible {
-  background: rgba(255, 255, 255, 0.1) !important;
-  border-color: rgba(255, 255, 255, 0.24) !important;
+.horizon-auth-desktop:hover {
+  background: #e86447 !important;
+  border-color: rgba(255, 255, 255, 0.45) !important;
   color: #FFFFFF !important;
   transform: translateY(-1px) !important;
+  box-shadow: 0 6px 20px rgba(215, 87, 59, 0.6) !important;
 }
 
-.horizon-user-menu-btn:active {
+.horizon-auth-desktop:active {
   transform: translateY(0) !important;
 }
 
-.horizon-user-avatar-wrap {
+.horizon-mobile-steam-login {
+  background: #D7573B !important;
+  color: #FFFFFF !important;
+  border: 1px solid rgba(255, 255, 255, 0.22) !important;
+  box-shadow: 0 4px 14px rgba(215, 87, 59, 0.35) !important;
+}
+
+.horizon-mobile-steam-login:hover {
+  background: #e86447 !important;
+  color: #FFFFFF !important;
+}
+
+/* ==============================================================
+   PERFIL LOGADO NO TOPO (APENAS AVATAR MAIOR REDONDO E SETA SAIR)
+   ============================================================== */
+.horizon-header-user-slot {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 12px !important;
   position: relative !important;
+  z-index: 10 !important;
+}
+
+.horizon-header-avatar-link {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  flex-shrink: 0 !important;
+  border-radius: 50% !important;
+  text-decoration: none !important;
+  outline: none !important;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
-.horizon-user-avatar {
-  width: 28px !important;
-  height: 28px !important;
+.horizon-header-avatar-link:hover {
+  transform: scale(1.08) !important;
+}
+
+.horizon-header-avatar {
+  width: 40px !important;
+  height: 40px !important;
   border-radius: 50% !important;
   object-fit: cover !important;
-  border: 1.5px solid #22c55e !important;
+  border: 2px solid rgba(255, 255, 255, 0.25) !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5) !important;
   display: block !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
 }
 
-.horizon-user-avatar.is-admin {
+.horizon-header-avatar-link:hover .horizon-header-avatar {
   border-color: #D7573B !important;
+  box-shadow: 0 0 16px rgba(215, 87, 59, 0.55) !important;
 }
 
-.horizon-user-status-dot {
-  position: absolute !important;
-  bottom: -1px !important;
-  right: -1px !important;
-  width: 8px !important;
-  height: 8px !important;
-  background: #22c55e !important;
+.horizon-header-avatar.is-admin {
+  border-color: #D7573B !important;
+  box-shadow: 0 0 14px rgba(215, 87, 59, 0.5) !important;
+}
+
+.horizon-header-logout-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 36px !important;
+  height: 36px !important;
   border-radius: 50% !important;
-  border: 1.5px solid #0a0a0a !important;
-}
-
-.horizon-user-name {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
   color: #EDE8E5 !important;
-  font-weight: 700 !important;
-  font-size: 0.8rem !important;
-  letter-spacing: 0.02em !important;
-  max-width: 120px !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-  white-space: nowrap !important;
+  text-decoration: none !important;
+  transition: all 0.2s ease !important;
+  cursor: pointer !important;
 }
 
-.horizon-adm-badge {
-  background: rgba(215, 87, 59, 0.35) !important;
-  border: 1px solid #D7573B !important;
-  color: #ff8b70 !important;
-  font-size: 0.65rem !important;
-  padding: 1px 5px !important;
-  border-radius: 4px !important;
-  font-weight: 800 !important;
-  letter-spacing: 0.05em !important;
-  flex-shrink: 0 !important;
+.horizon-header-logout-btn:hover {
+  background: #D7573B !important;
+  border-color: #D7573B !important;
+  color: #FFFFFF !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 14px rgba(215, 87, 59, 0.5) !important;
 }
 
-.horizon-user-menu-btn .horizon-toggle-bars {
-  width: 16px !important;
-  height: 12px !important;
-  margin-left: 2px !important;
-  flex-shrink: 0 !important;
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: space-between !important;
+.horizon-header-logout-btn:active {
+  transform: translateY(0) !important;
 }
 
-.horizon-user-menu-btn .horizon-toggle-bars span {
+.horizon-header-logout-btn svg {
   display: block !important;
-  width: 100% !important;
-  height: 2px !important;
-  background-color: #EDE8E5 !important;
-  border-radius: 2px !important;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease, background-color 0.2s ease !important;
-  transform-origin: center !important;
+  transition: transform 0.2s ease !important;
 }
 
-.horizon-user-menu-btn.is-open {
-  border-color: #CE422B !important;
-  background: rgba(206, 66, 43, 0.15) !important;
-}
-
-.horizon-user-menu-btn.is-open .horizon-toggle-bars span:nth-child(1) {
-  transform: translateY(5px) rotate(45deg) !important;
-  background-color: #CE422B !important;
-}
-
-.horizon-user-menu-btn.is-open .horizon-toggle-bars span:nth-child(2) {
-  opacity: 0 !important;
-  transform: scaleX(0) !important;
-}
-
-.horizon-user-menu-btn.is-open .horizon-toggle-bars span:nth-child(3) {
-  transform: translateY(-5px) rotate(-45deg) !important;
-  background-color: #CE422B !important;
-}
-
-/* Oculta botão sanduíche avulso caso o botão de perfil com sanduíche esteja presente */
-.site-header-direita:has(.horizon-user-menu-btn) > .horizon-mobile-toggle:not(.horizon-user-menu-btn) {
-  display: none !important;
-}
-
-@media (max-width: 640px) {
-  .horizon-user-name {
-    display: none !important;
-  }
-  .horizon-user-menu-btn {
-    padding: 4px 8px 4px 4px !important;
-    gap: 8px !important;
-  }
+.horizon-header-logout-btn:hover svg {
+  transform: translateX(1px) !important;
 }
 
 /* ==================== ESTILO DE TÍTULO COM BARRA LARANJA (ESTILO WIPE E CRONOGRAMA) ==================== */

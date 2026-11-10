@@ -45,7 +45,7 @@
   }
 
   function resetUserHeader() {
-    const pills = document.querySelectorAll('.horizon-steam-user-pill, .horizon-user-menu-btn, .horizon-mobile-user-card');
+    const pills = document.querySelectorAll('.horizon-steam-user-pill, .horizon-user-menu-btn, .horizon-header-user-slot, .horizon-mobile-user-card');
     pills.forEach(pill => {
       const isMobile = pill.classList.contains('horizon-mobile-user-card') || pill.closest('.horizon-mobile-auth-slot');
       if (isMobile) {
@@ -71,7 +71,7 @@
       }
     });
 
-    document.querySelectorAll('.site-header-direita .horizon-mobile-toggle:not(.horizon-user-menu-btn)').forEach(el => {
+    document.querySelectorAll('.site-header-direita .horizon-mobile-toggle').forEach(el => {
       el.style.display = '';
     });
   }
@@ -108,37 +108,21 @@
         `;
         btn.replaceWith(card);
       } else {
-        const wrapper = document.createElement('button');
-        wrapper.type = 'button';
-        wrapper.className = 'horizon-user-menu-btn';
-        wrapper.setAttribute('aria-label', 'Menu da conta e navegação');
-        wrapper.setAttribute('aria-expanded', 'false');
-        wrapper.setAttribute('aria-controls', 'horizon-mobile-drawer');
-
-        wrapper.innerHTML = `
-          <div class="horizon-user-avatar-wrap">
-            <img src="${avatarSrc}" alt="${user.name}" class="horizon-user-avatar ${isAdm ? 'is-admin' : ''}" onerror="this.onerror=null;this.src='https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg';">
-            <span class="horizon-user-status-dot"></span>
-          </div>
-          <span class="horizon-user-name">${user.name}</span>
-          ${isAdm ? `<span class="horizon-adm-badge">ADM</span>` : ''}
-          <span class="horizon-toggle-bars" aria-hidden="true">
-            <span></span>
-            <span></span>
-            <span></span>
-          </span>
+        const userSlot = document.createElement('div');
+        userSlot.className = 'horizon-header-user-slot';
+        userSlot.innerHTML = `
+          <a href="/perfil" class="horizon-header-avatar-link" title="Meu Perfil (${user.name})">
+            <img src="${avatarSrc}" alt="${user.name}" class="horizon-header-avatar ${isAdm ? 'is-admin' : ''}" onerror="this.onerror=null;this.src='https://avatars.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg';">
+          </a>
+          <a href="/auth/logout" class="horizon-header-logout-btn" onclick="try{localStorage.removeItem('horizon_steam_user');}catch(e){}" title="Sair da conta" aria-label="Sair">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+          </a>
         `;
-
-        const parent = btn.parentElement;
-        btn.replaceWith(wrapper);
-
-        // Oculta o toggle avulso do mesmo header se existir para não duplicar o menu sanduíche
-        if (parent) {
-          const siblingToggle = parent.querySelector('.horizon-mobile-toggle:not(.horizon-user-menu-btn)');
-          if (siblingToggle) {
-            siblingToggle.style.display = 'none';
-          }
-        }
+        btn.replaceWith(userSlot);
       }
     });
   }
