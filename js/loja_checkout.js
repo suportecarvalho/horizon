@@ -13,7 +13,7 @@
       badgeColor: '#CD7F32',
       badgeBorder: '#B87333',
       badgeBg: 'rgba(205, 127, 50, 0.15)',
-      perks: '18 Itens no Inventário • Chás de Farm Puros • Skip Fila com Prioridade'
+      perks: 'Cooldown 2h • Recursos + Componentes • Salvaged Axe & Icepick • Chás de Farm'
     },
     bronze: {
       name: 'VIP BRONZE',
@@ -23,7 +23,7 @@
       badgeColor: '#CD7F32',
       badgeBorder: '#B87333',
       badgeBg: 'rgba(205, 127, 50, 0.15)',
-      perks: '18 Itens no Inventário • Chás de Farm Puros • Skip Fila com Prioridade'
+      perks: 'Cooldown 2h • Recursos + Componentes • Salvaged Axe & Icepick • Chás de Farm'
     },
     prata: {
       name: 'VIP Prata',
@@ -33,7 +33,7 @@
       badgeColor: '#E2E8F0',
       badgeBorder: '#94A3B8',
       badgeBg: 'rgba(148, 163, 184, 0.15)',
-      perks: '24 Itens no Inventário • Airdrop • Jackhammer + Chainsaw • Cartões Azul/Vermelho'
+      perks: 'Cooldown 4h • Mais Recursos & Componentes • Chás de Farm Puros'
     },
     ouro: {
       name: 'VIP Ouro',
@@ -43,7 +43,7 @@
       badgeColor: '#FBBF24',
       badgeBorder: '#F59E0B',
       badgeBg: 'rgba(245, 158, 11, 0.18)',
-      perks: '30 Itens no Inventário • 2x Portas Blindadas • 2x Caixões • 2x Airdrops • Cartões Todos'
+      perks: 'Cooldown 6h • Recursos em Massa • Componentes x6 • Concrete Tools • Chás'
     },
     farmer: {
       name: 'Kit Farmer',
@@ -53,7 +53,7 @@
       badgeColor: '#10B981',
       badgeBorder: '#059669',
       badgeBg: 'rgba(16, 185, 129, 0.15)',
-      perks: '2x Jackhammers • 2x Motosserras • 5x Caldeirões • 100x Chá • 3x Tortas'
+      perks: 'Cooldown 2h • 1x Jackhammer • 1x Chainsaw • 50x Combustível • Chás de Farm'
     },
     airdrop: {
       name: 'Kit Airdrop',
@@ -63,7 +63,7 @@
       badgeColor: '#EF4444',
       badgeBorder: '#DC2626',
       badgeBg: 'rgba(239, 68, 68, 0.15)',
-      perks: '2x Supply Signals (Granadas para chamar Avião Militar de Airdrop)'
+      perks: 'Cooldown 8h • 1x Supply Signal (Chame o avião C-130 Militar de Airdrop)'
     },
     cartao: {
       name: 'Kit Cartões & Puzzles',
@@ -73,7 +73,7 @@
       badgeColor: '#3B82F6',
       badgeBorder: '#2563EB',
       badgeBg: 'rgba(59, 130, 246, 0.15)',
-      perks: '3x Cartões Verdes • 3x Azuis • 3x Vermelhos • 10x Fusíveis Elétricos'
+      perks: 'Cooldown 8h • 1x Cartão Verde • 1x Cartão Azul • 2x Fusíveis Elétricos'
     },
     eletrica: {
       name: 'Kit Elétrica & Automação',
