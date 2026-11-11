@@ -207,7 +207,7 @@ function parseA2SInfo(msg) {
   };
 }
 
-function fetchLiveStatus(host = '179.198.115.201', port = 28016, timeoutMs = 2500) {
+function fetchLiveStatus(host = 'play.rusthorizon.shop', port = 28016, timeoutMs = 2500) {
   const now = Date.now();
   if (now - serverStatusCache.lastFetch < 15000 && serverStatusCache.data) {
     return Promise.resolve(serverStatusCache.data);

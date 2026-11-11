@@ -129,7 +129,7 @@ function parseA2SInfo(msg) {
   };
 }
 
-function queryRustServer(host = '179.198.115.201', port = 28016, timeoutMs = 2500) {
+function queryRustServer(host = 'play.rusthorizon.shop', port = 28016, timeoutMs = 2500) {
   return new Promise((resolve) => {
     const client = dgram.createSocket('udp4');
     let finished = false;
