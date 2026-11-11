@@ -223,13 +223,9 @@
 <!-- ==================== SEÇÃO 1: PACOTES VIP ==================== -->
 <div id="secao-vips" class="vip-grade">
   <!-- ==================== VIP BRONZE ==================== -->
-  <div data-slot="card" data-size="default" class="group/card flex flex-col rounded-xl bg-card py-(--card-spacing) text-sm text-card-foreground ring-1 ring-foreground/10 has-data-[slot=card-footer]:pb-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 relative [--card-spacing:1.5rem] gap-4 overflow-hidden transition-all duration-200 hover:ring-white/15 pt-0 has-[>.loja-card-img-wrap]:pt-0 cursor-pointer" onclick="openKitModal('bronze')">
-    <div class="loja-card-img-wrap vip-wrap" title="Clique para ver o inventário completo do VIP Bronze">
-      <img src="https://i.imgur.com/Fnji1lo.png" alt="VIP Bronze" loading="lazy">
-      <div class="loja-card-img-overlay">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-        <span>Ver Inventário</span>
-      </div>
+  <div data-slot="card" data-size="default" class="group/card flex flex-col rounded-xl bg-card py-(--card-spacing) text-sm text-card-foreground ring-1 ring-foreground/10 has-data-[slot=card-footer]:pb-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 relative [--card-spacing:1.5rem] gap-4 overflow-hidden transition-all duration-200 hover:ring-white/15 pt-0 has-[>.vip-arte-vazia]:pt-0 cursor-pointer" onclick="openKitModal('bronze')">
+    <div class="vip-arte-vazia" aria-hidden="true" title="Clique para ver todos os detalhes do VIP Bronze">
+      <span>VIP BRONZE</span>
     </div>
     <div data-slot="card-content" class="px-(--card-spacing) relative flex flex-1 flex-col gap-4">
       <div class="flex flex-col items-start gap-2">
@@ -245,7 +241,7 @@
         <li class="perk">Picareta e Machado Recuperados (Salvaged)</li>
         <li class="perk">Chá de Farm Puro de Madeira e Minério</li>
       </ul>
-      <a href="javascript:void(0)" onclick="openKitModal('bronze')" class="vip-ver-mais">VER TODOS OS BENEFÍCIOS</a>
+      <a href="javascript:void(0)" onclick="openKitModal('bronze')" class="vip-ver-mais">VER INVENTÁRIO (IMAGEM)</a>
       <div class="mt-auto flex flex-col gap-4 pt-1">
         <div data-orientation="horizontal" role="none" data-slot="separator" class="shrink-0 data-horizontal:h-px data-horizontal:w-full bg-[var(--border)]"></div>
         <div class="flex flex-col gap-1">
@@ -259,13 +255,9 @@
   </div>
 
   <!-- ==================== VIP PRATA ==================== -->
-  <div data-slot="card" data-size="default" class="group/card flex flex-col rounded-xl bg-card py-(--card-spacing) text-sm text-card-foreground ring-1 ring-foreground/10 has-data-[slot=card-footer]:pb-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 relative [--card-spacing:1.5rem] gap-4 overflow-hidden transition-all duration-200 hover:ring-white/15 pt-0 has-[>.loja-card-img-wrap]:pt-0 cursor-pointer" onclick="openKitModal('prata')">
-    <div class="loja-card-img-wrap vip-wrap" title="Clique para ver o inventário completo do VIP Prata">
-      <img src="https://i.imgur.com/h1RxapR.png" alt="VIP Prata" loading="lazy">
-      <div class="loja-card-img-overlay">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-        <span>Ver Inventário</span>
-      </div>
+  <div data-slot="card" data-size="default" class="group/card flex flex-col rounded-xl bg-card py-(--card-spacing) text-sm text-card-foreground ring-1 ring-foreground/10 has-data-[slot=card-footer]:pb-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 relative [--card-spacing:1.5rem] gap-4 overflow-hidden transition-all duration-200 hover:ring-white/15 pt-0 has-[>.vip-arte-vazia]:pt-0 cursor-pointer" onclick="openKitModal('prata')">
+    <div class="vip-arte-vazia" aria-hidden="true" title="Clique para ver todos os detalhes do VIP Prata">
+      <span>VIP PRATA</span>
     </div>
     <div data-slot="card-content" class="px-(--card-spacing) relative flex flex-1 flex-col gap-4">
       <div class="flex flex-col items-start gap-2">
@@ -281,7 +273,7 @@
         <li class="perk">Componentes em dobro: 4x Molas, Tubos, Costuras, Cordas</li>
         <li class="perk">Chás Puros de Minério e Madeira</li>
       </ul>
-      <a href="javascript:void(0)" onclick="openKitModal('prata')" class="vip-ver-mais">VER TODOS OS BENEFÍCIOS</a>
+      <a href="javascript:void(0)" onclick="openKitModal('prata')" class="vip-ver-mais">VER INVENTÁRIO (IMAGEM)</a>
       <div class="mt-auto flex flex-col gap-4 pt-1">
         <div data-orientation="horizontal" role="none" data-slot="separator" class="shrink-0 data-horizontal:h-px data-horizontal:w-full bg-[var(--border)]"></div>
         <div class="flex flex-col gap-1">
@@ -295,13 +287,9 @@
   </div>
 
   <!-- ==================== VIP OURO ==================== -->
-  <div data-slot="card" data-size="default" class="group/card flex flex-col rounded-xl bg-card py-(--card-spacing) text-sm text-card-foreground ring-1 ring-foreground/10 has-data-[slot=card-footer]:pb-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 relative [--card-spacing:1.5rem] gap-4 overflow-hidden transition-all duration-200 hover:ring-white/15 pt-0 has-[>.loja-card-img-wrap]:pt-0 cursor-pointer" onclick="openKitModal('ouro')">
-    <div class="loja-card-img-wrap vip-wrap" title="Clique para ver o inventário completo do VIP Ouro">
-      <img src="https://i.imgur.com/yMXx5eQ.png" alt="VIP Ouro" loading="lazy">
-      <div class="loja-card-img-overlay">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-        <span>Ver Inventário</span>
-      </div>
+  <div data-slot="card" data-size="default" class="group/card flex flex-col rounded-xl bg-card py-(--card-spacing) text-sm text-card-foreground ring-1 ring-foreground/10 has-data-[slot=card-footer]:pb-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 relative [--card-spacing:1.5rem] gap-4 overflow-hidden transition-all duration-200 hover:ring-white/15 pt-0 has-[>.vip-arte-vazia]:pt-0 cursor-pointer" onclick="openKitModal('ouro')">
+    <div class="vip-arte-vazia" aria-hidden="true" title="Clique para ver todos os detalhes do VIP Ouro">
+      <span>VIP OURO</span>
     </div>
     <div data-slot="card-content" class="px-(--card-spacing) relative flex flex-1 flex-col gap-4">
       <div class="flex flex-col items-start gap-2">
@@ -317,7 +305,7 @@
         <li class="perk">Componentes em massa (6x Molas, Tubos, Costuras, Cordas)</li>
         <li class="perk">Ferramentas de Concreto (Concrete Pickaxe &amp; Hatchet)</li>
       </ul>
-      <a href="javascript:void(0)" onclick="openKitModal('ouro')" class="vip-ver-mais">VER TODOS OS BENEFÍCIOS</a>
+      <a href="javascript:void(0)" onclick="openKitModal('ouro')" class="vip-ver-mais">VER INVENTÁRIO (IMAGEM)</a>
       <div class="mt-auto flex flex-col gap-4 pt-1">
         <div data-orientation="horizontal" role="none" data-slot="separator" class="shrink-0 data-horizontal:h-px data-horizontal:w-full bg-[var(--border)]"></div>
         <div class="flex flex-col gap-1">
@@ -342,13 +330,9 @@
 
 <div id="secao-kits">
   <!-- ==================== KIT FARMER ==================== -->
-  <div data-slot="card" data-size="default" class="group/card flex flex-col rounded-xl bg-card py-(--card-spacing) text-sm text-card-foreground ring-1 ring-foreground/10 has-data-[slot=card-footer]:pb-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 relative [--card-spacing:1.5rem] gap-4 overflow-hidden transition-all duration-200 hover:ring-white/15 pt-0 has-[>.loja-card-img-wrap]:pt-0 cursor-pointer" onclick="openKitModal('farmer')">
-    <div class="loja-card-img-wrap kit-wrap" title="Clique para ver o inventário completo do Kit Farmer">
-      <img src="https://i.imgur.com/AJ77ULs.png" alt="Kit Farmer" loading="lazy">
-      <div class="loja-card-img-overlay">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-        <span>Ver Inventário</span>
-      </div>
+  <div data-slot="card" data-size="default" class="group/card flex flex-col rounded-xl bg-card py-(--card-spacing) text-sm text-card-foreground ring-1 ring-foreground/10 has-data-[slot=card-footer]:pb-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 relative [--card-spacing:1.5rem] gap-4 overflow-hidden transition-all duration-200 hover:ring-white/15 pt-0 has-[>.vip-arte-vazia]:pt-0 cursor-pointer" onclick="openKitModal('farmer')">
+    <div class="vip-arte-vazia" aria-hidden="true" title="Clique para ver o inventário completo do Kit Farmer">
+      <span>KIT FARMER</span>
     </div>
     <div data-slot="card-content" class="px-(--card-spacing) relative flex flex-1 flex-col gap-4">
       <div class="flex flex-col items-start gap-2">
@@ -362,7 +346,7 @@
         <li class="perk">1x Motosserra (Chainsaw)</li>
         <li class="perk">50x Low Grade Fuel &amp; Chás Puros de Farm</li>
       </ul>
-      <a href="javascript:void(0)" onclick="openKitModal('farmer')" class="vip-ver-mais">VER INVENTÁRIO COMPLETO</a>
+      <a href="javascript:void(0)" onclick="openKitModal('farmer')" class="vip-ver-mais">VER INVENTÁRIO (IMAGEM)</a>
       <div class="mt-auto flex flex-col gap-4 pt-1">
         <div data-orientation="horizontal" role="none" data-slot="separator" class="shrink-0 data-horizontal:h-px data-horizontal:w-full bg-[var(--border)]"></div>
         <div class="flex flex-col gap-1">
@@ -376,13 +360,9 @@
   </div>
 
   <!-- ==================== KIT DROP ==================== -->
-  <div data-slot="card" data-size="default" class="group/card flex flex-col rounded-xl bg-card py-(--card-spacing) text-sm text-card-foreground ring-1 ring-foreground/10 has-data-[slot=card-footer]:pb-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 relative [--card-spacing:1.5rem] gap-4 overflow-hidden transition-all duration-200 hover:ring-white/15 pt-0 has-[>.loja-card-img-wrap]:pt-0 cursor-pointer" onclick="openKitModal('airdrop')">
-    <div class="loja-card-img-wrap kit-wrap" title="Clique para ver o inventário completo do Kit Drop">
-      <img src="https://i.imgur.com/hEmRo96.png" alt="Kit Drop" loading="lazy">
-      <div class="loja-card-img-overlay">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-        <span>Ver Inventário</span>
-      </div>
+  <div data-slot="card" data-size="default" class="group/card flex flex-col rounded-xl bg-card py-(--card-spacing) text-sm text-card-foreground ring-1 ring-foreground/10 has-data-[slot=card-footer]:pb-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 relative [--card-spacing:1.5rem] gap-4 overflow-hidden transition-all duration-200 hover:ring-white/15 pt-0 has-[>.vip-arte-vazia]:pt-0 cursor-pointer" onclick="openKitModal('airdrop')">
+    <div class="vip-arte-vazia" aria-hidden="true" title="Clique para ver o inventário completo do Kit Drop">
+      <span>KIT DROP</span>
     </div>
     <div data-slot="card-content" class="px-(--card-spacing) relative flex flex-1 flex-col gap-4">
       <div class="flex flex-col items-start gap-2">
@@ -396,7 +376,7 @@
         <li class="perk">Chame o avião militar C-130 na sua coordenada</li>
         <li class="perk">Loot militar avançado direto na sua base</li>
       </ul>
-      <a href="javascript:void(0)" onclick="openKitModal('airdrop')" class="vip-ver-mais">VER INVENTÁRIO COMPLETO</a>
+      <a href="javascript:void(0)" onclick="openKitModal('airdrop')" class="vip-ver-mais">VER INVENTÁRIO (IMAGEM)</a>
       <div class="mt-auto flex flex-col gap-4 pt-1">
         <div data-orientation="horizontal" role="none" data-slot="separator" class="shrink-0 data-horizontal:h-px data-horizontal:w-full bg-[var(--border)]"></div>
         <div class="flex flex-col gap-1">
@@ -410,13 +390,9 @@
   </div>
 
   <!-- ==================== KIT CARTÕES ==================== -->
-  <div data-slot="card" data-size="default" class="group/card flex flex-col rounded-xl bg-card py-(--card-spacing) text-sm text-card-foreground ring-1 ring-foreground/10 has-data-[slot=card-footer]:pb-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 relative [--card-spacing:1.5rem] gap-4 overflow-hidden transition-all duration-200 hover:ring-white/15 pt-0 has-[>.loja-card-img-wrap]:pt-0 cursor-pointer" onclick="openKitModal('cartao')">
-    <div class="loja-card-img-wrap kit-wrap" title="Clique para ver o inventário completo do Kit Cartões">
-      <img src="https://i.ibb.co/bjSLSX3f/keycard-red-2.png" alt="Kit Cartões" loading="lazy">
-      <div class="loja-card-img-overlay">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-        <span>Ver Inventário</span>
-      </div>
+  <div data-slot="card" data-size="default" class="group/card flex flex-col rounded-xl bg-card py-(--card-spacing) text-sm text-card-foreground ring-1 ring-foreground/10 has-data-[slot=card-footer]:pb-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 relative [--card-spacing:1.5rem] gap-4 overflow-hidden transition-all duration-200 hover:ring-white/15 pt-0 has-[>.vip-arte-vazia]:pt-0 cursor-pointer" onclick="openKitModal('cartao')">
+    <div class="vip-arte-vazia" aria-hidden="true" title="Clique para ver o inventário completo do Kit Cartões">
+      <span>KIT CARTÕES</span>
     </div>
     <div data-slot="card-content" class="px-(--card-spacing) relative flex flex-1 flex-col gap-4">
       <div class="flex flex-col items-start gap-2">
@@ -430,7 +406,7 @@
         <li class="perk">1x Cartão Azul (Blue Keycard)</li>
         <li class="perk">2x Fusíveis Elétricos (Electric Fuse)</li>
       </ul>
-      <a href="javascript:void(0)" onclick="openKitModal('cartao')" class="vip-ver-mais">VER INVENTÁRIO COMPLETO</a>
+      <a href="javascript:void(0)" onclick="openKitModal('cartao')" class="vip-ver-mais">VER INVENTÁRIO (IMAGEM)</a>
       <div class="mt-auto flex flex-col gap-4 pt-1">
         <div data-orientation="horizontal" role="none" data-slot="separator" class="shrink-0 data-horizontal:h-px data-horizontal:w-full bg-[var(--border)]"></div>
         <div class="flex flex-col gap-1">
@@ -444,13 +420,9 @@
   </div>
 
   <!-- ==================== KIT ELÉTRICA ==================== -->
-  <div data-slot="card" data-size="default" class="group/card flex flex-col rounded-xl bg-card py-(--card-spacing) text-sm text-card-foreground ring-1 ring-foreground/10 has-data-[slot=card-footer]:pb-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 relative [--card-spacing:1.5rem] gap-4 overflow-hidden transition-all duration-200 hover:ring-white/15 pt-0 has-[>.loja-card-img-wrap]:pt-0 cursor-pointer" onclick="openKitModal('eletrica')">
-    <div class="loja-card-img-wrap kit-wrap" title="Clique para ver o inventário completo do Kit Elétrica">
-      <img src="https://i.imgur.com/Q0cjeSA.png" alt="Kit Elétrica" loading="lazy">
-      <div class="loja-card-img-overlay">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-        <span>Ver Inventário</span>
-      </div>
+  <div data-slot="card" data-size="default" class="group/card flex flex-col rounded-xl bg-card py-(--card-spacing) text-sm text-card-foreground ring-1 ring-foreground/10 has-data-[slot=card-footer]:pb-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 relative [--card-spacing:1.5rem] gap-4 overflow-hidden transition-all duration-200 hover:ring-white/15 pt-0 has-[>.vip-arte-vazia]:pt-0 cursor-pointer" onclick="openKitModal('eletrica')">
+    <div class="vip-arte-vazia" aria-hidden="true" title="Clique para ver o inventário completo do Kit Elétrica">
+      <span>KIT ELÉTRICA</span>
     </div>
     <div data-slot="card-content" class="px-(--card-spacing) relative flex flex-1 flex-col gap-4">
       <div class="flex flex-col items-start gap-2">
@@ -464,7 +436,7 @@
         <li class="perk">2x Conectores Industriais &amp; 5x Adaptadores</li>
         <li class="perk">Wire Tool, Pipe Tool, Splitter, Switch &amp; Igniter</li>
       </ul>
-      <a href="javascript:void(0)" onclick="openKitModal('eletrica')" class="vip-ver-mais">VER INVENTÁRIO COMPLETO</a>
+      <a href="javascript:void(0)" onclick="openKitModal('eletrica')" class="vip-ver-mais">VER INVENTÁRIO (IMAGEM)</a>
       <div class="mt-auto flex flex-col gap-4 pt-1">
         <div data-orientation="horizontal" role="none" data-slot="separator" class="shrink-0 data-horizontal:h-px data-horizontal:w-full bg-[var(--border)]"></div>
         <div class="flex flex-col gap-1">
@@ -489,13 +461,9 @@
 
 <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; margin-top: 16px;">
   <!-- ==================== KIT START ==================== -->
-  <div data-slot="card" data-size="default" class="group/card flex flex-col rounded-xl bg-card py-(--card-spacing) text-sm text-card-foreground ring-1 ring-foreground/10 has-data-[slot=card-footer]:pb-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 relative [--card-spacing:1.5rem] gap-4 overflow-hidden transition-all duration-200 hover:ring-white/15 pt-0 has-[>.loja-card-img-wrap]:pt-0 cursor-pointer" onclick="openKitModal('start')">
-    <div class="loja-card-img-wrap kit-wrap" title="Clique para ver o inventário completo do Kit Start">
-      <img src="https://i.imgur.com/QGlwRPh.png" alt="Kit Start" loading="lazy">
-      <div class="loja-card-img-overlay">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-        <span>Ver Inventário</span>
-      </div>
+  <div data-slot="card" data-size="default" class="group/card flex flex-col rounded-xl bg-card py-(--card-spacing) text-sm text-card-foreground ring-1 ring-foreground/10 has-data-[slot=card-footer]:pb-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 relative [--card-spacing:1.5rem] gap-4 overflow-hidden transition-all duration-200 hover:ring-white/15 pt-0 has-[>.vip-arte-vazia]:pt-0 cursor-pointer" onclick="openKitModal('start')">
+    <div class="vip-arte-vazia" aria-hidden="true" title="Clique para ver o inventário completo do Kit Start" style="background: linear-gradient(145deg, rgba(16, 185, 129, 0.22) 0%, rgba(20, 21, 26, 0.95) 55%, #15161a 100%), #15161a;">
+      <span style="color: rgba(52, 211, 153, 0.4);">KIT START</span>
     </div>
     <div data-slot="card-content" class="px-(--card-spacing) relative flex flex-1 flex-col gap-4">
       <div class="flex flex-col items-start gap-2">
@@ -509,7 +477,7 @@
         <li class="perk">Roupas de Burlap Completas (Camisa, Calça, Luvas e Sapatos)</li>
         <li class="perk">5x Abóboras &amp; 5x Bandagens de Cura</li>
       </ul>
-      <a href="javascript:void(0)" onclick="openKitModal('start')" class="vip-ver-mais">VER INVENTÁRIO COMPLETO</a>
+      <a href="javascript:void(0)" onclick="openKitModal('start')" class="vip-ver-mais">VER INVENTÁRIO (IMAGEM)</a>
       <div class="mt-auto flex flex-col gap-4 pt-1">
         <div data-orientation="horizontal" role="none" data-slot="separator" class="shrink-0 data-horizontal:h-px data-horizontal:w-full bg-[var(--border)]"></div>
         <div class="flex flex-col gap-1">
@@ -523,13 +491,9 @@
   </div>
 
   <!-- ==================== KIT BASE ==================== -->
-  <div data-slot="card" data-size="default" class="group/card flex flex-col rounded-xl bg-card py-(--card-spacing) text-sm text-card-foreground ring-1 ring-foreground/10 has-data-[slot=card-footer]:pb-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 relative [--card-spacing:1.5rem] gap-4 overflow-hidden transition-all duration-200 hover:ring-white/15 pt-0 has-[>.loja-card-img-wrap]:pt-0 cursor-pointer" onclick="openKitModal('base')">
-    <div class="loja-card-img-wrap kit-wrap" title="Clique para ver o inventário completo do Kit Base">
-      <img src="https://i.imgur.com/4DRykzN.png" alt="Kit Base" loading="lazy">
-      <div class="loja-card-img-overlay">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-        <span>Ver Inventário</span>
-      </div>
+  <div data-slot="card" data-size="default" class="group/card flex flex-col rounded-xl bg-card py-(--card-spacing) text-sm text-card-foreground ring-1 ring-foreground/10 has-data-[slot=card-footer]:pb-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 relative [--card-spacing:1.5rem] gap-4 overflow-hidden transition-all duration-200 hover:ring-white/15 pt-0 has-[>.vip-arte-vazia]:pt-0 cursor-pointer" onclick="openKitModal('base')">
+    <div class="vip-arte-vazia" aria-hidden="true" title="Clique para ver o inventário completo do Kit Base" style="background: linear-gradient(145deg, rgba(59, 130, 246, 0.22) 0%, rgba(20, 21, 26, 0.95) 55%, #15161a 100%), #15161a;">
+      <span style="color: rgba(96, 165, 250, 0.4);">KIT BASE</span>
     </div>
     <div data-slot="card-content" class="px-(--card-spacing) relative flex flex-1 flex-col gap-4">
       <div class="flex flex-col items-start gap-2">
@@ -543,7 +507,7 @@
         <li class="perk">3.000 Madeira &amp; 5.000 Pedra</li>
         <li class="perk">1x Picareta &amp; 1x Machado de Concreto (Concrete Tools)</li>
       </ul>
-      <a href="javascript:void(0)" onclick="openKitModal('base')" class="vip-ver-mais">VER INVENTÁRIO COMPLETO</a>
+      <a href="javascript:void(0)" onclick="openKitModal('base')" class="vip-ver-mais">VER INVENTÁRIO (IMAGEM)</a>
       <div class="mt-auto flex flex-col gap-4 pt-1">
         <div data-orientation="horizontal" role="none" data-slot="separator" class="shrink-0 data-horizontal:h-px data-horizontal:w-full bg-[var(--border)]"></div>
         <div class="flex flex-col gap-1">
