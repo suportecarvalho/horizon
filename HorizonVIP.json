@@ -1,5 +1,5 @@
 {
-  "ApiBaseUrl": "https://lojahorizon.vercel.app",
+  "ApiBaseUrl": "https://www.rusthorizon.shop",
   "IntervaloSincronizacaoSegundos": 30,
   "CriarGruposOxideAutomaticamente": true,
   "GruposVip": {

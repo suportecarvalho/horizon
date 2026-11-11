@@ -40,7 +40,7 @@ namespace Oxide.Plugins
         {
             // === MÓDULO 1: STATUS DO SERVIDOR ===
             [JsonProperty("Status_UrlDaApiDoSite")]
-            public string StatusApiUrl { get; set; } = "https://lojahorizon.vercel.app/api/status";
+            public string StatusApiUrl { get; set; } = "https://www.rusthorizon.shop/api/status";
 
             [JsonProperty("Status_IntervaloSegundos")]
             public int StatusSyncIntervalSeconds { get; set; } = 30;
@@ -62,7 +62,7 @@ namespace Oxide.Plugins
 
             // === MÓDULO 2: LEADERBOARD & ESTATÍSTICAS ===
             [JsonProperty("Leaderboard_UrlDaApiDoSite")]
-            public string LeaderboardApiUrl { get; set; } = "https://lojahorizon.vercel.app/api/leaderboard";
+            public string LeaderboardApiUrl { get; set; } = "https://www.rusthorizon.shop/api/leaderboard";
 
             [JsonProperty("Leaderboard_IntervaloMinutos")]
             public int LeaderboardSyncIntervalMinutes { get; set; } = 5;
@@ -75,7 +75,7 @@ namespace Oxide.Plugins
             public bool VipEnabled { get; set; } = true;
 
             [JsonProperty("Vip_ApiBaseUrl")]
-            public string VipApiBaseUrl { get; set; } = "https://lojahorizon.vercel.app";
+            public string VipApiBaseUrl { get; set; } = "https://www.rusthorizon.shop";
 
             [JsonProperty("Vip_IntervaloSegundos")]
             public int VipSyncIntervalSeconds { get; set; } = 30;
@@ -1283,7 +1283,7 @@ namespace Oxide.Plugins
             sb.AppendLine();
 
             sb.AppendLine("<color=#82ADA4>================================</color>");
-            sb.AppendLine("<color=#94A3B8>Site: <color=#38BDF8>lojahorizon.vercel.app</color></color>");
+            sb.AppendLine("<color=#94A3B8>Site: <color=#38BDF8>www.rusthorizon.shop</color></color>");
 
             SendReply(player, sb.ToString());
         }

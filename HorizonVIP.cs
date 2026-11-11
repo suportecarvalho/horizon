@@ -19,7 +19,7 @@ namespace Oxide.Plugins
         public class Configuration
         {
             [JsonProperty("ApiBaseUrl")]
-            public string ApiBaseUrl { get; set; } = "https://lojahorizon.vercel.app";
+            public string ApiBaseUrl { get; set; } = "https://www.rusthorizon.shop";
 
             [JsonProperty("IntervaloSincronizacaoSegundos")]
             public int SyncIntervalSeconds { get; set; } = 30;

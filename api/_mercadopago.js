@@ -131,7 +131,7 @@ async function createPixPayment({ orderId, amount, description, payerEmail, paye
     if (baseUrl && baseUrl.startsWith('https://') && !baseUrl.includes('localhost')) {
       notificationUrl = `${baseUrl}/api/checkout/webhook`;
     } else {
-      notificationUrl = 'https://lojahorizon.vercel.app/api/checkout/webhook';
+      notificationUrl = 'https://www.rusthorizon.shop/api/checkout/webhook';
     }
   }
 
@@ -186,7 +186,7 @@ async function createPreference({ orderId, amount, description, payerEmail, stea
     if (baseUrl && baseUrl.startsWith('https://') && !baseUrl.includes('localhost')) {
       notificationUrl = `${baseUrl}/api/checkout/webhook`;
     } else {
-      notificationUrl = 'https://lojahorizon.vercel.app/api/checkout/webhook';
+      notificationUrl = 'https://www.rusthorizon.shop/api/checkout/webhook';
     }
   }
 

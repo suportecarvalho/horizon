@@ -33,7 +33,7 @@ function fetchSteamProfile(steamId64) {
 function getBaseUrl(req) {
   let proto = req.headers['x-forwarded-proto'] || 'https';
   if (proto.includes(',')) proto = proto.split(',')[0].trim();
-  let host = req.headers['x-forwarded-host'] || req.headers.host || 'lojahorizon.vercel.app';
+  let host = req.headers['x-forwarded-host'] || req.headers.host || 'www.rusthorizon.shop';
   return `${proto}://${host}`;
 }
 

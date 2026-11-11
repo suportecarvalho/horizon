@@ -1,5 +1,5 @@
 {
-  "UrlDaApiDoSite": "https://lojahorizon.vercel.app/api/leaderboard",
+  "UrlDaApiDoSite": "https://www.rusthorizon.shop/api/leaderboard",
   "IntervaloDeSincronizacaoMinutos": 5,
   "NomeDoServidor": "Horizon 2x (Max 4)",
   "LimiteJogadoresPorAba": 100
