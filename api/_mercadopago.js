@@ -14,13 +14,13 @@ function getMPConfig() {
     notificationUrl: process.env.MERCADO_PAGO_NOTIFICATION_URL || '',
     durationDays: 30,
     kits: {
-      bronze: { name: "VIP Bronze (30 Dias)", price: 20.00, group: "vip_bronze", kitPermission: "kits.bronze" },
-      prata: { name: "VIP Prata (30 Dias)", price: 40.00, group: "vip_prata", kitPermission: "kits.prata" },
-      ouro: { name: "VIP Ouro (30 Dias)", price: 60.00, group: "vip_ouro", kitPermission: "kits.ouro" },
-      farmer: { name: "Kit Farmer", price: 10.00, group: "kit_farmer", kitPermission: "kits.farmer" },
-      airdrop: { name: "Kit Airdrop", price: 10.00, group: "kit_drop", kitPermission: "kits.drop" },
-      cartao: { name: "Kit Cartões", price: 10.00, group: "kit_cartao", kitPermission: "kits.cartao" },
-      eletrica: { name: "Kit Elétrica", price: 10.00, group: "kit_eletrica", kitPermission: "kits.eletrica" }
+      bronze: { name: "VIP Bronze (30 Dias)", price: 14.90, group: "vip_bronze", kitPermission: "kits.bronze" },
+      prata: { name: "VIP Prata (30 Dias)", price: 24.90, group: "vip_prata", kitPermission: "kits.prata" },
+      ouro: { name: "VIP Ouro (30 Dias)", price: 39.90, group: "vip_ouro", kitPermission: "kits.ouro" },
+      farmer: { name: "Kit Farmer", price: 14.90, group: "kit_farmer", kitPermission: "kits.farmer" },
+      airdrop: { name: "Kit Airdrop", price: 9.90, group: "kit_drop", kitPermission: "kits.drop" },
+      cartao: { name: "Kit Cartões", price: 9.90, group: "kit_cartao", kitPermission: "kits.cartao" },
+      eletrica: { name: "Kit Elétrica", price: 9.90, group: "kit_eletrica", kitPermission: "kits.eletrica" }
     }
   };
 

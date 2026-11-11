@@ -7,8 +7,8 @@
   const KITS_INFO = {
     sobrevivente: {
       name: 'VIP BRONZE',
-      price: 'R$ 20,00',
-      numericPrice: 20.00,
+      price: 'R$ 14,90',
+      numericPrice: 14.90,
       img: '/images/vip_bronze.jpg',
       badgeColor: '#CD7F32',
       badgeBorder: '#B87333',
@@ -17,8 +17,8 @@
     },
     bronze: {
       name: 'VIP BRONZE',
-      price: 'R$ 20,00',
-      numericPrice: 20.00,
+      price: 'R$ 14,90',
+      numericPrice: 14.90,
       img: '/images/vip_bronze.jpg',
       badgeColor: '#CD7F32',
       badgeBorder: '#B87333',
@@ -27,8 +27,8 @@
     },
     prata: {
       name: 'VIP Prata',
-      price: 'R$ 40,00',
-      numericPrice: 40.00,
+      price: 'R$ 24,90',
+      numericPrice: 24.90,
       img: '/images/vip_prata.jpg',
       badgeColor: '#E2E8F0',
       badgeBorder: '#94A3B8',
@@ -37,8 +37,8 @@
     },
     ouro: {
       name: 'VIP Ouro',
-      price: 'R$ 60,00',
-      numericPrice: 60.00,
+      price: 'R$ 39,90',
+      numericPrice: 39.90,
       img: '/images/vip_ouro.jpg',
       badgeColor: '#FBBF24',
       badgeBorder: '#F59E0B',
@@ -47,8 +47,8 @@
     },
     farmer: {
       name: 'Kit Farmer',
-      price: 'R$ 10,00',
-      numericPrice: 10.00,
+      price: 'R$ 14,90',
+      numericPrice: 14.90,
       img: '/images/kits-farmer.jpg',
       badgeColor: '#10B981',
       badgeBorder: '#059669',
@@ -57,8 +57,8 @@
     },
     airdrop: {
       name: 'Kit Airdrop',
-      price: 'R$ 10,00',
-      numericPrice: 10.00,
+      price: 'R$ 9,90',
+      numericPrice: 9.90,
       img: '/images/kits-airdrop.jpg',
       badgeColor: '#EF4444',
       badgeBorder: '#DC2626',
@@ -67,8 +67,8 @@
     },
     cartao: {
       name: 'Kit Cartões & Puzzles',
-      price: 'R$ 10,00',
-      numericPrice: 10.00,
+      price: 'R$ 9,90',
+      numericPrice: 9.90,
       img: '/images/kits-cartao.jpg',
       badgeColor: '#3B82F6',
       badgeBorder: '#2563EB',
@@ -77,8 +77,8 @@
     },
     eletrica: {
       name: 'Kit Elétrica & Automação',
-      price: 'R$ 10,00',
-      numericPrice: 10.00,
+      price: 'R$ 9,90',
+      numericPrice: 9.90,
       img: '/images/kits-eletrica.jpg',
       badgeColor: '#F59E0B',
       badgeBorder: '#D97706',
@@ -117,8 +117,8 @@
           it.tier = 'bronze';
           it.name = 'VIP BRONZE';
           it.img = '/images/vip_bronze.jpg';
-          it.price = 20.00;
-          it.priceFormatted = 'R$ 20,00';
+          it.price = 14.90;
+          it.priceFormatted = 'R$ 14,90';
           modified = true;
         }
       });

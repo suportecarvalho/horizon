@@ -38,9 +38,9 @@ namespace Oxide.Plugins
             [JsonProperty("PermissoesPorTier")]
             public Dictionary<string, List<string>> TierPermissions { get; set; } = new Dictionary<string, List<string>>
             {
-                { "bronze", new List<string> { "kits.vipbronze", "skippriority.vip" } },
-                { "prata", new List<string> { "kits.vipprata", "skippriority.vip" } },
-                { "ouro", new List<string> { "kits.vipouro", "skippriority.vip" } }
+                { "bronze", new List<string> { "kits.bronze", "kits.vipbronze", "skippriority.vip" } },
+                { "prata", new List<string> { "kits.prata", "kits.vipprata", "skippriority.vip" } },
+                { "ouro", new List<string> { "kits.ouro", "kits.vipouro", "skippriority.vip" } }
             };
 
             [JsonProperty("ComandosAoAtivar")]

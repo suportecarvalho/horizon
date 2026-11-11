@@ -7,49 +7,49 @@
   "kits": {
     "bronze": {
       "name": "VIP Bronze (30 Dias)",
-      "price": 20.00,
+      "price": 14.90,
       "group": "vip_bronze",
-      "kitPermission": "kits.vipbronze",
-      "itemsCount": 18
+      "kitPermission": "kits.bronze",
+      "itemsCount": 17
     },
     "prata": {
       "name": "VIP Prata (30 Dias)",
-      "price": 40.00,
+      "price": 24.90,
       "group": "vip_prata",
-      "kitPermission": "kits.vipprata",
-      "itemsCount": 24
+      "kitPermission": "kits.prata",
+      "itemsCount": 14
     },
     "ouro": {
       "name": "VIP Ouro (30 Dias)",
-      "price": 60.00,
+      "price": 39.90,
       "group": "vip_ouro",
-      "kitPermission": "kits.vipouro",
-      "itemsCount": 30
+      "kitPermission": "kits.ouro",
+      "itemsCount": 16
     },
     "farmer": {
       "name": "Kit Farmer",
-      "price": 10.00,
+      "price": 14.90,
       "group": "kit_farmer",
       "kitPermission": "kits.farmer",
-      "itemsCount": 20
+      "itemsCount": 5
     },
     "airdrop": {
       "name": "Kit Airdrop",
-      "price": 10.00,
+      "price": 9.90,
       "group": "kit_drop",
       "kitPermission": "kits.drop",
-      "itemsCount": 2
+      "itemsCount": 1
     },
     "cartao": {
       "name": "Kit Cartões",
-      "price": 10.00,
+      "price": 9.90,
       "group": "kit_cartao",
       "kitPermission": "kits.cartao",
-      "itemsCount": 18
+      "itemsCount": 4
     },
     "eletrica": {
       "name": "Kit Elétrica",
-      "price": 10.00,
+      "price": 9.90,
       "group": "kit_eletrica",
       "kitPermission": "kits.eletrica",
       "itemsCount": 15

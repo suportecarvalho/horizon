@@ -99,10 +99,10 @@ namespace Oxide.Plugins
             [JsonProperty("Vip_PermissoesPorTier")]
             public Dictionary<string, List<string>> VipTierPermissions { get; set; } = new Dictionary<string, List<string>>
             {
-                { "bronze", new List<string> { "kits.vipbronze", "skippriority.vip" } },
-                { "sobrevivente", new List<string> { "kits.vipbronze", "skippriority.vip" } },
-                { "prata", new List<string> { "kits.vipprata", "skippriority.vip" } },
-                { "ouro", new List<string> { "kits.vipouro", "skippriority.vip" } },
+                { "bronze", new List<string> { "kits.bronze", "kits.vipbronze", "skippriority.vip" } },
+                { "sobrevivente", new List<string> { "kits.bronze", "kits.vipbronze", "skippriority.vip" } },
+                { "prata", new List<string> { "kits.prata", "kits.vipprata", "skippriority.vip" } },
+                { "ouro", new List<string> { "kits.ouro", "kits.vipouro", "skippriority.vip" } },
                 { "farmer", new List<string> { "kits.farmer" } },
                 { "airdrop", new List<string> { "kits.drop" } },
                 { "cartao", new List<string> { "kits.cartao" } },
