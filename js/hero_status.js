@@ -193,18 +193,9 @@
     }
 
     if (dados && dados.schedule) {
-      var elSchedMapTime = document.getElementById('wipe-sched-map-time');
       var elSchedFullTime = document.getElementById('wipe-sched-full-time');
-      var elSchedMapSub = document.getElementById('wipe-sched-map-sub');
       var elSchedFullSub = document.getElementById('wipe-sched-full-sub');
-      var elSchedLimit = document.getElementById('wipe-sched-limit');
       
-      if (elSchedMapSub) {
-        elSchedMapSub.textContent = 'Bisemanal (Quartas e Sábados)';
-      }
-      if (elSchedMapTime) {
-        elSchedMapTime.innerHTML = 'Qua 18:00h<br>Sáb 12:00h';
-      }
       if (dados.schedule.fullWipe) {
         var fMatch = dados.schedule.fullWipe.match(/(\d{1,2}:\d{2}h?)/i);
         if (fMatch && elSchedFullTime) {
@@ -213,11 +204,6 @@
       }
       if (elSchedFullSub) {
         elSchedFullSub.textContent = 'Primeira quinta-feira do mês';
-      }
-      if (elSchedLimit) {
-        var limStr = dados.schedule.teamLimit || "4 jogadores";
-        if (limStr === "(Max 4)" || limStr === "Max 4") limStr = "4 jogadores";
-        elSchedLimit.textContent = limStr;
       }
     }
 
