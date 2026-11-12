@@ -1,6 +1,6 @@
 /**
  * hero_status.js — Atualização em tempo real de players conectados e status de wipe no Rust Horizon
- * Consulta /api/status a cada 30 segundos e atualiza contadores a cada segundo.
+ * Consulta /api/status a cada 30 segundos e atualiza contadores a cada segundo de forma otimizada (zero memory leaks / DOM thrashing).
  */
 (function () {
   'use strict';
@@ -16,6 +16,20 @@
   var elWipeCountdown = null;
   var elWipeNextDate = null;
 
+  var elValDays = null;
+  var elValHours = null;
+  var elValMins = null;
+  var elProgressBar = null;
+  var elNextTitle = null;
+  var badgeNodes = null;
+
+  var lastElapsedStr = '';
+  var lastCdDays = '';
+  var lastCdHours = '';
+  var lastCdMins = '';
+  var lastCdStr = '';
+  var lastPct = -1;
+
   var currentWipedAt = 1793883961000; // Fallback para timestamp do wipe atual
   var currentNextWipe = null;
 
@@ -29,6 +43,13 @@
     if (!elWipeLastDate) elWipeLastDate = document.getElementById('wipe-last-date');
     if (!elWipeCountdown) elWipeCountdown = document.getElementById('wipe-countdown');
     if (!elWipeNextDate) elWipeNextDate = document.getElementById('wipe-next-date');
+
+    if (!elValDays) elValDays = document.getElementById('wipe-val-days');
+    if (!elValHours) elValHours = document.getElementById('wipe-val-hours');
+    if (!elValMins) elValMins = document.getElementById('wipe-val-mins');
+    if (!elProgressBar) elProgressBar = document.getElementById('wipe-progress-bar');
+    if (!elNextTitle) elNextTitle = document.getElementById('wipe-next-date-title');
+    if (!badgeNodes) badgeNodes = document.querySelectorAll('#hero-wipe-badge-text, .header-wipe-val, .mobile-wipe-val');
   }
 
   function formatTimeElapsed(wipedAtMs) {
@@ -49,14 +70,11 @@
     if (diffMin > 0) {
       return diffMin + ' min atrás';
     }
-    return 'Recém-wipado!';
+    return 'Poucos instantes atrás';
   }
 
   function formatCountdown(targetDate) {
-    if (!targetDate) return { str: '--d --h --m', days: '--', hours: '--', mins: '--', pct: 50 };
-    var diffMs = targetDate.getTime() - Date.now();
-    if (diffMs <= 0) return { str: 'Wipando agora!', days: '00', hours: '00', mins: '00', pct: 100 };
-
+    var diffMs = Math.max(0, targetDate.getTime() - Date.now());
     var diffSec = Math.floor(diffMs / 1000);
     var diffMin = Math.floor(diffSec / 60);
     var diffHours = Math.floor(diffMin / 60);
@@ -64,48 +82,51 @@
 
     var remHours = diffHours % 24;
     var remMin = diffMin % 60;
-    var remSec = diffSec % 60;
 
-    // Ciclo bisemanal: Quarta 18h até Sábado 12h = 66h | Sábado 12h até Quarta 18h = 102h
-    var isNextSat = targetDate.getUTCDay() === 6;
-    var totalCycleMs = isNextSat ? (66 * 60 * 60 * 1000) : (102 * 60 * 60 * 1000);
-    var elapsedMs = Math.max(0, totalCycleMs - diffMs);
-    var pct = Math.max(6, Math.min(100, Math.round((elapsedMs / totalCycleMs) * 100)));
+    var daysStr = String(diffDays).padStart(2, '0');
+    var hoursStr = String(remHours).padStart(2, '0');
+    var minsStr = String(remMin).padStart(2, '0');
 
-    var dStr = String(diffDays).padStart(2, '0');
-    var hStr = String(remHours).padStart(2, '0');
-    var mStr = String(remMin).padStart(2, '0');
+    // Intervalo de wipe do Horizon: bisemanal (3 a 4 dias = ~84 horas)
+    var totalCycleHours = 84;
+    var hoursLeft = (diffDays * 24) + remHours + (remMin / 60);
+    var pct = Math.max(0, Math.min(100, Math.round(((totalCycleHours - hoursLeft) / totalCycleHours) * 100)));
+
+    var str = '';
+    if (diffDays > 0) {
+      str = diffDays + 'd ' + remHours + 'h restantes';
+    } else if (diffHours > 0) {
+      str = diffHours + 'h ' + remMin + 'm restantes';
+    } else {
+      str = Math.max(1, remMin) + 'm restantes (Wipe Iminente)';
+    }
 
     return {
-      str: diffDays + 'd ' + remHours + 'h ' + remMin + 'm',
-      days: dStr,
-      hours: hStr,
-      mins: mStr,
-      pct: pct
+      days: daysStr,
+      hours: hoursStr,
+      mins: minsStr,
+      pct: pct,
+      str: str
     };
   }
 
-  function getNextWednesday18h(refDate) {
-    var d = new Date(refDate);
-    // Quarta-feira (day 3) às 18:00h BRT = 21:00h UTC
-    var targetDay = 3;
-    var targetHour = 21;
-    var currentDay = d.getUTCDay();
-    var days = (targetDay - currentDay + 7) % 7;
-    if (days === 0 && (d.getUTCHours() > targetHour || (d.getUTCHours() === targetHour && (d.getUTCMinutes() > 0 || d.getUTCSeconds() > 0)))) {
+  function getNextWednesday18h(from) {
+    var d = new Date(from);
+    var day = d.getUTCDay();
+    var targetHour = 21; // 18:00 BRT = 21:00 UTC
+    var days = (3 - day + 7) % 7;
+    if (days === 0 && d.getUTCHours() >= targetHour) {
       days = 7;
     }
     return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() + days, targetHour, 0, 0, 0));
   }
 
-  function getNextSaturday12h(refDate) {
-    var d = new Date(refDate);
-    // Sábado (day 6) às 12:00h BRT = 15:00h UTC
-    var targetDay = 6;
-    var targetHour = 15;
-    var currentDay = d.getUTCDay();
-    var days = (targetDay - currentDay + 7) % 7;
-    if (days === 0 && (d.getUTCHours() > targetHour || (d.getUTCHours() === targetHour && (d.getUTCMinutes() > 0 || d.getUTCSeconds() > 0)))) {
+  function getNextSaturday12h(from) {
+    var d = new Date(from);
+    var day = d.getUTCDay();
+    var targetHour = 15; // 12:00 BRT = 15:00 UTC
+    var days = (6 - day + 7) % 7;
+    if (days === 0 && d.getUTCHours() >= targetHour) {
       days = 7;
     }
     return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() + days, targetHour, 0, 0, 0));
@@ -118,52 +139,53 @@
     return (nextWed.getTime() < nextSat.getTime()) ? nextWed : nextSat;
   }
 
+  function updateStaticWipeLabels() {
+    getElements();
+    if (currentWipedAt && elWipeLastDate) {
+      var d = new Date(currentWipedAt);
+      var dateFormatted = d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
+      var timeFormatted = d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+      elWipeLastDate.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #82ADA4; flex-shrink:0;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Sincronizado em ' + dateFormatted + ' às ' + timeFormatted + ' (Horário de Brasília)';
+    }
+
+    var nextWipeDate = currentNextWipe ? new Date(currentNextWipe) : getCalculatedNextWipe();
+    var isNextWed = nextWipeDate.getUTCDay() === 3;
+    var nextDateLabel = isNextWed ? 'Quarta-feira, 18:00h' : 'Sábado, 12:00h';
+    var nextDateFull = isNextWed ? 'Quarta-feira às 18:00h' : 'Sábado às 12:00h';
+
+    if (elNextTitle && elNextTitle.textContent !== nextDateLabel) {
+      elNextTitle.textContent = nextDateLabel;
+    }
+    if (elWipeNextDate) {
+      elWipeNextDate.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #D7573B; flex-shrink: 0;"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg> ' + nextDateFull + ' (Horário de Brasília)';
+    }
+  }
+
   function tickWipeDisplay() {
     getElements();
 
     if (currentWipedAt) {
       var elapsedStr = formatTimeElapsed(currentWipedAt);
-      if (elHeroWipeBadge) elHeroWipeBadge.textContent = elapsedStr;
-      document.querySelectorAll('#hero-wipe-badge-text, .header-wipe-val, .mobile-wipe-val').forEach(function (el) {
-        el.textContent = elapsedStr;
-      });
-      if (elWipeElapsed) elWipeElapsed.textContent = 'Wipou há ' + elapsedStr.replace(' atrás', '');
-
-      if (elWipeLastDate) {
-        var d = new Date(currentWipedAt);
-        var dateFormatted = d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
-        var timeFormatted = d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-        elWipeLastDate.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #82ADA4; flex-shrink:0;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Sincronizado em ' + dateFormatted + ' às ' + timeFormatted + ' (Horário de Brasília)';
+      if (elapsedStr !== lastElapsedStr) {
+        lastElapsedStr = elapsedStr;
+        if (elHeroWipeBadge) elHeroWipeBadge.textContent = elapsedStr;
+        if (badgeNodes && badgeNodes.length) {
+          for (var i = 0; i < badgeNodes.length; i++) {
+            badgeNodes[i].textContent = elapsedStr;
+          }
+        }
+        if (elWipeElapsed) elWipeElapsed.textContent = 'Wipou há ' + elapsedStr.replace(' atrás', '');
       }
     }
 
     var nextWipeDate = currentNextWipe ? new Date(currentNextWipe) : getCalculatedNextWipe();
     var cd = formatCountdown(nextWipeDate);
 
-    var elValDays = document.getElementById('wipe-val-days');
-    var elValHours = document.getElementById('wipe-val-hours');
-    var elValMins = document.getElementById('wipe-val-mins');
-    var elProgressBar = document.getElementById('wipe-progress-bar');
-
-    if (elValDays) elValDays.textContent = cd.days;
-    if (elValHours) elValHours.textContent = cd.hours;
-    if (elValMins) elValMins.textContent = cd.mins;
-    if (elProgressBar) elProgressBar.style.width = cd.pct + '%';
-
-    if (elWipeCountdown) {
-      elWipeCountdown.textContent = cd.str;
-    }
-
-    var isNextWed = nextWipeDate.getUTCDay() === 3;
-    var nextDateLabel = isNextWed ? 'Quarta-feira, 18:00h' : 'Sábado, 12:00h';
-    var nextDateFull = isNextWed ? 'Quarta-feira às 18:00h' : 'Sábado às 12:00h';
-
-    var elNextTitle = document.getElementById('wipe-next-date-title');
-    if (elNextTitle) elNextTitle.textContent = nextDateLabel;
-
-    if (elWipeNextDate) {
-      elWipeNextDate.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #D7573B; flex-shrink: 0;"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg> ' + nextDateFull + ' (Horário de Brasília)';
-    }
+    if (elValDays && cd.days !== lastCdDays) { elValDays.textContent = cd.days; lastCdDays = cd.days; }
+    if (elValHours && cd.hours !== lastCdHours) { elValHours.textContent = cd.hours; lastCdHours = cd.hours; }
+    if (elValMins && cd.mins !== lastCdMins) { elValMins.textContent = cd.mins; lastCdMins = cd.mins; }
+    if (elProgressBar && cd.pct !== lastPct) { elProgressBar.style.width = cd.pct + '%'; lastPct = cd.pct; }
+    if (elWipeCountdown && cd.str !== lastCdStr) { elWipeCountdown.textContent = cd.str; lastCdStr = cd.str; }
   }
 
   function atualizarContador(dados) {
@@ -207,6 +229,7 @@
       }
     }
 
+    updateStaticWipeLabels();
     tickWipeDisplay();
   }
 
@@ -217,6 +240,7 @@
         atualizarContador(dados);
       })
       .catch(function () {
+        updateStaticWipeLabels();
         tickWipeDisplay();
       });
   }
@@ -232,7 +256,7 @@
       if (!document.hidden) {
         tickWipeDisplay();
       }
-    }, 1000); // Atualiza cronômetro todo segundo
+    }, 1000); // Atualiza cronômetro todo segundo de forma leve
   }
 
   if (document.readyState === 'loading') {

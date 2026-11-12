@@ -421,11 +421,18 @@
     }).join('');
   }
 
+  let lastLeaderboardHash = '';
+
   async function fetchLeaderboardData() {
     try {
       const res = await fetch('/api/leaderboard');
       if (res.ok) {
-        cachedLbData = await res.json();
+        const textData = await res.text();
+        if (textData === lastLeaderboardHash && cachedLbData) {
+          return; // Dados idênticos, não gasta CPU/DOM reconstruindo linhas
+        }
+        lastLeaderboardHash = textData;
+        cachedLbData = JSON.parse(textData);
         renderHomeLeaderboard();
       }
     } catch (e) {

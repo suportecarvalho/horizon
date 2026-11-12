@@ -130,28 +130,37 @@
   function highlightUserInLeaderboards(mySteamId) {
     if (!mySteamId) return;
 
+    let isApplying = false;
     function applyHighlight() {
-      const rows = document.querySelectorAll('.ranking-linha, #hlb-table-body tr');
-      rows.forEach(row => {
-        const text = row.textContent || '';
-        if (text.includes(mySteamId)) {
-          row.style.background = 'rgba(108, 151, 142, 0.15)';
-          row.style.borderLeft = '3px solid #6C978E';
-          
-          const nameEl = row.querySelector('.ranking-nome, .hlb-player-name');
-          if (nameEl && !nameEl.querySelector('.horizon-you-badge')) {
-            const badge = document.createElement('span');
-            badge.className = 'horizon-you-badge';
-            badge.style.cssText = 'background: rgba(108,151,142,0.3); border: 1px solid #6C978E; color: #82ADA4; font-size: 0.65rem; padding: 1px 5px; border-radius: 4px; font-weight: 800; margin-left: 6px; letter-spacing: 0.05em; vertical-align: middle; display: inline-block;';
-            badge.textContent = 'VOCÊ';
-            nameEl.appendChild(badge);
+      if (isApplying) return;
+      isApplying = true;
+      try {
+        const rows = document.querySelectorAll('.ranking-linha, #hlb-table-body tr');
+        rows.forEach(row => {
+          const text = row.textContent || '';
+          if (text.includes(mySteamId)) {
+            row.style.background = 'rgba(108, 151, 142, 0.15)';
+            row.style.borderLeft = '3px solid #6C978E';
+            
+            const nameEl = row.querySelector('.ranking-nome, .hlb-player-name');
+            if (nameEl && !nameEl.querySelector('.horizon-you-badge')) {
+              const badge = document.createElement('span');
+              badge.className = 'horizon-you-badge';
+              badge.style.cssText = 'background: rgba(108,151,142,0.3); border: 1px solid #6C978E; color: #82ADA4; font-size: 0.65rem; padding: 1px 5px; border-radius: 4px; font-weight: 800; margin-left: 6px; letter-spacing: 0.05em; vertical-align: middle; display: inline-block;';
+              badge.textContent = 'VOCÊ';
+              nameEl.appendChild(badge);
+            }
           }
-        }
-      });
+        });
+      } finally {
+        isApplying = false;
+      }
     }
 
     applyHighlight();
-    const observer = new MutationObserver(applyHighlight);
+    const observer = new MutationObserver(function() {
+      if (!isApplying) applyHighlight();
+    });
     const tbody = document.querySelector('table.ranking-tabela tbody, #hlb-table-body');
     if (tbody) {
       observer.observe(tbody, { childList: true });
