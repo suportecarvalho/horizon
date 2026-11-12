@@ -66,8 +66,9 @@
     var remMin = diffMin % 60;
     var remSec = diffSec % 60;
 
-    // Ciclo semanal padrão: 7 dias
-    var totalCycleMs = 7 * 24 * 60 * 60 * 1000;
+    // Ciclo bisemanal: Quarta 18h até Sábado 12h = 66h | Sábado 12h até Quarta 18h = 102h
+    var isNextSat = targetDate.getUTCDay() === 6;
+    var totalCycleMs = isNextSat ? (66 * 60 * 60 * 1000) : (102 * 60 * 60 * 1000);
     var elapsedMs = Math.max(0, totalCycleMs - diffMs);
     var pct = Math.max(6, Math.min(100, Math.round((elapsedMs / totalCycleMs) * 100)));
 
@@ -84,16 +85,37 @@
     };
   }
 
-  function getCalculatedNextWipe() {
-    var d = new Date();
-    // Wipe semanal ocorre toda Sexta-feira às 18:00h BRT (21:00 UTC)
+  function getNextWednesday18h(refDate) {
+    var d = new Date(refDate);
+    // Quarta-feira (day 3) às 18:00h BRT = 21:00h UTC
+    var targetDay = 3;
+    var targetHour = 21;
     var currentDay = d.getUTCDay();
-    var currentHour = d.getUTCHours();
-    var daysUntilFriday = (5 - currentDay + 7) % 7;
-    if (daysUntilFriday === 0 && currentHour >= 21) {
-      daysUntilFriday = 7;
+    var days = (targetDay - currentDay + 7) % 7;
+    if (days === 0 && (d.getUTCHours() > targetHour || (d.getUTCHours() === targetHour && (d.getUTCMinutes() > 0 || d.getUTCSeconds() > 0)))) {
+      days = 7;
     }
-    return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() + daysUntilFriday, 21, 0, 0, 0));
+    return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() + days, targetHour, 0, 0, 0));
+  }
+
+  function getNextSaturday12h(refDate) {
+    var d = new Date(refDate);
+    // Sábado (day 6) às 12:00h BRT = 15:00h UTC
+    var targetDay = 6;
+    var targetHour = 15;
+    var currentDay = d.getUTCDay();
+    var days = (targetDay - currentDay + 7) % 7;
+    if (days === 0 && (d.getUTCHours() > targetHour || (d.getUTCHours() === targetHour && (d.getUTCMinutes() > 0 || d.getUTCSeconds() > 0)))) {
+      days = 7;
+    }
+    return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() + days, targetHour, 0, 0, 0));
+  }
+
+  function getCalculatedNextWipe(refDate) {
+    var now = refDate || new Date();
+    var nextWed = getNextWednesday18h(now);
+    var nextSat = getNextSaturday12h(now);
+    return (nextWed.getTime() < nextSat.getTime()) ? nextWed : nextSat;
   }
 
   function tickWipeDisplay() {
@@ -132,8 +154,15 @@
       elWipeCountdown.textContent = cd.str;
     }
 
+    var isNextWed = nextWipeDate.getUTCDay() === 3;
+    var nextDateLabel = isNextWed ? 'Quarta-feira, 18:00h' : 'Sábado, 12:00h';
+    var nextDateFull = isNextWed ? 'Quarta-feira às 18:00h' : 'Sábado às 12:00h';
+
+    var elNextTitle = document.getElementById('wipe-next-date-title');
+    if (elNextTitle) elNextTitle.textContent = nextDateLabel;
+
     if (elWipeNextDate) {
-      elWipeNextDate.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #D7573B; flex-shrink: 0;"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg> Sexta-feira às 18:00h (Horário de Brasília)';
+      elWipeNextDate.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #D7573B; flex-shrink: 0;"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg> ' + nextDateFull + ' (Horário de Brasília)';
     }
   }
 
@@ -170,17 +199,20 @@
       var elSchedFullSub = document.getElementById('wipe-sched-full-sub');
       var elSchedLimit = document.getElementById('wipe-sched-limit');
       
-      if (dados.schedule.mapWipe) {
-        var mMatch = dados.schedule.mapWipe.match(/(\d{1,2}:\d{2}h?)/i);
-        if (mMatch && elSchedMapTime) {
-          elSchedMapTime.textContent = mMatch[1].toLowerCase().endsWith('h') ? mMatch[1] : mMatch[1] + 'h';
-        }
+      if (elSchedMapSub) {
+        elSchedMapSub.textContent = 'Bisemanal (Quartas e Sábados)';
+      }
+      if (elSchedMapTime) {
+        elSchedMapTime.innerHTML = 'Qua 18:00h<br>Sáb 12:00h';
       }
       if (dados.schedule.fullWipe) {
         var fMatch = dados.schedule.fullWipe.match(/(\d{1,2}:\d{2}h?)/i);
         if (fMatch && elSchedFullTime) {
           elSchedFullTime.textContent = fMatch[1].toLowerCase().endsWith('h') ? fMatch[1] : fMatch[1] + 'h';
         }
+      }
+      if (elSchedFullSub) {
+        elSchedFullSub.textContent = 'Primeira quinta-feira do mês';
       }
       if (elSchedLimit) {
         var limStr = dados.schedule.teamLimit || "4 jogadores";

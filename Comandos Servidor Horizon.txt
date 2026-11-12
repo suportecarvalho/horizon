@@ -1,9 +1,14 @@
 Comandos Servidor Horizon
+
+bradley.enabled false
+eventschedulewipeoffset.event_hours_before_wipe 0
+
 ---------------------------------------------------------
 Tornar Dono ou remover
 
 ownerid 76561198737554294  Lucas
 ownerid 76561199127717531  Althoff
+
 
 removemoderator 
 

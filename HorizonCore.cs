@@ -49,7 +49,7 @@ namespace Oxide.Plugins
             public string ApiKey { get; set; } = "horizon_live_server_secret";
 
             [JsonProperty("Status_CronogramaWipeMapa")]
-            public string MapWipeSchedule { get; set; } = "Toda Sexta às 18:00h";
+            public string MapWipeSchedule { get; set; } = "Quartas às 18:00h e Sábados às 12:00h";
 
             [JsonProperty("Status_CronogramaWipeFull")]
             public string FullWipeSchedule { get; set; } = "1ª Quinta-feira do mês às 17:00h";

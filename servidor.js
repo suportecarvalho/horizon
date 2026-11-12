@@ -105,15 +105,36 @@ const MIME_TYPES = {
   '.webm': 'video/webm'
 };
 
-function calculateNextWipe(refDate = new Date()) {
+function getNextWednesday18h(refDate) {
   const d = new Date(refDate);
+  const targetDay = 3;
+  const targetHour = 21; // 18:00 BRT = 21:00 UTC
   const currentDay = d.getUTCDay();
-  let daysUntilSaturday = (6 - currentDay + 7) % 7;
-  if (daysUntilSaturday === 0 && d.getUTCHours() >= 15) {
-    daysUntilSaturday = 7;
+  let days = (targetDay - currentDay + 7) % 7;
+  if (days === 0 && (d.getUTCHours() > targetHour || (d.getUTCHours() === targetHour && (d.getUTCMinutes() > 0 || d.getUTCSeconds() > 0)))) {
+    days = 7;
   }
-  const nextSaturday = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() + daysUntilSaturday, 15, 0, 0, 0));
-  return nextSaturday.toISOString();
+  return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() + days, targetHour, 0, 0, 0));
+}
+
+function getNextSaturday12h(refDate) {
+  const d = new Date(refDate);
+  const targetDay = 6;
+  const targetHour = 15; // 12:00 BRT = 15:00 UTC
+  const currentDay = d.getUTCDay();
+  let days = (targetDay - currentDay + 7) % 7;
+  if (days === 0 && (d.getUTCHours() > targetHour || (d.getUTCHours() === targetHour && (d.getUTCMinutes() > 0 || d.getUTCSeconds() > 0)))) {
+    days = 7;
+  }
+  return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate() + days, targetHour, 0, 0, 0));
+}
+
+function calculateNextWipe(refDate = new Date()) {
+  const now = new Date(refDate);
+  const nextWed = getNextWednesday18h(now);
+  const nextSat = getNextSaturday12h(now);
+  const nextWipe = (nextWed.getTime() < nextSat.getTime()) ? nextWed : nextSat;
+  return nextWipe.toISOString();
 }
 
 // Cache de status do servidor Rust (A2S_INFO)
@@ -127,7 +148,7 @@ let serverStatusCache = {
     wipedAt: 1793883961000,
     nextWipe: calculateNextWipe(),
     schedule: {
-      mapWipe: "Todo Sábado às 12:00h",
+      mapWipe: "Quartas às 18:00h e Sábados às 12:00h",
       fullWipe: "1ª Quinta-feira do mês às 17:00h",
       type: "Horizon 2x Solo/Duo/Trio"
     }
@@ -199,7 +220,7 @@ function parseA2SInfo(msg) {
     wipedAt,
     nextWipe: calculateNextWipe(),
     schedule: {
-      mapWipe: "Todo Sábado às 12:00h",
+      mapWipe: "Quartas às 18:00h e Sábados às 12:00h",
       fullWipe: "1ª Quinta-feira do mês às 17:00h",
       type: "Horizon 2x Solo/Duo/Trio"
     },
