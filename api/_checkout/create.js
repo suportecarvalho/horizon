@@ -84,11 +84,9 @@ module.exports = async (req, res) => {
 
     // Normalização dos itens recebidos (suporta item único via vipTier ou múltiplos itens via items/cart)
     function normalizeTier(t) {
-      let tier = String(t || '').toLowerCase().trim();
-      if (tier === 'kit-farmer' || tier === 'kit_farmer') tier = 'farmer';
-      if (tier === 'kit-airdrop' || tier === 'kit_airdrop' || tier === 'drop' || tier === 'kit-drop') tier = 'airdrop';
-      if (tier === 'kit-cartao' || tier === 'kit_cartao' || tier === 'cards' || tier === 'cartoes') tier = 'cartao';
-      if (tier === 'kit-eletrica' || tier === 'kit_eletrica' || tier === 'eletrico') tier = 'eletrica';
+      let tier = String(t || 'vip').toLowerCase().trim();
+      if (tier === 'vip_horizon' || tier === 'vip-horizon' || tier === 'horizon-vip' || tier === 'padrao') tier = 'vip';
+      if (tier === 'bronze' || tier === 'prata' || tier === 'ouro') tier = 'vip';
       return tier;
     }
 
@@ -100,18 +98,18 @@ module.exports = async (req, res) => {
     } else if (body.vipTier) {
       rawItems = [body.vipTier];
     } else {
-      rawItems = ['bronze'];
+      rawItems = ['vip'];
     }
 
     const validItems = [];
     for (const item of rawItems) {
       const tierKey = normalizeTier(typeof item === 'object' ? (item.tier || item.id) : item);
-      const kitDef = config.kits[tierKey];
+      const kitDef = config.kits[tierKey] || config.kits['vip'];
       if (!kitDef) {
-        return res.status(400).json({ error: `Plano ou Kit inválido: ${tierKey}. Escolha bronze, prata, ouro, farmer, airdrop, cartao ou eletrica.` });
+        return res.status(400).json({ error: `Plano inválido: ${tierKey}.` });
       }
       validItems.push({
-        tier: tierKey,
+        tier: 'vip',
         name: kitDef.name,
         price: Number(kitDef.price),
         group: kitDef.group,

@@ -86,27 +86,21 @@ namespace Oxide.Plugins
             [JsonProperty("Vip_Grupos")]
             public Dictionary<string, string> VipGroups { get; set; } = new Dictionary<string, string>
             {
-                { "bronze", "vip_bronze" },
-                { "sobrevivente", "vip_bronze" },
-                { "prata", "vip_prata" },
-                { "ouro", "vip_ouro" },
-                { "farmer", "kit_farmer" },
-                { "airdrop", "kit_drop" },
-                { "cartao", "kit_cartao" },
-                { "eletrica", "kit_eletrica" }
+                { "vip", "vip" },
+                { "bronze", "vip" },
+                { "sobrevivente", "vip" },
+                { "prata", "vip" },
+                { "ouro", "vip" }
             };
 
             [JsonProperty("Vip_PermissoesPorTier")]
             public Dictionary<string, List<string>> VipTierPermissions { get; set; } = new Dictionary<string, List<string>>
             {
-                { "bronze", new List<string> { "kits.bronze", "kits.vipbronze", "skippriority.vip" } },
-                { "sobrevivente", new List<string> { "kits.bronze", "kits.vipbronze", "skippriority.vip" } },
-                { "prata", new List<string> { "kits.prata", "kits.vipprata", "skippriority.vip" } },
-                { "ouro", new List<string> { "kits.ouro", "kits.vipouro", "skippriority.vip" } },
-                { "farmer", new List<string> { "kits.farmer" } },
-                { "airdrop", new List<string> { "kits.drop" } },
-                { "cartao", new List<string> { "kits.cartao" } },
-                { "eletrica", new List<string> { "kits.eletrica" } }
+                { "vip", new List<string> { "skippriority.vip" } },
+                { "bronze", new List<string> { "skippriority.vip" } },
+                { "sobrevivente", new List<string> { "skippriority.vip" } },
+                { "prata", new List<string> { "skippriority.vip" } },
+                { "ouro", new List<string> { "skippriority.vip" } }
             };
 
             [JsonProperty("Vip_ComandosAoAtivar")]
@@ -1661,14 +1655,11 @@ namespace Oxide.Plugins
             }
 
             string steamId = delivery.steamId;
-            string tier = (delivery.vipTier ?? "bronze").ToLower().Trim();
-            if (tier == "sobrevivente" || tier == "vip_sobrevivente" || tier == "vip-sobrevivente" || tier == "vip_bronze" || tier == "vip-bronze" || tier == "vipbronze") tier = "bronze";
-            if (tier == "vip_prata" || tier == "vip-prata" || tier == "vipprata") tier = "prata";
-            if (tier == "vip_ouro" || tier == "vip-ouro" || tier == "vipouro") tier = "ouro";
-            if (tier == "kit-farmer" || tier == "kit_farmer") tier = "farmer";
-            if (tier == "kit-airdrop" || tier == "kit_airdrop" || tier == "drop" || tier == "kit-drop") tier = "airdrop";
-            if (tier == "kit-cartao" || tier == "kit_cartao" || tier == "cards" || tier == "cartoes") tier = "cartao";
-            if (tier == "kit-eletrica" || tier == "kit_eletrica" || tier == "eletrico") tier = "eletrica";
+            string tier = (delivery.vipTier ?? "vip").ToLower().Trim();
+            if (tier == "vip_horizon" || tier == "vip-horizon" || tier == "horizon_vip" || tier == "horizonvip" || tier == "padrao" || tier == "vip") tier = "vip";
+            if (tier == "sobrevivente" || tier == "vip_sobrevivente" || tier == "vip-sobrevivente" || tier == "vip_bronze" || tier == "vip-bronze" || tier == "vipbronze" || tier == "bronze") tier = "vip";
+            if (tier == "vip_prata" || tier == "vip-prata" || tier == "vipprata" || tier == "prata") tier = "vip";
+            if (tier == "vip_ouro" || tier == "vip-ouro" || tier == "vipouro" || tier == "ouro") tier = "vip";
 
             // Localiza jogador para obter o nome real no jogo
             BasePlayer player = null;
@@ -1756,25 +1747,15 @@ namespace Oxide.Plugins
                 }
             }
 
-            bool isKit = tier == "farmer" || tier == "airdrop" || tier == "cartao" || tier == "eletrica";
-            string nomePacote;
-            if (tier == "farmer") nomePacote = "Kit Farmer";
-            else if (tier == "airdrop") nomePacote = "Kit Airdrop";
-            else if (tier == "cartao") nomePacote = "Kit Cartões";
-            else if (tier == "eletrica") nomePacote = "Kit Elétrica";
-            else if (tier == "bronze") nomePacote = "VIP Bronze";
-            else if (tier == "prata") nomePacote = "VIP Prata";
-            else if (tier == "ouro") nomePacote = "VIP Ouro";
-            else nomePacote = $"VIP {char.ToUpper(tier[0]) + tier.Substring(1)}";
+            string nomePacote = "HORIZON VIP";
 
-            PrintToChat($"{config.VipChatPrefix} O jogador <color=#10B981>{record.PlayerName}</color> adquiriu o pacote <color=#F59E0B>{nomePacote}</color>! Agradecemos pelo apoio!");
+            PrintToChat($"{config.VipChatPrefix} O jogador <color=#10B981>{record.PlayerName}</color> ativou o pacote <color=#F59E0B>{nomePacote}</color>! Agradecemos pelo apoio!");
 
             if (player != null && player.IsConnected)
             {
-                string beneficio = isKit ? "seus kits exclusivos" : "seus itens e aproveite a fila prioritária";
                 PrintToChat(player, $"{config.VipChatPrefix} <color=#10B981>Parabéns!</color> Seu <color=#F59E0B>{nomePacote}</color> foi ativado com sucesso!\n" +
                                    $"- Validade: <color=#38BDF8>30 dias</color> (Expira em: {expiresAt.ToLocalTime():dd/MM/yyyy HH:mm})\n" +
-                                   $"- Use <color=#F59E0B>/kit</color> para resgatar {beneficio}!");
+                                   $"- Seus benefícios de qualidade de vida e skip fila já estão ativos! Use <color=#F59E0B>/vip</color> para detalhes.");
             }
 
             Puts($"[HorizonVIP] ✔ {nomePacote} concedido com sucesso para {record.PlayerName} ({steamId}) por 30 dias (até {expiresAt:yyyy-MM-dd HH:mm}).");

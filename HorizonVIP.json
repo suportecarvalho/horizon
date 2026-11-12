@@ -3,49 +3,36 @@
   "IntervaloSincronizacaoSegundos": 30,
   "CriarGruposOxideAutomaticamente": true,
   "GruposVip": {
-    "bronze": "vip_bronze",
-    "prata": "vip_prata",
-    "ouro": "vip_ouro",
-    "farmer": "kit_farmer",
-    "airdrop": "kit_drop",
-    "cartao": "kit_cartao",
-    "eletrica": "kit_eletrica"
+    "vip": "vip",
+    "bronze": "vip",
+    "prata": "vip",
+    "ouro": "vip"
   },
   "PermissoesPorTier": {
+    "vip": [
+      "skippriority.vip"
+    ],
     "bronze": [
-      "kits.vipbronze",
       "skippriority.vip"
     ],
     "prata": [
-      "kits.vipprata",
       "skippriority.vip"
     ],
     "ouro": [
-      "kits.vipouro",
       "skippriority.vip"
-    ],
-    "farmer": [
-      "kits.farmer"
-    ],
-    "airdrop": [
-      "kits.drop"
-    ],
-    "cartao": [
-      "kits.cartao"
-    ],
-    "eletrica": [
-      "kits.eletrica"
     ]
   },
   "ComandosAoAtivar": {
+    "vip": [],
     "bronze": [],
     "prata": [],
-    "ouro": [],
-    "farmer": [],
-    "airdrop": [],
-    "cartao": [],
-    "eletrica": []
+    "ouro": []
+  },
+  "ComandosAoExpirar": {
+    "vip": [],
+    "bronze": [],
+    "prata": [],
+    "ouro": []
   },
   "PrefixoChat": "<color=#D7573B>[HORIZON VIP]</color>"
 }
-

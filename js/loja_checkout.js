@@ -5,103 +5,63 @@
   'use strict';
 
   const KITS_INFO = {
-    sobrevivente: {
-      name: 'VIP BRONZE',
-      price: 'R$ 14,90',
-      numericPrice: 14.90,
-      img: 'https://i.imgur.com/Fnji1lo.png',
-      badgeColor: '#CD7F32',
-      badgeBorder: '#B87333',
-      badgeBg: 'rgba(205, 127, 50, 0.15)',
-      perks: 'Cooldown 2h • Recursos + Componentes • Salvaged Axe & Icepick • Chás de Farm'
-    },
-    bronze: {
-      name: 'VIP BRONZE',
-      price: 'R$ 14,90',
-      numericPrice: 14.90,
-      img: 'https://i.imgur.com/Fnji1lo.png',
-      badgeColor: '#CD7F32',
-      badgeBorder: '#B87333',
-      badgeBg: 'rgba(205, 127, 50, 0.15)',
-      perks: 'Cooldown 2h • Recursos + Componentes • Salvaged Axe & Icepick • Chás de Farm'
-    },
-    prata: {
-      name: 'VIP Prata',
-      price: 'R$ 24,90',
-      numericPrice: 24.90,
-      img: 'https://i.imgur.com/h1RxapR.png',
-      badgeColor: '#E2E8F0',
-      badgeBorder: '#94A3B8',
-      badgeBg: 'rgba(148, 163, 184, 0.15)',
-      perks: 'Cooldown 4h • Mais Recursos & Componentes • Chás de Farm Puros'
-    },
-    ouro: {
-      name: 'VIP Ouro',
-      price: 'R$ 39,90',
-      numericPrice: 39.90,
+    vip: {
+      name: 'HORIZON VIP (30 Dias)',
+      price: 'R$ 19,90',
+      numericPrice: 19.90,
       img: 'https://i.imgur.com/yMXx5eQ.png',
-      badgeColor: '#FBBF24',
-      badgeBorder: '#F59E0B',
-      badgeBg: 'rgba(245, 158, 11, 0.18)',
-      perks: 'Cooldown 6h • Recursos em Massa • Componentes x6 • Concrete Tools • Chás'
-    },
-    farmer: {
-      name: 'Kit Farmer',
-      price: 'R$ 14,90',
-      numericPrice: 14.90,
-      img: 'https://i.imgur.com/AJ77ULs.png',
-      badgeColor: '#10B981',
-      badgeBorder: '#059669',
-      badgeBg: 'rgba(16, 185, 129, 0.15)',
-      perks: 'Cooldown 2h • 1x Jackhammer • 1x Chainsaw • 50x Combustível • Chás de Farm'
-    },
-    airdrop: {
-      name: 'Kit Drop',
-      price: 'R$ 9,90',
-      numericPrice: 9.90,
-      img: 'https://i.imgur.com/hEmRo96.png',
-      badgeColor: '#EF4444',
-      badgeBorder: '#DC2626',
-      badgeBg: 'rgba(239, 68, 68, 0.15)',
-      perks: 'Cooldown 8h • 1x Supply Signal (Chame o avião C-130 Militar de Airdrop)'
-    },
-    cartao: {
-      name: 'Kit Cartões & Puzzles',
-      price: 'R$ 9,90',
-      numericPrice: 9.90,
-      img: 'https://i.ibb.co/bjSLSX3f/keycard-red-2.png',
-      badgeColor: '#3B82F6',
-      badgeBorder: '#2563EB',
-      badgeBg: 'rgba(59, 130, 246, 0.15)',
-      perks: 'Cooldown 8h • 1x Cartão Verde • 1x Cartão Azul • 2x Fusíveis Elétricos'
-    },
-    eletrica: {
-      name: 'Kit Elétrica & Automação',
-      price: 'R$ 9,90',
-      numericPrice: 9.90,
-      img: 'https://i.imgur.com/Q0cjeSA.png',
       badgeColor: '#F59E0B',
       badgeBorder: '#D97706',
-      badgeBg: 'rgba(245, 158, 11, 0.15)',
-      perks: 'Turbina Eólica • Painel Solar • Bateria • Caixas Seletoras & Ferramentas'
+      badgeBg: 'rgba(245, 158, 11, 0.18)',
+      perks: 'TAG VIP • /skin • /remove • Skins TC • Bancada Expandida • Auto Sort Baú • Skip Queue • Recicladora 2x'
+    },
+    bronze: {
+      name: 'HORIZON VIP (30 Dias)',
+      price: 'R$ 19,90',
+      numericPrice: 19.90,
+      img: 'https://i.imgur.com/yMXx5eQ.png',
+      badgeColor: '#F59E0B',
+      badgeBorder: '#D97706',
+      badgeBg: 'rgba(245, 158, 11, 0.18)',
+      perks: 'TAG VIP • /skin • /remove • Skins TC • Bancada Expandida • Auto Sort Baú • Skip Queue • Recicladora 2x'
+    },
+    prata: {
+      name: 'HORIZON VIP (30 Dias)',
+      price: 'R$ 19,90',
+      numericPrice: 19.90,
+      img: 'https://i.imgur.com/yMXx5eQ.png',
+      badgeColor: '#F59E0B',
+      badgeBorder: '#D97706',
+      badgeBg: 'rgba(245, 158, 11, 0.18)',
+      perks: 'TAG VIP • /skin • /remove • Skins TC • Bancada Expandida • Auto Sort Baú • Skip Queue • Recicladora 2x'
+    },
+    ouro: {
+      name: 'HORIZON VIP (30 Dias)',
+      price: 'R$ 19,90',
+      numericPrice: 19.90,
+      img: 'https://i.imgur.com/yMXx5eQ.png',
+      badgeColor: '#F59E0B',
+      badgeBorder: '#D97706',
+      badgeBg: 'rgba(245, 158, 11, 0.18)',
+      perks: 'TAG VIP • /skin • /remove • Skins TC • Bancada Expandida • Auto Sort Baú • Skip Queue • Recicladora 2x'
     }
   };
 
   const CART_STORAGE_KEY = 'horizon_cart';
-  let activeCheckoutItems = ['ouro'];
+  let activeCheckoutItems = ['vip'];
   let currentUser = null;
   let pollInterval = null;
   let currentOrderId = null;
 
   // Normaliza o nome do tier
   function normalizeTierKey(tier) {
-    let t = (tier || 'ouro').toLowerCase().trim();
-    if (t === 'sobrevivente' || t === 'vip-sobrevivente' || t === 'vipsobrevivente') t = 'bronze';
-    if (t === 'kit-farmer' || t === 'kit_farmer') t = 'farmer';
-    if (t === 'kit-airdrop' || t === 'kit_airdrop' || t === 'drop' || t === 'kit-drop') t = 'airdrop';
-    if (t === 'kit-cartao' || t === 'kit_cartao' || t === 'cards' || t === 'cartoes') t = 'cartao';
-    if (t === 'kit-eletrica' || t === 'kit_eletrica' || t === 'eletrico') t = 'eletrica';
-    return t;
+    let t = (tier || 'vip').toLowerCase().trim();
+    if (t === 'sobrevivente' || t === 'vip-sobrevivente' || t === 'vipsobrevivente' || t === 'bronze' || t === 'prata' || t === 'ouro' || t === 'vip_horizon' || t === 'horizon-vip') return 'vip';
+    if (t === 'kit-farmer' || t === 'kit_farmer' || t === 'farmer') return 'vip';
+    if (t === 'kit-airdrop' || t === 'kit_airdrop' || t === 'drop' || t === 'kit-drop' || t === 'airdrop') return 'vip';
+    if (t === 'kit-cartao' || t === 'kit_cartao' || t === 'cards' || t === 'cartoes' || t === 'cartao') return 'vip';
+    if (t === 'kit-eletrica' || t === 'kit_eletrica' || t === 'eletrico' || t === 'eletrica') return 'vip';
+    return 'vip';
   }
 
   // ==================== SISTEMA DE CARRINHO ====================
