@@ -412,7 +412,7 @@ html, body {
   overflow: hidden !important;
 }
 
-/* Vídeo com alta nitidez e vivacidade - Tom escurecido balanceado para não ofuscar o contador de players e títulos */
+/* Vídeo com alta nitidez, vivacidade e iluminação natural */
 .hero-fundo video.hero-midia,
 video.hero-midia {
   position: absolute !important;
@@ -421,8 +421,8 @@ video.hero-midia {
   height: 100% !important;
   object-fit: cover !important;
   object-position: center !important;
-  opacity: 0.90 !important;
-  filter: contrast(1.08) saturate(1.08) brightness(0.85) !important;
+  opacity: 0.98 !important;
+  filter: contrast(1.08) saturate(1.12) brightness(1.04) !important;
   display: block !important;
 }
 
