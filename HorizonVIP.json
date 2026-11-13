@@ -3,36 +3,18 @@
   "IntervaloSincronizacaoSegundos": 30,
   "CriarGruposOxideAutomaticamente": true,
   "GruposVip": {
-    "vip": "vip",
-    "bronze": "vip",
-    "prata": "vip",
-    "ouro": "vip"
+    "vip": "vip"
   },
   "PermissoesPorTier": {
     "vip": [
       "skippriority.vip"
-    ],
-    "bronze": [
-      "skippriority.vip"
-    ],
-    "prata": [
-      "skippriority.vip"
-    ],
-    "ouro": [
-      "skippriority.vip"
     ]
   },
   "ComandosAoAtivar": {
-    "vip": [],
-    "bronze": [],
-    "prata": [],
-    "ouro": []
+    "vip": []
   },
   "ComandosAoExpirar": {
-    "vip": [],
-    "bronze": [],
-    "prata": [],
-    "ouro": []
+    "vip": []
   },
   "PrefixoChat": "<color=#D7573B>[HORIZON VIP]</color>"
 }

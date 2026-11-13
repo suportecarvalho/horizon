@@ -5,54 +5,12 @@
   "notificationUrl": "",
   "durationDays": 30,
   "kits": {
-    "bronze": {
-      "name": "VIP Bronze (30 Dias)",
-      "price": 14.90,
-      "group": "vip_bronze",
-      "kitPermission": "kits.bronze",
-      "itemsCount": 17
-    },
-    "prata": {
-      "name": "VIP Prata (30 Dias)",
-      "price": 24.90,
-      "group": "vip_prata",
-      "kitPermission": "kits.prata",
-      "itemsCount": 14
-    },
-    "ouro": {
-      "name": "VIP Ouro (30 Dias)",
-      "price": 39.90,
-      "group": "vip_ouro",
-      "kitPermission": "kits.ouro",
-      "itemsCount": 16
-    },
-    "farmer": {
-      "name": "Kit Farmer",
-      "price": 14.90,
-      "group": "kit_farmer",
-      "kitPermission": "kits.farmer",
-      "itemsCount": 5
-    },
-    "airdrop": {
-      "name": "Kit Airdrop",
-      "price": 9.90,
-      "group": "kit_drop",
-      "kitPermission": "kits.drop",
-      "itemsCount": 1
-    },
-    "cartao": {
-      "name": "Kit Cartões",
-      "price": 9.90,
-      "group": "kit_cartao",
-      "kitPermission": "kits.cartao",
-      "itemsCount": 4
-    },
-    "eletrica": {
-      "name": "Kit Elétrica",
-      "price": 9.90,
-      "group": "kit_eletrica",
-      "kitPermission": "kits.eletrica",
-      "itemsCount": 15
+    "vip": {
+      "name": "HORIZON VIP (30 Dias)",
+      "price": 19.90,
+      "group": "vip",
+      "kitPermission": "skippriority.vip",
+      "itemsCount": 8
     }
   }
 }

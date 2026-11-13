@@ -14,48 +14,15 @@
   "Vip_IntervaloSegundos": 30,
   "Vip_CriarGruposAutomaticamente": true,
   "Vip_Grupos": {
-    "bronze": "vip_bronze",
-    "prata": "vip_prata",
-    "ouro": "vip_ouro",
-    "farmer": "kit_farmer",
-    "airdrop": "kit_drop",
-    "cartao": "kit_cartao",
-    "eletrica": "kit_eletrica"
+    "vip": "vip"
   },
   "Vip_PermissoesPorTier": {
-    "bronze": [
-      "kits.vipbronze",
+    "vip": [
       "skippriority.vip"
-    ],
-    "prata": [
-      "kits.vipprata",
-      "skippriority.vip"
-    ],
-    "ouro": [
-      "kits.vipouro",
-      "skippriority.vip"
-    ],
-    "farmer": [
-      "kits.farmer"
-    ],
-    "airdrop": [
-      "kits.drop"
-    ],
-    "cartao": [
-      "kits.cartao"
-    ],
-    "eletrica": [
-      "kits.eletrica"
     ]
   },
   "Vip_ComandosAoAtivar": {
-    "bronze": [],
-    "prata": [],
-    "ouro": [],
-    "farmer": [],
-    "airdrop": [],
-    "cartao": [],
-    "eletrica": []
+    "vip": []
   },
   "Vip_PrefixoChat": "<color=#D7573B>[HORIZON VIP]</color>",
   "LogarNoConsole": false

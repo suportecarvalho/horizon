@@ -74,47 +74,34 @@ module.exports = async (req, res) => {
 
       if (items.length > 1) {
         items.forEach((it, idx) => {
-          const tier = String(it).toLowerCase().trim();
-          const subKey = `${tier}_${idx}`;
+          const tier = 'vip';
+          const subKey = `vip_${idx}`;
           if (grantedItems.includes(subKey) || (grantedItems.includes(tier) && items.filter(x => x === tier).length === 1)) {
             return;
           }
-
-          const kit = (config.kits && config.kits[tier]) || {
-            name: `VIP ${tier.toUpperCase()}`,
-            group: `vip_${tier}`,
-            kitPermission: `kits.vip${tier}`
-          };
 
           formatted.push({
             orderId: `${order.id}__${subKey}`,
             paymentId: order.payment_id,
             steamId: String(order.steam_id),
             playerName: order.player_name || 'Jogador',
-            vipTier: tier,
-            groupName: kit.group || `vip_${tier}`,
-            kitPermission: kit.kitPermission || `kits.vip${tier}`,
+            vipTier: 'vip',
+            groupName: 'vip',
+            kitPermission: 'skippriority.vip',
             approvedAt: order.approved_at,
             expiresAt: order.expires_at,
             durationDays: 30
           });
         });
       } else {
-        const tier = (items[0] || 'bronze').toLowerCase().trim();
-        const kit = (config.kits && config.kits[tier]) || {
-          name: `VIP ${tier.toUpperCase()}`,
-          group: `vip_${tier}`,
-          kitPermission: `kits.vip${tier}`
-        };
-
         formatted.push({
           orderId: order.id,
           paymentId: order.payment_id,
           steamId: String(order.steam_id),
           playerName: order.player_name || 'Jogador',
-          vipTier: tier,
-          groupName: kit.group || `vip_${tier}`,
-          kitPermission: kit.kitPermission || `kits.vip${tier}`,
+          vipTier: 'vip',
+          groupName: 'vip',
+          kitPermission: 'skippriority.vip',
           approvedAt: order.approved_at,
           expiresAt: order.expires_at,
           durationDays: 30

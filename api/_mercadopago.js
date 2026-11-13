@@ -14,10 +14,7 @@ function getMPConfig() {
     notificationUrl: process.env.MERCADO_PAGO_NOTIFICATION_URL || '',
     durationDays: 30,
     kits: {
-      vip: { name: "HORIZON VIP (30 Dias)", price: 19.90, group: "vip", kitPermission: "skippriority.vip" },
-      bronze: { name: "HORIZON VIP (30 Dias)", price: 19.90, group: "vip", kitPermission: "skippriority.vip" },
-      prata: { name: "HORIZON VIP (30 Dias)", price: 19.90, group: "vip", kitPermission: "skippriority.vip" },
-      ouro: { name: "HORIZON VIP (30 Dias)", price: 19.90, group: "vip", kitPermission: "skippriority.vip" }
+      vip: { name: "HORIZON VIP (30 Dias)", price: 19.90, group: "vip", kitPermission: "skippriority.vip", itemsCount: 8 }
     }
   };
 

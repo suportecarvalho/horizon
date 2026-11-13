@@ -9,43 +9,16 @@
       name: 'HORIZON VIP (30 Dias)',
       price: 'R$ 19,90',
       numericPrice: 19.90,
-      img: 'https://i.imgur.com/yMXx5eQ.png',
-      badgeColor: '#F59E0B',
-      badgeBorder: '#D97706',
-      badgeBg: 'rgba(245, 158, 11, 0.18)',
-      perks: 'TAG VIP • /skin • /remove • Skins TC • Bancada Expandida • Auto Sort Baú • Skip Queue • Recicladora 2x'
-    },
-    bronze: {
-      name: 'HORIZON VIP (30 Dias)',
-      price: 'R$ 19,90',
-      numericPrice: 19.90,
-      img: 'https://i.imgur.com/yMXx5eQ.png',
-      badgeColor: '#F59E0B',
-      badgeBorder: '#D97706',
-      badgeBg: 'rgba(245, 158, 11, 0.18)',
-      perks: 'TAG VIP • /skin • /remove • Skins TC • Bancada Expandida • Auto Sort Baú • Skip Queue • Recicladora 2x'
-    },
-    prata: {
-      name: 'HORIZON VIP (30 Dias)',
-      price: 'R$ 19,90',
-      numericPrice: 19.90,
-      img: 'https://i.imgur.com/yMXx5eQ.png',
-      badgeColor: '#F59E0B',
-      badgeBorder: '#D97706',
-      badgeBg: 'rgba(245, 158, 11, 0.18)',
-      perks: 'TAG VIP • /skin • /remove • Skins TC • Bancada Expandida • Auto Sort Baú • Skip Queue • Recicladora 2x'
-    },
-    ouro: {
-      name: 'HORIZON VIP (30 Dias)',
-      price: 'R$ 19,90',
-      numericPrice: 19.90,
-      img: 'https://i.imgur.com/yMXx5eQ.png',
-      badgeColor: '#F59E0B',
-      badgeBorder: '#D97706',
-      badgeBg: 'rgba(245, 158, 11, 0.18)',
-      perks: 'TAG VIP • /skin • /remove • Skins TC • Bancada Expandida • Auto Sort Baú • Skip Queue • Recicladora 2x'
+      img: '/images/logo_horizon.png',
+      badgeColor: '#CE422B',
+      badgeBorder: '#CE422B',
+      badgeBg: 'rgba(206, 66, 43, 0.18)',
+      perks: 'TAG VIP • /skin • /remove • Skins TC • Bancada no TC • Auto Sort Baú • Skip Queue • Recicladora 2x'
     }
   };
+  KITS_INFO.bronze = KITS_INFO.vip;
+  KITS_INFO.prata = KITS_INFO.vip;
+  KITS_INFO.ouro = KITS_INFO.vip;
 
   const CART_STORAGE_KEY = 'horizon_cart';
   let activeCheckoutItems = ['vip'];

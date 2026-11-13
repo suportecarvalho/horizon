@@ -86,47 +86,25 @@ namespace Oxide.Plugins
             [JsonProperty("Vip_Grupos")]
             public Dictionary<string, string> VipGroups { get; set; } = new Dictionary<string, string>
             {
-                { "vip", "vip" },
-                { "bronze", "vip" },
-                { "sobrevivente", "vip" },
-                { "prata", "vip" },
-                { "ouro", "vip" }
+                { "vip", "vip" }
             };
 
             [JsonProperty("Vip_PermissoesPorTier")]
             public Dictionary<string, List<string>> VipTierPermissions { get; set; } = new Dictionary<string, List<string>>
             {
-                { "vip", new List<string> { "skippriority.vip" } },
-                { "bronze", new List<string> { "skippriority.vip" } },
-                { "sobrevivente", new List<string> { "skippriority.vip" } },
-                { "prata", new List<string> { "skippriority.vip" } },
-                { "ouro", new List<string> { "skippriority.vip" } }
+                { "vip", new List<string> { "skippriority.vip" } }
             };
 
             [JsonProperty("Vip_ComandosAoAtivar")]
             public Dictionary<string, List<string>> VipActivationCommands { get; set; } = new Dictionary<string, List<string>>
             {
-                { "bronze", new List<string>() },
-                { "sobrevivente", new List<string>() },
-                { "prata", new List<string>() },
-                { "ouro", new List<string>() },
-                { "farmer", new List<string>() },
-                { "airdrop", new List<string>() },
-                { "cartao", new List<string>() },
-                { "eletrica", new List<string>() }
+                { "vip", new List<string>() }
             };
 
             [JsonProperty("Vip_ComandosAoExpirar")]
             public Dictionary<string, List<string>> VipRevocationCommands { get; set; } = new Dictionary<string, List<string>>
             {
-                { "bronze", new List<string>() },
-                { "sobrevivente", new List<string>() },
-                { "prata", new List<string>() },
-                { "ouro", new List<string>() },
-                { "farmer", new List<string>() },
-                { "airdrop", new List<string>() },
-                { "cartao", new List<string>() },
-                { "eletrica", new List<string>() }
+                { "vip", new List<string>() }
             };
 
             [JsonProperty("Vip_PrefixoChat")]
@@ -1655,11 +1633,8 @@ namespace Oxide.Plugins
             }
 
             string steamId = delivery.steamId;
-            string tier = (delivery.vipTier ?? "vip").ToLower().Trim();
-            if (tier == "vip_horizon" || tier == "vip-horizon" || tier == "horizon_vip" || tier == "horizonvip" || tier == "padrao" || tier == "vip") tier = "vip";
-            if (tier == "sobrevivente" || tier == "vip_sobrevivente" || tier == "vip-sobrevivente" || tier == "vip_bronze" || tier == "vip-bronze" || tier == "vipbronze" || tier == "bronze") tier = "vip";
-            if (tier == "vip_prata" || tier == "vip-prata" || tier == "vipprata" || tier == "prata") tier = "vip";
-            if (tier == "vip_ouro" || tier == "vip-ouro" || tier == "vipouro" || tier == "ouro") tier = "vip";
+            string tier = "vip";
+            string groupName = "vip";
 
             // Localiza jogador para obter o nome real no jogo
             BasePlayer player = null;
@@ -1674,10 +1649,6 @@ namespace Oxide.Plugins
                 ? player.displayName
                 : (!string.IsNullOrEmpty(delivery.playerName) && delivery.playerName != "Jogador" ? delivery.playerName : "Jogador");
 
-            string groupName = !string.IsNullOrEmpty(delivery.groupName)
-                ? delivery.groupName
-                : (config.VipGroups.ContainsKey(tier) ? config.VipGroups[tier] : $"vip_{tier}");
-
             if (!permission.GroupExists(groupName))
             {
                 permission.CreateGroup(groupName, groupName, 0);
@@ -1685,9 +1656,9 @@ namespace Oxide.Plugins
 
             permission.AddUserGroup(steamId, groupName);
 
-            if (config.VipTierPermissions.ContainsKey(tier))
+            if (config.VipTierPermissions.ContainsKey("vip"))
             {
-                foreach (var perm in config.VipTierPermissions[tier])
+                foreach (var perm in config.VipTierPermissions["vip"])
                 {
                     if (!string.IsNullOrEmpty(perm))
                     {
@@ -1887,13 +1858,12 @@ namespace Oxide.Plugins
             if (data.ActiveVips.TryGetValue(id, out var vip) && vip.IsActive && vip.ExpiresAt > DateTime.UtcNow)
             {
                 var remaining = vip.ExpiresAt - DateTime.UtcNow;
-                string tierFormatado = char.ToUpper(vip.Tier[0]) + vip.Tier.Substring(1);
 
                 PrintToChat(player, $"{config.VipChatPrefix} <color=#10B981>=== SEU STATUS VIP ===</color>\n" +
-                                   $"- Pacote: <color=#F59E0B>VIP {tierFormatado}</color>\n" +
+                                   $"- Pacote: <color=#F59E0B>HORIZON VIP</color>\n" +
                                    $"- Tempo Restante: <color=#38BDF8>{remaining.Days} dias, {remaining.Hours} horas e {remaining.Minutes} minutos</color>\n" +
                                    $"- Expira em: <color=#E2E8F0>{vip.ExpiresAt.ToLocalTime():dd/MM/yyyy HH:mm}</color>\n" +
-                                   $"- Resgatar itens: digite <color=#F59E0B>/kit</color>");
+                                   $"- Vantagens Ativas: <color=#10B981>TAG VIP, /skin, /remove, Skins TC, Bancada em toda base, Organizador de Baú, Skip Queue e Recicladora 2x</color>");
             }
             else
             {
@@ -1907,26 +1877,25 @@ namespace Oxide.Plugins
         private void CmdVipGrant(ConsoleSystem.Arg arg)
         {
             if (!arg.IsAdmin) return;
-            if (arg.Args == null || arg.Args.Length < 2)
+            if (arg.Args == null || arg.Args.Length < 1)
             {
-                arg.ReplyWith("Uso: vip.grant <steamid> <bronze|prata|ouro> [dias]");
+                arg.ReplyWith("Uso: vip.grant <steamid> [dias]");
                 return;
             }
 
             string steamId = arg.GetString(0);
-            string tier = (arg.GetString(1) ?? "bronze").ToLower();
-            int dias = arg.GetInt(2, 30);
+            int dias = arg.GetInt(1, 30);
 
             GrantVip(new PendingDelivery
             {
                 orderId = $"MANUAL-{DateTime.UtcNow:yyyyMMddHHmmss}",
                 steamId = steamId,
                 playerName = "Jogador",
-                vipTier = tier,
+                vipTier = "vip",
                 durationDays = dias
             });
 
-            arg.ReplyWith($"[HorizonCore] VIP {tier} concedido manualmente para {steamId} por {dias} dias.");
+            arg.ReplyWith($"[HorizonCore] HORIZON VIP concedido manualmente para {steamId} por {dias} dias no grupo 'vip'.");
         }
 
         [ConsoleCommand("vip.revoke")]
