@@ -210,6 +210,376 @@
   .loja-card-img-wrap:hover .loja-card-img-overlay {
     opacity: 1;
   }
+
+  /* ==================== MODAL VIP HORIZON ==================== */
+  .horizon-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: rgba(0, 0, 0, 0.88);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    animation: horizonModalFadeIn 0.2s ease-out;
+  }
+  @keyframes horizonModalFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .horizon-modal-box {
+    background: #15161a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    max-width: 680px;
+    width: 100%;
+    max-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 40px rgba(206, 66, 43, 0.15);
+    position: relative;
+    overflow: hidden;
+    animation: horizonModalScaleIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @keyframes horizonModalScaleIn {
+    from { transform: scale(0.96) translateY(8px); opacity: 0; }
+    to { transform: scale(1) translateY(0); opacity: 1; }
+  }
+
+  /* Header com Banner */
+  .horizon-modal-header {
+    position: relative;
+    padding: 22px 24px 20px;
+    background: linear-gradient(135deg, rgba(206, 66, 43, 0.25) 0%, rgba(26, 27, 34, 0.95) 60%, #15161a 100%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+  }
+  .horizon-modal-header-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 20px;
+    overflow: hidden;
+  }
+  .horizon-modal-watermark {
+    font-family: var(--font-display, "Space Grotesk", sans-serif);
+    font-size: 3.2rem;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.035);
+    letter-spacing: 0.08em;
+    user-select: none;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .horizon-modal-header-content {
+    position: relative;
+    z-index: 1;
+    padding-right: 44px;
+  }
+  .horizon-modal-badges {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  .horizon-modal-badge-tier {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: #CE422B;
+    color: #FFFFFF;
+  }
+  .horizon-modal-badge-duration {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.04);
+    color: #A0A5B5;
+  }
+  .horizon-modal-title {
+    font-family: var(--font-display, "Space Grotesk", sans-serif);
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: #FFFFFF;
+    margin: 0 0 4px 0;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+  }
+  .horizon-modal-subtitle {
+    font-size: 0.8rem;
+    color: #A0A5B5;
+    margin: 0;
+    font-weight: 500;
+  }
+  .horizon-modal-close {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    z-index: 2;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #EDE8E5;
+    font-size: 20px;
+    cursor: pointer;
+    line-height: 1;
+    transition: all 0.15s ease;
+  }
+  .horizon-modal-close:hover {
+    background: rgba(206, 66, 43, 0.3);
+    border-color: rgba(206, 66, 43, 0.5);
+    color: #FFFFFF;
+  }
+
+  /* Corpo com scroll */
+  .horizon-modal-body {
+    padding: 20px 24px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background: #15161a;
+  }
+  .horizon-modal-alert {
+    background: rgba(206, 66, 43, 0.08);
+    border: 1px solid rgba(206, 66, 43, 0.3);
+    border-radius: 8px;
+    padding: 12px 14px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .horizon-modal-alert-icon {
+    font-size: 1.1rem;
+    line-height: 1.2;
+    flex-shrink: 0;
+    color: #CE422B;
+  }
+  .horizon-modal-alert-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .horizon-modal-alert-text strong {
+    font-family: var(--font-display, "Space Grotesk", sans-serif);
+    color: #CE422B;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .horizon-modal-alert-text span {
+    color: #A0A5B5;
+    font-size: 0.8rem;
+    line-height: 1.45;
+  }
+
+  /* Section Title */
+  .horizon-modal-section-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono, monospace);
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #A0A5B5;
+  }
+  .horizon-modal-title-bar {
+    width: 3px;
+    height: 12px;
+    background: #CE422B;
+    border-radius: 1px;
+  }
+
+  /* Perks Grid */
+  .horizon-modal-perks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 8px;
+  }
+  .horizon-modal-perk-card {
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+    padding: 10px 12px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    transition: all 0.15s ease;
+  }
+  .horizon-modal-perk-card:hover {
+    background: rgba(255, 255, 255, 0.045);
+    border-color: rgba(206, 66, 43, 0.3);
+  }
+  .horizon-modal-perk-dot {
+    width: 6px;
+    height: 6px;
+    background: #CE422B;
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+  .horizon-modal-perk-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .horizon-modal-perk-title {
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    line-height: 1.3;
+  }
+  .horizon-modal-perk-desc {
+    font-size: 0.76rem;
+    color: #8A8E99;
+    line-height: 1.4;
+  }
+
+  /* Info Bar */
+  .horizon-modal-info-bar {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 12px;
+  }
+  @media (max-width: 580px) {
+    .horizon-modal-info-bar {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+  }
+  .horizon-modal-info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .horizon-modal-info-label {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.62rem;
+    color: #6C707C;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .horizon-modal-info-val {
+    font-size: 0.8rem;
+    color: #EDE8E5;
+    font-weight: 600;
+  }
+
+  /* Rodapé */
+  .horizon-modal-footer {
+    padding: 16px 24px;
+    background: #111215;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .horizon-modal-price-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+  .horizon-modal-price-label {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.65rem;
+    color: #717682;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .horizon-modal-price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+  .horizon-modal-price-val {
+    font-family: var(--font-mono, monospace);
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: #FFFFFF;
+    line-height: 1;
+  }
+  .horizon-modal-price-period {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.78rem;
+    color: #8A8E99;
+  }
+  .horizon-modal-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .horizon-modal-btn-close {
+    height: 42px;
+    padding: 0 18px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.04);
+    color: #EDE8E5;
+    font-family: var(--font-heading, "Space Grotesk", sans-serif);
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .horizon-modal-btn-close:hover {
+    background: rgba(255, 255, 255, 0.09);
+    color: #FFFFFF;
+  }
+  .horizon-modal-btn-buy {
+    height: 42px;
+    padding: 0 24px;
+    background: #CE422B;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    font-family: var(--font-heading, "Space Grotesk", sans-serif);
+    font-size: 0.84rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 18px rgba(206, 66, 43, 0.4);
+    transition: all 0.15s ease;
+  }
+  .horizon-modal-btn-buy:hover {
+    background: #E04E35;
+    box-shadow: 0 6px 24px rgba(206, 66, 43, 0.55);
+    transform: translateY(-1px);
+  }
 </style>
 
 </head><body><header class="site-header"><div class="site-header-conteudo shell"><a href="/" class="site-header-marca horizon-brand-logo" aria-label="Horizon"><img src="/images/logo_horizon.png" alt="Horizon Logo" class="horizon-brand-img"></a><nav class="horizon-header-nav" aria-label="Navegação Principal"><a href="/" class="horizon-nav-link" data-nav="inicio">INÍCIO</a><a href="/loja" class="horizon-nav-link" data-nav="loja">LOJA</a><a href="/equipe" class="horizon-nav-link" data-nav="equipe">EQUIPE</a></nav><div class="site-header-direita"><div class="horizon-header-server-info"><div class="horizon-header-ip" onclick="navigator.clipboard.writeText('connect play.rusthorizon.shop:28015'); var el=this.querySelector('.header-ip-val'); var old=el.textContent; el.textContent='COPIADO!'; setTimeout(function(){ el.textContent=old; }, 2000);" title="Clique para copiar: connect play.rusthorizon.shop:28015"><span class="header-ip-label">IP:</span><span class="header-ip-val">play.rusthorizon.shop:28015</span><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="header-ip-icon"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></div><a href="/#wipe" class="horizon-header-wipe" title="Ver cronograma e status do wipe"><span class="header-wipe-label">WIPE:</span><span class="header-wipe-val header-wipe-val">Hoje</span></a></div><a href="/auth/steam" data-slot="button" data-variant="outline" data-size="cabecalho" class="horizon-auth-desktop group/button inline-flex shrink-0 items-center justify-center rounded-lg border bg-clip-padding whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 btn-corte [--corte:8px] h-8 gap-1.5 px-3.5 font-heading text-[0.7rem] font-bold tracking-[0.06em] uppercase">Entrar<span class="some-no-estreito">&nbsp;com Steam</span></a><button type="button" class="horizon-mobile-toggle" aria-label="Abrir menu de navegação" aria-expanded="false" aria-controls="horizon-mobile-drawer"><span class="horizon-toggle-bars"><span></span><span></span><span></span></span></button></div></div><div id="horizon-mobile-drawer" class="horizon-mobile-drawer" aria-hidden="true"><div class="horizon-mobile-backdrop"></div><div class="horizon-mobile-drawer-content"><div class="horizon-mobile-nav-header"><span class="horizon-mobile-nav-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg> Navegação</span><button type="button" class="horizon-mobile-close" aria-label="Fechar menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></div><div class="horizon-mobile-auth-slot"><a href="/auth/steam" class="horizon-mobile-steam-login"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-10 10c0 4.8 3.4 8.8 8 9.8v-4.6a2.5 2.5 0 0 1-1.3-.9l-3.3 1.3a4.4 4.4 0 0 1-.4-2.8l2.6-1.1a2.5 2.5 0 0 1 2.4-.7l2.2-3.2A4.2 4.2 0 1 1 16.2 12l-3.2 2.2a2.5 2.5 0 0 1-.7 2.3v.1a2.5 2.5 0 0 1-2.3 2.5v.9c.7.1 1.3.1 2 .1a10 10 0 0 0 10-10A10 10 0 0 0 12 2zm4.2 7a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z"/></svg><span>Entrar com Steam</span></a></div><nav class="horizon-mobile-nav-links"><a href="/" class="horizon-mobile-link" data-nav="inicio"><div class="horizon-mobile-link-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="horizon-mobile-link-text"><span class="horizon-mobile-link-label">Início</span><span class="horizon-mobile-link-sub">Página principal & Servidor</span></div><svg class="horizon-mobile-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></a><a href="/loja" class="horizon-mobile-link" data-nav="loja"><div class="horizon-mobile-link-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><line x1="3" x2="21" y1="6" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div><div class="horizon-mobile-link-text"><span class="horizon-mobile-link-label">Loja</span><span class="horizon-mobile-link-sub">VIPs, Kits & Recursos</span></div><svg class="horizon-mobile-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></a><a href="/equipe" class="horizon-mobile-link" data-nav="equipe"><div class="horizon-mobile-link-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div class="horizon-mobile-link-text"><span class="horizon-mobile-link-label">Equipe</span><span class="horizon-mobile-link-sub">Fundadores & Moderação</span></div><svg class="horizon-mobile-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></a></nav><div class="horizon-mobile-extra"><a href="https://discord.gg/VTu3m2MYeX" target="_blank" rel="noreferrer noopener" class="horizon-mobile-discord-pill"><svg viewBox="0 0 24 24" fill="currentColor" class="size-4"><path d="M20.317 4.3698a19.7913 19.7913 0 0 0-4.8851-1.5152.0741.0741 0 0 0-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 0 0-.0785-.037 19.7363 19.7363 0 0 0-4.8852 1.515.0699.0699 0 0 0-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 0 0 .0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 0 0 .0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 0 0-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 0 1-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 0 1 .0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 0 1 .0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 0 1-.0066.1276 12.2986 12.2986 0 0 1-1.873.8914.0766.0766 0 0 0-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 0 0 .0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 0 0 .0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 0 0-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"></path></svg><span>Comunidade Discord</span></a></div></div></div></header><main><div class="shell vitrine" style="padding-top: 10px; padding-bottom: 70px;"><section class="vitrine-secao" style="padding-top: 0 !important;"><div class="horizon-section-header" style="margin-bottom: 28px;">
@@ -373,159 +743,164 @@
 
   </div>
 </footer><!--$--><!--/$-->
-<!-- Modal de Inventário Completo dos Kits VIP -->
-<div id="kit-modal-overlay" style="display:none; position:fixed; inset:0; z-index:99999; background:rgba(0,0,0,0.85); backdrop-filter:blur(6px); align-items:center; justify-content:center; padding:16px;" onclick="closeKitModal(event)">
-  <div style="background:#181413; border:1px solid rgba(108,151,142,0.4); border-radius:14px; max-width:640px; width:100%; max-height:90vh; overflow-y:auto; box-shadow:0 25px 60px rgba(0,0,0,0.9); padding:22px; position:relative;" onclick="event.stopPropagation()">
-    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(108,151,142,0.25); padding-bottom:12px; margin-bottom:16px;">
-      <div>
-        <h3 id="modal-kit-title" style="margin:0; font-family:'Martian Mono', monospace; font-size:1.25rem; font-weight:800; color:#FFFFFF;"></h3>
-        <p id="modal-kit-subtitle" style="margin:3px 0 0; color:#82ADA4; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.06em;"></p>
+<!-- Modal de Detalhes do VIP Horizon -->
+<div id="kit-modal-overlay" class="horizon-modal-overlay" onclick="closeKitModal(event)">
+  <div class="horizon-modal-box" onclick="event.stopPropagation()">
+    <!-- Header com Banner Estilizado Horizon -->
+    <div class="horizon-modal-header">
+      <div class="horizon-modal-header-bg">
+        <span class="horizon-modal-watermark">HORIZON VIP</span>
       </div>
-      <button onclick="closeKitModal()" style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:8px; width:36px; height:36px; display:flex; align-items:center; justify-content:center; color:#EDE8E5; font-size:22px; cursor:pointer; line-height:1; transition:all 0.15s ease;" onmouseover="this.style.background='rgba(215,87,59,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">&times;</button>
-    </div>
-    
-    <div style="border-radius:10px; overflow:hidden; border:1px solid rgba(108,151,142,0.3); margin-bottom:18px; background:#0c0a09;">
-      <img id="modal-kit-img" src="" alt="Inventário do Kit" style="width:100%; display:block; object-fit:contain;">
+      <div class="horizon-modal-header-content">
+        <div class="horizon-modal-badges">
+          <span class="horizon-modal-badge-tier">PLANO EXCLUSIVO</span>
+          <span class="horizon-modal-badge-duration">30 DIAS</span>
+        </div>
+        <h3 id="modal-kit-title" class="horizon-modal-title">HORIZON VIP</h3>
+        <p id="modal-kit-subtitle" class="horizon-modal-subtitle">Qualidade de Vida &bull; Zero Pay-to-Win &bull; Ativação Imediata</p>
+      </div>
+      <button type="button" class="horizon-modal-close" onclick="closeKitModal()" aria-label="Fechar modal">&times;</button>
     </div>
 
-    <div id="modal-kit-details" style="color:#EDE8E5; font-size:0.88rem; line-height:1.7;"></div>
+    <!-- Corpo do Modal com Scroll Suave -->
+    <div class="horizon-modal-body">
+      <!-- Banner de Fair Play Garantido -->
+      <div class="horizon-modal-alert">
+        <div class="horizon-modal-alert-icon">⚡</div>
+        <div class="horizon-modal-alert-text">
+          <strong>Fair Play Garantido</strong>
+          <span>Pacote focado 100% em comodidade e qualidade de vida. Sem armas, recursos extras ou vantagens competitivas de combate.</span>
+        </div>
+      </div>
 
-    <div style="display:flex; gap:10px; margin-top:20px; flex-wrap:wrap;">
-      <button onclick="closeKitModal()" style="flex:1; min-width:110px; height:44px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); color:#EDE8E5; font-weight:700; border-radius:8px; cursor:pointer; text-transform:uppercase; font-size:0.8rem; letter-spacing:0.04em; transition:all 0.2s ease;">Fechar</button>
-      <a id="modal-kit-buy-btn" href="#" style="flex:2; min-width:160px; height:44px; background:linear-gradient(135deg, #D7573B, #B84329); color:#FFFFFF; font-weight:800; border-radius:8px; text-decoration:none; display:flex; align-items:center; justify-content:center; gap:6px; text-transform:uppercase; font-size:0.82rem; letter-spacing:0.05em; box-shadow:0 4px 15px rgba(215,87,59,0.4);">⚡ Comprar no Checkout</a>
+      <!-- Título dos Benefícios -->
+      <div class="horizon-modal-section-title">
+        <span class="horizon-modal-title-bar"></span>
+        <span>8 Benefícios Inclusos no Pacote:</span>
+      </div>
+
+      <!-- Grid de Benefícios -->
+      <div class="horizon-modal-perks-grid">
+        <div class="horizon-modal-perk-card">
+          <div class="horizon-modal-perk-dot"></div>
+          <div class="horizon-modal-perk-info">
+            <span class="horizon-modal-perk-title">TAG VIP no Chat</span>
+            <span class="horizon-modal-perk-desc">Identificação colorida e prefixo exclusivo [VIP] antes do seu nick no chat global.</span>
+          </div>
+        </div>
+
+        <div class="horizon-modal-perk-card">
+          <div class="horizon-modal-perk-dot"></div>
+          <div class="horizon-modal-perk-info">
+            <span class="horizon-modal-perk-title">Comando /skin</span>
+            <span class="horizon-modal-perk-desc">Acesso completo a todas as skins oficiais da Steam para suas armas, roupas e itens.</span>
+          </div>
+        </div>
+
+        <div class="horizon-modal-perk-card">
+          <div class="horizon-modal-perk-dot"></div>
+          <div class="horizon-modal-perk-info">
+            <span class="horizon-modal-perk-title">Comando /remove</span>
+            <span class="horizon-modal-perk-desc">Remova ou ajuste paredes e estruturas na sua própria base com total agilidade.</span>
+          </div>
+        </div>
+
+        <div class="horizon-modal-perk-card">
+          <div class="horizon-modal-perk-dot"></div>
+          <div class="horizon-modal-perk-info">
+            <span class="horizon-modal-perk-title">Skins de Paredes (TC)</span>
+            <span class="horizon-modal-perk-desc">Aplique skins em paredes e portas da base diretamente pelo armário de ferramentas.</span>
+          </div>
+        </div>
+
+        <div class="horizon-modal-perk-card">
+          <div class="horizon-modal-perk-dot"></div>
+          <div class="horizon-modal-perk-info">
+            <span class="horizon-modal-perk-title">Bancada em Toda a Base</span>
+            <span class="horizon-modal-perk-desc">Alcance automático de crafting da Workbench em qualquer cômodo protegido pelo TC.</span>
+          </div>
+        </div>
+
+        <div class="horizon-modal-perk-card">
+          <div class="horizon-modal-perk-dot"></div>
+          <div class="horizon-modal-perk-info">
+            <span class="horizon-modal-perk-title">Organizador de Baú</span>
+            <span class="horizon-modal-perk-desc">Agrupe, organize e empilhe recursos e itens do baú com apenas 1 clique.</span>
+          </div>
+        </div>
+
+        <div class="horizon-modal-perk-card">
+          <div class="horizon-modal-perk-dot"></div>
+          <div class="horizon-modal-perk-info">
+            <span class="horizon-modal-perk-title">Prioridade na Fila (Skip Queue)</span>
+            <span class="horizon-modal-perk-desc">Conexão direta e preferencial ao servidor, sem aguardar na fila de espera.</span>
+          </div>
+        </div>
+
+        <div class="horizon-modal-perk-card">
+          <div class="horizon-modal-perk-dot"></div>
+          <div class="horizon-modal-perk-info">
+            <span class="horizon-modal-perk-title">Recicladora 2x</span>
+            <span class="horizon-modal-perk-desc">Velocidade de reciclagem dobrada para processar componentes na metade do tempo.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Barra de Informações -->
+      <div class="horizon-modal-info-bar">
+        <div class="horizon-modal-info-item">
+          <span class="horizon-modal-info-label">DURAÇÃO</span>
+          <span class="horizon-modal-info-val">30 Dias Corridos</span>
+        </div>
+        <div class="horizon-modal-info-item">
+          <span class="horizon-modal-info-label">ENTREGA</span>
+          <span class="horizon-modal-info-val">Automática no Servidor</span>
+        </div>
+        <div class="horizon-modal-info-item">
+          <span class="horizon-modal-info-label">SUPORTE</span>
+          <span class="horizon-modal-info-val">24/7 no Discord</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rodapé com Preço e Ações -->
+    <div class="horizon-modal-footer">
+      <div class="horizon-modal-price-wrap">
+        <span class="horizon-modal-price-label">VALOR DO PACOTE</span>
+        <div class="horizon-modal-price-row">
+          <span class="horizon-modal-price-val">R$ 19,90</span>
+          <span class="horizon-modal-price-period">/ 30 dias</span>
+        </div>
+      </div>
+      <div class="horizon-modal-actions">
+        <button type="button" class="horizon-modal-btn-close" onclick="closeKitModal()">Fechar</button>
+        <button type="button" id="modal-kit-buy-btn" class="horizon-modal-btn-buy" onclick="closeKitModal(); buyNow('vip');">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          COMPRAR AGORA
+        </button>
+      </div>
     </div>
   </div>
 </div>
 
 <script>
-const KITS_DATA = {
-  vip: {
-    title: 'HORIZON VIP',
-    subtitle: '30 Dias • Qualidade de Vida & Conveniência • R$ 19,90',
-    img: '/images/logo_horizon.png',
-    buyUrl: '/checkout?tier=vip',
-    html: `
-      <div style="background:rgba(206,66,43,0.08); border:1px solid rgba(206,66,43,0.3); border-radius:8px; padding:14px; margin-bottom:12px;">
-        <strong style="color:#CE422B; text-transform:uppercase; font-size:0.82rem; letter-spacing:0.06em; display:block; margin-bottom:4px;">⚡ Pacote Qualidade de Vida (Zero Pay-to-Win)</strong>
-        <span style="color:#A0A5B5; font-size:0.85rem;">Este pacote é focado exclusivamente em conveniência e conforto de gameplay. Não concede armas, explosivos ou vantagens competitivas de combate.</span>
-      </div>
-      <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:8px; padding:14px; margin-bottom:12px;">
-        <strong style="color:#82ADA4; text-transform:uppercase; font-size:0.78rem; letter-spacing:0.06em; display:block; margin-bottom:10px;">8 Benefícios Inclusos:</strong>
-        <div style="display:flex; flex-direction:column; gap:8px; font-size:0.88rem;">
-          <div><b style="color:#CE422B;">1. TAG VIP no Chat:</b> Identificação exclusiva colorida para destacar seu nick.</div>
-          <div><b style="color:#CE422B;">2. Comando /skin:</b> Acesse todo o catálogo de skins oficiais da Steam para suas armas e armaduras.</div>
-          <div><b style="color:#CE422B;">3. Comando /remove:</b> Remova ou corrija construções na sua própria base com praticidade.</div>
-          <div><b style="color:#CE422B;">4. Skins de Paredes (TC):</b> Aplique skins temáticas em paredes e portas da base direto no armário.</div>
-          <div><b style="color:#CE422B;">5. Bancada no TC:</b> Crie seus itens em qualquer cômodo da base com o alcance da workbench.</div>
-          <div><b style="color:#CE422B;">6. Organizador de Baú:</b> Agrupe, organize e empilhe baús instantaneamente com 1 clique.</div>
-          <div><b style="color:#CE422B;">7. Prioridade na Fila (Skip Queue):</b> Entrada imediata no servidor sem esperar na fila de espera.</div>
-          <div><b style="color:#CE422B;">8. Recicladora 2x:</b> Recicle componentes na metade do tempo.</div>
-        </div>
-      </div>
-      <div style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:8px; padding:12px; font-size:0.82rem; color:#82ADA4;">
-        ⏱ <b>Duração:</b> 30 dias corridos a partir da ativação automática no servidor.
-      </div>
-    `
-  }
-};
-KITS_DATA.bronze = KITS_DATA.vip;
-KITS_DATA.prata = KITS_DATA.vip;
-KITS_DATA.ouro = KITS_DATA.vip;
-KITS_DATA.sobrevivente = KITS_DATA.vip;
-KITS_DATA.farmer = KITS_DATA.vip;
-KITS_DATA.drop = KITS_DATA.vip;
-KITS_DATA.airdrop = KITS_DATA.vip;
-KITS_DATA.cartao = KITS_DATA.vip;
-KITS_DATA.eletrica = KITS_DATA.vip;
-KITS_DATA.start = KITS_DATA.vip;
-KITS_DATA.base = KITS_DATA.vip;
-
-let activeModalTier = 'ouro';
-
-
-function copyCommandText(cmd, btn) {
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(cmd).then(() => {
-      const orig = btn.innerText;
-      btn.innerText = 'COPIADO: ' + cmd + ' !';
-      btn.style.filter = 'brightness(1.2)';
-      setTimeout(() => {
-        btn.innerText = orig;
-        btn.style.filter = '';
-      }, 2500);
-    });
-  } else {
-    prompt('Copie o comando para usar no servidor:', cmd);
-  }
-}
-
 function openKitModal(type) {
-  const data = KITS_DATA[type];
-  if (!data) return;
-  activeModalTier = type;
-  document.getElementById('modal-kit-title').innerText = data.title;
-  document.getElementById('modal-kit-subtitle').innerText = data.subtitle;
-  document.getElementById('modal-kit-img').src = data.img;
-  document.getElementById('modal-kit-details').innerHTML = data.html;
-  
-  const buyBtn = document.getElementById('modal-kit-buy-btn');
-  if (data.isFree) {
-    buyBtn.innerHTML = '📋 Copiar ' + data.command;
-    buyBtn.style.background = 'linear-gradient(135deg, #10B981, #059669)';
-    buyBtn.style.boxShadow = '0 4px 15px rgba(16,185,129,0.4)';
-    buyBtn.onclick = function(e) {
-      e.preventDefault();
-      copyCommandText(data.command, buyBtn);
-    };
-  } else {
-    buyBtn.innerHTML = '⚡ Comprar no Checkout';
-    buyBtn.style.background = 'linear-gradient(135deg, #D7573B, #B84329)';
-    buyBtn.style.boxShadow = '0 4px 15px rgba(215,87,59,0.4)';
-    buyBtn.onclick = function(e) {
-      e.preventDefault();
-      closeKitModal();
-      if (typeof buyNow === 'function') {
-        buyNow(type);
-      } else {
-        window.location.href = '/checkout?tier=' + encodeURIComponent(type);
-      }
-    };
-  }
-  
   const overlay = document.getElementById('kit-modal-overlay');
-  overlay.style.display = 'flex';
-  document.body.style.overflow = 'hidden';
-}
-
-function scrollToLojaSection(id) {
-  const el = document.getElementById(id);
-  if (el) {
-    const yOffset = -85;
-    const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
-    window.scrollTo({ top: y, behavior: 'smooth' });
+  if (overlay) {
+    overlay.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
   }
-}
-
-function switchLojaTab(tab) {
-  if (tab === 'kits') {
-    scrollToLojaSection('secao-kits');
-    try { history.replaceState(null, null, '#kits'); } catch (e) {}
-  } else {
-    scrollToLojaSection('secao-vips');
-    try { history.replaceState(null, null, '#vips'); } catch (e) {}
-  }
-}
-
-// Auto-rola suavemente se tiver #kits na URL
-if (window.location.hash === '#kits' || window.location.search.includes('tab=kits')) {
-  setTimeout(() => scrollToLojaSection('secao-kits'), 200);
 }
 
 function closeKitModal(e) {
-  if (e && e.target !== e.currentTarget && e.currentTarget.id !== 'kit-modal-overlay') return;
+  if (e && e.target !== e.currentTarget && e.currentTarget.id !== 'kit-modal-overlay' && !e.target.classList.contains('horizon-modal-close') && !e.target.classList.contains('horizon-modal-btn-close')) {
+    return;
+  }
   const overlay = document.getElementById('kit-modal-overlay');
-  overlay.style.display = 'none';
-  document.body.style.overflow = '';
+  if (overlay) {
+    overlay.style.display = 'none';
+    document.body.style.overflow = '';
+  }
 }
 
 document.addEventListener('keydown', function(e) {
