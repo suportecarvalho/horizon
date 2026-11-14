@@ -9,6 +9,12 @@ Tornar Dono ou remover
 ownerid 76561198737554294  Lucas
 ownerid 76561199127717531  Althoff
 
+76561198750662826
+
+oxide.usergroup add 76561198737554294 VIP
+
+chat user add 76561198737554294 VIP
+
 
 removemoderator 
 

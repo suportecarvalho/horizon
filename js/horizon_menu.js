@@ -165,6 +165,17 @@
 
   window.addEventListener('storage', updateHeaderCartBadge);
 
+  // Carrega telemetria e contador de visitas do site de forma assíncrona
+  try {
+    if (!window._horizonTrackerLoaded && !window.location.pathname.startsWith('/admin')) {
+      window._horizonTrackerLoaded = true;
+      var trackScript = document.createElement('script');
+      trackScript.src = '/js/horizon_tracker.js';
+      trackScript.defer = true;
+      document.head.appendChild(trackScript);
+    }
+  } catch (e) {}
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initHorizonMenu);
   } else {

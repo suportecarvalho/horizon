@@ -1,4 +1,5 @@
 const { getSessionUser, isAdmin } = require('./_auth');
+const { getAnalyticsSummary } = require('./_analytics');
 const {
   getAllOrders,
   getOrder,
@@ -108,6 +109,19 @@ module.exports = async (req, res) => {
   // ==========================================
   if (req.method === 'GET') {
     try {
+      if (req.query.tab === 'visitas' || req.query.action === 'analytics' || req.query.tab === 'analytics') {
+        const analytics = await getAnalyticsSummary();
+        return res.status(200).json({
+          success: true,
+          admin: {
+            name: user.name,
+            steamId: user.steamId || user.steamid,
+            avatar: user.avatar
+          },
+          analytics
+        });
+      }
+
       let orders = await getAllOrders();
 
       // Sincroniza pagamentos recentes do Mercado Pago para não perder nenhum pagamento

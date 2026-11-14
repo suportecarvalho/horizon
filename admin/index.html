@@ -677,6 +677,228 @@
       width: 100%;
       box-shadow: 0 20px 50px rgba(0,0,0,0.5);
     }
+    /* ==================== ABAS DO ADMIN ==================== */
+    .admin-tab-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 12px;
+    }
+
+    .admin-tab-btn {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      transition: all 0.2s ease;
+    }
+
+    .admin-tab-btn:hover {
+      background: rgba(255, 255, 255, 0.07);
+      color: #FFFFFF;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .admin-tab-btn.active {
+      background: rgba(206, 66, 43, 0.15);
+      border-color: var(--marca);
+      color: #FFFFFF;
+      box-shadow: 0 4px 15px rgba(206, 66, 43, 0.25);
+    }
+
+    .live-dot-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      color: #10B981;
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .live-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #10B981;
+      box-shadow: 0 0 8px #10B981;
+      animation: pulseDot 1.5s infinite;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    /* Analytics Chart Card */
+    .ana-chart-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .ana-chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .ana-chart-title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #FFFFFF;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ana-bars-container {
+      display: flex;
+      align-items: flex-end;
+      gap: 12px;
+      height: 180px;
+      padding: 10px 0 28px 0;
+      position: relative;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .ana-bar-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100%;
+      justify-content: flex-end;
+      position: relative;
+      cursor: pointer;
+      min-width: 24px;
+    }
+
+    .ana-bar-fill {
+      width: 100%;
+      max-width: 38px;
+      background: linear-gradient(180deg, #CE422B 0%, rgba(206, 66, 43, 0.35) 100%);
+      border-radius: 6px 6px 0 0;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      min-height: 4px;
+    }
+
+    .ana-bar-col:hover .ana-bar-fill {
+      background: linear-gradient(180deg, #E34834 0%, rgba(227, 72, 52, 0.7) 100%);
+      filter: brightness(1.2);
+      box-shadow: 0 0 16px rgba(206, 66, 43, 0.5);
+      transform: translateY(-2px);
+    }
+
+    .ana-bar-label {
+      position: absolute;
+      bottom: -24px;
+      font-size: 0.68rem;
+      font-family: var(--font-mono, monospace);
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .ana-bar-val {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 6px;
+      opacity: 0.85;
+      font-family: var(--font-mono, monospace);
+    }
+
+    /* Grid de Duas Colunas Analytics */
+    .ana-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    .ana-panel-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 22px;
+    }
+
+    .ana-panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 16px;
+    }
+
+    .ana-panel-title {
+      font-size: 0.92rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ana-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .ana-list-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .ana-list-item-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.82rem;
+    }
+
+    .ana-progress-track {
+      height: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 999px;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .ana-progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #CE422B, #F59E0B);
+      border-radius: 999px;
+      transition: width 0.6s ease;
+    }
   </style>
 </head>
 <body>
@@ -750,6 +972,21 @@
 
     <!-- Conteúdo Principal do Painel -->
     <main id="admin-main-content" style="display: none;">
+      <!-- Abas de Navegação do Painel -->
+      <div class="admin-tab-bar">
+        <button type="button" class="admin-tab-btn active" id="tab-btn-orders" onclick="switchAdminTab('orders')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+          <span>Pedidos & Vendas VIP</span>
+        </button>
+        <button type="button" class="admin-tab-btn" id="tab-btn-analytics" onclick="switchAdminTab('analytics')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+          <span>Visitas & Tráfego</span>
+          <span class="live-dot-badge"><span class="live-dot"></span> Ao Vivo</span>
+        </button>
+      </div>
+
+      <!-- ABA 1: PEDIDOS & VENDAS VIP -->
+      <div id="admin-view-orders">
       <!-- KPIs -->
       <section class="kpi-grid">
         <div class="kpi-card">
@@ -857,6 +1094,173 @@
           </table>
         </div>
       </section>
+      </div><!-- /admin-view-orders -->
+
+      <!-- ABA 2: VISITAS & TRÁFEGO DO SITE -->
+      <div id="admin-view-analytics" style="display: none;">
+        <!-- KPIs Analytics -->
+        <section class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <span class="kpi-card-title">Online Agora</span>
+              <div class="kpi-card-icon" style="background: rgba(16, 185, 129, 0.15); color: #10B981;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+              </div>
+            </div>
+            <div class="kpi-card-val" id="ana-kpi-online" style="color: #10B981;">-</div>
+            <div class="kpi-card-desc">Visitantes ativos nos últimos 15 min</div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <span class="kpi-card-title">Visitantes Únicos Hoje</span>
+              <div class="kpi-card-icon" style="background: rgba(59, 130, 246, 0.15); color: #60A5FA;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
+            </div>
+            <div class="kpi-card-val" id="ana-kpi-today-uniques">-</div>
+            <div class="kpi-card-desc">Dispositivos diferentes hoje</div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <span class="kpi-card-title">Pageviews Hoje</span>
+              <div class="kpi-card-icon" style="background: rgba(206, 66, 43, 0.15); color: var(--marca);">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+              </div>
+            </div>
+            <div class="kpi-card-val" id="ana-kpi-today-views">-</div>
+            <div class="kpi-card-desc">Páginas visualizadas hoje</div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-card-header">
+              <span class="kpi-card-title">Acessos Últimos 7 Dias</span>
+              <div class="kpi-card-icon" style="background: rgba(245, 158, 11, 0.15); color: #F59E0B;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+              </div>
+            </div>
+            <div class="kpi-card-val" id="ana-kpi-week-views">-</div>
+            <div class="kpi-card-desc">Pageviews acumulados na semana</div>
+          </div>
+        </section>
+
+        <!-- Gráfico de 14 Dias -->
+        <section class="ana-chart-card">
+          <div class="ana-chart-header">
+            <div class="ana-chart-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+              <span>Tráfego Diário dos Últimos 14 Dias</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 14px; font-size: 0.75rem; color: var(--text-muted);">
+              <span style="display: inline-flex; align-items: center; gap: 6px;">
+                <span style="width: 10px; height: 10px; background: #CE422B; border-radius: 3px;"></span> Pageviews
+              </span>
+              <button type="button" class="btn-refresh" onclick="loadAdminAnalytics(true)" title="Atualizar estatísticas">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                Atualizar
+              </button>
+            </div>
+          </div>
+          <div class="ana-bars-container" id="ana-bars-wrap">
+            <!-- Barras injetadas via JS -->
+          </div>
+        </section>
+
+        <!-- Grid 2: Páginas Mais Visitadas e Origens de Tráfego -->
+        <div class="ana-grid-2">
+          <!-- Top Páginas -->
+          <div class="ana-panel-card">
+            <div class="ana-panel-header">
+              <div class="ana-panel-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                <span>Páginas Mais Acessadas</span>
+              </div>
+              <span style="font-size: 0.72rem; color: var(--text-muted);">Geral</span>
+            </div>
+            <div class="ana-list" id="ana-top-pages-list">
+              <!-- Itens injetados via JS -->
+            </div>
+          </div>
+
+          <!-- Top Origens -->
+          <div class="ana-panel-card">
+            <div class="ana-panel-header">
+              <div class="ana-panel-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                <span>Origem dos Visitantes</span>
+              </div>
+              <span style="font-size: 0.72rem; color: var(--text-muted);">Canais</span>
+            </div>
+            <div class="ana-list" id="ana-top-referrers-list">
+              <!-- Itens injetados via JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Dispositivos & Navegadores -->
+        <div class="ana-grid-2">
+          <!-- Dispositivos -->
+          <div class="ana-panel-card">
+            <div class="ana-panel-header">
+              <div class="ana-panel-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="12" x="4" y="4" rx="2"/><line x1="12" y1="20" x2="12" y2="16"/><line x1="8" y1="20" x2="16" y2="20"/></svg>
+                <span>Dispositivos</span>
+              </div>
+            </div>
+            <div class="ana-list" id="ana-devices-list">
+              <!-- Injetado via JS -->
+            </div>
+          </div>
+
+          <!-- Navegadores & Sistemas -->
+          <div class="ana-panel-card">
+            <div class="ana-panel-header">
+              <div class="ana-panel-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="4.93" y1="4.93" x2="9.17" y2="9.17"/><line x1="14.83" y1="14.83" x2="19.07" y2="19.07"/><line x1="14.83" y1="9.17" x2="19.07" y2="4.93"/><line x1="14.83" y1="9.17" x2="18.36" y2="5.64"/><line x1="4.93" y1="19.07" x2="9.17" y2="14.83"/></svg>
+                <span>Navegadores Mais Usados</span>
+              </div>
+            </div>
+            <div class="ana-list" id="ana-browsers-list">
+              <!-- Injetado via JS -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabela de Visitas Recentes -->
+        <section class="admin-table-card">
+          <div style="padding: 18px 24px 14px 24px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+            <div class="admin-table-header" style="padding: 0; border: none;">
+              <span class="admin-table-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                Registro de Visitas Recentes em Tempo Real
+              </span>
+            </div>
+            <span style="font-size: 0.75rem; color: var(--text-muted);">Últimos 30 acessos capturados</span>
+          </div>
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Horário / Tempo</th>
+                  <th>Página Acessada</th>
+                  <th>Origem / Referrer</th>
+                  <th>Dispositivo / Navegador</th>
+                  <th>Sistema Operacional</th>
+                  <th style="text-align: right; padding-right: 20px;">Localização</th>
+                </tr>
+              </thead>
+              <tbody id="ana-recent-visits-tbody">
+                <tr>
+                  <td colspan="6" style="text-align: center; padding: 40px; color: var(--text-muted);">
+                    Carregando acessos em tempo real...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div><!-- /admin-view-analytics -->
     </main>
   </div>
 
@@ -1498,6 +1902,256 @@
         toast.style.display = 'none';
       }, 3500);
     }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    // ==========================================
+    // ABAS DO ADMIN & ANALYTICS DE VISITAS
+    // ==========================================
+    let currentAdminTab = 'orders';
+    let analyticsAutoRefreshTimer = null;
+    let cachedAnalytics = null;
+
+    function switchAdminTab(tab) {
+      currentAdminTab = tab;
+      const btnOrders = document.getElementById('tab-btn-orders');
+      const btnAna = document.getElementById('tab-btn-analytics');
+      const viewOrders = document.getElementById('admin-view-orders');
+      const viewAna = document.getElementById('admin-view-analytics');
+
+      if (tab === 'analytics') {
+        if (btnOrders) btnOrders.classList.remove('active');
+        if (btnAna) btnAna.classList.add('active');
+        if (viewOrders) viewOrders.style.display = 'none';
+        if (viewAna) viewAna.style.display = 'block';
+        try { history.replaceState(null, '', '#visitas'); } catch (e) {}
+
+        loadAdminAnalytics(false);
+
+        if (!analyticsAutoRefreshTimer) {
+          analyticsAutoRefreshTimer = setInterval(() => {
+            if (currentAdminTab === 'analytics') {
+              loadAdminAnalytics(false);
+            }
+          }, 15000);
+        }
+      } else {
+        if (btnOrders) btnOrders.classList.add('active');
+        if (btnAna) btnAna.classList.remove('active');
+        if (viewOrders) viewOrders.style.display = 'block';
+        if (viewAna) viewAna.style.display = 'none';
+        try { history.replaceState(null, '', '#pedidos'); } catch (e) {}
+
+        if (analyticsAutoRefreshTimer) {
+          clearInterval(analyticsAutoRefreshTimer);
+          analyticsAutoRefreshTimer = null;
+        }
+      }
+    }
+
+    async function loadAdminAnalytics(showToastNotice = false) {
+      try {
+        const headers = {};
+        if (masterKeyHeader) headers['x-admin-key'] = masterKeyHeader;
+
+        const res = await fetch('/api/admin?tab=visitas', { headers });
+        if (!res.ok) {
+          if (res.status === 401 || res.status === 403) {
+            document.getElementById('admin-lock-screen').style.display = 'flex';
+            document.getElementById('admin-main-content').style.display = 'none';
+            return;
+          }
+          throw new Error('Falha ao carregar métricas');
+        }
+
+        const data = await res.json();
+        if (data.success && data.analytics) {
+          cachedAnalytics = data.analytics;
+          renderAnalytics(data.analytics);
+          if (showToastNotice) {
+            showToast('Métricas de visitas atualizadas!');
+          }
+        }
+      } catch (err) {
+        console.error('Erro ao buscar visitas:', err);
+        if (showToastNotice) {
+          showToast('Erro ao atualizar métricas de visitas', true);
+        }
+      }
+    }
+
+    function renderAnalytics(ana) {
+      const { metrics, history, topPages, topReferrers, deviceBreakdown, recentVisits } = ana;
+
+      // 1. KPIs
+      const elOnline = document.getElementById('ana-kpi-online');
+      const elTodayUniques = document.getElementById('ana-kpi-today-uniques');
+      const elTodayViews = document.getElementById('ana-kpi-today-views');
+      const elWeekViews = document.getElementById('ana-kpi-week-views');
+
+      if (elOnline) elOnline.innerText = metrics.onlineNow || 1;
+      if (elTodayUniques) elTodayUniques.innerText = Number(metrics.todayUniques || 0).toLocaleString('pt-BR');
+      if (elTodayViews) elTodayViews.innerText = Number(metrics.todayPageviews || 0).toLocaleString('pt-BR');
+      if (elWeekViews) elWeekViews.innerText = Number(metrics.weekPageviews || 0).toLocaleString('pt-BR');
+
+      // 2. Gráfico de Barras dos 14 Dias
+      const barsWrap = document.getElementById('ana-bars-wrap');
+      if (barsWrap && history && history.length > 0) {
+        const maxVal = Math.max(...history.map(h => h.pageviews || 0), 10);
+        barsWrap.innerHTML = history.map(day => {
+          const views = day.pageviews || 0;
+          const heightPct = Math.max(Math.round((views / maxVal) * 100), 4);
+          return `
+            <div class="ana-bar-col" title="${day.displayDate} (${day.weekday}): ${views} views, ${day.uniques || 0} únicos">
+              <span class="ana-bar-val">${views}</span>
+              <div class="ana-bar-fill" style="height: ${heightPct}%;"></div>
+              <span class="ana-bar-label">${day.displayDate}</span>
+            </div>
+          `;
+        }).join('');
+      }
+
+      // 3. Top Páginas
+      const pagesList = document.getElementById('ana-top-pages-list');
+      if (pagesList && topPages) {
+        if (topPages.length === 0) {
+          pagesList.innerHTML = '<div style="color: var(--text-muted); font-size: 0.8rem; text-align: center; padding: 10px;">Nenhuma visualização registrada ainda.</div>';
+        } else {
+          pagesList.innerHTML = topPages.map(p => `
+            <div class="ana-list-item">
+              <div class="ana-list-item-row">
+                <span style="font-weight: 700; color: #FFFFFF; font-family: var(--font-mono, monospace);">${escapeHtml(p.path)}</span>
+                <span style="color: var(--text-muted); font-size: 0.78rem;">${p.count} views (${p.percentage}%)</span>
+              </div>
+              <div class="ana-progress-track">
+                <div class="ana-progress-bar" style="width: ${p.percentage}%;"></div>
+              </div>
+            </div>
+          `).join('');
+        }
+      }
+
+      // 4. Top Referrers
+      const refList = document.getElementById('ana-top-referrers-list');
+      if (refList && topReferrers) {
+        if (topReferrers.length === 0) {
+          refList.innerHTML = '<div style="color: var(--text-muted); font-size: 0.8rem; text-align: center; padding: 10px;">Sem referências externas.</div>';
+        } else {
+          refList.innerHTML = topReferrers.map(r => `
+            <div class="ana-list-item">
+              <div class="ana-list-item-row">
+                <span style="font-weight: 700; color: #FFFFFF;">${escapeHtml(r.source)}</span>
+                <span style="color: var(--text-muted); font-size: 0.78rem;">${r.count} acessos (${r.percentage}%)</span>
+              </div>
+              <div class="ana-progress-track">
+                <div class="ana-progress-bar" style="width: ${r.percentage}%; background: linear-gradient(90deg, #3B82F6, #10B981);"></div>
+              </div>
+            </div>
+          `).join('');
+        }
+      }
+
+      // 5. Dispositivos & Navegadores
+      const devList = document.getElementById('ana-devices-list');
+      if (devList && deviceBreakdown && deviceBreakdown.devices) {
+        const totalDev = (deviceBreakdown.devices.Desktop || 0) + (deviceBreakdown.devices.Mobile || 0) + (deviceBreakdown.devices.Tablet || 0) || 1;
+        devList.innerHTML = ['Desktop', 'Mobile', 'Tablet'].map(dev => {
+          const cnt = deviceBreakdown.devices[dev] || 0;
+          const pct = Math.round((cnt / totalDev) * 100);
+          return `
+            <div class="ana-list-item">
+              <div class="ana-list-item-row">
+                <span style="color: #FFFFFF; font-weight: 600;">${dev}</span>
+                <span style="color: var(--text-muted); font-size: 0.78rem;">${cnt} (${pct}%)</span>
+              </div>
+              <div class="ana-progress-track">
+                <div class="ana-progress-bar" style="width: ${pct}%; background: linear-gradient(90deg, #8B5CF6, #EC4899);"></div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      const browList = document.getElementById('ana-browsers-list');
+      if (browList && deviceBreakdown && deviceBreakdown.browsers) {
+        const entries = Object.entries(deviceBreakdown.browsers).filter(([_, c]) => c > 0);
+        const totalBrow = entries.reduce((acc, [_, c]) => acc + c, 0) || 1;
+        browList.innerHTML = entries.map(([brow, cnt]) => {
+          const pct = Math.round((cnt / totalBrow) * 100);
+          return `
+            <div class="ana-list-item">
+              <div class="ana-list-item-row">
+                <span style="color: #FFFFFF; font-weight: 600;">${brow}</span>
+                <span style="color: var(--text-muted); font-size: 0.78rem;">${cnt} (${pct}%)</span>
+              </div>
+              <div class="ana-progress-track">
+                <div class="ana-progress-bar" style="width: ${pct}%; background: linear-gradient(90deg, #F59E0B, #EF4444);"></div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      // 6. Tabela de Visitas Recentes
+      const recentTbody = document.getElementById('ana-recent-visits-tbody');
+      if (recentTbody && recentVisits) {
+        if (recentVisits.length === 0) {
+          recentTbody.innerHTML = `
+            <tr>
+              <td colspan="6" style="text-align: center; padding: 40px; color: var(--text-muted);">
+                Nenhuma visita recente registrada ainda.
+              </td>
+            </tr>
+          `;
+        } else {
+          recentTbody.innerHTML = recentVisits.map(v => `
+            <tr>
+              <td>
+                <div style="font-weight: 700; color: #FFFFFF;">${v.formattedTime}</div>
+                <div style="font-size: 0.72rem; color: var(--text-muted);">${v.timeAgo} • ${v.formattedDate}</div>
+              </td>
+              <td>
+                <div style="font-family: var(--font-mono, monospace); font-weight: 700; color: #60A5FA;">${escapeHtml(v.path)}</div>
+                <div style="font-size: 0.72rem; color: var(--text-muted); max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${escapeHtml(v.title || v.path)}</div>
+              </td>
+              <td>
+                <span style="font-size: 0.8rem; color: #D1D5DB; background: rgba(255,255,255,0.05); padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.08);">
+                  ${escapeHtml(v.referrer || 'Acesso Direto')}
+                </span>
+              </td>
+              <td>
+                <span style="font-size: 0.82rem; font-weight: 600; color: #FFF;">${v.device || 'Desktop'}</span>
+                <div style="font-size: 0.72rem; color: var(--text-muted);">${v.browser || 'Chrome'}</div>
+              </td>
+              <td>
+                <span style="font-size: 0.82rem; color: var(--text-muted);">${v.os || 'Windows'}</span>
+              </td>
+              <td style="text-align: right; padding-right: 20px;">
+                <div style="font-weight: 700; color: #FFFFFF;">${escapeHtml(v.city || 'Brasil')}</div>
+                <div style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase;">${v.country || 'BR'}</div>
+              </td>
+            </tr>
+          `).join('');
+        }
+      }
+    }
+
+    // Inicialização da aba se a URL contiver #visitas ou ?tab=visitas
+    window.addEventListener('DOMContentLoaded', () => {
+      if (window.location.hash === '#visitas' || window.location.search.includes('tab=visitas')) {
+        setTimeout(() => {
+          switchAdminTab('analytics');
+        }, 300);
+      }
+    });
   </script>
 </body>
 </html>
