@@ -18,79 +18,11 @@ const DATA_FILE = path.join(process.cwd(), 'data', 'analytics.json');
 const TMP_FILE = '/tmp/analytics.json';
 let memoryAnalytics = null;
 
-// Gera dados históricos iniciais realistas para os últimos 14 dias se o arquivo for novo
+// Retorna base zerada para registro exclusivamente de visitas reais
 function generateInitialHistoricalData() {
-  const now = new Date();
-  const visits = [];
-  const daily = {};
-  
-  const samplePages = [
-    { path: '/', title: 'Horizon - Servidor de Rust Brasileiro' },
-    { path: '/loja', title: 'Horizon - Loja VIP & Benefícios' },
-    { path: '/leaderboards', title: 'Horizon - Rankings & Estatísticas' },
-    { path: '/equipe', title: 'Horizon - Nossa Equipe' },
-    { path: '/regras', title: 'Horizon - Regras do Servidor' },
-    { path: '/checkout', title: 'Horizon - Checkout VIP' }
-  ];
-
-  const referrers = ['Direto', 'https://discord.com/', 'https://google.com/', 'https://youtube.com/', 'https://steamcommunity.com/'];
-  const devices = ['Desktop', 'Desktop', 'Mobile', 'Mobile', 'Desktop', 'Tablet'];
-  const browsers = ['Chrome', 'Chrome', 'Edge', 'Firefox', 'Safari'];
-  const oss = ['Windows', 'Windows', 'Android', 'iOS', 'Windows', 'Linux'];
-
-  for (let i = 13; i >= 0; i--) {
-    const d = new Date(now.getTime() - i * 24 * 60 * 60 * 1000);
-    const dateStr = d.toISOString().split('T')[0];
-    
-    // Entre 80 e 220 visitas diárias
-    const count = Math.floor(95 + Math.random() * 110 + (i < 3 ? 40 : 0));
-    const uniques = Math.floor(count * 0.68);
-    
-    daily[dateStr] = {
-      date: dateStr,
-      pageviews: count,
-      uniques: uniques
-    };
-
-    // Gera algumas amostras detalhadas para as últimas 48 horas
-    if (i <= 2) {
-      const sampleCount = Math.min(count, 35);
-      for (let j = 0; j < sampleCount; j++) {
-        const hour = Math.floor(Math.random() * 24);
-        const minute = Math.floor(Math.random() * 60);
-        const visitTime = new Date(d.getFullYear(), d.getMonth(), d.getDate(), hour, minute);
-        
-        const page = samplePages[Math.floor(Math.random() * samplePages.length)];
-        const dev = devices[Math.floor(Math.random() * devices.length)];
-        const browser = browsers[Math.floor(Math.random() * browsers.length)];
-        const os = oss[Math.floor(Math.random() * oss.length)];
-        const ref = referrers[Math.floor(Math.random() * referrers.length)];
-        
-        visits.push({
-          id: `v_${visitTime.getTime()}_${Math.random().toString(36).substr(2, 6)}`,
-          visitor_id: `vis_${Math.floor(Math.random() * 800)}`,
-          session_id: `ses_${Math.floor(Math.random() * 1200)}`,
-          path: page.path,
-          title: page.title,
-          referrer: ref,
-          device: dev,
-          browser: browser,
-          os: os,
-          country: 'BR',
-          city: ['São Paulo', 'Rio de Janeiro', 'Curitiba', 'Belo Horizonte', 'Porto Alegre', 'Brasília'][Math.floor(Math.random() * 6)],
-          screen: dev === 'Desktop' ? '1920x1080' : '390x844',
-          created_at: visitTime.toISOString()
-        });
-      }
-    }
-  }
-
-  // Ordena visitas das mais recentes para as mais antigas
-  visits.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-
   return {
-    visits: visits.slice(0, 500),
-    daily
+    visits: [],
+    daily: {}
   };
 }
 
@@ -219,7 +151,7 @@ async function getAnalyticsSummary() {
       activeVisitorsSet.add(v.visitor_id);
     }
   });
-  const onlineNow = Math.max(activeVisitorsSet.size, 1);
+  const onlineNow = activeVisitorsSet.size;
 
   // 2. Histórico diário dos últimos 14 dias
   const history = [];
@@ -366,3 +298,4 @@ module.exports = {
   recordVisit,
   getAnalyticsSummary
 };
+

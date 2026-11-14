@@ -1997,7 +1997,7 @@
       const elTodayViews = document.getElementById('ana-kpi-today-views');
       const elWeekViews = document.getElementById('ana-kpi-week-views');
 
-      if (elOnline) elOnline.innerText = metrics.onlineNow || 1;
+      if (elOnline) elOnline.innerText = metrics.onlineNow || 0;
       if (elTodayUniques) elTodayUniques.innerText = Number(metrics.todayUniques || 0).toLocaleString('pt-BR');
       if (elTodayViews) elTodayViews.innerText = Number(metrics.todayPageviews || 0).toLocaleString('pt-BR');
       if (elWeekViews) elWeekViews.innerText = Number(metrics.weekPageviews || 0).toLocaleString('pt-BR');
@@ -2062,42 +2062,50 @@
       // 5. Dispositivos & Navegadores
       const devList = document.getElementById('ana-devices-list');
       if (devList && deviceBreakdown && deviceBreakdown.devices) {
-        const totalDev = (deviceBreakdown.devices.Desktop || 0) + (deviceBreakdown.devices.Mobile || 0) + (deviceBreakdown.devices.Tablet || 0) || 1;
-        devList.innerHTML = ['Desktop', 'Mobile', 'Tablet'].map(dev => {
-          const cnt = deviceBreakdown.devices[dev] || 0;
-          const pct = Math.round((cnt / totalDev) * 100);
-          return `
-            <div class="ana-list-item">
-              <div class="ana-list-item-row">
-                <span style="color: #FFFFFF; font-weight: 600;">${dev}</span>
-                <span style="color: var(--text-muted); font-size: 0.78rem;">${cnt} (${pct}%)</span>
+        const totalDev = (deviceBreakdown.devices.Desktop || 0) + (deviceBreakdown.devices.Mobile || 0) + (deviceBreakdown.devices.Tablet || 0);
+        if (totalDev === 0) {
+          devList.innerHTML = '<div style="color: var(--text-muted); font-size: 0.8rem; text-align: center; padding: 10px;">Aguardando primeiros acessos...</div>';
+        } else {
+          devList.innerHTML = ['Desktop', 'Mobile', 'Tablet'].map(dev => {
+            const cnt = deviceBreakdown.devices[dev] || 0;
+            const pct = Math.round((cnt / totalDev) * 100);
+            return `
+              <div class="ana-list-item">
+                <div class="ana-list-item-row">
+                  <span style="color: #FFFFFF; font-weight: 600;">${dev}</span>
+                  <span style="color: var(--text-muted); font-size: 0.78rem;">${cnt} (${pct}%)</span>
+                </div>
+                <div class="ana-progress-track">
+                  <div class="ana-progress-bar" style="width: ${pct}%; background: linear-gradient(90deg, #8B5CF6, #EC4899);"></div>
+                </div>
               </div>
-              <div class="ana-progress-track">
-                <div class="ana-progress-bar" style="width: ${pct}%; background: linear-gradient(90deg, #8B5CF6, #EC4899);"></div>
-              </div>
-            </div>
-          `;
-        }).join('');
+            `;
+          }).join('');
+        }
       }
 
       const browList = document.getElementById('ana-browsers-list');
       if (browList && deviceBreakdown && deviceBreakdown.browsers) {
         const entries = Object.entries(deviceBreakdown.browsers).filter(([_, c]) => c > 0);
-        const totalBrow = entries.reduce((acc, [_, c]) => acc + c, 0) || 1;
-        browList.innerHTML = entries.map(([brow, cnt]) => {
-          const pct = Math.round((cnt / totalBrow) * 100);
-          return `
-            <div class="ana-list-item">
-              <div class="ana-list-item-row">
-                <span style="color: #FFFFFF; font-weight: 600;">${brow}</span>
-                <span style="color: var(--text-muted); font-size: 0.78rem;">${cnt} (${pct}%)</span>
+        if (entries.length === 0) {
+          browList.innerHTML = '<div style="color: var(--text-muted); font-size: 0.8rem; text-align: center; padding: 10px;">Aguardando primeiros acessos...</div>';
+        } else {
+          const totalBrow = entries.reduce((acc, [_, c]) => acc + c, 0) || 1;
+          browList.innerHTML = entries.map(([brow, cnt]) => {
+            const pct = Math.round((cnt / totalBrow) * 100);
+            return `
+              <div class="ana-list-item">
+                <div class="ana-list-item-row">
+                  <span style="color: #FFFFFF; font-weight: 600;">${brow}</span>
+                  <span style="color: var(--text-muted); font-size: 0.78rem;">${cnt} (${pct}%)</span>
+                </div>
+                <div class="ana-progress-track">
+                  <div class="ana-progress-bar" style="width: ${pct}%; background: linear-gradient(90deg, #F59E0B, #EF4444);"></div>
+                </div>
               </div>
-              <div class="ana-progress-track">
-                <div class="ana-progress-bar" style="width: ${pct}%; background: linear-gradient(90deg, #F59E0B, #EF4444);"></div>
-              </div>
-            </div>
-          `;
-        }).join('');
+            `;
+          }).join('');
+        }
       }
 
       // 6. Tabela de Visitas Recentes
