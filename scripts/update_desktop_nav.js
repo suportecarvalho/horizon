@@ -45,7 +45,7 @@ const newDesktopNav = `<nav class="horizon-header-nav" aria-label="Navegação P
         `<span class="horizon-dropdown-title">Equipe Horizon</span>` +
         `<span class="horizon-dropdown-desc">Fundadores, Devs e Moderação</span>` +
       `</a>` +
-      `<a href="https://discord.gg/VTu3m2MYeX" target="_blank" rel="noreferrer noopener" class="horizon-dropdown-item">` +
+      `<a href="https://discord.gg/VBvbsZ7sUC" target="_blank" rel="noreferrer noopener" class="horizon-dropdown-item">` +
         `<span class="horizon-dropdown-title">Discord Oficial</span>` +
         `<span class="horizon-dropdown-desc">Comunidade, sorteios e suporte</span>` +
       `</a>` +

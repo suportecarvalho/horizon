@@ -10,7 +10,7 @@ Website oficial do servidor brasileiro de Rust **Horizon 2x Solo/Duo/Trio**.
 
 - **IP:** `play.rusthorizon.shop:28015`
 - **Console Rust (F1):** `connect play.rusthorizon.shop:28015`
-- **Discord:** [https://discord.gg/VTu3m2MYeX](https://discord.gg/VTu3m2MYeX)
+- **Discord:** [https://discord.gg/VBvbsZ7sUC](https://discord.gg/VBvbsZ7sUC)
 - **Modo:** 2x Gather • Solo / Duo / Trio (Grupo Máximo: 3)
 - **Wipe:** Semanal (Quintas-feiras às 19:00)
 
