@@ -380,66 +380,34 @@ html, body {
   }
 }
 
-/* Otimizações Mobile de Alta Performance (Alívio de GPU e 60 FPS) */
+/* Fundo Clean e Moderno do Hero */
+.hero-fundo {
+  position: absolute !important;
+  inset: 0 !important;
+  overflow: hidden !important;
+  background: 
+    radial-gradient(ellipse 80% 60% at 50% 5%, rgba(206, 66, 43, 0.15) 0%, transparent 70%),
+    radial-gradient(circle at 15% 40%, rgba(206, 66, 43, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 85% 60%, rgba(130, 173, 164, 0.04) 0%, transparent 50%),
+    linear-gradient(180deg, #141110 0%, #0E0C0B 100%) !important;
+  pointer-events: none !important;
+}
+
+.hero-fundo::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  background: radial-gradient(circle at center, transparent 35%, rgba(14, 12, 11, 0.6) 100%) !important;
+  pointer-events: none !important;
+}
+
 @media (max-width: 768px) {
-  .hero-fundo video.hero-midia,
-  video.hero-midia {
-    display: none !important;
-  }
-  .hero-fundo {
-    background-color: #13100f !important;
-    background-image: url('/images/hero_poster.jpg') !important;
-    background-size: cover !important;
-    background-position: center center !important;
-    background-repeat: no-repeat !important;
-  }
-  .hero-fundo::after {
-    background-image: linear-gradient(180deg, rgba(19, 16, 15, 0.45) 0%, rgba(19, 16, 15, 0.25) 35%, rgba(19, 16, 15, 0.88) 100%) !important;
-    background-size: auto !important;
-  }
   .feed-faixa,
   .wipe-section,
   .ranking-secao {
     content-visibility: auto;
     contain-intrinsic-size: 1px 500px;
   }
-}
-
-.hero-fundo {
-  position: absolute !important;
-  inset: 0 !important;
-  isolation: isolate !important;
-  overflow: hidden !important;
-}
-
-/* Vídeo com alta nitidez e vivacidade */
-.hero-fundo video.hero-midia,
-video.hero-midia {
-  position: absolute !important;
-  inset: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
-  object-position: center !important;
-  opacity: 0.98 !important;
-  filter: contrast(1.1) saturate(1.16) brightness(1.04) !important;
-  transform: translateZ(0) !important;
-  will-change: transform !important;
-  display: block !important;
-}
-
-/* Efeito de micro-trama tática + vinheta balanceada:
-   Elimina artefatos de compressão e pixelização sem esconder o vídeo */
-.hero-fundo::after {
-  content: "" !important;
-  position: absolute !important;
-  inset: 0 !important;
-  background-image: 
-    repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.22) 0px, rgba(0, 0, 0, 0.22) 1px, transparent 1px, transparent 3px),
-    radial-gradient(circle at center, transparent 45%, rgba(19, 16, 15, 0.38) 100%),
-    linear-gradient(180deg, rgba(19, 16, 15, 0.22) 0%, transparent 25%, transparent 72%, rgba(19, 16, 15, 0.75) 100%) !important;
-  background-size: 3px 3px, 100% 100%, 100% 100% !important;
-  pointer-events: none !important;
 }
 
 .hero-ruido,
