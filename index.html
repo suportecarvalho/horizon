@@ -25,17 +25,88 @@
     width: 100% !important;
     height: 100% !important;
     overflow: hidden !important;
-    background: 
-      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255, 255, 255, 0.03) 0%, transparent 60%),
-      linear-gradient(180deg, #111215 0%, #0A0B0D 100%) !important;
+    background: #0B0C0E !important;
     pointer-events: none !important;
   }
-  .hero-fundo::after {
-    content: "" !important;
+  .hero-ambient-glow {
     position: absolute !important;
     inset: 0 !important;
-    background: radial-gradient(circle at center, transparent 40%, rgba(10, 11, 13, 0.7) 100%) !important;
+    background: 
+      radial-gradient(circle at 75% 35%, rgba(206, 66, 43, 0.16) 0%, rgba(206, 66, 43, 0.04) 40%, transparent 68%),
+      radial-gradient(circle at 10% 80%, rgba(206, 66, 43, 0.06) 0%, transparent 45%),
+      linear-gradient(180deg, #101114 0%, #08090B 100%) !important;
     pointer-events: none !important;
+  }
+  .hero-tech-grid {
+    position: absolute !important;
+    inset: 0 !important;
+    background-image: radial-gradient(circle, rgba(206, 66, 43, 0.22) 1px, transparent 1px) !important;
+    background-size: 32px 32px !important;
+    mask-image: radial-gradient(ellipse 65% 60% at 75% 42%, black 15%, transparent 75%) !important;
+    -webkit-mask-image: radial-gradient(ellipse 65% 60% at 75% 42%, black 15%, transparent 75%) !important;
+    pointer-events: none !important;
+  }
+  .hero-laser-line {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 1px !important;
+    background: linear-gradient(90deg, transparent 0%, rgba(206, 66, 43, 0.25) 25%, rgba(206, 66, 43, 0.85) 50%, rgba(206, 66, 43, 0.25) 75%, transparent 100%) !important;
+    box-shadow: 0 0 16px rgba(206, 66, 43, 0.6) !important;
+    pointer-events: none !important;
+  }
+  .hero-minimal-graphic {
+    position: absolute !important;
+    right: clamp(2%, 6vw, 10%) !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    width: clamp(260px, 32vw, 440px) !important;
+    height: clamp(260px, 32vw, 440px) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    pointer-events: none !important;
+    user-select: none !important;
+  }
+  .hero-graphic-svg {
+    width: 100% !important;
+    height: 100% !important;
+    filter: drop-shadow(0 0 20px rgba(206, 66, 43, 0.25)) !important;
+  }
+  .hero-tech-label {
+    position: absolute !important;
+    bottom: -24px !important;
+    right: 20px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    font-family: var(--font-mono, monospace) !important;
+    font-size: 0.68rem !important;
+    letter-spacing: 0.12em !important;
+    color: rgba(206, 66, 43, 0.7) !important;
+    text-transform: uppercase !important;
+  }
+  .hero-tech-dot {
+    display: inline-block !important;
+    width: 5px !important;
+    height: 5px !important;
+    border-radius: 50% !important;
+    background: #CE422B !important;
+    box-shadow: 0 0 8px #CE422B !important;
+    margin-right: 5px !important;
+  }
+  @media (max-width: 900px) {
+    .hero-minimal-graphic {
+      right: 50% !important;
+      transform: translate(50%, -50%) !important;
+      opacity: 0.28 !important;
+      width: clamp(240px, 60vw, 340px) !important;
+      height: clamp(240px, 60vw, 340px) !important;
+    }
+    .hero-tech-label {
+      display: none !important;
+    }
   }
   .hero-ruido,
   .hero-linhas {
@@ -296,7 +367,39 @@
     }
   }
 </style>
-</head><body><header class="site-header"><div class="site-header-conteudo shell"><a href="/" class="site-header-marca horizon-brand-logo" aria-label="Horizon"><img src="/images/logo_horizon.png" alt="Horizon Logo" class="horizon-brand-img"></a><nav class="horizon-header-nav" aria-label="Navegação Principal"><a href="/" class="horizon-nav-link" data-nav="inicio">INÍCIO</a><a href="/loja" class="horizon-nav-link" data-nav="loja">LOJA</a><a href="/equipe" class="horizon-nav-link" data-nav="equipe">EQUIPE</a></nav><div class="site-header-direita"><div class="horizon-header-server-info"><div class="horizon-header-ip" onclick="navigator.clipboard.writeText('connect play.rusthorizon.shop:28015'); var el=this.querySelector('.header-ip-val'); var old=el.textContent; el.textContent='COPIADO!'; setTimeout(function(){ el.textContent=old; }, 2000);" title="Clique para copiar: connect play.rusthorizon.shop:28015"><span class="header-ip-label">IP:</span><span class="header-ip-val">play.rusthorizon.shop:28015</span><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="header-ip-icon"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></div><a href="/#wipe" class="horizon-header-wipe" title="Ver cronograma e status do wipe"><span class="header-wipe-label">WIPE:</span><span class="header-wipe-val" id="hero-wipe-badge-text">Hoje</span></a></div><a href="/auth/steam" data-slot="button" data-variant="outline" data-size="cabecalho" class="horizon-auth-desktop group/button inline-flex shrink-0 items-center justify-center rounded-lg border bg-clip-padding whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 btn-corte [--corte:8px] h-8 gap-1.5 px-3.5 font-heading text-[0.7rem] font-bold tracking-[0.06em] uppercase">Entrar<span class="some-no-estreito">&nbsp;com Steam</span></a><button type="button" class="horizon-mobile-toggle" aria-label="Abrir menu de navegação" aria-expanded="false" aria-controls="horizon-mobile-drawer"><span class="horizon-toggle-bars"><span></span><span></span><span></span></span></button></div></div><div id="horizon-mobile-drawer" class="horizon-mobile-drawer" aria-hidden="true"><div class="horizon-mobile-backdrop"></div><div class="horizon-mobile-drawer-content"><div class="horizon-mobile-nav-header"><span class="horizon-mobile-nav-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg> Navegação</span><button type="button" class="horizon-mobile-close" aria-label="Fechar menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></div><div class="horizon-mobile-auth-slot"><a href="/auth/steam" class="horizon-mobile-steam-login"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-10 10c0 4.8 3.4 8.8 8 9.8v-4.6a2.5 2.5 0 0 1-1.3-.9l-3.3 1.3a4.4 4.4 0 0 1-.4-2.8l2.6-1.1a2.5 2.5 0 0 1 2.4-.7l2.2-3.2A4.2 4.2 0 1 1 16.2 12l-3.2 2.2a2.5 2.5 0 0 1-.7 2.3v.1a2.5 2.5 0 0 1-2.3 2.5v.9c.7.1 1.3.1 2 .1a10 10 0 0 0 10-10A10 10 0 0 0 12 2zm4.2 7a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z"/></svg><span>Entrar com Steam</span></a></div><nav class="horizon-mobile-nav-links"><a href="/" class="horizon-mobile-link" data-nav="inicio"><div class="horizon-mobile-link-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="horizon-mobile-link-text"><span class="horizon-mobile-link-label">Início</span><span class="horizon-mobile-link-sub">Página principal & Servidor</span></div><svg class="horizon-mobile-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></a><a href="/loja" class="horizon-mobile-link" data-nav="loja"><div class="horizon-mobile-link-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><line x1="3" x2="21" y1="6" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div><div class="horizon-mobile-link-text"><span class="horizon-mobile-link-label">Loja</span><span class="horizon-mobile-link-sub">VIPs, Kits & Recursos</span></div><svg class="horizon-mobile-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></a><a href="/equipe" class="horizon-mobile-link" data-nav="equipe"><div class="horizon-mobile-link-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div class="horizon-mobile-link-text"><span class="horizon-mobile-link-label">Equipe</span><span class="horizon-mobile-link-sub">Fundadores & Moderação</span></div><svg class="horizon-mobile-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></a></nav><div class="horizon-mobile-extra"><a href="https://discord.gg/VBvbsZ7sUC" target="_blank" rel="noreferrer noopener" class="horizon-mobile-discord-pill"><svg viewBox="0 0 24 24" fill="currentColor" class="size-4"><path d="M20.317 4.3698a19.7913 19.7913 0 0 0-4.8851-1.5152.0741.0741 0 0 0-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 0 0-.0785-.037 19.7363 19.7363 0 0 0-4.8852 1.515.0699.0699 0 0 0-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 0 0 .0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 0 0 .0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 0 0-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 0 1-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 0 1 .0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 0 1 .0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 0 1-.0066.1276 12.2986 12.2986 0 0 1-1.873.8914.0766.0766 0 0 0-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 0 0 .0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 0 0 .0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 0 0-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"></path></svg><span>Comunidade Discord</span></a></div></div></div></header><main><section class="hero" id="servidores"><div class="hero-fundo" aria-hidden="true"></div><div class="shell hero-conteudo"><div class="hero-olho">
+</head><body><header class="site-header"><div class="site-header-conteudo shell"><a href="/" class="site-header-marca horizon-brand-logo" aria-label="Horizon"><img src="/images/logo_horizon.png" alt="Horizon Logo" class="horizon-brand-img"></a><nav class="horizon-header-nav" aria-label="Navegação Principal"><a href="/" class="horizon-nav-link" data-nav="inicio">INÍCIO</a><a href="/loja" class="horizon-nav-link" data-nav="loja">LOJA</a><a href="/equipe" class="horizon-nav-link" data-nav="equipe">EQUIPE</a></nav><div class="site-header-direita"><div class="horizon-header-server-info"><div class="horizon-header-ip" onclick="navigator.clipboard.writeText('connect play.rusthorizon.shop:28015'); var el=this.querySelector('.header-ip-val'); var old=el.textContent; el.textContent='COPIADO!'; setTimeout(function(){ el.textContent=old; }, 2000);" title="Clique para copiar: connect play.rusthorizon.shop:28015"><span class="header-ip-label">IP:</span><span class="header-ip-val">play.rusthorizon.shop:28015</span><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="header-ip-icon"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg></div><a href="/#wipe" class="horizon-header-wipe" title="Ver cronograma e status do wipe"><span class="header-wipe-label">WIPE:</span><span class="header-wipe-val" id="hero-wipe-badge-text">Hoje</span></a></div><a href="/auth/steam" data-slot="button" data-variant="outline" data-size="cabecalho" class="horizon-auth-desktop group/button inline-flex shrink-0 items-center justify-center rounded-lg border bg-clip-padding whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 btn-corte [--corte:8px] h-8 gap-1.5 px-3.5 font-heading text-[0.7rem] font-bold tracking-[0.06em] uppercase">Entrar<span class="some-no-estreito">&nbsp;com Steam</span></a><button type="button" class="horizon-mobile-toggle" aria-label="Abrir menu de navegação" aria-expanded="false" aria-controls="horizon-mobile-drawer"><span class="horizon-toggle-bars"><span></span><span></span><span></span></span></button></div></div><div id="horizon-mobile-drawer" class="horizon-mobile-drawer" aria-hidden="true"><div class="horizon-mobile-backdrop"></div><div class="horizon-mobile-drawer-content"><div class="horizon-mobile-nav-header"><span class="horizon-mobile-nav-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg> Navegação</span><button type="button" class="horizon-mobile-close" aria-label="Fechar menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></div><div class="horizon-mobile-auth-slot"><a href="/auth/steam" class="horizon-mobile-steam-login"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-10 10c0 4.8 3.4 8.8 8 9.8v-4.6a2.5 2.5 0 0 1-1.3-.9l-3.3 1.3a4.4 4.4 0 0 1-.4-2.8l2.6-1.1a2.5 2.5 0 0 1 2.4-.7l2.2-3.2A4.2 4.2 0 1 1 16.2 12l-3.2 2.2a2.5 2.5 0 0 1-.7 2.3v.1a2.5 2.5 0 0 1-2.3 2.5v.9c.7.1 1.3.1 2 .1a10 10 0 0 0 10-10A10 10 0 0 0 12 2zm4.2 7a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z"/></svg><span>Entrar com Steam</span></a></div><nav class="horizon-mobile-nav-links"><a href="/" class="horizon-mobile-link" data-nav="inicio"><div class="horizon-mobile-link-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="horizon-mobile-link-text"><span class="horizon-mobile-link-label">Início</span><span class="horizon-mobile-link-sub">Página principal & Servidor</span></div><svg class="horizon-mobile-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></a><a href="/loja" class="horizon-mobile-link" data-nav="loja"><div class="horizon-mobile-link-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><line x1="3" x2="21" y1="6" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div><div class="horizon-mobile-link-text"><span class="horizon-mobile-link-label">Loja</span><span class="horizon-mobile-link-sub">VIPs, Kits & Recursos</span></div><svg class="horizon-mobile-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></a><a href="/equipe" class="horizon-mobile-link" data-nav="equipe"><div class="horizon-mobile-link-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div class="horizon-mobile-link-text"><span class="horizon-mobile-link-label">Equipe</span><span class="horizon-mobile-link-sub">Fundadores & Moderação</span></div><svg class="horizon-mobile-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></a></nav><div class="horizon-mobile-extra"><a href="https://discord.gg/VBvbsZ7sUC" target="_blank" rel="noreferrer noopener" class="horizon-mobile-discord-pill"><svg viewBox="0 0 24 24" fill="currentColor" class="size-4"><path d="M20.317 4.3698a19.7913 19.7913 0 0 0-4.8851-1.5152.0741.0741 0 0 0-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 0 0-.0785-.037 19.7363 19.7363 0 0 0-4.8852 1.515.0699.0699 0 0 0-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 0 0 .0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 0 0 .0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 0 0-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 0 1-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 0 1 .0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 0 1 .0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 0 1-.0066.1276 12.2986 12.2986 0 0 1-1.873.8914.0766.0766 0 0 0-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 0 0 .0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 0 0 .0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 0 0-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"></path></svg><span>Comunidade Discord</span></a></div></div></div></header><main><section class="hero" id="servidores"><div class="hero-fundo" aria-hidden="true">
+  <div class="hero-ambient-glow"></div>
+  <div class="hero-tech-grid"></div>
+  <div class="hero-laser-line"></div>
+  <div class="hero-minimal-graphic">
+    <svg viewBox="0 0 460 460" fill="none" xmlns="http://www.w3.org/2000/svg" class="hero-graphic-svg">
+      <!-- Retículo tático minimalista com acentos vermelhos -->
+      <circle cx="230" cy="230" r="200" stroke="rgba(206, 66, 43, 0.12)" stroke-width="1.2" stroke-dasharray="4 8" />
+      <circle cx="230" cy="230" r="150" stroke="rgba(206, 66, 43, 0.25)" stroke-width="1.5" />
+      <circle cx="230" cy="230" r="100" stroke="rgba(206, 66, 43, 0.15)" stroke-width="1" />
+      <!-- Arcos em destaque vermelho -->
+      <path d="M230 80 A150 150 0 0 1 380 230" stroke="#CE422B" stroke-width="2.5" stroke-linecap="round" opacity="0.65" />
+      <path d="M80 230 A150 150 0 0 1 230 380" stroke="#CE422B" stroke-width="2.5" stroke-linecap="round" opacity="0.65" />
+      <!-- Eixos minimalistas -->
+      <line x1="230" y1="35" x2="230" y2="120" stroke="rgba(206, 66, 43, 0.35)" stroke-width="1.5" />
+      <line x1="230" y1="340" x2="230" y2="425" stroke="rgba(206, 66, 43, 0.35)" stroke-width="1.5" />
+      <line x1="35" y1="230" x2="120" y2="230" stroke="rgba(206, 66, 43, 0.35)" stroke-width="1.5" />
+      <line x1="340" y1="230" x2="425" y2="230" stroke="rgba(206, 66, 43, 0.35)" stroke-width="1.5" />
+      <!-- Ponto central de mira com brilho -->
+      <circle cx="230" cy="230" r="3.5" fill="#CE422B" />
+      <circle cx="230" cy="230" r="12" stroke="#CE422B" stroke-width="1" opacity="0.45" />
+      <!-- Cantoneiras geométricas -->
+      <path d="M130 130 L145 130 M130 130 L130 145" stroke="rgba(206, 66, 43, 0.45)" stroke-width="1.5" />
+      <path d="M330 130 L315 130 M330 130 L330 145" stroke="rgba(206, 66, 43, 0.45)" stroke-width="1.5" />
+      <path d="M130 330 L145 330 M130 330 L130 315" stroke="rgba(206, 66, 43, 0.45)" stroke-width="1.5" />
+      <path d="M330 330 L315 330 M330 330 L330 315" stroke="rgba(206, 66, 43, 0.45)" stroke-width="1.5" />
+    </svg>
+    <div class="hero-tech-label">
+      <span>HRZ // 28015</span>
+      <span><span class="hero-tech-dot"></span>SYS.ONLINE</span>
+    </div>
+  </div>
+</div><div class="shell hero-conteudo"><div class="hero-olho">
       <span class="contagem contagem-frase">
         <span class="contagem-ponto" style="background: #22c55e;" aria-hidden="true"></span>
         <span class="contagem-valor" id="hero-player-count">--</span>

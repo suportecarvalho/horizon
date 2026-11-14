@@ -380,23 +380,101 @@ html, body {
   }
 }
 
-/* Fundo Clean e Neutro do Hero (Sem efeito vermelho) */
+/* Fundo Clean do Hero com Gráficos Minimalistas e Efeitos Vermelhos */
 .hero-fundo {
   position: absolute !important;
   inset: 0 !important;
   overflow: hidden !important;
-  background: 
-    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255, 255, 255, 0.03) 0%, transparent 60%),
-    linear-gradient(180deg, #111215 0%, #0A0B0D 100%) !important;
+  background: #0B0C0E !important;
   pointer-events: none !important;
 }
 
-.hero-fundo::after {
-  content: "" !important;
-  position: absolute !important;
-  inset: 0 !important;
-  background: radial-gradient(circle at center, transparent 40%, rgba(10, 11, 13, 0.7) 100%) !important;
-  pointer-events: none !important;
+.hero-ambient-glow {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(circle at 75% 35%, rgba(206, 66, 43, 0.16) 0%, rgba(206, 66, 43, 0.04) 40%, transparent 68%),
+    radial-gradient(circle at 10% 80%, rgba(206, 66, 43, 0.06) 0%, transparent 45%),
+    linear-gradient(180deg, #101114 0%, #08090B 100%);
+  pointer-events: none;
+}
+
+.hero-tech-grid {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(206, 66, 43, 0.22) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse 65% 60% at 75% 42%, black 15%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 65% 60% at 75% 42%, black 15%, transparent 75%);
+  pointer-events: none;
+}
+
+.hero-laser-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(206, 66, 43, 0.25) 25%, rgba(206, 66, 43, 0.85) 50%, rgba(206, 66, 43, 0.25) 75%, transparent 100%);
+  box-shadow: 0 0 16px rgba(206, 66, 43, 0.6);
+  pointer-events: none;
+}
+
+.hero-minimal-graphic {
+  position: absolute;
+  right: clamp(2%, 6vw, 10%);
+  top: 50%;
+  transform: translateY(-50%);
+  width: clamp(260px, 32vw, 440px);
+  height: clamp(260px, 32vw, 440px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  user-select: none;
+}
+
+.hero-graphic-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 20px rgba(206, 66, 43, 0.25));
+}
+
+.hero-tech-label {
+  position: absolute;
+  bottom: -24px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  color: rgba(206, 66, 43, 0.7);
+  text-transform: uppercase;
+}
+
+.hero-tech-dot {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #CE422B;
+  box-shadow: 0 0 8px #CE422B;
+  margin-right: 5px;
+}
+
+@media (max-width: 900px) {
+  .hero-minimal-graphic {
+    right: 50% !important;
+    transform: translate(50%, -50%) !important;
+    opacity: 0.28 !important;
+    width: clamp(240px, 60vw, 340px) !important;
+    height: clamp(240px, 60vw, 340px) !important;
+  }
+  .hero-tech-label {
+    display: none !important;
+  }
 }
 
 @media (max-width: 768px) {
