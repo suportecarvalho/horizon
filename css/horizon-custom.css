@@ -3496,21 +3496,18 @@ footer.site-footer::before,
   display: flex !important;
   align-items: center !important;
   gap: 8px !important;
-  font-family: var(--font-heading, 'Space Grotesk', -apple-system, sans-serif) !important;
+  font-family: var(--fonte-archivo, "Archivo", -apple-system, sans-serif) !important;
+  font-stretch: 125% !important;
   font-size: 0.88rem !important;
   font-weight: 800 !important;
   letter-spacing: 0.08em !important;
   text-transform: uppercase !important;
-  color: #FFFFFF !important;
+  color: #EDE8E5 !important;
   margin: 0 !important;
 }
 
 .horizon-footer-title-bar {
-  width: 3px !important;
-  height: 16px !important;
-  background: #D7573B !important;
-  border-radius: 2px !important;
-  flex-shrink: 0 !important;
+  display: none !important;
 }
 
 .horizon-footer-links-list {
@@ -3623,49 +3620,85 @@ footer.site-footer::before,
   }
 }
 
-/* ==================== ESTILO DE TÍTULO COM BARRA LARANJA (ESTILO WIPE E CRONOGRAMA) ==================== */
+/* ==================== ESTILO DE TÍTULO UNIFICADO (ESTILO MODERNO / NOTÍCIAS) ==================== */
 .horizon-section-header {
   display: flex !important;
-  align-items: stretch !important;
-  gap: 14px !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  gap: 0 !important;
   margin-bottom: 24px !important;
 }
 
-.horizon-section-bar {
-  display: block !important;
-  width: 4px !important;
-  min-width: 4px !important;
-  background: linear-gradient(180deg, #ff6b3d 0%, #e75d18 100%) !important;
-  border-radius: 3px !important;
-  flex-shrink: 0 !important;
-  box-shadow: 0 0 10px rgba(231, 93, 24, 0.4) !important;
+.horizon-section-bar,
+.horizon-footer-title-bar {
+  display: none !important;
 }
 
 .horizon-section-title-wrap {
   display: flex !important;
   flex-direction: column !important;
-  justify-content: center !important;
-  gap: 4px !important;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+  gap: 0 !important;
+  width: 100% !important;
 }
 
-.horizon-section-title {
-  font-family: var(--font-heading, 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif) !important;
-  font-size: clamp(1.45rem, 2.5vw, 2.1rem) !important;
-  font-weight: 900 !important;
+/* Eyebrow / Kicker (.olho) */
+.olho,
+.hero-olho,
+.horizon-section-kicker,
+.equipe-hero-banner .olho,
+.convite .olho {
+  font-family: var(--fonte-martian, "Martian Mono", monospace) !important;
+  font-size: 0.68rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.18em !important;
+  text-transform: uppercase !important;
+  color: var(--text-dim, #8E8A86) !important;
+  margin: 0 0 10px 0 !important;
+  line-height: 1.2 !important;
+  display: block !important;
+}
+
+/* Título Principal */
+.titulo,
+.titulo-secao,
+.horizon-section-title,
+.equipe-hero-title,
+.equipe-section-title,
+.convite-titulo,
+.regras-titulo {
+  font-family: var(--fonte-archivo, "Archivo", "Archivo Fallback", -apple-system, BlinkMacSystemFont, sans-serif) !important;
+  font-stretch: 125% !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.005em !important;
+  line-height: 1.02 !important;
   color: #FFFFFF !important;
   text-transform: uppercase !important;
-  letter-spacing: 0.02em !important;
-  line-height: 1.15 !important;
   margin: 0 !important;
 }
 
-.horizon-section-subtitle {
-  color: #59b6a6 !important;
-  font-size: clamp(0.85rem, 1.1vw, 0.96rem) !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.01em !important;
-  margin: 0 !important;
-  line-height: 1.35 !important;
+.horizon-section-title,
+.titulo-secao,
+.convite-titulo {
+  font-size: clamp(1.45rem, 2.5vw, 2.15rem) !important;
+}
+
+/* Subtítulo */
+.horizon-section-subtitle,
+.noticias-subtitulo,
+.convite-texto,
+.equipe-hero-subtitle,
+.regras-subtitulo {
+  font-family: var(--fonte-archivo, "Archivo", -apple-system, BlinkMacSystemFont, sans-serif) !important;
+  color: var(--text-muted, #8E8A86) !important;
+  font-size: clamp(0.88rem, 1.1vw, 0.98rem) !important;
+  font-weight: 400 !important;
+  letter-spacing: normal !important;
+  line-height: 1.5 !important;
+  margin: 8px 0 0 0 !important;
+  max-width: 65ch !important;
 }
 
 /* ==================== CARD PRÓXIMO WIPE (ESTILO DEDICADO) ==================== */
