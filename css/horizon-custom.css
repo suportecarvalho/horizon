@@ -1993,7 +1993,11 @@ body:has(.ranking),
 .equipe-hero-banner {
   position: relative;
   padding: 56px 20px 42px;
-  text-align: center;
+  text-align: center !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
   background: #0B0C0E;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   margin-bottom: 46px;
@@ -3657,7 +3661,6 @@ footer.site-footer::before,
 .olho,
 .hero-olho,
 .horizon-section-kicker,
-.equipe-hero-banner .olho,
 .convite .olho {
   font-family: var(--fonte-martian, "Martian Mono", monospace) !important;
   font-size: 0.68rem !important;
@@ -3666,6 +3669,19 @@ footer.site-footer::before,
   text-transform: uppercase !important;
   color: var(--text-dim, #8E8A86) !important;
   margin: 0 0 10px 0 !important;
+  line-height: 1.2 !important;
+  display: block !important;
+}
+
+.equipe-hero-banner .olho {
+  font-family: var(--fonte-martian, "Martian Mono", monospace) !important;
+  font-size: 0.68rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.18em !important;
+  text-transform: uppercase !important;
+  color: var(--text-dim, #8E8A86) !important;
+  margin: 0 auto 10px auto !important;
+  text-align: center !important;
   line-height: 1.2 !important;
   display: block !important;
 }
@@ -3698,7 +3714,6 @@ footer.site-footer::before,
 .horizon-section-subtitle,
 .noticias-subtitulo,
 .convite-texto,
-.equipe-hero-subtitle,
 .regras-subtitulo {
   font-family: var(--fonte-archivo, "Archivo", -apple-system, BlinkMacSystemFont, sans-serif) !important;
   color: var(--text-muted, #8E8A86) !important;
@@ -3708,6 +3723,21 @@ footer.site-footer::before,
   line-height: 1.5 !important;
   margin: 8px 0 0 0 !important;
   max-width: 65ch !important;
+}
+
+/* Subtítulo Hero Equipe (Centralizado) */
+.equipe-hero-banner .equipe-hero-subtitle,
+.equipe-hero-subtitle {
+  font-family: var(--fonte-archivo, "Archivo", -apple-system, BlinkMacSystemFont, sans-serif) !important;
+  color: var(--text-muted, #8E8A86) !important;
+  font-size: clamp(0.92rem, 1.15vw, 1.02rem) !important;
+  font-weight: 400 !important;
+  letter-spacing: normal !important;
+  line-height: 1.55 !important;
+  max-width: 620px !important;
+  margin: 10px auto 0 auto !important;
+  text-align: center !important;
+  display: block !important;
 }
 
 /* ==================== CARD PRÓXIMO WIPE (ESTILO DEDICADO) ==================== */
