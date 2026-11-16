@@ -389,6 +389,7 @@ html, body {
   pointer-events: none !important;
 }
 
+.hero-bg-picture,
 .hero-bg-img {
   position: absolute !important;
   inset: 0 !important;
