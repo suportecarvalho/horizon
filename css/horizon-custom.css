@@ -380,7 +380,7 @@ html, body {
   }
 }
 
-/* Fundo Clean do Hero com Gráficos Minimalistas e Efeitos Vermelhos */
+/* Fundo do Hero com Imagem da Página Inicial */
 .hero-fundo {
   position: absolute !important;
   inset: 0 !important;
@@ -389,361 +389,35 @@ html, body {
   pointer-events: none !important;
 }
 
-.hero-ambient-glow {
-  position: absolute;
-  inset: 0;
+.hero-bg-img {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center right !important;
+  display: block !important;
+  pointer-events: none !important;
+  z-index: 1 !important;
+}
+
+.hero-bg-overlay {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 2 !important;
   background: 
-    radial-gradient(circle at 75% 40%, rgba(206, 66, 43, 0.22) 0%, rgba(206, 66, 43, 0.06) 42%, transparent 72%),
-    radial-gradient(circle at 10% 85%, rgba(206, 66, 43, 0.08) 0%, transparent 45%),
-    linear-gradient(180deg, #101114 0%, #08090B 100%);
-  pointer-events: none;
+    linear-gradient(90deg, rgba(11, 12, 14, 0.92) 0%, rgba(11, 12, 14, 0.72) 38%, rgba(11, 12, 14, 0.20) 70%, rgba(11, 12, 14, 0.45) 100%),
+    linear-gradient(180deg, rgba(11, 12, 14, 0.35) 0%, transparent 35%, rgba(11, 12, 14, 0.85) 85%, #0B0C0E 100%) !important;
+  pointer-events: none !important;
 }
 
-.hero-ambient-core {
-  position: absolute;
-  right: clamp(4%, 12vw, 16%);
-  top: 50%;
-  transform: translateY(-50%);
-  width: 480px;
-  height: 480px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(206, 66, 43, 0.16) 0%, rgba(206, 66, 43, 0.05) 50%, transparent 75%);
-  filter: blur(40px);
-  pointer-events: none;
-  animation: heroCoreBreathe 6s ease-in-out infinite alternate;
-}
-
-@keyframes heroCoreBreathe {
-  0% { transform: translateY(-50%) scale(0.92); opacity: 0.7; }
-  100% { transform: translateY(-50%) scale(1.08); opacity: 1; }
-}
-
-.hero-tech-grid {
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(circle, rgba(206, 66, 43, 0.28) 1px, transparent 1px);
-  background-size: 32px 32px;
-  mask-image: radial-gradient(ellipse 70% 65% at 75% 42%, black 20%, transparent 80%);
-  -webkit-mask-image: radial-gradient(ellipse 70% 65% at 75% 42%, black 20%, transparent 80%);
-  pointer-events: none;
-}
-
-.hero-laser-line {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 1.5px;
-  background: linear-gradient(90deg, transparent 0%, rgba(206, 66, 43, 0.3) 25%, rgba(206, 66, 43, 0.95) 50%, rgba(206, 66, 43, 0.3) 75%, transparent 100%);
-  box-shadow: 0 0 18px rgba(206, 66, 43, 0.75);
-  pointer-events: none;
-}
-
-.hero-vertical-scanline {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent 10%, rgba(206, 66, 43, 0.45) 50%, rgba(206, 66, 43, 0.85) 75%, transparent 95%);
-  box-shadow: 0 0 12px rgba(206, 66, 43, 0.55);
-  opacity: 0.65;
-  pointer-events: none;
-  animation: heroScanline 7s ease-in-out infinite;
-}
-
-@keyframes heroScanline {
-  0% { top: 0%; opacity: 0; }
-  15% { opacity: 0.75; }
-  85% { opacity: 0.75; }
-  100% { top: 100%; opacity: 0; }
-}
-
-.hero-hud-corner {
-  position: absolute;
-  width: 24px;
-  height: 24px;
-  border: 1.5px solid rgba(206, 66, 43, 0.4);
-  pointer-events: none;
-}
-.hero-hud-top-right {
-  top: 24px;
-  right: 28px;
-  border-left: none;
-  border-bottom: none;
-}
-.hero-hud-bottom-right {
-  bottom: 24px;
-  right: 28px;
-  border-left: none;
-  border-top: none;
-}
-.hero-hud-bottom-left {
-  bottom: 24px;
-  left: 28px;
-  border-right: none;
-  border-top: none;
-}
-
-.hero-tactical-mark {
-  position: absolute;
-  font-family: var(--font-mono, monospace);
-  font-size: 0.65rem;
-  letter-spacing: 0.15em;
-  color: rgba(206, 66, 43, 0.65);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  pointer-events: none;
-  user-select: none;
-  text-transform: uppercase;
-}
-.hero-tactical-mark span {
-  color: #CE422B;
-  font-weight: 700;
-  font-size: 0.8rem;
-  text-shadow: 0 0 6px #CE422B;
-}
-.htm-1 { top: 18%; right: 38%; }
-.htm-2 { bottom: 16%; right: 32%; }
-.htm-3 { top: 82%; right: 8%; }
-
-.hero-minimal-graphic {
-  position: absolute;
-  right: clamp(2%, 5vw, 9%);
-  top: 50%;
-  transform: translateY(-50%);
-  width: clamp(280px, 35vw, 470px);
-  height: clamp(280px, 35vw, 470px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-  user-select: none;
-}
-
-.hero-svg-wrap {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.hero-graphic-svg {
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-  filter: drop-shadow(0 0 24px rgba(206, 66, 43, 0.28));
-}
-
-.hud-spin-cw {
-  transform-origin: 250px 250px;
-  animation: hudRotateCW 50s linear infinite;
-}
-.hud-spin-ccw {
-  transform-origin: 250px 250px;
-  animation: hudRotateCCW 36s linear infinite;
-}
-.hud-radar-sweep {
-  transform-origin: 250px 250px;
-  animation: hudRotateCW 7s linear infinite;
-}
-
-@keyframes hudRotateCW {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-@keyframes hudRotateCCW {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(-360deg); }
-}
-
-.hud-center-ring {
-  animation: hudRingPulse 2.4s ease-in-out infinite;
-  transform-origin: 250px 250px;
-}
-@keyframes hudRingPulse {
-  0%, 100% { transform: scale(1); opacity: 0.5; }
-  50% { transform: scale(1.35); opacity: 0.95; }
-}
-
-.hero-telemetry-top {
-  position: absolute;
-  top: -34px;
-  left: 10px;
-  right: 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-family: var(--font-mono, monospace);
-  font-size: 0.65rem;
-  letter-spacing: 0.12em;
-  color: rgba(206, 66, 43, 0.75);
-  text-transform: uppercase;
-}
-
-.hero-telemetry-tag {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 700;
-  color: #CE422B;
-}
-
-.hero-telemetry-coords {
-  color: rgba(255, 255, 255, 0.45);
-  font-size: 0.62rem;
-}
-
-.hero-telemetry-side {
-  position: absolute;
-  left: -54px;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 8px;
-  font-family: var(--font-mono, monospace);
-  font-size: 0.62rem;
-  letter-spacing: 0.1em;
-  color: rgba(206, 66, 43, 0.75);
-}
-
-.hero-signal-meter {
-  display: flex;
-  align-items: flex-end;
-  gap: 3px;
-  height: 22px;
-  padding: 3px 6px;
-  background: rgba(206, 66, 43, 0.08);
-  border: 1px solid rgba(206, 66, 43, 0.3);
-  border-radius: 4px;
-}
-
-.signal-bar {
-  display: block;
-  width: 3px;
-  background: #CE422B;
-  border-radius: 1px;
-  box-shadow: 0 0 6px rgba(206, 66, 43, 0.8);
-}
-.bar-1 { height: 40%; animation: sigBar 1.2s ease-in-out infinite alternate; }
-.bar-2 { height: 75%; animation: sigBar 1.5s ease-in-out infinite alternate-reverse; }
-.bar-3 { height: 95%; animation: sigBar 0.9s ease-in-out infinite alternate; }
-.bar-4 { height: 60%; animation: sigBar 1.7s ease-in-out infinite alternate-reverse; }
-.bar-5 { height: 85%; animation: sigBar 1.1s ease-in-out infinite alternate; }
-
-@keyframes sigBar {
-  0% { height: 25%; opacity: 0.4; }
-  100% { height: 100%; opacity: 1; }
-}
-
-.hero-freq-label {
-  white-space: nowrap;
-  font-size: 0.6rem;
-  color: rgba(206, 66, 43, 0.65);
-}
-
-.hero-ping-badge {
-  font-size: 0.58rem;
-  padding: 2px 5px;
-  background: rgba(206, 66, 43, 0.12);
-  border: 1px solid rgba(206, 66, 43, 0.3);
-  border-radius: 3px;
-  color: #CE422B;
-}
-
-.hero-tech-label {
-  position: absolute;
-  bottom: -34px;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-family: var(--font-mono, monospace);
-  font-size: 0.68rem;
-  letter-spacing: 0.12em;
-  color: rgba(206, 66, 43, 0.75);
-  text-transform: uppercase;
-}
-
-.hero-label-left {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.hero-label-strong {
-  font-weight: 700;
-  color: #EDE8E5;
-}
-
-.hero-label-sub {
-  color: rgba(206, 66, 43, 0.65);
-  font-size: 0.62rem;
-}
-
-.hero-label-right {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.hero-barcode {
-  letter-spacing: -1px;
-  color: rgba(206, 66, 43, 0.5);
-  font-size: 0.75rem;
-}
-
-.hero-status-pill {
-  padding: 2px 7px;
-  border-radius: 3px;
-  background: rgba(206, 66, 43, 0.15);
-  border: 1px solid rgba(206, 66, 43, 0.45);
-  color: #CE422B;
-  font-size: 0.6rem;
-  font-weight: 700;
-}
-
-.hero-tech-dot {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #CE422B;
-  box-shadow: 0 0 10px #CE422B;
-  animation: techDotBlink 1.4s ease-in-out infinite;
-}
-
-@keyframes techDotBlink {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.35; transform: scale(0.8); }
-}
-
-@media (max-width: 1024px) {
-  .hero-telemetry-side {
-    display: none !important;
+@media (max-width: 640px) {
+  .hero-bg-img {
+    object-position: 72% center !important;
   }
-}
-
-@media (max-width: 900px) {
-  .hero-minimal-graphic {
-    right: 50% !important;
-    transform: translate(50%, -50%) !important;
-    opacity: 0.28 !important;
-    width: clamp(240px, 60vw, 360px) !important;
-    height: clamp(240px, 60vw, 360px) !important;
-  }
-  .hero-telemetry-top,
-  .hero-telemetry-side,
-  .hero-tech-label,
-  .hero-tactical-mark,
-  .hero-hud-corner {
-    display: none !important;
+  .hero-bg-overlay {
+    background: 
+      linear-gradient(180deg, rgba(11, 12, 14, 0.88) 0%, rgba(11, 12, 14, 0.65) 45%, #0B0C0E 100%) !important;
   }
 }
 
