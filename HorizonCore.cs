@@ -10,8 +10,8 @@ using UnityEngine;
 
 namespace Oxide.Plugins
 {
-    [Info("HorizonCore", "RustHorizon", "3.0.0")]
-    [Description("Plugin Mestre Unificado: Status do Servidor em Tempo Real, Leaderboards (PvP, Recursos, Farming, Raid) e Sistema Completo de VIPs")]
+    [Info("HorizonCore", "RustHorizon", "3.1.0")]
+    [Description("Plugin Mestre: Status do Servidor em Tempo Real, Contagem de Wipe e Classificação Rankings (PvP, Recursos, Raids)")]
     public class HorizonCore : RustPlugin
     {
         [PluginReference]
@@ -24,8 +24,6 @@ namespace Oxide.Plugins
         private Timer statusTimer;
         private Timer debounceStatusTimer;
         private Timer leaderboardTimer;
-        private Timer vipSyncTimer;
-        private Timer vipExpiryTimer;
 
         // Cache em memória de avatares já buscados nesta sessão (steamid → url)
         private readonly Dictionary<string, string> avatarCache = new Dictionary<string, string>();
@@ -34,11 +32,11 @@ namespace Oxide.Plugins
         private readonly Dictionary<ulong, ulong> lastWoundAttacker = new Dictionary<ulong, ulong>();
 
         // -------------------------------------------------------------
-        // CONFIGURAÇÃO UNIFICADA (STATUS + LEADERBOARDS + VIPS)
+        // CONFIGURAÇÃO UNIFICADA (STATUS + LEADERBOARDS)
         // -------------------------------------------------------------
         public class Configuration
         {
-            // === MÓDULO 1: STATUS DO SERVIDOR ===
+            // === MÓDULO 1: STATUS DO SERVIDOR & WIPE ===
             [JsonProperty("Status_UrlDaApiDoSite")]
             public string StatusApiUrl { get; set; } = "https://www.rusthorizon.shop/api/status";
 
@@ -60,7 +58,7 @@ namespace Oxide.Plugins
             [JsonProperty("Status_LimitePorTime")]
             public string TeamLimit { get; set; } = "(Max 4)";
 
-            // === MÓDULO 2: LEADERBOARD & ESTATÍSTICAS ===
+            // === MÓDULO 2: LEADERBOARD & CLASSIFICAÇÃO RANKINGS ===
             [JsonProperty("Leaderboard_UrlDaApiDoSite")]
             public string LeaderboardApiUrl { get; set; } = "https://www.rusthorizon.shop/api/leaderboard";
 
@@ -69,46 +67,6 @@ namespace Oxide.Plugins
 
             [JsonProperty("Leaderboard_LimiteJogadoresPorAba")]
             public int TopPlayersLimit { get; set; } = 100;
-
-            // === MÓDULO 3: VIPS & LOJA AUTOMÁTICA (MERCADO PAGO) ===
-            [JsonProperty("Vip_Habilitado")]
-            public bool VipEnabled { get; set; } = true;
-
-            [JsonProperty("Vip_ApiBaseUrl")]
-            public string VipApiBaseUrl { get; set; } = "https://www.rusthorizon.shop";
-
-            [JsonProperty("Vip_IntervaloSegundos")]
-            public int VipSyncIntervalSeconds { get; set; } = 30;
-
-            [JsonProperty("Vip_CriarGruposAutomaticamente")]
-            public bool VipAutoCreateGroups { get; set; } = true;
-
-            [JsonProperty("Vip_Grupos")]
-            public Dictionary<string, string> VipGroups { get; set; } = new Dictionary<string, string>
-            {
-                { "vip", "vip" }
-            };
-
-            [JsonProperty("Vip_PermissoesPorTier")]
-            public Dictionary<string, List<string>> VipTierPermissions { get; set; } = new Dictionary<string, List<string>>
-            {
-                { "vip", new List<string> { "skippriority.vip" } }
-            };
-
-            [JsonProperty("Vip_ComandosAoAtivar")]
-            public Dictionary<string, List<string>> VipActivationCommands { get; set; } = new Dictionary<string, List<string>>
-            {
-                { "vip", new List<string>() }
-            };
-
-            [JsonProperty("Vip_ComandosAoExpirar")]
-            public Dictionary<string, List<string>> VipRevocationCommands { get; set; } = new Dictionary<string, List<string>>
-            {
-                { "vip", new List<string>() }
-            };
-
-            [JsonProperty("Vip_PrefixoChat")]
-            public string VipChatPrefix { get; set; } = "<color=#D7573B>[HORIZON VIP]</color>";
 
             // === GERAL ===
             [JsonProperty("LogarNoConsole")]
@@ -163,49 +121,9 @@ namespace Oxide.Plugins
             public int DoorsDestroyed { get; set; } = 0;
         }
 
-        // -------------------------------------------------------------
-        // DADOS DO SISTEMA VIP
-        // -------------------------------------------------------------
-        public class VipRecord
-        {
-            public string SteamId { get; set; } = "";
-            public string PlayerName { get; set; } = "";
-            public string Tier { get; set; } = "";
-            public string GroupName { get; set; } = "";
-            public string KitPermission { get; set; } = "";
-            public string OrderId { get; set; } = "";
-            public DateTime ActivatedAt { get; set; }
-            public DateTime ExpiresAt { get; set; }
-            public bool IsActive { get; set; } = true;
-        }
-
         public class StoredData
         {
             public Dictionary<string, PlayerStats> Players { get; set; } = new Dictionary<string, PlayerStats>();
-            public Dictionary<string, VipRecord> ActiveVips { get; set; } = new Dictionary<string, VipRecord>();
-            public List<VipRecord> ExpiredHistory { get; set; } = new List<VipRecord>();
-            public HashSet<string> ProcessedOrders { get; set; } = new HashSet<string>();
-        }
-
-        // Payloads de entrega da API VIP
-        public class PendingDelivery
-        {
-            public string orderId { get; set; }
-            public string paymentId { get; set; }
-            public string steamId { get; set; }
-            public string playerName { get; set; }
-            public string vipTier { get; set; }
-            public string groupName { get; set; }
-            public string kitPermission { get; set; }
-            public string expiresAt { get; set; }
-            public int durationDays { get; set; }
-        }
-
-        public class PendingResponse
-        {
-            public bool success { get; set; }
-            public int count { get; set; }
-            public List<PendingDelivery> deliveries { get; set; }
         }
 
         // -------------------------------------------------------------
@@ -238,14 +156,9 @@ namespace Oxide.Plugins
 
         private void SaveData()
         {
-            // Salva dados unificados sob HorizonCore e mantém espelho em HorizonLeaderboards / HorizonVIP
+            // Salva dados unificados sob HorizonCore e mantém espelho em HorizonLeaderboards
             Interface.Oxide.DataFileSystem.WriteObject("HorizonCore", data);
             Interface.Oxide.DataFileSystem.WriteObject("HorizonLeaderboards", new { Players = data.Players });
-            Interface.Oxide.DataFileSystem.WriteObject("HorizonVIP", new {
-                ActiveVips = data.ActiveVips,
-                ExpiredHistory = data.ExpiredHistory,
-                ProcessedOrders = data.ProcessedOrders
-            });
         }
 
         // -------------------------------------------------------------
@@ -255,16 +168,13 @@ namespace Oxide.Plugins
         {
             LoadConfig();
 
-            // Carrega dados persistidos (tenta HorizonCore primeiro, depois migra de HorizonLeaderboards / HorizonVIP)
+            // Carrega dados persistidos (tenta HorizonCore primeiro, depois migra de HorizonLeaderboards)
             data = Interface.Oxide.DataFileSystem.ReadObject<StoredData>("HorizonCore");
             if (data == null)
             {
                 data = new StoredData();
             }
             if (data.Players == null) data.Players = new Dictionary<string, PlayerStats>();
-            if (data.ActiveVips == null) data.ActiveVips = new Dictionary<string, VipRecord>();
-            if (data.ExpiredHistory == null) data.ExpiredHistory = new List<VipRecord>();
-            if (data.ProcessedOrders == null) data.ProcessedOrders = new HashSet<string>();
 
             // Migração transparente de arquivos legados de dados
             try
@@ -280,70 +190,28 @@ namespace Oxide.Plugins
             }
             catch {}
 
-            try
-            {
-                var legacyVip = Interface.Oxide.DataFileSystem.ReadObject<StoredData>("HorizonVIP");
-                if (legacyVip != null && legacyVip.ActiveVips != null && legacyVip.ActiveVips.Count > 0)
-                {
-                    foreach (var kv in legacyVip.ActiveVips)
-                    {
-                        if (!data.ActiveVips.ContainsKey(kv.Key)) data.ActiveVips[kv.Key] = kv.Value;
-                    }
-                    if (legacyVip.ProcessedOrders != null)
-                    {
-                        foreach (var ord in legacyVip.ProcessedOrders) data.ProcessedOrders.Add(ord);
-                    }
-                }
-            }
-            catch {}
-
-            // Comandos de Chat
+            // Comandos de Chat para jogadores
             cmd.AddChatCommand("ranking", this, nameof(CmdChatRank));
             cmd.AddChatCommand("top", this, nameof(CmdChatRank));
-            cmd.AddChatCommand("vip", this, nameof(CmdChatVip));
         }
 
         private void OnServerInitialized()
         {
-            // === 1. MÓDULO STATUS ===
-            timer.Once(3f, () => SyncServerStatus("Inicialização do Servidor"));
+            // === 1. MÓDULO STATUS DO SERVIDOR & CONTAGEM DE WIPE ===
             int statusInterval = Math.Max(15, config.StatusSyncIntervalSeconds);
             statusTimer = timer.Every(statusInterval, () => SyncServerStatus("Rotina Periódica"));
+            timer.Once(3f, () => SyncServerStatus("Inicialização do Servidor"));
 
-            // === 2. MÓDULO LEADERBOARD ===
+            // === 2. MÓDULO CLASSIFICAÇÃO RANKINGS ===
             int lbInterval = Math.Max(1, config.LeaderboardSyncIntervalMinutes);
             leaderboardTimer = timer.Every(lbInterval * 60f, SendLeaderboardToWeb);
             timer.Once(6f, SendLeaderboardToWeb);
 
-            // === 3. MÓDULO VIP ===
-            if (config.VipEnabled)
-            {
-                if (config.VipAutoCreateGroups)
-                {
-                    foreach (var kv in config.VipGroups)
-                    {
-                        if (!permission.GroupExists(kv.Value))
-                        {
-                            permission.CreateGroup(kv.Value, kv.Value, 0);
-                            Puts($"[HorizonCore] Grupo Oxide '{kv.Value}' criado automaticamente.");
-                        }
-                    }
-                }
-
-                int vipInterval = Math.Max(10, config.VipSyncIntervalSeconds);
-                vipSyncTimer = timer.Every(vipInterval, CheckPendingDeliveries);
-                vipExpiryTimer = timer.Every(300f, CheckVipExpirations);
-
-                // Verificação inicial
-                timer.Once(5f, CheckPendingDeliveries);
-                CheckVipExpirations();
-            }
-
             Puts($"=============================================================");
-            Puts($"[HorizonCore v3.0.0] Plugin MESTRE inicializado com sucesso!");
+            Puts($"[HorizonCore v3.1.0] Plugin MESTRE inicializado com sucesso!");
             Puts($"• Status do Servidor: '{config.StatusApiUrl}' ({statusInterval}s)");
             Puts($"• Leaderboards & PvP: '{config.LeaderboardApiUrl}' ({lbInterval}m, {data.Players.Count} players)");
-            Puts($"• Sistema de VIPs:    '{config.VipApiBaseUrl}' (Ativo: {config.VipEnabled}, {data.ActiveVips.Count} VIPs)");
+            Puts($"• Contador e Wipe:    Mapa ({config.MapWipeSchedule})");
             Puts($"=============================================================");
 
             // Buscar avatares pendentes de jogadores já registrados
@@ -361,8 +229,6 @@ namespace Oxide.Plugins
             statusTimer?.Destroy();
             debounceStatusTimer?.Destroy();
             leaderboardTimer?.Destroy();
-            vipSyncTimer?.Destroy();
-            vipExpiryTimer?.Destroy();
 
             SyncServerStatus("Servidor Desligando / Reiniciando");
             SendLeaderboardToWeb();
@@ -374,8 +240,6 @@ namespace Oxide.Plugins
             statusTimer?.Destroy();
             debounceStatusTimer?.Destroy();
             leaderboardTimer?.Destroy();
-            vipSyncTimer?.Destroy();
-            vipExpiryTimer?.Destroy();
 
             SaveData();
         }
@@ -1410,11 +1274,7 @@ namespace Oxide.Plugins
 
             SyncServerStatus("Comando Admin horizon.syncall");
             SendLeaderboardToWeb();
-            if (config.VipEnabled)
-            {
-                CheckPendingDeliveries();
-            }
-            arg.ReplyWith("[HorizonCore] Sincronização total (Status + Leaderboards + VIPs) solicitada!");
+            arg.ReplyWith("[HorizonCore] Sincronização total (Status + Leaderboards) solicitada!");
         }
 
         [ConsoleCommand("horizon.reset")]
@@ -1569,347 +1429,6 @@ namespace Oxide.Plugins
             SaveData();
             SendLeaderboardToWeb();
             arg.ReplyWith($"[HorizonCore] Definido: {stats.Name} agora possui {stats.Deaths} mortes em PvP no ranking!");
-        }
-    
-        // =========================================================================
-        // MÓDULO VIP: SISTEMA DE ENTREGA E EXPIRAÇÃO
-        // =========================================================================
-
-        private void CheckPendingDeliveries()
-        {
-            if (!config.VipEnabled) return;
-
-            string url = $"{config.VipApiBaseUrl.TrimEnd('/')}/api/vip/pending";
-
-            webrequest.Enqueue(url, null, (code, response) =>
-            {
-                if (code != 200 || string.IsNullOrEmpty(response))
-                {
-                    return;
-                }
-
-                try
-                {
-                    var result = JsonConvert.DeserializeObject<PendingResponse>(response);
-                    if (result != null && result.deliveries != null && result.deliveries.Count > 0)
-                    {
-                        Puts($"[HorizonVIP] {result.deliveries.Count} entrega(s) pendente(s) encontrada(s). Processando...");
-                        foreach (var delivery in result.deliveries)
-                        {
-                            GrantVip(delivery);
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    PrintError($"[HorizonVIP] Erro ao processar entregas pendentes: {ex.Message}");
-                }
-            }, this, RequestMethod.GET, new Dictionary<string, string> { { "User-Agent", "HorizonCore-Rust" } });
-        }
-
-        private void GrantVip(PendingDelivery delivery)
-        {
-            if (delivery == null || string.IsNullOrEmpty(delivery.steamId)) return;
-
-            if (!string.IsNullOrEmpty(delivery.orderId) && data.ProcessedOrders.Contains(delivery.orderId))
-            {
-                ConfirmDelivery(delivery.orderId);
-                return;
-            }
-
-            string steamId = delivery.steamId;
-            string tier = "vip";
-            string groupName = "vip";
-
-            // Localiza jogador para obter o nome real no jogo
-            BasePlayer player = null;
-            if (ulong.TryParse(steamId, out ulong parsedUserId))
-            {
-                player = BasePlayer.FindByID(parsedUserId);
-                if (player == null) player = BasePlayer.FindSleeping(parsedUserId);
-            }
-            if (player == null) player = BasePlayer.Find(steamId);
-
-            string finalPlayerName = (player != null && !string.IsNullOrEmpty(player.displayName))
-                ? player.displayName
-                : (!string.IsNullOrEmpty(delivery.playerName) && delivery.playerName != "Jogador" ? delivery.playerName : "Jogador");
-
-            if (!permission.GroupExists(groupName))
-            {
-                permission.CreateGroup(groupName, groupName, 0);
-            }
-
-            permission.AddUserGroup(steamId, groupName);
-
-            if (config.VipTierPermissions.ContainsKey("vip"))
-            {
-                foreach (var perm in config.VipTierPermissions["vip"])
-                {
-                    if (!string.IsNullOrEmpty(perm))
-                    {
-                        permission.GrantUserPermission(steamId, perm, null);
-                    }
-                }
-            }
-
-            if (!string.IsNullOrEmpty(delivery.kitPermission))
-            {
-                permission.GrantUserPermission(steamId, delivery.kitPermission, null);
-            }
-
-            DateTime expiresAt;
-            if (!string.IsNullOrEmpty(delivery.expiresAt) && DateTime.TryParse(delivery.expiresAt, out var parsedExpires))
-            {
-                expiresAt = parsedExpires.ToUniversalTime();
-            }
-            else
-            {
-                expiresAt = DateTime.UtcNow.AddDays(delivery.durationDays > 0 ? delivery.durationDays : 30);
-            }
-
-            if (data.ActiveVips.TryGetValue(steamId, out var existingVip) && existingVip.IsActive && existingVip.Tier == tier && existingVip.ExpiresAt > DateTime.UtcNow)
-            {
-                expiresAt = existingVip.ExpiresAt.AddDays(delivery.durationDays > 0 ? delivery.durationDays : 30);
-            }
-
-            var record = new VipRecord
-            {
-                SteamId = steamId,
-                PlayerName = finalPlayerName,
-                Tier = tier,
-                GroupName = groupName,
-                KitPermission = delivery.kitPermission ?? "",
-                OrderId = delivery.orderId ?? "",
-                ActivatedAt = DateTime.UtcNow,
-                ExpiresAt = expiresAt,
-                IsActive = true
-            };
-
-            data.ActiveVips[steamId] = record;
-            if (!string.IsNullOrEmpty(delivery.orderId))
-            {
-                data.ProcessedOrders.Add(delivery.orderId);
-            }
-            SaveData();
-
-            if (config.VipActivationCommands.ContainsKey(tier))
-            {
-                foreach (var cmd in config.VipActivationCommands[tier])
-                {
-                    if (!string.IsNullOrEmpty(cmd))
-                    {
-                        ConsoleSystem.Run(ConsoleSystem.Option.Server, cmd.Replace("{steamid}", steamId).Replace("{player}", finalPlayerName));
-                    }
-                }
-            }
-
-            string nomePacote = "HORIZON VIP";
-
-            PrintToChat($"{config.VipChatPrefix} O jogador <color=#10B981>{record.PlayerName}</color> ativou o pacote <color=#F59E0B>{nomePacote}</color>! Agradecemos pelo apoio!");
-
-            if (player != null && player.IsConnected)
-            {
-                PrintToChat(player, $"{config.VipChatPrefix} <color=#10B981>Parabéns!</color> Seu <color=#F59E0B>{nomePacote}</color> foi ativado com sucesso!\n" +
-                                   $"- Validade: <color=#38BDF8>30 dias</color> (Expira em: {expiresAt.ToLocalTime():dd/MM/yyyy HH:mm})\n" +
-                                   $"- Seus benefícios de qualidade de vida e skip fila já estão ativos! Use <color=#F59E0B>/vip</color> para detalhes.");
-            }
-
-            Puts($"[HorizonVIP] ✔ {nomePacote} concedido com sucesso para {record.PlayerName} ({steamId}) por 30 dias (até {expiresAt:yyyy-MM-dd HH:mm}).");
-
-            ConfirmDelivery(delivery.orderId);
-        }
-
-        private void ConfirmDelivery(string orderId)
-        {
-            if (string.IsNullOrEmpty(orderId)) return;
-
-            string url = $"{config.VipApiBaseUrl.TrimEnd('/')}/api/vip/confirm";
-            string body = JsonConvert.SerializeObject(new { orderId = orderId });
-
-            webrequest.Enqueue(url, body, (code, response) =>
-            {
-                if (code == 200)
-                {
-                    Puts($"[HorizonVIP] Entrega do pedido '{orderId}' confirmada com sucesso na API.");
-                }
-                else
-                {
-                    Puts($"[HorizonVIP] Aviso: Resposta {code} ao confirmar pedido {orderId} na API.");
-                }
-            }, this, RequestMethod.POST, new Dictionary<string, string> { { "Content-Type", "application/json" } });
-        }
-
-        private void CheckVipExpirations()
-        {
-            if (!config.VipEnabled || data == null || data.ActiveVips == null || data.ActiveVips.Count == 0) return;
-
-            var toRemove = new List<string>();
-            DateTime now = DateTime.UtcNow;
-
-            foreach (var kv in data.ActiveVips)
-            {
-                var record = kv.Value;
-                if (record == null) continue;
-
-                if (now >= record.ExpiresAt)
-                {
-                    toRemove.Add(kv.Key);
-                }
-            }
-
-            foreach (var steamId in toRemove)
-            {
-                RevokeVip(steamId, "Prazo de 30 dias expirado");
-            }
-        }
-
-        public void RevokeVip(string steamId, string motivo = "Expirado")
-        {
-            if (!data.ActiveVips.TryGetValue(steamId, out var record)) return;
-
-            string groupName = !string.IsNullOrEmpty(record.GroupName)
-                ? record.GroupName
-                : (config.VipGroups.ContainsKey(record.Tier) ? config.VipGroups[record.Tier] : $"vip_{record.Tier}");
-
-            if (permission.GroupExists(groupName) && permission.UserHasGroup(steamId, groupName))
-            {
-                permission.RemoveUserGroup(steamId, groupName);
-            }
-
-            if (config.VipTierPermissions.ContainsKey(record.Tier))
-            {
-                foreach (var perm in config.VipTierPermissions[record.Tier])
-                {
-                    if (!string.IsNullOrEmpty(perm))
-                    {
-                        permission.RevokeUserPermission(steamId, perm);
-                    }
-                }
-            }
-
-            if (!string.IsNullOrEmpty(record.KitPermission))
-            {
-                permission.RevokeUserPermission(steamId, record.KitPermission);
-            }
-
-            if (config.VipRevocationCommands != null && config.VipRevocationCommands.ContainsKey(record.Tier))
-            {
-                foreach (var cmd in config.VipRevocationCommands[record.Tier])
-                {
-                    if (!string.IsNullOrEmpty(cmd))
-                    {
-                        ConsoleSystem.Run(ConsoleSystem.Option.Server, cmd.Replace("{steamid}", steamId).Replace("{player}", record.PlayerName));
-                    }
-                }
-            }
-
-            record.IsActive = false;
-            data.ActiveVips.Remove(steamId);
-            data.ExpiredHistory.Add(record);
-            SaveData();
-
-            Puts($"[HorizonVIP] VIP de {record.PlayerName} ({steamId}) foi removido. Motivo: {motivo}");
-
-            BasePlayer player = null;
-            if (ulong.TryParse(steamId, out ulong parsedUserId))
-            {
-                player = BasePlayer.FindByID(parsedUserId);
-                if (player == null) player = BasePlayer.FindSleeping(parsedUserId);
-            }
-            if (player == null) player = BasePlayer.Find(steamId);
-
-            if (player != null && player.IsConnected)
-            {
-                PrintToChat(player, $"{config.VipChatPrefix} Seu plano <color=#F59E0B>VIP {record.Tier.ToUpper()}</color> expirou. Renove em: <color=#38BDF8>{config.VipApiBaseUrl}/loja</color>");
-            }
-        }
-
-        // -------------------------------------------------------------
-        // COMANDOS DE CHAT E CONSOLE PARA VIPS
-        // -------------------------------------------------------------
-        [ChatCommand("vip")]
-        private void CmdChatVip(BasePlayer player, string command, string[] args)
-        {
-            if (player == null) return;
-            string id = player.UserIDString;
-
-            if (args.Length > 0 && args[0].ToLower() == "resgatar")
-            {
-                PrintToChat(player, $"{config.VipChatPrefix} Verificando pagamentos e resgates no Mercado Pago...");
-                CheckPendingDeliveries();
-                return;
-            }
-
-            if (data.ActiveVips.TryGetValue(id, out var vip) && vip.IsActive && vip.ExpiresAt > DateTime.UtcNow)
-            {
-                var remaining = vip.ExpiresAt - DateTime.UtcNow;
-
-                PrintToChat(player, $"{config.VipChatPrefix} <color=#10B981>=== SEU STATUS VIP ===</color>\n" +
-                                   $"- Pacote: <color=#F59E0B>HORIZON VIP</color>\n" +
-                                   $"- Tempo Restante: <color=#38BDF8>{remaining.Days} dias, {remaining.Hours} horas e {remaining.Minutes} minutos</color>\n" +
-                                   $"- Expira em: <color=#E2E8F0>{vip.ExpiresAt.ToLocalTime():dd/MM/yyyy HH:mm}</color>\n" +
-                                   $"- Vantagens Ativas: <color=#10B981>TAG VIP, /skin, /remove, Skins TC, Bancada em toda base, Organizador de Baú, Skip Queue e Recicladora 2x</color>");
-            }
-            else
-            {
-                PrintToChat(player, $"{config.VipChatPrefix} Você não possui nenhum pacote VIP ativo no momento.\n" +
-                                   $"Adquira seu VIP com ativação imediata via PIX em: <color=#38BDF8>{config.VipApiBaseUrl}/loja</color>\n" +
-                                   $"Se você acabou de pagar, digite <color=#F59E0B>/vip resgatar</color> para forçar a verificação.");
-            }
-        }
-
-        [ConsoleCommand("vip.grant")]
-        private void CmdVipGrant(ConsoleSystem.Arg arg)
-        {
-            if (!arg.IsAdmin) return;
-            if (arg.Args == null || arg.Args.Length < 1)
-            {
-                arg.ReplyWith("Uso: vip.grant <steamid> [dias]");
-                return;
-            }
-
-            string steamId = arg.GetString(0);
-            int dias = arg.GetInt(1, 30);
-
-            GrantVip(new PendingDelivery
-            {
-                orderId = $"MANUAL-{DateTime.UtcNow:yyyyMMddHHmmss}",
-                steamId = steamId,
-                playerName = "Jogador",
-                vipTier = "vip",
-                durationDays = dias
-            });
-
-            arg.ReplyWith($"[HorizonCore] HORIZON VIP concedido manualmente para {steamId} por {dias} dias no grupo 'vip'.");
-        }
-
-        [ConsoleCommand("vip.revoke")]
-        private void CmdVipRevoke(ConsoleSystem.Arg arg)
-        {
-            if (!arg.IsAdmin) return;
-            if (arg.Args == null || arg.Args.Length < 1)
-            {
-                arg.ReplyWith("Uso: vip.revoke <steamid>");
-                return;
-            }
-
-            string steamId = arg.GetString(0);
-            RevokeVip(steamId, "Revogado por Admin no console");
-            arg.ReplyWith($"[HorizonCore] VIP de {steamId} revogado com sucesso.");
-        }
-
-        [ConsoleCommand("vip.list")]
-        private void CmdVipList(ConsoleSystem.Arg arg)
-        {
-            if (!arg.IsAdmin) return;
-            arg.ReplyWith($"=== VIPs ATIVOS NO HORIZON ({data.ActiveVips.Count}) ===");
-            foreach (var kv in data.ActiveVips)
-            {
-                var v = kv.Value;
-                if (v == null) continue;
-                var rest = v.ExpiresAt - DateTime.UtcNow;
-                arg.ReplyWith($"[VIP] {v.PlayerName} ({v.SteamId}) | {v.Tier.ToUpper()} | Restam: {rest.Days}d {rest.Hours}h (Expira: {v.ExpiresAt.ToLocalTime():dd/MM/yyyy HH:mm})");
-            }
         }
 
     }
