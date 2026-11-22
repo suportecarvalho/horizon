@@ -422,6 +422,7 @@
   }
 
   let lastLeaderboardHash = '';
+  let lastRenderedTheadTab = '';
 
   async function fetchLeaderboardData() {
     try {
@@ -480,9 +481,10 @@
       table.className = `w-full caption-bottom text-sm ranking-tabela ranking-tabela-${currentTab}`;
     }
 
-    // Atualiza cabeçalho da tabela
+    // Atualiza cabeçalho da tabela apenas quando a aba mudar (economiza reconstrução e reflow do DOM)
     const thead = document.getElementById('home-table-head');
-    if (thead) {
+    if (thead && lastRenderedTheadTab !== currentTab) {
+      lastRenderedTheadTab = currentTab;
       if (currentTab === 'pvp') {
         thead.innerHTML = `
           <tr class="ranking-cabecalho">
@@ -674,12 +676,16 @@
       });
     });
 
-    // Event listener para a busca
+    // Event listener para a busca com debounce leve para evitar reflows desnecessários
     const searchInput = document.getElementById('home-leaderboard-search');
+    let searchDebounceTimer = null;
     if (searchInput) {
       searchInput.addEventListener('input', function() {
-        currentPage = 1;
-        renderHomeLeaderboard();
+        if (searchDebounceTimer) clearTimeout(searchDebounceTimer);
+        searchDebounceTimer = setTimeout(function() {
+          currentPage = 1;
+          renderHomeLeaderboard();
+        }, 120);
       });
     }
 
@@ -710,11 +716,32 @@
     });
 
     fetchLeaderboardData();
-    setInterval(function() {
+
+    // Polling inteligente: se a aba estiver oculta ou o usuário inativo, reduz frequência
+    let lastUserActivity = Date.now();
+    function markActive() { lastUserActivity = Date.now(); }
+    ['mousemove', 'scroll', 'keydown', 'touchstart'].forEach(function(evt) {
+      window.addEventListener(evt, markActive, { passive: true });
+    });
+
+    function scheduleLeaderboardPoll() {
+      const isIdle = (Date.now() - lastUserActivity) > 180000;
+      const delay = document.hidden ? 120000 : (isIdle ? 90000 : 45000);
+      setTimeout(function() {
+        if (!document.hidden) {
+          fetchLeaderboardData();
+        }
+        scheduleLeaderboardPoll();
+      }, delay);
+    }
+    scheduleLeaderboardPoll();
+
+    document.addEventListener('visibilitychange', function() {
       if (!document.hidden) {
+        markActive();
         fetchLeaderboardData();
       }
-    }, 45000);
+    });
   }
 
   if (document.readyState === 'loading') {

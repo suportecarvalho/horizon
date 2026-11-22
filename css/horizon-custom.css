@@ -421,9 +421,35 @@ video.hero-midia {
   }
 }
 
+/* Cards de Notícias com transição por GPU Compositor (Zero JS, Zero Memory Leaks) */
+.fn-card {
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.25s ease, box-shadow 0.25s ease !important;
+}
+.fn-card:hover {
+  transform: translateY(-4px) !important;
+  border-color: rgba(215, 87, 59, 0.7) !important;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.75) !important;
+}
+.fn-card-img {
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+}
+.fn-card:hover .fn-card-img {
+  transform: scale(1.05) !important;
+}
+
+/* Otimização de renderização off-screen: Não gasta GPU/CPU com seções fora da viewport */
+.ranking,
+.ranking-secao,
+.feed-faixa,
+#noticias {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 600px;
+}
+
 @media (max-width: 768px) {
   .feed-faixa,
   .wipe-section,
+  .ranking,
   .ranking-secao {
     content-visibility: auto;
     contain-intrinsic-size: 1px 500px;

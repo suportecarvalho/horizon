@@ -32,24 +32,37 @@
 
   var currentWipedAt = 1793883961000; // Fallback para timestamp do wipe atual
   var currentNextWipe = null;
+  var elementsQueried = false;
+  var lastUserActivity = Date.now();
+
+  function markActive() {
+    lastUserActivity = Date.now();
+  }
+
+  function isUserIdle() {
+    return (Date.now() - lastUserActivity) > 180000; // 3 minutos sem interação
+  }
 
   function getElements() {
-    if (!elCount) elCount = document.getElementById('hero-player-count');
-    if (!elLabel) elLabel = document.getElementById('hero-player-label');
-    if (!elDot)   elDot   = document.querySelector('.hero-status-dot, [aria-hidden="true"][style*="22c55e"]');
+    if (elementsQueried) return;
+    elementsQueried = true;
 
-    if (!elHeroWipeBadge) elHeroWipeBadge = document.getElementById('hero-wipe-badge-text');
-    if (!elWipeElapsed) elWipeElapsed = document.getElementById('wipe-elapsed-time');
-    if (!elWipeLastDate) elWipeLastDate = document.getElementById('wipe-last-date');
-    if (!elWipeCountdown) elWipeCountdown = document.getElementById('wipe-countdown');
-    if (!elWipeNextDate) elWipeNextDate = document.getElementById('wipe-next-date');
+    elCount = document.getElementById('hero-player-count');
+    elLabel = document.getElementById('hero-player-label');
+    elDot   = document.querySelector('.hero-status-dot, [aria-hidden="true"][style*="22c55e"]');
 
-    if (!elValDays) elValDays = document.getElementById('wipe-val-days');
-    if (!elValHours) elValHours = document.getElementById('wipe-val-hours');
-    if (!elValMins) elValMins = document.getElementById('wipe-val-mins');
-    if (!elProgressBar) elProgressBar = document.getElementById('wipe-progress-bar');
-    if (!elNextTitle) elNextTitle = document.getElementById('wipe-next-date-title');
-    if (!badgeNodes) badgeNodes = document.querySelectorAll('#hero-wipe-badge-text, .header-wipe-val, .mobile-wipe-val');
+    elHeroWipeBadge = document.getElementById('hero-wipe-badge-text');
+    elWipeElapsed = document.getElementById('wipe-elapsed-time');
+    elWipeLastDate = document.getElementById('wipe-last-date');
+    elWipeCountdown = document.getElementById('wipe-countdown');
+    elWipeNextDate = document.getElementById('wipe-next-date');
+
+    elValDays = document.getElementById('wipe-val-days');
+    elValHours = document.getElementById('wipe-val-hours');
+    elValMins = document.getElementById('wipe-val-mins');
+    elProgressBar = document.getElementById('wipe-progress-bar');
+    elNextTitle = document.getElementById('wipe-next-date-title');
+    badgeNodes = document.querySelectorAll('#hero-wipe-badge-text, .header-wipe-val, .mobile-wipe-val');
   }
 
   function formatTimeElapsed(wipedAtMs) {
@@ -247,16 +260,41 @@
 
   function iniciar() {
     fetchStatus();
-    setInterval(function() {
-      if (!document.hidden) {
-        fetchStatus();
-      }
-    }, POLL_INTERVAL);
+
+    // Rastreia interação do usuário de forma super leve e passiva
+    var events = ['mousemove', 'scroll', 'keydown', 'touchstart'];
+    for (var i = 0; i < events.length; i++) {
+      window.addEventListener(events[i], markActive, { passive: true });
+    }
+
+    // Polling inteligente de status com backoff de ociosidade (AFK)
+    var pollTimer = null;
+    function scheduleNextPoll() {
+      var delay = document.hidden ? 120000 : (isUserIdle() ? 90000 : POLL_INTERVAL);
+      pollTimer = setTimeout(function() {
+        if (!document.hidden) {
+          fetchStatus();
+        }
+        scheduleNextPoll();
+      }, delay);
+    }
+    scheduleNextPoll();
+
+    // Atualização de tempo decorrido do wipe a cada 20 segundos (mais que suficiente pois a precisão exibida é em minutos)
     setInterval(function() {
       if (!document.hidden) {
         tickWipeDisplay();
       }
-    }, 1000); // Atualiza cronômetro todo segundo de forma leve
+    }, 20000);
+
+    // Quando o usuário volta para a aba, atualiza imediatamente
+    document.addEventListener('visibilitychange', function() {
+      if (!document.hidden) {
+        markActive();
+        fetchStatus();
+        tickWipeDisplay();
+      }
+    });
   }
 
   if (document.readyState === 'loading') {
