@@ -455,19 +455,6 @@ namespace Oxide.Plugins
                     RevokeVip(id, "Expirado ao reconectar");
                     return;
                 }
-
-                var remaining = vip.ExpiresAt - DateTime.UtcNow;
-                int dias = remaining.Days;
-                int horas = remaining.Hours;
-
-                timer.Once(5f, () =>
-                {
-                    if (player != null && player.IsConnected)
-                    {
-                        PrintToChat(player, $"{config.ChatPrefix} Bem-vindo de volta! Seu <color=#F59E0B>HORIZON VIP</color> está ativo.\n" +
-                                           $"Tempo restante: <color=#10B981>{dias} dias e {horas} horas</color>. Bom jogo!");
-                    }
-                });
             }
         }
 

@@ -424,21 +424,6 @@ namespace Oxide.Plugins
 
             FetchSteamAvatar(id, stats);
 
-            // Se o jogador possui VIP ativo, avisa com boas-vindas
-            if (data.ActiveVips.TryGetValue(id, out var vip) && vip.IsActive && vip.ExpiresAt > DateTime.UtcNow)
-            {
-                timer.Once(5f, () =>
-                {
-                    if (player != null && player.IsConnected)
-                    {
-                        string tierFormatado = vip.Tier == "bronze" ? "Bronze" : (vip.Tier == "prata" ? "Prata" : (vip.Tier == "ouro" ? "Ouro" : char.ToUpper(vip.Tier[0]) + vip.Tier.Substring(1)));
-                        PrintToChat(player, $"{config.VipChatPrefix} Bem-vindo de volta! Seu <color=#F59E0B>VIP {tierFormatado}</color> está ativo.\n" +
-                                           $"- Use <color=#F59E0B>/kit</color> para resgatar seus itens!\n" +
-                                           $"- Digite <color=#F59E0B>/vip</color> para consultar seu tempo restante.");
-                    }
-                });
-            }
-
             // Sincroniza status do servidor com debounce de 4s
             ScheduleDebouncedStatusSync();
         }
