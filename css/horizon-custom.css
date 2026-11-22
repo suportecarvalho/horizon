@@ -3693,5 +3693,17 @@ footer.site-footer::before,
   box-shadow: none !important;
 }
 
-
+/* ==========================================================================
+   OCULTAR ABA LOJA GLOBALMENTE NO SITE
+   ========================================================================== */
+[data-nav="loja"],
+.horizon-nav-link[href="/loja"],
+.horizon-mobile-link[data-nav="loja"],
+.horizon-footer-link[href="/loja"],
+.horizon-footer-links-list li:has(a[href="/loja"]),
+.horizon-footer-links-list li:has(a[href^="/loja"]),
+.horizon-footer-links-list a[href="/loja"],
+.horizon-footer-links-list a[href^="/loja"] {
+  display: none !important;
+}
 

@@ -106,10 +106,10 @@
           <span class="header-ip-val">play.rusthorizon.shop:28015</span>
           <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="header-ip-icon"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
         </div>
-        <a href="/#wipe" class="horizon-header-wipe" title="Ver cronograma e status do wipe">
+        <div class="horizon-header-wipe" title="Status do Wipe">
           <span class="header-wipe-label">WIPE:</span>
           <span class="header-wipe-val" id="header-wipe-badge-text">Hoje</span>
-        </a>
+        </div>
       `;
       headerDireita.insertBefore(serverInfo, headerDireita.firstChild);
     }
@@ -125,10 +125,10 @@
           <span class="mobile-ip-val">play.rusthorizon.shop:28015</span>
           <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
         </div>
-        <a href="/#wipe" class="horizon-mobile-wipe-btn" title="Status do Wipe">
+        <div class="horizon-mobile-wipe-btn" title="Status do Wipe">
           <span class="mobile-wipe-label">WIPE:</span>
           <span class="mobile-wipe-val header-wipe-val">Hoje</span>
-        </a>
+        </div>
       `;
       mobileLinks.parentNode.insertBefore(mobileServerInfo, mobileLinks);
     }
