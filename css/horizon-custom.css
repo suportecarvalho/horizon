@@ -380,7 +380,7 @@ html, body {
   }
 }
 
-/* Fundo do Hero com Imagem da Página Inicial */
+/* Fundo do Hero com Vídeo */
 .hero-fundo {
   position: absolute !important;
   inset: 0 !important;
@@ -389,17 +389,19 @@ html, body {
   pointer-events: none !important;
 }
 
-.hero-bg-picture,
-.hero-bg-img {
+.hero-fundo video.hero-midia,
+video.hero-midia {
   position: absolute !important;
   inset: 0 !important;
   width: 100% !important;
   height: 100% !important;
   object-fit: cover !important;
-  object-position: center right !important;
+  object-position: center !important;
   display: block !important;
-  pointer-events: none !important;
+  opacity: 0.88 !important;
+  filter: contrast(1.08) saturate(1.1) brightness(0.96) !important;
   z-index: 1 !important;
+  pointer-events: none !important;
 }
 
 .hero-bg-overlay {
@@ -407,15 +409,12 @@ html, body {
   inset: 0 !important;
   z-index: 2 !important;
   background: 
-    linear-gradient(90deg, rgba(11, 12, 14, 0.92) 0%, rgba(11, 12, 14, 0.72) 38%, rgba(11, 12, 14, 0.20) 70%, rgba(11, 12, 14, 0.45) 100%),
-    linear-gradient(180deg, rgba(11, 12, 14, 0.35) 0%, transparent 35%, rgba(11, 12, 14, 0.85) 85%, #0B0C0E 100%) !important;
+    linear-gradient(90deg, rgba(11, 12, 14, 0.90) 0%, rgba(11, 12, 14, 0.68) 40%, rgba(11, 12, 14, 0.20) 70%, rgba(11, 12, 14, 0.50) 100%),
+    linear-gradient(180deg, rgba(11, 12, 14, 0.40) 0%, transparent 35%, rgba(11, 12, 14, 0.85) 85%, #0B0C0E 100%) !important;
   pointer-events: none !important;
 }
 
 @media (max-width: 640px) {
-  .hero-bg-img {
-    object-position: 72% center !important;
-  }
   .hero-bg-overlay {
     background: 
       linear-gradient(180deg, rgba(11, 12, 14, 0.88) 0%, rgba(11, 12, 14, 0.65) 45%, #0B0C0E 100%) !important;
