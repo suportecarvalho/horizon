@@ -486,8 +486,8 @@ video.hero-midia {
 }
 
 .hero-destaque {
-  color: #FFFFFF !important;
-  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.95), 0 2px 10px rgba(0, 0, 0, 0.8) !important;
+  color: #D7573B !important;
+  text-shadow: 0 0 35px rgba(215, 87, 59, 0.4), 0 4px 30px rgba(0, 0, 0, 0.95), 0 2px 10px rgba(0, 0, 0, 0.8) !important;
 }
 
 /* Card Principal do Servidor */
