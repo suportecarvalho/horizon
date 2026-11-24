@@ -93,11 +93,80 @@
 
     initHeaderServerInfo();
     updateHeaderCartBadge();
+    initHeaderWipeSync();
+  }
+
+  function formatWipeElapsed(wipedAtMs) {
+    var diffMs = Math.max(0, Date.now() - wipedAtMs);
+    var diffSec = Math.floor(diffMs / 1000);
+    var diffMin = Math.floor(diffSec / 60);
+    var diffHours = Math.floor(diffMin / 60);
+    var diffDays = Math.floor(diffHours / 24);
+
+    if (diffDays > 0) {
+      var remHours = diffHours % 24;
+      return diffDays + 'd ' + remHours + 'h atrás';
+    }
+    if (diffHours > 0) {
+      var remMin = diffMin % 60;
+      return diffHours + 'h ' + remMin + 'm atrás';
+    }
+    if (diffMin > 0) {
+      return diffMin + ' min atrás';
+    }
+    return 'Poucos instantes atrás';
+  }
+
+  function applyHeaderWipe(text) {
+    if (!text) return;
+    var nodes = document.querySelectorAll('#hero-wipe-badge-text, #header-wipe-badge-text, .header-wipe-val, .mobile-wipe-val');
+    nodes.forEach(function (node) {
+      node.textContent = text;
+    });
+  }
+
+  function initHeaderWipeSync() {
+    var defaultWipedAt = 1795359783000;
+    try {
+      var cached = localStorage.getItem('horizon_wiped_at');
+      var t = cached ? parseInt(cached, 10) : defaultWipedAt;
+      if (t > 0) applyHeaderWipe(formatWipeElapsed(t));
+    } catch (e) {
+      applyHeaderWipe(formatWipeElapsed(defaultWipedAt));
+    }
+
+    async function syncStatus() {
+      try {
+        var res = await fetch('/api/status', { cache: 'no-store' });
+        if (!res.ok) return;
+        var data = await res.json();
+        if (data && data.wipedAt) {
+          var w = Number(data.wipedAt);
+          try { localStorage.setItem('horizon_wiped_at', String(w)); } catch (e) {}
+          applyHeaderWipe(formatWipeElapsed(w));
+        }
+      } catch (e) {}
+    }
+
+    syncStatus();
+    setInterval(function () {
+      try {
+        var cached = localStorage.getItem('horizon_wiped_at');
+        var w = cached ? Number(cached) : defaultWipedAt;
+        applyHeaderWipe(formatWipeElapsed(w));
+      } catch (e) {}
+    }, 20000);
   }
 
   function initHeaderServerInfo() {
     var headerDireita = document.querySelector('.site-header-direita');
     if (headerDireita && !headerDireita.querySelector('.horizon-header-server-info')) {
+      var initialWipeText = formatWipeElapsed(1795359783000);
+      try {
+        var c = localStorage.getItem('horizon_wiped_at');
+        if (c) initialWipeText = formatWipeElapsed(Number(c));
+      } catch (e) {}
+
       var serverInfo = document.createElement('div');
       serverInfo.className = 'horizon-header-server-info';
       serverInfo.innerHTML = `
@@ -108,7 +177,7 @@
         </div>
         <div class="horizon-header-wipe" title="Status do Wipe">
           <span class="header-wipe-label">WIPE:</span>
-          <span class="header-wipe-val" id="header-wipe-badge-text">Hoje</span>
+          <span class="header-wipe-val" id="header-wipe-badge-text">${initialWipeText}</span>
         </div>
       `;
       headerDireita.insertBefore(serverInfo, headerDireita.firstChild);
@@ -117,6 +186,12 @@
     var drawer = document.getElementById('horizon-mobile-drawer');
     var mobileLinks = drawer ? drawer.querySelector('.horizon-mobile-nav-links') : null;
     if (drawer && mobileLinks && !drawer.querySelector('.horizon-mobile-server-info')) {
+      var mobileWipeText = formatWipeElapsed(1795359783000);
+      try {
+        var cMob = localStorage.getItem('horizon_wiped_at');
+        if (cMob) mobileWipeText = formatWipeElapsed(Number(cMob));
+      } catch (e) {}
+
       var mobileServerInfo = document.createElement('div');
       mobileServerInfo.className = 'horizon-mobile-server-info';
       mobileServerInfo.innerHTML = `
@@ -127,7 +202,7 @@
         </div>
         <div class="horizon-mobile-wipe-btn" title="Status do Wipe">
           <span class="mobile-wipe-label">WIPE:</span>
-          <span class="mobile-wipe-val header-wipe-val">Hoje</span>
+          <span class="mobile-wipe-val header-wipe-val">${mobileWipeText}</span>
         </div>
       `;
       mobileLinks.parentNode.insertBefore(mobileServerInfo, mobileLinks);

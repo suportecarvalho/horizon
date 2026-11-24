@@ -30,7 +30,7 @@
   var lastCdStr = '';
   var lastPct = -1;
 
-  var currentWipedAt = 1793883961000; // Fallback para timestamp do wipe atual
+  var currentWipedAt = 1795359783000; // Fallback para timestamp do wipe atual
   var currentNextWipe = null;
   var elementsQueried = false;
   var lastUserActivity = Date.now();
